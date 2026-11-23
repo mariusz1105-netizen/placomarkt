@@ -1,0 +1,3837 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>PlacoMarkt — Platforma Ogłoszeń, Licytacji, Zakupów i Wczasów</title>
+  <link id="pwaManifestLink" rel="manifest" href="" />
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #f97316;
+      --accent-hover: #ea580c;
+      --blue: #2563eb;
+      --green: #16a34a;
+      --purple: #7c3aed;
+      --teal: #0284c7;
+      --red: #dc2626;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --gold: #f59e0b;
+      --gold-bg: #fffbeb;
+      --input-bg: #ffffff;
+      --soft-bg: #f8fafc;
+    }
+    body.dark-mode {
+      --bg: #0b1120;
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --gold-bg: #292112;
+      --input-bg: #0f172a;
+      --soft-bg: #0f172a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 85px; transition: background 0.2s, color 0.2s; }
+
+    .country-btn {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .country-btn:hover { border-color: var(--accent); }
+    .country-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(249,115,22,0.4);
+    }
+
+    /* Header */
+    header {
+      background: var(--primary);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .nav-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .logo span.brand-accent { color: var(--accent); }
+    .logo span.domain-tag {
+      font-size: 11px;
+      background: rgba(255,255,255,0.12);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .lang-pills {
+      display: flex;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .lang-pill {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .lang-pill.active {
+      background: #fff;
+      color: var(--primary);
+    }
+    .icon-btn {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      padding: 7px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      position: relative;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.22); }
+    .fav-nav-btn.active { background: rgba(239,68,68,0.28); border-color: #f87171; }
+    .admin-btn {
+      background: rgba(239,68,68,0.22);
+      border-color: rgba(248,113,113,0.45);
+      color: #fecaca;
+    }
+    .admin-btn:hover { background: rgba(239,68,68,0.38); color: #fff; }
+    .notif-dot {
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+    .add-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 6px rgba(249,115,22,0.35);
+    }
+    .add-btn:hover { background: var(--accent-hover); }
+
+    /* Hero & OLX/Allegro Smart Search */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      padding: 24px 16px 30px;
+      text-align: center;
+    }
+    .hero h1 { font-size: 24px; margin-bottom: 6px; font-weight: 800; }
+    .hero p { color: #94a3b8; font-size: 14px; margin-bottom: 16px; }
+    .search-box {
+      max-width: 1020px;
+      margin: 0 auto;
+      background: var(--card);
+      padding: 8px;
+      border-radius: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+    }
+    .search-box input, .search-box select {
+      flex: 1;
+      min-width: 150px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+    }
+    .search-box input { flex: 2.2; min-width: 210px; }
+    .search-btn {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .search-btn:hover { background: #1d4ed8; }
+    .quick-tags {
+      max-width: 1020px;
+      margin: 10px auto 0;
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 12px;
+    }
+    .quick-tag {
+      background: rgba(255,255,255,0.1);
+      color: #e2e8f0;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 4px 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .quick-tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* Main Container */
+    .container { max-width: 1240px; margin: 0 auto; padding: 18px 16px; }
+
+    /* Mode Tabs */
+    .mode-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+    .mode-tab {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+    }
+    .mode-tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    body.dark-mode .mode-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .mode-tab.travel-tab.active {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .mode-tab.fav-tab.active {
+      background: var(--red);
+      border-color: var(--red);
+    }
+    .count-pill {
+      background: rgba(148,163,184,0.25);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+    .mode-tab.active .count-pill { background: rgba(255,255,255,0.22); color: #fff; }
+
+    /* Travel Filter Bar */
+    .travel-filter-bar {
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      display: none;
+    }
+    body.dark-mode .travel-filter-bar {
+      background: linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%);
+      border-color: #0284c7;
+    }
+    .travel-filter-bar.open { display: block; }
+    .travel-filter-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0369a1;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    body.dark-mode .travel-filter-title { color: #38bdf8; }
+    .travel-filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 10px;
+    }
+    .travel-filters-grid select, .travel-filters-grid input {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 8px;
+      border: 1px solid #7dd3fc;
+      background: var(--input-bg);
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* OLX/Allegro Alphabetical Categories Grid */
+    .cat-section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+      gap: 9px;
+      margin-bottom: 20px;
+    }
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+      position: relative;
+    }
+    .cat-card:hover, .cat-card.active {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      background: rgba(249,115,22,0.08);
+    }
+    .cat-icon { font-size: 23px; margin-bottom: 4px; }
+    .cat-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.25; }
+    .cat-count { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+    /* Breadcrumb + Toolbar */
+    .breadcrumb-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .breadcrumb-bar span.crumb-link {
+      color: var(--blue);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .toolbar-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .toolbar-right select, .toolbar-right input {
+      padding: 6px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .view-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    .view-toggle button {
+      background: var(--input-bg);
+      color: var(--text);
+      border: none;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .view-toggle button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Listings Grid & Compact List */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+      gap: 16px;
+    }
+    .grid.list-view {
+      grid-template-columns: 1fr;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.15s;
+      position: relative;
+    }
+    .grid.list-view .card {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .card:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    .card.top-offer {
+      border: 2px solid var(--gold);
+      background: var(--gold-bg);
+    }
+    .card-img {
+      height: 168px;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+    body.dark-mode .card-img { background: #0f172a; }
+    .grid.list-view .card-img {
+      width: 190px;
+      min-width: 190px;
+      height: auto;
+      min-height: 145px;
+    }
+    @media (max-width: 580px) {
+      .grid.list-view .card-img {
+        width: 120px;
+        min-width: 120px;
+        font-size: 38px;
+      }
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-img.travel-img {
+      background: linear-gradient(135deg, #bae6fd 0%, #e0f2fe 100%);
+    }
+    .badges {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 4px;
+      pointer-events: none;
+    }
+    .badges-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .badge {
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+    .badge-top { background: var(--gold); color: #fff; }
+    .badge-urgent { background: var(--red); color: #fff; }
+    .badge-hot { background: #ea580c; color: #fff; }
+    .badge-auction { background: var(--purple); color: #fff; }
+    .badge-job { background: var(--blue); color: #fff; }
+    .badge-course { background: #0d9488; color: #fff; }
+    .badge-travel { background: var(--teal); color: #fff; }
+    .badge-free { background: var(--green); color: #fff; }
+
+    .fav-heart-btn {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid #e2e8f0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      z-index: 5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: transform 0.15s;
+    }
+    .fav-heart-btn:hover { transform: scale(1.12); }
+
+    .card-body { padding: 13px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-size: 15px; font-weight: 700; margin-bottom: 5px; line-height: 1.35; }
+    .card-meta { font-size: 12px; color: var(--muted); margin-bottom: 6px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .condition-pill {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(22,163,74,0.12);
+      color: var(--green);
+      margin-bottom: 5px;
+      width: fit-content;
+    }
+    .condition-pill.used {
+      background: rgba(245,158,11,0.15);
+      color: #b45309;
+    }
+    .seller-mini-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 2px 7px;
+      border-radius: 5px;
+      margin-bottom: 6px;
+      width: fit-content;
+    }
+    body.dark-mode .seller-mini-tag { background: #0c4a6e; color: #7dd3fc; }
+    .shipping-tag {
+      display: inline-block;
+      background: var(--soft-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      width: fit-content;
+    }
+    .travel-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 7px;
+    }
+    .travel-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+    }
+    .timer-box {
+      background: #f3e8ff;
+      color: #6b21a8;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .card-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .price { font-size: 18px; font-weight: 800; color: var(--text); }
+    .price.free-price { color: var(--green); }
+    .converted-price { font-size: 11px; font-weight: 700; color: var(--teal); }
+    .sub-price { font-size: 11px; color: var(--muted); }
+
+    /* Modals */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 22px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .modal.admin-modal { max-width: 920px; }
+    .close-modal {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: var(--soft-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .detail-hero {
+      height: 220px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    body.dark-mode .detail-hero { background: #0f172a; }
+    .detail-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .detail-hero.travel-hero {
+      background: linear-gradient(135deg, #bae6fd 0%, #e0f2fe 100%);
+    }
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+    }
+    .gallery-thumbs img {
+      width: 64px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 7px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+    }
+    .gallery-thumbs img.active { border-color: var(--accent); }
+
+    .seller-card-box {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .travel-spec-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 8px;
+      background: rgba(2,132,199,0.08);
+      border: 1px solid #7dd3fc;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    .travel-spec-item { font-size: 12px; }
+    .travel-spec-item span { display: block; color: var(--muted); font-size: 11px; }
+    .travel-spec-item strong { color: var(--teal); font-size: 13px; }
+    .detail-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .btn-action {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .btn-phone { background: var(--primary); color: #fff; }
+    .btn-wa { background: #16a34a; color: #fff; }
+    .btn-chat { background: var(--blue); color: #fff; }
+    .btn-share { background: #0284c7; color: #fff; }
+    .btn-fav-detail { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+    .btn-report { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; margin-top: 8px; width: 100%; }
+
+    .similar-box {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .similar-card {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .similar-card:hover { border-color: var(--accent); }
+
+    .bid-panel {
+      background: rgba(124,58,237,0.08);
+      border: 1px solid #c4b5fd;
+      border-radius: 10px;
+      padding: 14px;
+      margin: 12px 0;
+    }
+    .bid-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .bid-btn {
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .buy-now-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Admin Dashboard Styles */
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 10px;
+      margin: 14px 0 18px;
+    }
+    .stat-card {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .stat-card span { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+    .stat-card strong { display: block; font-size: 22px; color: var(--text); margin-top: 3px; }
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .admin-tab {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .admin-tab.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .admin-list { display: flex; flex-direction: column; gap: 10px; }
+    .admin-row {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: var(--card);
+    }
+    .admin-row.blocked-row {
+      background: rgba(220,38,38,0.08);
+      border-color: #fca5a5;
+    }
+    .admin-row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mini-btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--soft-bg);
+      color: var(--text);
+    }
+    .mini-btn.gold { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+    .mini-btn.green { background: #dcfce7; border-color: #86efac; color: #166534; }
+    .mini-btn.red { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+
+    /* Form */
+    .form-group { margin-bottom: 12px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .photo-preview-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .photo-preview-strip img {
+      width: 68px;
+      height: 54px;
+      object-fit: cover;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+    }
+    .travel-form-box {
+      background: rgba(2,132,199,0.08);
+      border: 1px solid #7dd3fc;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .promo-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .promo-card {
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      background: var(--soft-bg);
+    }
+    .promo-card.selected { border-color: var(--accent); background: rgba(249,115,22,0.1); }
+
+    .acc-btn {
+      background: rgba(37,99,235,0.25);
+      border-color: rgba(96,165,250,0.45);
+      color: #dbeafe;
+    }
+    .acc-btn:hover { background: rgba(37,99,235,0.4); color: #fff; }
+    .acc-banner {
+      background: rgba(37,99,235,0.1);
+      border: 1px solid #93c5fd;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .auth-switch { display: flex; gap: 8px; margin-bottom: 14px; }
+    .auth-switch button {
+      flex: 1;
+      padding: 9px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .auth-switch button.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* 2FA Box */
+    .twofa-box {
+      background: rgba(22,163,74,0.08);
+      border: 1px solid #86efac;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .twofa-code-input {
+      font-size: 22px !important;
+      letter-spacing: 6px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .premium-box {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      color: #78350f;
+    }
+    .premium-badge {
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .premium-btn {
+      background: linear-gradient(90deg, #f59e0b, #ea580c);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 3px 10px rgba(245,158,11,0.35);
+    }
+
+    /* Settings Section Cards */
+    .set-section {
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .set-section h4 {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      max-width: 1240px;
+      margin: 34px auto 0;
+      padding: 18px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* Bottom Mobile Nav */
+    .mobile-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0;
+      z-index: 90;
+    }
+    .mobile-nav button {
+      background: none;
+      border: none;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="logo" onclick="resetFilters()">
+        <span>Placo<span class="brand-accent">Markt</span></span>
+        <span class="domain-tag" id="domainTag" title="Zmień kraj w ustawieniach">.nl</span>
+      </div>
+      <div class="nav-controls">
+        <div class="lang-pills" id="langPills"></div>
+        <button class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')" title="Ulubione ogłoszenia">❤️ <span id="favCountBadge">0</span></button>
+        <button class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Konto</span></button>
+        <button class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">🛡️ <span>Admin</span> <span class="notif-dot" id="adminReportBadge">0</span></button>
+        <button class="icon-btn" onclick="openSettings()">⚙️ <span id="lblSettings">Ustawienia</span></button>
+        <button class="add-btn" onclick="openAddModal()">+ <span id="lblAddBtn">Dodaj</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Search (OLX / Allegro style) -->
+  <section class="hero">
+    <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
+    <p id="heroSub">Wszystko w jednym miejscu • Szybka wyszukiwarka • Lokalne oferty w EUR i PLN</p>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Wpisz czego szukasz (np. perfumy, wózek, mieszkanie, rower, turcja, praca...)" oninput="renderListings()" />
+      <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
+      <select id="citySelect" onchange="renderListings()"></select>
+      <button class="search-btn" id="lblSearchBtn" onclick="renderListings()">Szukaj</button>
+    </div>
+    <div class="quick-tags">
+      <span style="color:#94a3b8">Popularne:</span>
+      <span class="quick-tag" onclick="quickSearch('perfumy')">💄 Perfumy</span>
+      <span class="quick-tag" onclick="quickSearch('zabawki')">🧸 Zabawki</span>
+      <span class="quick-tag" onclick="quickSearch('pokój')">🏠 Pokój / Mieszkanie</span>
+      <span class="quick-tag" onclick="quickSearch('turcja')">✈️ Wczasy</span>
+      <span class="quick-tag" onclick="quickSearch('pioneer')">🎛️ Audio / DJ</span>
+      <span class="quick-tag" onclick="quickSearch('rower')">🚲 Rower / Auto</span>
+      <span class="quick-tag" onclick="quickSearch('praca')">💼 Praca</span>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Mode Tabs -->
+    <div class="mode-tabs" id="modeTabs"></div>
+
+    <!-- Dedicated Travel Filter Bar -->
+    <div class="travel-filter-bar" id="travelFilterBar">
+      <div class="travel-filter-title">
+        <span>✈️ Filtry Wczasów, Noclegów i Przejazdów</span>
+        <button type="button" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry</button>
+      </div>
+      <div class="travel-filters-grid">
+        <select id="filterTravelDest" onchange="renderListings()">
+          <option value="all">🌍 Wszystkie kierunki</option>
+          <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polska (Morze / Góry / Mazury)</option>
+          <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Holandia (Wybrzeże / Domki)</option>
+          <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 Belgia / Luksemburg (Ardeny)</option>
+          <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turcja (Alanya / Riwiera)</option>
+          <option value="Chorwacja / Południe Europy">🇭🇷 Chorwacja / Południe Europy</option>
+          <option value="Hiszpania / Wyspy">🇪🇸 Hiszpania / Wyspy</option>
+          <option value="Węgry / Słowacja (Termy)">🇭🇺 Węgry / Słowacja (Termy)</option>
+          <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Trasa PL ↔ NL (Busy / Przejazdy)</option>
+        </select>
+        <select id="filterTravelKind" onchange="renderListings()">
+          <option value="all">🏕️ Rodzaj wyjazdu (Wszystkie)</option>
+          <option value="Domek / Apartament / Pokój">🏠 Domek / Apartament / Pokój</option>
+          <option value="Wyjazd zorganizowany / Wycieczka">🚌 Wyjazd zorganizowany / Wycieczka</option>
+          <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
+          <option value="Przejazd / Bus PL ↔ NL">🚐 Przejazd / Bus PL ↔ NL</option>
+        </select>
+        <select id="filterTravelBoard" onchange="renderListings()">
+          <option value="all">🍽️ Wyżywienie (Dowolne)</option>
+          <option value="Własne (aneks kuchenny)">🍳 Własne (aneks kuchenny)</option>
+          <option value="Ze śniadaniami (BB)">🥐 Ze śniadaniami (BB)</option>
+          <option value="Śniadania + Obiadokolacje (HB)">🍲 Śniadania + Obiadokolacje (HB)</option>
+          <option value="All Inclusive">🍹 All Inclusive</option>
+          <option value="Nie dotyczy (przejazd)">🚐 Nie dotyczy (przejazd)</option>
+        </select>
+        <input type="number" id="filterTravelMaxPrice" placeholder="Max cena..." min="0" oninput="renderListings()" />
+      </div>
+    </div>
+
+    <!-- Alphabetical Categories (Praca na końcu) -->
+    <div class="cat-section-head">
+      <strong>📂 Kategorie (A–Z, Praca na końcu):</strong>
+      <span style="cursor:pointer;color:var(--blue);font-weight:700" onclick="resetFilters()">Pokaż wszystkie kategorie</span>
+    </div>
+    <div class="categories" id="categoriesGrid"></div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar" id="breadcrumbBar"></div>
+
+    <!-- Toolbar: Status, Condition, Price range, Sort, Grid/List toggle -->
+    <div class="toolbar-bar">
+      <div class="toolbar-left">
+        <strong style="font-size:15px" id="resultsHeading">Wszystkie oferty</strong>
+        <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
+      </div>
+      <div class="toolbar-right">
+        <select id="filterCondition" onchange="renderListings()">
+          <option value="all">Stan: Wszystkie</option>
+          <option value="new">✨ Nowe</option>
+          <option value="used">♻️ Używane</option>
+        </select>
+        <input type="number" id="filterMinPrice" placeholder="Cena od" min="0" style="width:84px" oninput="renderListings()" />
+        <input type="number" id="filterMaxPrice" placeholder="Cena do" min="0" style="width:84px" oninput="renderListings()" />
+        <select id="sortSelect" onchange="renderListings()">
+          <option value="featured">Sortuj: Wyróżnione i najnowsze</option>
+          <option value="price_asc">Cena: od najniższej</option>
+          <option value="price_desc">Cena: od najwyższej</option>
+          <option value="views_desc">Najpopularniejsze (odsłony)</option>
+          <option value="auction_end">Licytacje: kończące się wkrótce</option>
+        </select>
+        <div class="view-toggle">
+          <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Widok kafelków">⊞</button>
+          <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="Widok listy">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listings Grid -->
+    <div class="grid" id="listingsGrid"></div>
+
+    <!-- Legal & Info Footer -->
+    <footer class="site-footer">
+      <div>
+        <strong>PlacoMarkt</strong> © 2026 • Platforma ogłoszeniowa NL & PL (Start 0,00 € / 0,00 zł)
+      </div>
+      <div class="footer-links">
+        <a onclick="openLegalModal('about')">O platformie</a>
+        <a onclick="openLegalModal('terms')">Regulamin</a>
+        <a onclick="openLegalModal('privacy')">Prywatność (RODO / GDPR)</a>
+        <a onclick="openLegalModal('dsa')">Zgłoszenia DSA & Kontakt</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal-backdrop" id="detailModal">
+    <div class="modal" id="detailContent"></div>
+  </div>
+
+  <!-- Legal / Info Modal -->
+  <div class="modal-backdrop" id="legalModal">
+    <div class="modal" id="legalContent"></div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div class="modal-backdrop" id="adminModal">
+    <div class="modal admin-modal">
+      <button class="close-modal" onclick="closeModal('adminModal')">×</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-right:36px">
+        <h2>🛡️ Panel Administratora — PlacoMarkt (<span id="adminMarketLabel">NL</span>)</h2>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="country-btn" id="admNL" onclick="switchCountry('NL');openAdminPanel()">🇳🇱 Rynek NL</button>
+          <button type="button" class="country-btn" id="admPL" onclick="switchCountry('PL');openAdminPanel()">🇵🇱 Rynek PL</button>
+        </div>
+      </div>
+
+      <div class="admin-stats" id="adminStats"></div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">📋 Moderacja ogłoszeń</button>
+        <button class="admin-tab" id="admTabReports" onclick="setAdminTab('reports')">🚩 Zgłoszenia DSA (<span id="repCountTab">0</span>)</button>
+        <button class="admin-tab" id="admTabPricing" onclick="setAdminTab('pricing')">💳 Cennik startowy i baza</button>
+      </div>
+
+      <div id="adminBody"></div>
+    </div>
+  </div>
+
+  <!-- Add Listing Modal -->
+  <div class="modal-backdrop" id="addModal">
+    <div class="modal">
+      <button class="close-modal" onclick="closeModal('addModal')">×</button>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj nowe ogłoszenie</h2>
+      <form onsubmit="submitListing(event)">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label id="lblOfferType">Rodzaj oferty</label>
+            <select id="newType" onchange="toggleAddFields()">
+              <option value="sale">Zwykłe ogłoszenie (Kup Teraz)</option>
+              <option value="auction">🔨 Licytacja (Aukcja)</option>
+              <option value="travel">✈️ Wczasy / Nocleg / Przejazd</option>
+              <option value="course">🎓 Kurs / Szkolenie</option>
+              <option value="free">🎁 Oddam za darmo (0)</option>
+              <option value="job">💼 Oferta pracy</option>
+            </select>
+          </div>
+          <div class="form-group" id="conditionGroup">
+            <label>Stan przedmiotu</label>
+            <select id="newCondition">
+              <option value="new">✨ Nowy</option>
+              <option value="used">♻️ Używany</option>
+              <option value="na">Nie dotyczy (usługa / praca / wynajem)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label id="lblTitleField">Tytuł ogłoszenia</label>
+          <input type="text" id="newTitle" required placeholder="np. Perfumy, Zestaw klocków LEGO, Domek nad morzem, Rower..." />
+        </div>
+        <div class="form-group">
+          <label>Zdjęcia ogłoszenia (maks. 4 zdjęcia z telefonu lub dysku)</label>
+          <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
+          <div class="photo-preview-strip" id="photoPreviewStrip"></div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label id="lblCatField">Kategoria (alfabetycznie)</label>
+            <select id="newCategory"></select>
+          </div>
+          <div class="form-group">
+            <label id="lblCityField">Miasto / Lokalizacja</label>
+            <select id="newCity"></select>
+          </div>
+        </div>
+
+        <!-- Dedicated Travel Fields in Add Form -->
+        <div class="travel-form-box" id="travelFieldsBox" style="display:none">
+          <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px">✈️ Szczegóły Wczasów / Wyjazdu</div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Kierunek / Kraj docelowy</label>
+              <select id="newTravelDest">
+                <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polska (Morze / Góry / Mazury)</option>
+                <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Holandia (Wybrzeże / Domki)</option>
+                <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 Belgia / Luksemburg (Ardeny)</option>
+                <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turcja (Alanya / Riwiera)</option>
+                <option value="Chorwacja / Południe Europy">🇭🇷 Chorwacja / Południe Europy</option>
+                <option value="Hiszpania / Wyspy">🇪🇸 Hiszpania / Wyspy</option>
+                <option value="Węgry / Słowacja (Termy)">🇭🇺 Węgry / Słowacja (Termy)</option>
+                <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Trasa PL ↔ NL (Busy / Przejazdy)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Rodzaj oferty turystycznej</label>
+              <select id="newTravelKind">
+                <option value="Domek / Apartament / Pokój">🏠 Domek / Apartament / Pokój</option>
+                <option value="Wyjazd zorganizowany / Wycieczka">🚌 Wyjazd zorganizowany / Wycieczka</option>
+                <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
+                <option value="Przejazd / Bus PL ↔ NL">🚐 Przejazd / Bus PL ↔ NL</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Termin / Długość pobytu</label>
+              <input type="text" id="newTravelDate" placeholder="np. 15–22.07 (7 nocy) lub Cały rok" />
+            </div>
+            <div class="form-group">
+              <label>Liczba osób</label>
+              <input type="text" id="newTravelGuests" placeholder="np. 2–4 osoby / Rodzina 2+2" />
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Wyżywienie</label>
+              <select id="newTravelBoard">
+                <option value="Własne (aneks kuchenny)">🍳 Własne (aneks kuchenny)</option>
+                <option value="Ze śniadaniami (BB)">🥐 Ze śniadaniami (BB)</option>
+                <option value="Śniadania + Obiadokolacje (HB)">🍲 Śniadania + Obiadokolacje (HB)</option>
+                <option value="All Inclusive">🍹 All Inclusive</option>
+                <option value="Nie dotyczy (przejazd)">🚐 Nie dotyczy (przejazd)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Cena dotyczy</label>
+              <select id="newTravelUnit">
+                <option value="/ osoba">/ osoba</option>
+                <option value="/ doba (cały obiekt)">/ doba (cały obiekt)</option>
+                <option value="/ cały pobyt (pakiet)">/ cały pobyt (pakiet)</option>
+                <option value="/ przejazd w 1 stronę">/ przejazd w 1 stronę</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" id="priceGroup">
+          <label id="lblPriceField">Cena</label>
+          <input type="number" id="newPrice" min="0" step="0.01" placeholder="np. 150" />
+        </div>
+        <div class="form-group" id="buyNowGroup" style="display:none">
+          <label>Cena Kup Teraz (opcjonalnie)</label>
+          <input type="number" id="newBuyNow" min="0" step="0.01" placeholder="np. 450" />
+        </div>
+        <div class="form-group" id="shippingGroup">
+          <label id="lblShipField">Dostawa / Odbiór</label>
+          <select id="newShipping"></select>
+        </div>
+        <div class="form-group">
+          <label id="lblDescField">Opis i słowa kluczowe (ułatwia znalezienie w wyszukiwarce)</label>
+          <textarea id="newDesc" rows="3" required placeholder="Opisz stan, markę, wymiary, warunki, kontakt..."></textarea>
+        </div>
+        <div class="form-group">
+          <label id="lblPromoField">Widoczność ogłoszenia (Promocja na start: wszystko 0,00)</label>
+          <div class="promo-options">
+            <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
+              <strong style="color:var(--green)" id="promoStdPrice">0,00 €</strong>
+              <div style="font-size:11px;color:var(--muted)">Standard na 30 dni</div>
+            </div>
+            <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
+              <strong style="color:var(--red)" id="promoUrgentPrice">0,00 € (Start)</strong>
+              <div style="font-size:11px;color:var(--muted)">⚡ Znaczek PILNE / OKAZJA</div>
+            </div>
+            <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
+              <strong style="color:var(--accent)" id="promoTopPrice">0,00 € (Start)</strong>
+              <div style="font-size:11px;color:var(--muted)">⭐ TOP na stronie głównej</div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:12px;font-size:15px" id="submitOfferBtn">
+          Opublikuj ogłoszenie
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Account / Login / Register / 2FA Modal -->
+  <div class="modal-backdrop" id="accountModal">
+    <div class="modal" style="max-width:480px">
+      <button class="close-modal" onclick="closeModal('accountModal')">×</button>
+      <h2 style="margin-bottom:12px">👤 Konto użytkownika — PlacoMarkt</h2>
+      <div id="accountModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Extended Settings Modal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal" style="max-width:520px">
+      <button class="close-modal" onclick="closeModal('settingsModal')">×</button>
+      <h2 style="margin-bottom:14px">⚙️ <span id="settingsHeader">Ustawienia PlacoMarkt</span></h2>
+
+      <!-- Section 1: Language & Market -->
+      <div class="set-section">
+        <h4>🌍 Rynek i Język</h4>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px">
+          <input type="checkbox" id="autoDetectCheck" checked onchange="toggleAutoLang()" style="width:auto" />
+          <span id="lblAutoDetect">Automatycznie wykrywaj język z urządzenia</span>
+        </label>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="detectedInfo"></div>
+        <div id="settingsLangButtons" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
+
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px">
+          <input type="checkbox" id="autoCountryCheck" checked onchange="toggleAutoCountry()" style="width:auto" />
+          <span>Automatycznie wykrywaj kraj (domena / strefa czasowa)</span>
+        </label>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="detectedCountryInfo"></div>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia (EUR)</button>
+          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 Polska (PLN)</button>
+        </div>
+      </div>
+
+      <!-- Section 2: Appearance & Currency -->
+      <div class="set-section">
+        <h4>🎨 Wygląd i Waluty</h4>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
+          <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
+          <span>🌙 Tryb ciemny (Dark Mode)</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
+          <input type="checkbox" id="setDualCurrency" checked onchange="toggleSettingPref('showDualCurrency', this.checked)" style="width:auto" />
+          <span>💱 Pokazuj orientacyjną cenę w drugiej walucie (EUR ↔ PLN)</span>
+        </label>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
+          <span>Domyślne miasto:</span>
+          <select id="setDefaultCity" onchange="setDefaultCityPref(this.value)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px"></select>
+        </div>
+      </div>
+
+      <!-- Section 3: Privacy & Security -->
+      <div class="set-section">
+        <h4>🔒 Prywatność, Bezpieczeństwo i 2FA</h4>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:8px">
+          <span>Widoczność telefonu:</span>
+          <select id="setPhoneVis" onchange="toggleSettingPref('phoneVisibility', this.value)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px">
+            <option value="click">Po kliknięciu „Pokaż numer”</option>
+            <option value="logged">Tylko dla zalogowanych</option>
+            <option value="chat_only">Ukryj numer (tylko czat)</option>
+          </select>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
+          <input type="checkbox" id="setAntiPhish" checked onchange="toggleSettingPref('antiPhishing', this.checked)" style="width:auto" />
+          <span>🛡️ Blokuj podejrzane linki w wiadomościach czatu</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
+          <input type="checkbox" id="setBidAlerts" checked onchange="toggleSettingPref('bidAlerts', this.checked)" style="width:auto" />
+          <span>🔔 Powiadomienia o przebiciu oferty w licytacjach</span>
+        </label>
+        <button type="button" class="mini-btn green" style="width:100%" onclick="closeModal('settingsModal');openAccountModal()">
+          🔐 Zarządzaj dwuetapowym logowaniem (2FA) w Koncie
+        </button>
+      </div>
+
+      <!-- Section 4: Data & PWA -->
+      <div class="set-section" style="margin-bottom:0">
+        <h4>📱 Aplikacja i Twoje dane (RODO)</h4>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="mini-btn" onclick="exportUserData()">📥 Eksportuj dane (JSON)</button>
+          <button type="button" class="mini-btn red" onclick="resetLocalStorageData()">🗑️ Wyczyść zapisaną pamięć</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <button onclick="resetFilters()">🔍<span id="mobSearch">Szukaj</span></button>
+    <button onclick="setMode('travel')">✈️<span id="mobTravel">Wczasy</span></button>
+    <button onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Dodaj</span></button>
+    <button onclick="setMode('favorites')">❤️<span>Ulubione</span></button>
+    <button onclick="openAccountModal()">👤<span>Konto</span></button>
+    <button onclick="openSettings()">⚙️<span id="mobSet">Opcje</span></button>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // =========================================================================
+    // KONFIGURACJA SUPABASE I ADMINISTRATORA
+    // =========================================================================
+    const SUPABASE_URL = 'https://TWOJ-PROJEKT.supabase.co';
+    const SUPABASE_ANON_KEY = 'TWOJ-KLUCZ-ANON-PUBLIC';
+    const ADMIN_EMAILS = ['admin@placomarkt.nl', 'kontakt@placomarkt.nl'];
+
+    const isSupabaseConfigured =
+      SUPABASE_URL.startsWith('https://') &&
+      !SUPABASE_URL.includes('TWOJ-PROJEKT') &&
+      SUPABASE_ANON_KEY.length > 20;
+
+    const sb = isSupabaseConfigured
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    const EUR_TO_PLN = 4.30;
+
+    let userPrefs = {
+      darkMode: false,
+      showDualCurrency: true,
+      defaultCityNL: 'Cała Holandia',
+      defaultCityPL: 'Cała Polska',
+      phoneVisibility: 'click',
+      antiPhishing: true,
+      bidAlerts: true,
+      layoutView: 'grid'
+    };
+
+    try {
+      const savedPrefs = JSON.parse(localStorage.getItem('placomarkt_prefs') || 'null');
+      if (savedPrefs) userPrefs = { ...userPrefs, ...savedPrefs };
+    } catch (e) {}
+
+    function savePrefs() {
+      try { localStorage.setItem('placomarkt_prefs', JSON.stringify(userPrefs)); } catch (e) {}
+    }
+
+    (function setupPwaManifest() {
+      try {
+        const manifestObj = {
+          name: 'PlacoMarkt — Ogłoszenia, Licytacje, Zakupy i Wczasy',
+          short_name: 'PlacoMarkt',
+          start_url: '.',
+          display: 'standalone',
+          background_color: '#0f172a',
+          theme_color: '#0f172a',
+          icons: [{
+            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%230f172a"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="%23f97316" font-family="sans-serif" font-weight="bold">P</text></svg>',
+            sizes: '192x192',
+            type: 'image/svg+xml'
+          }]
+        };
+        const blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+        const link = document.getElementById('pwaManifestLink');
+        if (link) link.href = URL.createObjectURL(blob);
+      } catch (e) {}
+    })();
+
+    // Kategorie ułożone ALFABETYCZNIE (A-Z), a "Praca" celowo na samym końcu!
+    const CATEGORIES_LIST = [
+      { id: 'kids', icon: '🧸', key: 'catKids' },
+      { id: 'home', icon: '🛋️', key: 'catHome' },
+      { id: 'electronics', icon: '📱', key: 'catElectronics' },
+      { id: 'cosmetics', icon: '💄', key: 'catCosmetics' },
+      { id: 'courses', icon: '🎓', key: 'catCourses' },
+      { id: 'housing', icon: '🏠', key: 'catHousing' },
+      { id: 'auto', icon: '🚗', key: 'catAuto' },
+      { id: 'free', icon: '🎁', key: 'catFree' },
+      { id: 'fashion', icon: '👕', key: 'catFashion' },
+      { id: 'sport', icon: '⚽', key: 'catSport' },
+      { id: 'services', icon: '🔧', key: 'catServices' },
+      { id: 'travel', icon: '✈️', key: 'catTravel' },
+      { id: 'jobs', icon: '💼', key: 'catJobs' } // Praca na końcu
+    ];
+
+    const COUNTRY_CONFIG = {
+      NL: {
+        domain: '.nl',
+        currency: '€',
+        langs: ['PL', 'NL', 'EN', 'LT', 'TR'],
+        cities: ['Cała Holandia', 'Rotterdam', 'Den Haag', 'Amsterdam', 'Utrecht', 'Eindhoven', 'Tilburg', 'Breda', 'Groningen'],
+        shippingOptions: ['📍 Odbiór osobisty (NL)', '📦 Wysyłka PostNL / DHL NL', '🤝 Nie dotyczy (usługa / wynajem / wczasy / praca)'],
+        categories: CATEGORIES_LIST,
+        promoPrices: { std: '0,00 €', urgent: '0,00 € (Start)', top: '0,00 € (Start)', premiumMonth: '0,00 € (Promocja Start)' }
+      },
+      PL: {
+        domain: '.pl',
+        currency: 'zł',
+        langs: ['PL', 'UA', 'EN'],
+        cities: ['Cała Polska', 'Warszawa', 'Kraków', 'Katowice / Śląsk', 'Wrocław', 'Poznań', 'Gdańsk', 'Łódź'],
+        shippingOptions: ['📍 Odbiór osobisty (PL)', '📦 InPost Paczkomat / Kurier DPD', '🤝 Nie dotyczy (usługa / nieruchomość / wczasy / praca)'],
+        categories: CATEGORIES_LIST,
+        promoPrices: { std: '0,00 zł', urgent: '0,00 zł (Start)', top: '0,00 zł (Start)', premiumMonth: '0,00 zł (Promocja Start)' }
+      }
+    };
+
+    const TRANSLATIONS = {
+      PL: {
+        settings: 'Ustawienia',
+        add: 'Dodaj',
+        heroNL: 'Ogłoszenia, Licytacje, Zakupy i Wczasy w Holandii',
+        subNL: 'Wszystko w jednym miejscu • Kosmetyki, Dla dzieci, Dom, Elektronika, Nieruchomości, Wczasy i Praca (EUR)',
+        heroPL: 'Ogłoszenia, Licytacje, Zakupy i Wczasy w Polsce',
+        subPL: 'Wszystko w jednym miejscu • Kosmetyki, Dla dzieci, Dom, Elektronika, Nieruchomości, Wczasy i Praca (PLN)',
+        searchPlaceholder: 'Wpisz czego szukasz (np. perfumy, zabawki, wózek, mieszkanie, turcja, praca...)',
+        searchBtn: 'Szukaj',
+        tabAll: 'Wszystkie oferty',
+        tabTravel: '✈️ Wczasy i Wyjazdy',
+        tabSale: 'Kup Teraz',
+        tabAuction: '🔨 Licytacje',
+        tabCourse: '🎓 Kursy',
+        tabFree: '🎁 Oddam za darmo',
+        tabJob: '💼 Praca',
+        tabFav: '❤️ Ulubione',
+        catKids: 'Dla dzieci i Zabawki',
+        catHome: 'Dom i Ogród',
+        catElectronics: 'Elektronika i Audio',
+        catCosmetics: 'Kosmetyki i Perfumy',
+        catCourses: 'Kursy i Szkolenia',
+        catHousing: 'Mieszkania i Nieruchomości',
+        catAuto: 'Motoryzacja i Rowery',
+        catFree: 'Oddam za darmo',
+        catFashion: 'Odzież i Obuwie',
+        catSport: 'Sport i Hobby',
+        catServices: 'Usługi',
+        catTravel: 'Wczasy i Podróże',
+        catJobs: 'Praca',
+        freePrice: 'ZA DARMO',
+        showPhone: '📞 Pokaż numer telefonu',
+        whatsapp: '🟢 Napisz na WhatsApp',
+        chat: '💬 Wyślij wiadomość',
+        share: '📤 Udostępnij',
+        report: '🚩 Zgłoś ogłoszenie (DSA)',
+        bidNow: 'Złóż ofertę',
+        buyNow: 'Kup Teraz ⚡',
+        endsIn: 'Koniec za:',
+        bidsCount: 'ofert'
+      },
+      NL: {
+        settings: 'Instellingen',
+        add: 'Plaatsen',
+        heroNL: 'Advertenties, Veilingen, Winkelen & Vakanties',
+        subNL: 'Alles op één plek • Cosmetica, Kinderen, Huis, Elektronica, Woningen, Vakanties & Werk (EUR)',
+        heroPL: 'Poolse marktplaats in PLN (zł)',
+        subPL: 'Lokale Poolse advertenties • Vakanties & Reizen',
+        searchPlaceholder: 'Waar ben je naar op zoek (bv. parfum, speelgoed, woning, vakantie...)?',
+        searchBtn: 'Zoeken',
+        tabAll: 'Alle advertenties',
+        tabTravel: '✈️ Vakanties',
+        tabSale: 'Direct kopen',
+        tabAuction: '🔨 Veilingen',
+        tabCourse: '🎓 Cursussen',
+        tabFree: '🎁 Gratis ophalen',
+        tabJob: '💼 Werk',
+        tabFav: '❤️ Favorieten',
+        catKids: 'Kinderen & Speelgoed',
+        catHome: 'Huis & Tuin',
+        catElectronics: 'Elektronica & Audio',
+        catCosmetics: 'Cosmetica & Parfum',
+        catCourses: 'Cursussen',
+        catHousing: 'Woningen & Kamers',
+        catAuto: 'Auto & Fietsen',
+        catFree: 'Gratis',
+        catFashion: 'Kleding & Schoenen',
+        catSport: 'Sport & Hobby',
+        catServices: 'Diensten',
+        catTravel: 'Vakanties & Reizen',
+        catJobs: 'Werk & Vacatures',
+        freePrice: 'GRATIS',
+        showPhone: '📞 Toon telefoonnummer',
+        whatsapp: '🟢 WhatsApp bericht',
+        chat: '💬 Stuur bericht',
+        share: '📤 Delen',
+        report: '🚩 Meld advertentie',
+        bidNow: 'Bieden',
+        buyNow: 'Direct kopen ⚡',
+        endsIn: 'Eindigt over:',
+        bidsCount: 'biedingen'
+      },
+      EN: {
+        settings: 'Settings',
+        add: 'Post Ad',
+        heroNL: 'Classifieds, Auctions, Shopping & Holidays',
+        subNL: 'Everything in one place • Cosmetics, Kids, Home, Electronics, Housing, Holidays & Jobs',
+        heroPL: 'Classifieds, Auctions, Shopping & Holidays in Poland',
+        subPL: 'Everything in one place • Local deals in PLN (zł)',
+        searchPlaceholder: 'Search for perfume, toys, housing, holidays, cars, jobs...',
+        searchBtn: 'Search',
+        tabAll: 'All listings',
+        tabTravel: '✈️ Holidays & Trips',
+        tabSale: 'Buy Now',
+        tabAuction: '🔨 Auctions',
+        tabCourse: '🎓 Courses',
+        tabFree: '🎁 Free items',
+        tabJob: '💼 Jobs',
+        tabFav: '❤️ Favorites',
+        catKids: 'Kids & Toys',
+        catHome: 'Home & Garden',
+        catElectronics: 'Electronics & Audio',
+        catCosmetics: 'Cosmetics & Perfume',
+        catCourses: 'Courses & Training',
+        catHousing: 'Housing & Property',
+        catAuto: 'Motors & Bikes',
+        catFree: 'Free',
+        catFashion: 'Fashion & Shoes',
+        catSport: 'Sports & Hobby',
+        catServices: 'Services',
+        catTravel: 'Holidays & Travel',
+        catJobs: 'Jobs',
+        freePrice: 'FREE',
+        showPhone: '📞 Show phone number',
+        whatsapp: '🟢 Chat on WhatsApp',
+        chat: '💬 Send message',
+        share: '📤 Share',
+        report: '🚩 Report listing',
+        bidNow: 'Place bid',
+        buyNow: 'Buy Now ⚡',
+        endsIn: 'Ends in:',
+        bidsCount: 'bids'
+      },
+      LT: {
+        settings: 'Nustatymai',
+        add: 'Įdėti',
+        heroNL: 'Skelbimai, Aukcionai, Pirkiniai ir Atostogos',
+        subNL: 'Viskas vienoje vietoje • Kosmetika, Vaikams, Namams, Būstas, Atostogos ir Darbas',
+        heroPL: 'Lenkijos skelbimai (PLN)',
+        subPL: 'Vietiniai pasiūlymai Lenkijoje',
+        searchPlaceholder: 'Ko ieškote?',
+        searchBtn: 'Ieškoti',
+        tabAll: 'Visi skelbimai',
+        tabTravel: '✈️ Atostogos',
+        tabSale: 'Pirkti dabar',
+        tabAuction: '🔨 Aukcionai',
+        tabCourse: '🎓 Kursai',
+        tabFree: '🎁 Dovanoju',
+        tabJob: '💼 Darbas',
+        tabFav: '❤️ Mėgstami',
+        catKids: 'Vaikams ir Žaislai',
+        catHome: 'Namai ir Sodas',
+        catElectronics: 'Elektronika ir Audio',
+        catCosmetics: 'Kosmetika ir Kvepalai',
+        catCourses: 'Kursai',
+        catHousing: 'Būstas',
+        catAuto: 'Auto ir Dviračiai',
+        catFree: 'Nemokamai',
+        catFashion: 'Drabužiai ir Avalynė',
+        catSport: 'Sportas ir Hobis',
+        catServices: 'Paslaugos',
+        catTravel: 'Atostogos ir Kelionės',
+        catJobs: 'Darbas',
+        freePrice: 'NEMOKAMAI',
+        showPhone: '📞 Rodyti telefono numerį',
+        whatsapp: '🟢 Rašyti per WhatsApp',
+        chat: '💬 Siųsti žinutę',
+        share: '📤 Dalintis',
+        report: '🚩 Pranešti apie skelbimą',
+        bidNow: 'Siūlyti kainą',
+        buyNow: 'Pirkti dabar ⚡',
+        endsIn: 'Liko:',
+        bidsCount: 'statymai'
+      },
+      TR: {
+        settings: 'Ayarlar',
+        add: 'İlan Ver',
+        heroNL: 'İlanlar, Açık Artırma, Alışveriş ve Tatil',
+        subNL: 'Her şey tek yerde • Kozmetik, Çocuk, Ev, Elektronik, Konut, Tatil ve İş İlanları',
+        heroPL: 'Polonya İlanları (PLN)',
+        subPL: 'Polonya yerel ilanlar',
+        searchPlaceholder: 'Ne arıyorsunuz?',
+        searchBtn: 'Ara',
+        tabAll: 'Tüm ilanlar',
+        tabTravel: '✈️ Tatil & Seyahat',
+        tabSale: 'Hemen Al',
+        tabAuction: '🔨 Açık Artırma',
+        tabCourse: '🎓 Kurslar',
+        tabFree: '🎁 Ücretsiz',
+        tabJob: '💼 İş İlanları',
+        tabFav: '❤️ Favoriler',
+        catKids: 'Çocuk & Oyuncak',
+        catHome: 'Ev & Bahçe',
+        catElectronics: 'Elektronik & Ses',
+        catCosmetics: 'Kozmetik & Parfüm',
+        catCourses: 'Kurslar',
+        catHousing: 'Emlak & Oda',
+        catAuto: 'Araç & Bisiklet',
+        catFree: 'Ücretsiz',
+        catFashion: 'Giyim & Ayakkabı',
+        catSport: 'Spor & Hobi',
+        catServices: 'Hizmetler',
+        catTravel: 'Tatil & Seyahat',
+        catJobs: 'İş İlanları',
+        freePrice: 'ÜCRETSİZ',
+        showPhone: '📞 Telefon numarasını göster',
+        whatsapp: '🟢 WhatsApp ile yaz',
+        chat: '💬 Mesaj gönder',
+        share: '📤 Paylaş',
+        report: '🚩 İlanı bildir',
+        bidNow: 'Teklif ver',
+        buyNow: 'Hemen Al ⚡',
+        endsIn: 'Kalan süre:',
+        bidsCount: 'teklif'
+      },
+      UA: {
+        settings: 'Налаштування',
+        add: 'Додати',
+        heroNL: 'Оголошення, Аукціони, Покупки та Відпочинок',
+        subNL: 'Все в одному місці • Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
+        heroPL: 'Оголошення, Аукціони, Покупки та Відпочинок у Польщі',
+        subPL: 'Все в одному місці • Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
+        searchPlaceholder: 'Що шукаєте (парфуми, іграшки, житло, відпочинок, робота...)?',
+        searchBtn: 'Пошук',
+        tabAll: 'Усі оголошення',
+        tabTravel: '✈️ Відпочинок і тури',
+        tabSale: 'Купити зараз',
+        tabAuction: '🔨 Аукціони',
+        tabCourse: '🎓 Курси',
+        tabFree: '🎁 Віддам безкоштовно',
+        tabJob: '💼 Робота',
+        tabFav: '❤️ Обране',
+        catKids: 'Для дітей та Іграшки',
+        catHome: 'Дім і Сад',
+        catElectronics: 'Електроніка та Аудіо',
+        catCosmetics: 'Косметика та Парфуми',
+        catCourses: 'Курси',
+        catHousing: 'Житло та Нерухомість',
+        catAuto: 'Авто та Велосипеди',
+        catFree: 'Безкоштовно',
+        catFashion: 'Одяг та Взуття',
+        catSport: 'Спорт і Хобі',
+        catServices: 'Послуги',
+        catTravel: 'Відпочинок і подорожі',
+        catJobs: 'Робота',
+        freePrice: 'БЕЗКОШТОВНО',
+        showPhone: '📞 Показати номер телефону',
+        whatsapp: '🟢 Написати у WhatsApp',
+        chat: '💬 Надіслати повідомлення',
+        share: '📤 Поділитися',
+        report: '🚩 Поскаржитися',
+        bidNow: 'Зробити ставку',
+        buyNow: 'Купити зараз ⚡',
+        endsIn: 'До кінця:',
+        bidsCount: 'ставок'
+      }
+    };
+
+    const DEMO_LISTINGS = {
+      NL: [
+        {
+          id: 111,
+          type: 'sale',
+          category: 'cosmetics',
+          condition: 'new',
+          title: 'Perfumy męskie i damskie 100 ml — oryginalne, zafoliowane (zestaw prezentowy)',
+          city: 'Rotterdam',
+          price: 49,
+          priceNote: 'nowe w folii',
+          shipping: '📦 Wysyłka PostNL / DHL NL lub 📍 Odbiór',
+          icon: '💄',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 238,
+          sellerName: 'BeautyNL_Shop',
+          sellerVerified: true,
+          sellerRating: 4.9,
+          sellerReviews: [
+            { author: 'Monika D.', stars: 5, text: 'Szybka wysyłka PostNL, perfumy oryginalnie zafoliowane.' }
+          ],
+          phone: '+31 6 44 11 22 33',
+          desc: 'Oryginalne wody perfumowane i zestawy kosmetyków pielęgnacyjnych, fabrycznie zafoliowane. Możliwa wysyłka paczkomatem lub odbiór osobisty w Rotterdamie.'
+        },
+        {
+          id: 112,
+          type: 'sale',
+          category: 'kids',
+          condition: 'used',
+          title: 'Zestaw zabawek dla dzieci + klocki LEGO Technic i rowerek biegowy',
+          city: 'Den Haag',
+          price: 65,
+          priceNote: 'za cały zestaw',
+          shipping: '📍 Odbiór osobisty (NL) lub 📦 PostNL',
+          icon: '🧸',
+          photos: [],
+          top: false,
+          urgent: true,
+          hidden: false,
+          views: 174,
+          sellerName: 'Karolina M.',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+31 6 77 88 99 00',
+          desc: 'Kompletny zestaw zadbanych zabawek edukacyjnych, klocków oraz lekki rowerek biegowy dla dziecka 2–5 lat. Wszystko czyste i kompletne.'
+        },
+        {
+          id: 101,
+          type: 'sale',
+          category: 'housing',
+          condition: 'na',
+          title: 'Pokój 1-osobowy do wynajęcia — Rotterdam Zuid (blisko metra)',
+          city: 'Rotterdam',
+          price: 575,
+          priceNote: '/ mies. (w tym media)',
+          shipping: '🤝 Wynajem bezpośredni w NL',
+          icon: '🏠',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 214,
+          sellerName: 'Marek N.',
+          sellerVerified: true,
+          sellerRating: 4.9,
+          sellerReviews: [
+            { author: 'Kasia K.', stars: 5, text: 'Konkretny właściciel, wszystko zgodne z opisem.' }
+          ],
+          phone: '+31 6 12 34 56 78',
+          desc: 'Umeblowany pokój w spokojnym mieszkaniu w Rotterdam Zuid. Szybki internet, pralka, kuchnia w pełni wyposażona. Wynajem wyłącznie na terenie Holandii.'
+        },
+        {
+          id: 108,
+          type: 'travel',
+          category: 'travel',
+          condition: 'na',
+          title: 'Turcja — Alanya (Hotel 4★ przy plaży Kleopatry, wylot z Eindhoven)',
+          city: 'Eindhoven',
+          price: 549,
+          priceNote: '/ osoba (7 nocy)',
+          shipping: '☀️ Last Minute / All Inclusive',
+          icon: '🏖️',
+          photos: [],
+          top: true,
+          urgent: true,
+          hidden: false,
+          views: 348,
+          sellerName: 'SunTravel NL',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+31 6 33 77 88 99',
+          travelDetails: {
+            dest: 'Turcja (Alanya / Riwiera)',
+            kind: 'Last Minute / All Inclusive',
+            date: '14–21.06 (7 nocy)',
+            guests: '2 osoby dorosłe (możliwa dostawka)',
+            board: 'All Inclusive'
+          },
+          desc: 'Bezpośredni przelot z Eindhoven do Antalyi, transfer do hotelu w Alanyi, basen, animacje oraz wyżywienie All Inclusive. Polskojęzyczny rezydent na miejscu.'
+        },
+        {
+          id: 102,
+          type: 'auction',
+          category: 'electronics',
+          condition: 'used',
+          title: 'Kontroler DJ Pioneer DDJ-FLX10 — stan idealny + case',
+          city: 'Den Haag',
+          price: 1120,
+          buyNow: 1390,
+          bids: 9,
+          endsAt: Date.now() + 1000 * 60 * 60 * 5 + 1000 * 60 * 24,
+          shipping: '📍 Odbiór osobisty (NL) lub 📦 PostNL Ubezpieczony',
+          icon: '🎛️',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 275,
+          sellerName: 'DJ_Mario_NL',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+31 6 87 65 43 21',
+          desc: 'Profesjonalny 4-kanałowy kontroler DJ-ski z obsługą stemów w Rekordbox i Serato. Używany wyłącznie w domu.'
+        },
+        {
+          id: 113,
+          type: 'sale',
+          category: 'home',
+          condition: 'new',
+          title: 'Wędzarka ogrodowa beczkowa 80L + palenisko boczne i termometr',
+          city: 'Tilburg',
+          price: 220,
+          priceNote: 'nowa, ręcznie wykonana',
+          shipping: '📍 Odbiór osobisty (NL)',
+          icon: '🛋️',
+          photos: [],
+          top: false,
+          urgent: false,
+          hidden: false,
+          views: 152,
+          sellerName: 'GrillMaster_NL',
+          sellerVerified: true,
+          sellerRating: 4.9,
+          sellerReviews: [],
+          phone: '+31 6 22 33 44 55',
+          desc: 'Solidna wędzarnia ogrodowa z zewnętrznym paleniskiem, deflektorem ciepła, szybrem i termometrem tarczowym. Idealna do ogrodu lub na działkę.'
+        },
+        {
+          id: 103,
+          type: 'job',
+          category: 'jobs',
+          condition: 'na',
+          title: 'Operator maszyn / Reach truck — produkcja spożywcza (Vast contract)',
+          city: 'Rotterdam',
+          price: 16.40,
+          priceNote: '/ godz. + dodatki zmianowe',
+          shipping: '🤝 Umowa bezpośrednio w NL',
+          icon: '💼',
+          photos: [],
+          top: false,
+          urgent: false,
+          hidden: false,
+          views: 162,
+          sellerName: 'LogiWork Rotterdam',
+          sellerVerified: true,
+          sellerRating: 4.7,
+          sellerReviews: [],
+          phone: '+31 10 555 22 11',
+          desc: 'Praca na zmianie nocnej lub 2-zmianowej w okolicach Rotterdamu / Berkel en Rodenrijs. Wymagane uprawnienia na wózek wysokiego składowania.'
+        },
+        {
+          id: 106,
+          type: 'free',
+          category: 'free',
+          condition: 'used',
+          title: 'Komoda drewniana + stolik kawowy (odbiór przy przeprowadzce)',
+          city: 'Eindhoven',
+          price: 0,
+          shipping: '📍 Odbiór osobisty (NL)',
+          icon: '🎁',
+          photos: [],
+          top: false,
+          urgent: true,
+          hidden: false,
+          views: 81,
+          sellerName: 'Anna M.',
+          sellerVerified: false,
+          sellerRating: 4.8,
+          sellerReviews: [],
+          phone: '+31 6 99 88 77 66',
+          desc: 'Oddam za darmo solidną komodę i stolik, stan dobry, drobne rysy na blacie. Odbiór własny w Eindhoven.'
+        }
+      ],
+      PL: [
+        {
+          id: 211,
+          type: 'sale',
+          category: 'cosmetics',
+          condition: 'new',
+          title: 'Zestaw kosmetyków naturalnych i perfumy 100 ml — idealne na prezent',
+          city: 'Warszawa',
+          price: 169,
+          priceNote: 'nowe, zapakowane',
+          shipping: '📦 InPost Paczkomat / Kurier DPD',
+          icon: '💄',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 219,
+          sellerName: 'Perfumeria_PL',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+48 509 111 222',
+          desc: 'Nowy zestaw kosmetyków pielęgnacyjnych oraz woda perfumowana 100 ml o nutach drzewa sandałowego, wanilii i cedru. Wysyłka w 24h.'
+        },
+        {
+          id: 212,
+          type: 'sale',
+          category: 'kids',
+          condition: 'used',
+          title: 'Wózek dziecięcy 2w1 + fotelik samochodowy i mata edukacyjna',
+          city: 'Katowice / Śląsk',
+          price: 650,
+          priceNote: 'stan bardzo dobry',
+          shipping: '📍 Odbiór osobisty (PL)',
+          icon: '🧸',
+          photos: [],
+          top: false,
+          urgent: true,
+          hidden: false,
+          views: 183,
+          sellerName: 'Magda_Śląsk',
+          sellerVerified: true,
+          sellerRating: 4.9,
+          sellerReviews: [],
+          phone: '+48 511 444 555',
+          desc: 'Zadbany wózek gondola + spacerówka, adaptery, folia przeciwdeszczowa oraz dodatkowo mata z zabawkami dla niemowlaka.'
+        },
+        {
+          id: 207,
+          type: 'travel',
+          category: 'travel',
+          condition: 'na',
+          title: 'Domki letniskowe nad Bałtykiem — Sarbinowo / Mielno (300 m od plaży)',
+          city: 'Gdańsk',
+          price: 340,
+          priceNote: '/ doba (cały domek do 5 os.)',
+          shipping: '🏠 Domek / Apartament / Pokój',
+          icon: '🌊',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 310,
+          sellerName: 'Bałtyk Resort',
+          sellerVerified: true,
+          sellerRating: 4.9,
+          sellerReviews: [],
+          phone: '+48 504 777 888',
+          travelDetails: {
+            dest: 'Polska (Morze / Góry / Mazury)',
+            kind: 'Domek / Apartament / Pokój',
+            date: 'Maj – Wrzesień (min. 4 noce)',
+            guests: 'Do 5 osób (2 sypialnie + taras)',
+            board: 'Własne (aneks kuchenny)'
+          },
+          desc: 'Nowoczesne drewniane domki z zadaszonym tarasem, placem zabaw dla dzieci, miejscem na grilla oraz bezpłatnym parkingiem na terenie ośrodka.'
+        },
+        {
+          id: 201,
+          type: 'sale',
+          category: 'housing',
+          condition: 'na',
+          title: 'Mieszkanie 2-pokojowe 48 m² na sprzedaż — Czeladź / Piaski',
+          city: 'Katowice / Śląsk',
+          price: 315000,
+          priceNote: 'sprzedaż (pełna własność)',
+          shipping: '🤝 Nieruchomość w Polsce',
+          icon: '🏢',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 412,
+          sellerName: 'Nieruchomości Śląsk',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+48 501 234 567',
+          desc: 'Ustawne mieszkanie 2-pokojowe po remoncie, balkon, niski czynsz, świetny dojazd do Katowic i na lotnisko Pyrzowice.'
+        },
+        {
+          id: 203,
+          type: 'auction',
+          category: 'electronics',
+          condition: 'used',
+          title: 'Amplituner kina domowego Denon + zestaw głośników 5.1',
+          city: 'Kraków',
+          price: 2450,
+          buyNow: 3200,
+          bids: 7,
+          endsAt: Date.now() + 1000 * 60 * 60 * 9,
+          shipping: '📍 Odbiór osobisty (PL) lub 📦 Kurier DPD',
+          icon: '🔊',
+          photos: [],
+          top: false,
+          urgent: false,
+          hidden: false,
+          views: 164,
+          sellerName: 'AudioFan_KRK',
+          sellerVerified: true,
+          sellerRating: 4.9,
+          sellerReviews: [],
+          phone: '+48 512 987 654',
+          desc: 'Zestaw kina domowego z obsługą Dolby Atmos, pilotem i mikrofonem kalibracyjnym. Sprawny 100%.'
+        },
+        {
+          id: 204,
+          type: 'job',
+          category: 'jobs',
+          condition: 'na',
+          title: 'Magazynier / Komisjoner zamówień — umowa o pracę',
+          city: 'Wrocław',
+          price: 5400,
+          priceNote: 'zł brutto / mies. + premie',
+          shipping: '🤝 Praca na miejscu w PL',
+          icon: '💼',
+          photos: [],
+          top: false,
+          urgent: false,
+          hidden: false,
+          views: 141,
+          sellerName: 'Logistyka Wrocław',
+          sellerVerified: true,
+          sellerRating: 4.7,
+          sellerReviews: [],
+          phone: '+48 71 345 67 89',
+          desc: 'Stabilna praca w centrum logistycznym pod Wrocławiem, darmowy dojazd pracowniczy i pakiet medyczny.'
+        }
+      ]
+    };
+
+    let listingsData = JSON.parse(JSON.stringify(DEMO_LISTINGS));
+    try {
+      const savedListings = JSON.parse(localStorage.getItem('placomarkt_listings_v2') || 'null');
+      if (savedListings && savedListings.NL && savedListings.PL) {
+        listingsData = savedListings;
+      }
+    } catch (e) {}
+
+    function saveListingsLocal() {
+      try { localStorage.setItem('placomarkt_listings_v2', JSON.stringify(listingsData)); } catch (e) {}
+    }
+
+    let favoriteIds = [];
+    try {
+      favoriteIds = JSON.parse(localStorage.getItem('placomarkt_favs') || '[]');
+    } catch (e) {}
+
+    function saveFavoritesLocal() {
+      try { localStorage.setItem('placomarkt_favs', JSON.stringify(favoriteIds)); } catch (e) {}
+      updateFavBadge();
+    }
+
+    function updateFavBadge() {
+      const el = document.getElementById('favCountBadge');
+      if (el) el.textContent = favoriteIds.length;
+      const btn = document.getElementById('navFavBtn');
+      if (btn) btn.classList.toggle('active', currentMode === 'favorites');
+    }
+
+    function toggleFavorite(id, ev) {
+      if (ev) ev.stopPropagation();
+      const idx = favoriteIds.indexOf(id);
+      if (idx >= 0) favoriteIds.splice(idx, 1);
+      else favoriteIds.push(id);
+      saveFavoritesLocal();
+      renderCountryUI();
+    }
+
+    let reportsList = [
+      {
+        id: 901,
+        country: 'NL',
+        listingId: 101,
+        listingTitle: 'Pokój 1-osobowy do wynajęcia — Rotterdam Zuid',
+        reason: 'Prośba o weryfikację ogłoszenia przez moderatora',
+        date: 'Dziś, 11:40',
+        status: 'open'
+      }
+    ];
+
+    let currentCountry = 'NL';
+    let currentLang = 'PL';
+    let autoDetectLang = true;
+    let autoDetectCountry = true;
+    let currentMode = 'all';
+    let currentCategory = 'all';
+    let selectedPromo = 'std';
+    let activeAdminTab = 'listings';
+    let uploadedPhotosTemp = [];
+
+    function applyThemeFromPrefs() {
+      document.body.classList.toggle('dark-mode', Boolean(userPrefs.darkMode));
+      document.getElementById('listingsGrid').classList.toggle('list-view', userPrefs.layoutView === 'list');
+      document.getElementById('btnViewGrid').classList.toggle('active', userPrefs.layoutView !== 'list');
+      document.getElementById('btnViewList').classList.toggle('active', userPrefs.layoutView === 'list');
+    }
+
+    function setLayoutView(view) {
+      userPrefs.layoutView = view;
+      savePrefs();
+      applyThemeFromPrefs();
+    }
+
+    function toggleSettingPref(key, val) {
+      userPrefs[key] = val;
+      savePrefs();
+      applyThemeFromPrefs();
+      renderListings();
+    }
+
+    function setDefaultCityPref(val) {
+      if (currentCountry === 'NL') userPrefs.defaultCityNL = val;
+      else userPrefs.defaultCityPL = val;
+      savePrefs();
+      renderCountryUI();
+    }
+
+    function quickSearch(term) {
+      document.getElementById('searchInput').value = term;
+      currentCategory = 'all';
+      currentMode = 'all';
+      renderCountryUI();
+    }
+
+    function selectCategoryFromSearch(catId) {
+      currentCategory = catId;
+      renderCountryUI();
+    }
+
+    function mapDbListingToUi(row) {
+      return {
+        id: row.id,
+        ownerId: row.owner_id,
+        type: row.type,
+        category: row.category,
+        condition: row.condition || 'na',
+        title: row.title,
+        city: row.city,
+        price: Number(row.price || 0),
+        priceNote: row.price_note || '',
+        buyNow: row.buy_now ? Number(row.buy_now) : null,
+        bids: row.bids || 0,
+        endsAt: row.ends_at ? new Date(row.ends_at).getTime() : null,
+        shipping: row.shipping || '',
+        travelDetails: row.travel_details || null,
+        icon: row.icon || '📦',
+        photos: row.photos || [],
+        top: Boolean(row.is_top),
+        urgent: Boolean(row.is_urgent),
+        hidden: Boolean(row.is_hidden),
+        views: row.views || 1,
+        sellerName: row.seller_name || 'Użytkownik PlacoMarkt',
+        sellerVerified: Boolean(row.seller_verified),
+        sellerRating: Number(row.seller_rating || 5.0),
+        sellerReviews: row.seller_reviews || [],
+        phone: row.phone || '',
+        desc: row.description || ''
+      };
+    }
+
+    async function syncFromSupabase() {
+      if (!sb) return;
+      try {
+        const { data: sessionData } = await sb.auth.getSession();
+        if (sessionData && sessionData.session && sessionData.session.user) {
+          await loadUserProfile(sessionData.session.user);
+        }
+
+        const { data: rows, error } = await sb
+          .from('listings')
+          .select('*')
+          .order('is_top', { ascending: false })
+          .order('created_at', { ascending: false });
+
+        if (!error && rows) {
+          const nlRows = rows.filter(r => r.country === 'NL').map(mapDbListingToUi);
+          const plRows = rows.filter(r => r.country === 'PL').map(mapDbListingToUi);
+          if (nlRows.length) listingsData.NL = nlRows;
+          if (plRows.length) listingsData.PL = plRows;
+        }
+        renderCountryUI();
+      } catch (err) {
+        console.warn('Supabase sync fallback:', err.message);
+      }
+    }
+
+    async function loadUserProfile(authUser) {
+      if (!sb || !authUser) return;
+      const { data: prof } = await sb
+        .from('profiles')
+        .select('*')
+        .eq('id', authUser.id)
+        .single();
+
+      const emailLower = (authUser.email || '').toLowerCase();
+      const isEmailAdmin = ADMIN_EMAILS.includes(emailLower);
+
+      currentUser = {
+        id: authUser.id,
+        name: (prof && prof.name) || authUser.user_metadata?.name || authUser.email.split('@')[0],
+        email: authUser.email,
+        phone: (prof && prof.phone) || authUser.user_metadata?.phone || '',
+        country: (prof && prof.country) || 'NL',
+        isPremium: Boolean(prof && prof.is_premium),
+        premiumUntil: prof && prof.premium_until ? new Date(prof.premium_until).toLocaleDateString('pl-PL') : null,
+        isAdmin: Boolean((prof && prof.is_admin) || isEmailAdmin),
+        twoFactorEnabled: Boolean(prof && prof.two_factor_enabled)
+      };
+      updateAccountButton();
+    }
+
+    function detectDeviceCountry() {
+      const host = (window.location.hostname || '').toLowerCase();
+      if (host.endsWith('.pl')) return 'PL';
+      if (host.endsWith('.nl')) return 'NL';
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        if (tz === 'Europe/Warsaw') return 'PL';
+        if (tz === 'Europe/Amsterdam') return 'NL';
+      } catch (e) {}
+      const navLang = (navigator.language || '').toLowerCase();
+      if (navLang === 'pl' || navLang === 'pl-pl' || navLang.startsWith('uk')) return 'PL';
+      return 'NL';
+    }
+
+    function detectDeviceLanguage() {
+      const raw = (navigator.language || navigator.userLanguage || 'en').slice(0, 2).toUpperCase();
+      const code = raw === 'UK' ? 'UA' : raw;
+      const allowed = COUNTRY_CONFIG[currentCountry].langs;
+      if (allowed.includes(code)) return code;
+      return allowed.includes('EN') ? 'EN' : allowed[0];
+    }
+
+    async function initApp() {
+      try {
+        const savedUser = JSON.parse(localStorage.getItem('placomarkt_user') || 'null');
+        if (savedUser) currentUser = savedUser;
+      } catch (e) {}
+
+      applyThemeFromPrefs();
+      if (autoDetectCountry) currentCountry = detectDeviceCountry();
+      if (autoDetectLang) currentLang = detectDeviceLanguage();
+
+      updateAccountButton();
+      renderCountryUI();
+      await syncFromSupabase();
+      setInterval(updateTimers, 1000);
+    }
+
+    function manualSwitchCountry(country) {
+      autoDetectCountry = false;
+      switchCountry(country);
+    }
+
+    function toggleAutoCountry() {
+      autoDetectCountry = document.getElementById('autoCountryCheck').checked;
+      if (autoDetectCountry) {
+        currentCountry = detectDeviceCountry();
+        if (autoDetectLang) currentLang = detectDeviceLanguage();
+        renderCountryUI();
+      }
+      openSettings();
+    }
+
+    function switchCountry(country) {
+      currentCountry = country;
+      currentCategory = 'all';
+      currentMode = 'all';
+
+      const allowed = COUNTRY_CONFIG[country].langs;
+      if (autoDetectLang) {
+        currentLang = detectDeviceLanguage();
+      } else if (!allowed.includes(currentLang)) {
+        currentLang = allowed[0];
+      }
+      renderCountryUI();
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      autoDetectLang = false;
+      const chk = document.getElementById('autoDetectCheck');
+      if (chk) chk.checked = false;
+      renderCountryUI();
+    }
+
+    function toggleAutoLang() {
+      autoDetectLang = document.getElementById('autoDetectCheck').checked;
+      if (autoDetectLang) currentLang = detectDeviceLanguage();
+      renderCountryUI();
+      openSettings();
+    }
+
+    function updateReportBadge() {
+      const openCount = reportsList.filter(r => r.status === 'open').length;
+      const badge = document.getElementById('adminReportBadge');
+      if (badge) {
+        badge.textContent = openCount;
+        badge.style.display = openCount > 0 ? 'inline-block' : 'none';
+      }
+      const tabBadge = document.getElementById('repCountTab');
+      if (tabBadge) tabBadge.textContent = openCount;
+    }
+
+    function renderCountryUI() {
+      const cfg = COUNTRY_CONFIG[currentCountry];
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+
+      document.getElementById('domainTag').textContent = cfg.domain;
+      document.getElementById('lblSettings').textContent = t.settings;
+      document.getElementById('lblAddBtn').textContent = t.add;
+      document.getElementById('heroTitle').textContent = currentCountry === 'NL' ? t.heroNL : t.heroPL;
+      document.getElementById('heroSub').textContent = currentCountry === 'NL' ? t.subNL : t.subPL;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('lblSearchBtn').textContent = t.searchBtn;
+
+      const pillsEl = document.getElementById('langPills');
+      pillsEl.innerHTML = cfg.langs.map(l =>
+        `<button class="lang-pill ${l === currentLang ? 'active' : ''}" onclick="setLanguage('${l}')">${l}</button>`
+      ).join('');
+
+      const dbTag = isSupabaseConfigured ? ' • 🟢 Baza online' : ' • 🟡 Tryb startowy (0,00)';
+      document.getElementById('autoLangNote').textContent = `${currentLang}${dbTag}`;
+
+      // Search Category Select (A-Z, Praca na końcu)
+      const searchCatSel = document.getElementById('searchCatSelect');
+      searchCatSel.innerHTML = `<option value="all">📂 Wszystkie kategorie</option>` + cfg.categories.map(c =>
+        `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${c.icon} ${t[c.key] || c.key}</option>`
+      ).join('');
+
+      const citySel = document.getElementById('citySelect');
+      const prevCity = citySel.value;
+      citySel.innerHTML = cfg.cities.map(c => `<option value="${c}">${c}</option>`).join('');
+      const defCity = currentCountry === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL;
+      if (prevCity && cfg.cities.includes(prevCity)) citySel.value = prevCity;
+      else if (defCity && cfg.cities.includes(defCity)) citySel.value = defCity;
+
+      const visibleItems = listingsData[currentCountry].filter(i => !i.hidden);
+      const favCount = visibleItems.filter(i => favoriteIds.includes(i.id)).length;
+      const counts = {
+        all: visibleItems.length,
+        travel: visibleItems.filter(i => i.type === 'travel').length,
+        sale: visibleItems.filter(i => i.type === 'sale').length,
+        auction: visibleItems.filter(i => i.type === 'auction').length,
+        course: visibleItems.filter(i => i.type === 'course').length,
+        free: visibleItems.filter(i => i.type === 'free').length,
+        job: visibleItems.filter(i => i.type === 'job').length,
+        favorites: favCount
+      };
+      // Zakładki trybów — Praca na końcu przed Ulubionymi
+      const modes = [
+        { id: 'all', label: t.tabAll },
+        { id: 'sale', label: t.tabSale },
+        { id: 'auction', label: t.tabAuction },
+        { id: 'travel', label: t.tabTravel, cls: 'travel-tab' },
+        { id: 'course', label: t.tabCourse },
+        { id: 'free', label: t.tabFree },
+        { id: 'job', label: t.tabJob },
+        { id: 'favorites', label: t.tabFav, cls: 'fav-tab' }
+      ];
+      document.getElementById('modeTabs').innerHTML = modes.map(m =>
+        `<button class="mode-tab ${m.cls || ''} ${currentMode === m.id ? 'active' : ''}" onclick="setMode('${m.id}')">
+          ${m.label} <span class="count-pill">${counts[m.id]}</span>
+        </button>`
+      ).join('');
+
+      const showTravelBar = (currentMode === 'travel' || currentCategory === 'travel');
+      document.getElementById('travelFilterBar').classList.toggle('open', showTravelBar);
+
+      document.getElementById('categoriesGrid').innerHTML = cfg.categories.map(c => {
+        const cCount = visibleItems.filter(i => i.category === c.id).length;
+        return `<div class="cat-card ${currentCategory === c.id ? 'active' : ''}" onclick="toggleCategory('${c.id}')">
+          <div class="cat-icon">${c.icon}</div>
+          <div class="cat-name">${t[c.key] || c.key}</div>
+          <div class="cat-count">${cCount} ofert</div>
+        </div>`;
+      }).join('');
+
+      // Breadcrumb
+      const crumbEl = document.getElementById('breadcrumbBar');
+      const activeCatObj = cfg.categories.find(c => c.id === currentCategory);
+      crumbEl.innerHTML = `
+        <span class="crumb-link" onclick="resetFilters()">PlacoMarkt${cfg.domain}</span>
+        <span>›</span>
+        <span>${citySel.value}</span>
+        ${activeCatObj ? `<span>›</span><strong>${activeCatObj.icon} ${t[activeCatObj.key]}</strong>` : ''}
+      `;
+
+      document.getElementById('newCategory').innerHTML = cfg.categories.map(c =>
+        `<option value="${c.id}">${c.icon} ${t[c.key] || c.key}</option>`
+      ).join('');
+      document.getElementById('newCity').innerHTML = cfg.cities.slice(1).map(c =>
+        `<option value="${c}">${c}</option>`
+      ).join('');
+      document.getElementById('newShipping').innerHTML = cfg.shippingOptions.map(s =>
+        `<option value="${s}">${s}</option>`
+      ).join('');
+      document.getElementById('promoStdPrice').textContent = cfg.promoPrices.std;
+      document.getElementById('promoUrgentPrice').textContent = cfg.promoPrices.urgent;
+      document.getElementById('promoTopPrice').textContent = cfg.promoPrices.top;
+
+      updateFavBadge();
+      updateReportBadge();
+      renderListings();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      if (mode === 'travel' || mode === 'favorites') currentCategory = 'all';
+      renderCountryUI();
+    }
+
+    function toggleCategory(catId) {
+      currentCategory = currentCategory === catId ? 'all' : catId;
+      if (catId === 'travel' && currentCategory === 'travel') currentMode = 'all';
+      renderCountryUI();
+    }
+
+    function resetTravelFilters() {
+      document.getElementById('filterTravelDest').value = 'all';
+      document.getElementById('filterTravelKind').value = 'all';
+      document.getElementById('filterTravelBoard').value = 'all';
+      document.getElementById('filterTravelMaxPrice').value = '';
+      renderListings();
+    }
+
+    function resetFilters() {
+      currentMode = 'all';
+      currentCategory = 'all';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('filterCondition').value = 'all';
+      document.getElementById('filterMinPrice').value = '';
+      document.getElementById('filterMaxPrice').value = '';
+      document.getElementById('citySelect').selectedIndex = 0;
+      resetTravelFilters();
+      renderCountryUI();
+    }
+
+    function formatPrice(val, isFree) {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      if (isFree || val === 0) return t.freePrice;
+      const num = Number(val).toLocaleString('pl-PL', { minimumFractionDigits: val % 1 !== 0 ? 2 : 0, maximumFractionDigits: 2 });
+      return currentCountry === 'NL' ? `${num} €` : `${num} zł`;
+    }
+
+    function formatConvertedPrice(val, isFree) {
+      if (!userPrefs.showDualCurrency || isFree || !val || val <= 0) return '';
+      if (currentCountry === 'NL') {
+        const pln = Math.round(val * EUR_TO_PLN).toLocaleString('pl-PL');
+        return `≈ ${pln} zł`;
+      } else {
+        const eur = (val / EUR_TO_PLN).toLocaleString('pl-PL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        return `≈ ${eur} €`;
+      }
+    }
+
+    function formatTimeLeft(endsAt) {
+      const diff = Math.max(0, endsAt - Date.now());
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      return `${h}h ${m}m ${s}s`;
+    }
+
+    function renderListings() {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const city = document.getElementById('citySelect').value;
+      const allCitiesLabel = COUNTRY_CONFIG[currentCountry].cities[0];
+
+      const condFilter = document.getElementById('filterCondition').value;
+      const minP = Number(document.getElementById('filterMinPrice').value || 0);
+      const maxP = Number(document.getElementById('filterMaxPrice').value || 0);
+      const sortBy = document.getElementById('sortSelect').value;
+
+      const tDest = document.getElementById('filterTravelDest').value;
+      const tKind = document.getElementById('filterTravelKind').value;
+      const tBoard = document.getElementById('filterTravelBoard').value;
+      const tMax = Number(document.getElementById('filterTravelMaxPrice').value || 0);
+
+      let list = listingsData[currentCountry].filter(item => {
+        if (item.hidden) return false;
+        if (currentMode === 'favorites') {
+          if (!favoriteIds.includes(item.id)) return false;
+        } else if (currentMode !== 'all' && item.type !== currentMode) {
+          return false;
+        }
+        if (currentCategory !== 'all' && item.category !== currentCategory) return false;
+        if (city && city !== allCitiesLabel && item.city !== city) return false;
+        if (condFilter !== 'all' && item.condition !== condFilter) return false;
+        if (minP > 0 && item.price < minP) return false;
+        if (maxP > 0 && item.price > maxP) return false;
+
+        if (query) {
+          const catObj = CATEGORIES_LIST.find(c => c.id === item.category);
+          const catLabel = catObj ? (t[catObj.key] || '').toLowerCase() : '';
+          const hay = `${item.title} ${item.desc} ${item.city} ${catLabel} ${item.sellerName || ''}`.toLowerCase();
+          const words = query.split(/\s+/);
+          if (!words.every(w => hay.includes(w))) return false;
+        }
+
+        if ((currentMode === 'travel' || currentCategory === 'travel') && item.travelDetails) {
+          if (tDest !== 'all' && item.travelDetails.dest !== tDest) return false;
+          if (tKind !== 'all' && item.travelDetails.kind !== tKind) return false;
+          if (tBoard !== 'all' && item.travelDetails.board !== tBoard) return false;
+          if (tMax > 0 && item.price > tMax) return false;
+        }
+        return true;
+      });
+
+      if (sortBy === 'price_asc') {
+        list.sort((a, b) => a.price - b.price);
+      } else if (sortBy === 'price_desc') {
+        list.sort((a, b) => b.price - a.price);
+      } else if (sortBy === 'views_desc') {
+        list.sort((a, b) => (b.views || 0) - (a.views || 0));
+      } else if (sortBy === 'auction_end') {
+        list.sort((a, b) => (a.endsAt || Infinity) - (b.endsAt || Infinity));
+      } else {
+        list.sort((a, b) => (b.top ? 1 : 0) - (a.top ? 1 : 0));
+      }
+
+      document.getElementById('resultsHeading').textContent =
+        currentMode === 'favorites' ? `❤️ Ulubione ogłoszenia (${list.length})` : `Znalezione oferty (${list.length})`;
+
+      const grid = document.getElementById('listingsGrid');
+      if (!list.length) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;background:var(--card);border-radius:12px;border:1px solid var(--border)">
+          <h3>${currentMode === 'favorites' ? 'Brak ulubionych ogłoszeń' : 'Nie znaleziono ogłoszeń pasujących do wyszukiwania'}</h3>
+          <p style="color:var(--muted);margin-top:6px">${currentMode === 'favorites' ? 'Kliknij serduszko ❤️ na wybranym ogłoszeniu, aby zapisać je tutaj.' : 'Wyczyść filtry lub kliknij „+ Dodaj”, aby dodać pierwszą ofertę w tej kategorii.'}</p>
+        </div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(item => {
+        let typeBadge = '';
+        if (item.type === 'auction') typeBadge = `<span class="badge badge-auction">🔨 LICYTACJA</span>`;
+        else if (item.type === 'job') typeBadge = `<span class="badge badge-job">💼 PRACA</span>`;
+        else if (item.type === 'course') typeBadge = `<span class="badge badge-course">🎓 KURS</span>`;
+        else if (item.type === 'travel') typeBadge = `<span class="badge badge-travel">✈️ WCZASY</span>`;
+        else if (item.type === 'free') typeBadge = `<span class="badge badge-free">🎁 GRATIS</span>`;
+
+        const condHtml = item.condition === 'new'
+          ? `<span class="condition-pill">✨ NOWE</span>`
+          : (item.condition === 'used' ? `<span class="condition-pill used">♻️ UŻYWANE</span>` : '');
+
+        const isFav = favoriteIds.includes(item.id);
+        const isHot = (item.views || 0) >= 200;
+        const hasPhoto = item.photos && item.photos.length > 0;
+        const mediaHtml = hasPhoto ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon;
+
+        const timerHtml = item.type === 'auction'
+          ? `<div class="timer-box"><span>⏳ ${t.endsIn} <strong class="auction-timer" data-end="${item.endsAt}">${formatTimeLeft(item.endsAt)}</strong></span><span>${item.bids} ${t.bidsCount}</span></div>`
+          : '';
+
+        const travelPillsHtml = item.travelDetails
+          ? `<div class="travel-pills">
+               <span class="travel-pill">🌍 ${item.travelDetails.dest.split('(')[0].trim()}</span>
+               <span class="travel-pill">📅 ${item.travelDetails.date}</span>
+               <span class="travel-pill">🍽️ ${item.travelDetails.board.split('(')[0].trim()}</span>
+             </div>`
+          : '';
+
+        const convHtml = formatConvertedPrice(item.price, item.type === 'free');
+
+        return `
+          <div class="card ${item.top ? 'top-offer' : ''}" onclick="openDetail(${item.id})">
+            <div class="card-img ${item.type === 'travel' && !hasPhoto ? 'travel-img' : ''}">
+              ${mediaHtml}
+              <div class="badges">
+                <div class="badges-col">
+                  ${item.top ? '<span class="badge badge-top">⭐ TOP</span>' : ''}
+                  ${item.urgent ? '<span class="badge badge-urgent">⚡ PILNE</span>' : ''}
+                  ${isHot && !item.urgent ? '<span class="badge badge-hot">🔥 POPULARNE</span>' : ''}
+                </div>
+                <div>${typeBadge}</div>
+              </div>
+              <button type="button" class="fav-heart-btn" onclick="toggleFavorite(${item.id}, event)" title="Zapisz w ulubionych">
+                ${isFav ? '❤️' : '🤍'}
+              </button>
+            </div>
+            <div class="card-body">
+              <div>
+                ${condHtml}
+                <div class="card-title">${item.title}</div>
+                <div class="card-meta">
+                  <span>📍 ${item.city}</span>
+                  <span>👁️ ${item.views || 1}</span>
+                </div>
+                <div class="seller-mini-tag">
+                  ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'Sprzedawca'} • ⭐ ${(item.sellerRating || 5.0).toFixed(1)}
+                </div>
+                ${travelPillsHtml}
+                ${!item.travelDetails ? `<div class="shipping-tag">${item.shipping}</div>` : ''}
+                ${timerHtml}
+              </div>
+              <div class="card-footer">
+                <div>
+                  <div class="price ${item.type === 'free' ? 'free-price' : ''}">${formatPrice(item.price, item.type === 'free')}</div>
+                  ${convHtml ? `<div class="converted-price">${convHtml}</div>` : ''}
+                  ${item.priceNote ? `<div class="sub-price">${item.priceNote}</div>` : ''}
+                </div>
+                <span style="font-size:12px;font-weight:700;color:var(--blue)">Szczegóły →</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateTimers() {
+      document.querySelectorAll('.auction-timer').forEach(el => {
+        const end = Number(el.getAttribute('data-end'));
+        el.textContent = formatTimeLeft(end);
+      });
+    }
+
+    function setDetailHeroPhoto(src, thumbEl) {
+      const hero = document.getElementById('detailHeroBox');
+      if (hero) hero.innerHTML = `<img src="${src}" alt="Podgląd" />`;
+      document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
+      if (thumbEl) thumbEl.classList.add('active');
+    }
+
+    function openDetail(id) {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      const cur = COUNTRY_CONFIG[currentCountry].currency;
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+
+      item.views = (item.views || 0) + 1;
+      saveListingsLocal();
+
+      const isFav = favoriteIds.includes(item.id);
+      const hasPhotos = item.photos && item.photos.length > 0;
+      const heroContent = hasPhotos ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon;
+      const thumbsHtml = (hasPhotos && item.photos.length > 1)
+        ? `<div class="gallery-thumbs">` + item.photos.map((p, idx) =>
+            `<img src="${p}" class="${idx === 0 ? 'active' : ''}" onclick="setDetailHeroPhoto('${p}', this)" />`
+          ).join('') + `</div>`
+        : '';
+
+      let auctionBox = '';
+      if (item.type === 'auction') {
+        const step = currentCountry === 'NL' ? 10 : 50;
+        auctionBox = `
+          <div class="bid-panel">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong>🔨 Aktualna oferta: ${formatPrice(item.price)} (${item.bids} ${t.bidsCount})</strong>
+              <span style="color:#6b21a8;font-weight:700">⏳ ${formatTimeLeft(item.endsAt)}</span>
+            </div>
+            <div class="bid-buttons">
+              <button class="bid-btn" onclick="placeBid(${item.id}, ${step})">+${step} ${cur}</button>
+              <button class="bid-btn" onclick="placeBid(${item.id}, ${step * 2})">+${step * 2} ${cur}</button>
+              ${item.buyNow ? `<button class="buy-now-btn" onclick="buyNowAuction(${item.id})">${t.buyNow} (${formatPrice(item.buyNow)})</button>` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      let travelSpecBox = '';
+      if (item.travelDetails) {
+        travelSpecBox = `
+          <div class="travel-spec-grid">
+            <div class="travel-spec-item"><span>Kierunek wyjazdu</span><strong>🌍 ${item.travelDetails.dest}</strong></div>
+            <div class="travel-spec-item"><span>Rodzaj oferty</span><strong>🏕️ ${item.travelDetails.kind}</strong></div>
+            <div class="travel-spec-item"><span>Termin / Pobyt</span><strong>📅 ${item.travelDetails.date}</strong></div>
+            <div class="travel-spec-item"><span>Liczba osób</span><strong>👥 ${item.travelDetails.guests}</strong></div>
+            <div class="travel-spec-item"><span>Wyżywienie</span><strong>🍽️ ${item.travelDetails.board}</strong></div>
+          </div>
+        `;
+      }
+
+      const similar = listingsData[currentCountry]
+        .filter(x => !x.hidden && x.id !== item.id && (x.category === item.category || x.city === item.city))
+        .slice(0, 3);
+
+      const similarHtml = similar.length ? `
+        <div class="similar-box">
+          <strong style="font-size:14px">🔎 Podobne ogłoszenia w ${currentCountry === 'NL' ? 'Holandii' : 'Polsce'}:</strong>
+          <div class="similar-grid">
+            ${similar.map(s => `
+              <div class="similar-card" onclick="openDetail(${s.id})">
+                <div style="font-size:20px;margin-bottom:4px">${s.icon}</div>
+                <div style="font-size:12px;font-weight:700;margin-bottom:3px;line-height:1.3">${s.title.slice(0, 48)}${s.title.length > 48 ? '...' : ''}</div>
+                <div style="font-size:13px;font-weight:800;color:var(--accent)">${formatPrice(s.price, s.type === 'free')}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : '';
+
+      const convHtml = formatConvertedPrice(item.price, item.type === 'free');
+      const reviews = item.sellerReviews || [];
+      const condBadge = item.condition === 'new'
+        ? '<span class="condition-pill">✨ STAN: NOWY</span>'
+        : (item.condition === 'used' ? '<span class="condition-pill used">♻️ STAN: UŻYWANY</span>' : '');
+
+      document.getElementById('detailContent').innerHTML = `
+        <button class="close-modal" onclick="closeModal('detailModal')">×</button>
+        <div id="detailHeroBox" class="detail-hero ${item.type === 'travel' && !hasPhotos ? 'travel-hero' : ''}">${heroContent}</div>
+        ${thumbsHtml}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;align-items:center">
+          ${item.top ? '<span class="badge badge-top">⭐ WYRÓŻNIONE TOP</span>' : ''}
+          ${item.urgent ? '<span class="badge badge-urgent">⚡ PILNE</span>' : ''}
+          ${item.type === 'travel' ? '<span class="badge badge-travel">✈️ WCZASY I WYJAZDY</span>' : ''}
+          ${condBadge}
+          <span class="shipping-tag">📍 ${item.city}</span>
+          <span class="shipping-tag">👁️ ${item.views} wyświetleń</span>
+        </div>
+        <h2 style="margin-bottom:6px">${item.title}</h2>
+        <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+          <div class="price ${item.type === 'free' ? 'free-price' : ''}" style="font-size:24px">
+            ${formatPrice(item.price, item.type === 'free')}
+          </div>
+          ${convHtml ? `<span class="converted-price" style="font-size:14px">(${convHtml})</span>` : ''}
+        </div>
+        ${item.priceNote ? `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">${item.priceNote}</div>` : ''}
+        ${travelSpecBox}
+        ${auctionBox}
+        <p style="line-height:1.55;margin:12px 0">${item.desc}</p>
+
+        <div class="seller-card-box">
+          <div>
+            <div style="font-weight:800;font-size:14px">
+              ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'Sprzedawca'}
+              ${item.sellerVerified ? '<span style="font-size:11px;color:var(--green);font-weight:700"> (Zweryfikowany nr tel.)</span>' : ''}
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">
+              Ocena: <strong>⭐ ${(item.sellerRating || 5.0).toFixed(1)} / 5.0</strong> (${reviews.length} opinii)
+            </div>
+          </div>
+          <button type="button" class="mini-btn gold" onclick="rateSeller(${item.id})">⭐ Oceń sprzedawcę</button>
+        </div>
+        ${reviews.length ? `<div style="font-size:12px;color:var(--muted);margin-bottom:10px">
+          ${reviews.slice(0, 2).map(r => `<div>💬 <strong>${r.author}</strong> (${'⭐'.repeat(r.stars)}): „${r.text}”</div>`).join('')}
+        </div>` : ''}
+
+        <div class="detail-actions">
+          <button class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="revealPhone(${item.id}, '${item.phone}')">${t.showPhone}</button>
+          <button class="btn-action btn-wa" onclick="shareOrWhatsApp(${item.id}, 'wa')">${t.whatsapp}</button>
+          <button class="btn-action btn-chat" onclick="sendChatMsg('${item.title.replace(/'/g, '')}')">${t.chat}</button>
+          <button class="btn-action btn-share" onclick="shareOrWhatsApp(${item.id}, 'share')">${t.share}</button>
+          <button class="btn-action btn-fav-detail" onclick="toggleFavorite(${item.id});openDetail(${item.id})">${isFav ? '❤️ W ulubionych' : '🤍 Do ulubionych'}</button>
+        </div>
+        <button class="btn-action btn-report" onclick="reportListing(${item.id})">${t.report}</button>
+        ${similarHtml}
+      `;
+      document.getElementById('detailModal').classList.add('open');
+      renderListings();
+    }
+
+    function rateSeller(id) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      const starsStr = prompt('Wystaw ocenę sprzedawcy (wpisz liczbę od 1 do 5):', '5');
+      if (!starsStr) return;
+      const stars = Math.min(5, Math.max(1, Number(starsStr) || 5));
+      const text = prompt('Krótki komentarz (np. szybki kontakt, polecam):', 'Szybki i konkretny kontakt!') || 'Polecam!';
+      const author = currentUser ? currentUser.name : 'Użytkownik PlacoMarkt';
+
+      item.sellerReviews = item.sellerReviews || [];
+      item.sellerReviews.unshift({ author, stars, text });
+      const avg = item.sellerReviews.reduce((acc, r) => acc + r.stars, 0) / item.sellerReviews.length;
+      item.sellerRating = avg;
+      saveListingsLocal();
+      openDetail(id);
+    }
+
+    function shareOrWhatsApp(id, mode) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      const url = window.location.href;
+      const priceText = formatPrice(item.price, item.type === 'free');
+      const shareText = `${item.title} — ${priceText} (${item.city}) na PlacoMarkt: ${url}`;
+
+      if (mode === 'wa') {
+        const cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+        const waUrl = cleanPhone
+          ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent('Cześć! Piszę w sprawie ogłoszenia na PlacoMarkt: ' + item.title)}`
+          : `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        window.open(waUrl, '_blank');
+        return;
+      }
+
+      if (navigator.share) {
+        navigator.share({ title: item.title, text: shareText, url }).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText);
+        alert('Skopiowano treść i link ogłoszenia do schowka! Możesz wkleić na WhatsApp lub Facebooka.');
+      } else {
+        alert(shareText);
+      }
+    }
+
+    function revealPhone(id, phone) {
+      if (userPrefs.phoneVisibility === 'chat_only') {
+        alert('Użytkownik wybrał w ustawieniach kontakt wyłącznie przez czat.');
+        return;
+      }
+      if (userPrefs.phoneVisibility === 'logged' && !currentUser) {
+        alert('Zaloguj się, aby zobaczyć numer telefonu.');
+        openAccountModal('login');
+        return;
+      }
+      document.getElementById(`phoneBtn_${id}`).textContent = '📞 ' + phone;
+    }
+
+    function sendChatMsg(title) {
+      const msg = prompt(`Napisz wiadomość w sprawie: "${title}"`);
+      if (msg) {
+        if (userPrefs.antiPhishing && /http:\/\/|https:\/\/|www\.|\.xyz|\.top/i.test(msg)) {
+          alert('🛡️ Ochrona anty-phishing: Wklejanie zewnętrznych linków w czacie jest zablokowane dla bezpieczeństwa użytkowników!');
+          return;
+        }
+        alert('Wiadomość została wysłana do ogłoszeniodawcy!');
+      }
+    }
+
+    async function placeBid(id, inc) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      item.price += inc;
+      item.bids += 1;
+      saveListingsLocal();
+      if (sb) {
+        await sb.from('listings').update({ price: item.price, bids: item.bids }).eq('id', id);
+      }
+      openDetail(id);
+      renderListings();
+    }
+
+    function buyNowAuction(id) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      alert(`Gratulacje! Kupiłeś przedmiot przez Kup Teraz za ${formatPrice(item.buyNow)}.`);
+      closeModal('detailModal');
+    }
+
+    async function reportListing(id) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      const reason = prompt('Podaj powód zgłoszenia (np. spam, fałszywy link, nieaktualne):');
+      if (!reason) return;
+
+      if (sb) {
+        await sb.from('reports').insert([{
+          country: currentCountry,
+          listing_id: item.id,
+          listing_title: item.title,
+          reason
+        }]);
+      }
+
+      reportsList.unshift({
+        id: Date.now(),
+        country: currentCountry,
+        listingId: item.id,
+        listingTitle: item.title,
+        reason,
+        date: 'Przed chwilą',
+        status: 'open'
+      });
+      updateReportBadge();
+      alert('Zgłoszenie naruszenia (DSA) zostało zapisane i trafiło do Panelu Administratora.');
+    }
+
+    /* ADD LISTING + PHOTO UPLOAD */
+    function handlePhotoUpload(ev) {
+      const files = Array.from(ev.target.files || []).slice(0, 4);
+      uploadedPhotosTemp = [];
+      const strip = document.getElementById('photoPreviewStrip');
+      strip.innerHTML = '';
+
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const maxW = 720;
+            const scale = Math.min(1, maxW / img.width);
+            canvas.width = img.width * scale;
+            canvas.height = img.height * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const compressed = canvas.toDataURL('image/jpeg', 0.75);
+            uploadedPhotosTemp.push(compressed);
+            strip.innerHTML = uploadedPhotosTemp.map(src => `<img src="${src}" />`).join('');
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function openAddModal() {
+      uploadedPhotosTemp = [];
+      document.getElementById('photoPreviewStrip').innerHTML = '';
+      if (currentMode === 'travel' || currentCategory === 'travel') {
+        document.getElementById('newType').value = 'travel';
+      }
+      const cfg = COUNTRY_CONFIG[currentCountry];
+      if (currentUser && currentUser.isPremium) {
+        document.getElementById('promoTopPrice').textContent = '0,00 (👑 PREMIUM)';
+        document.getElementById('promoUrgentPrice').textContent = '0,00 (👑 PREMIUM)';
+        selectPromo('top');
+      } else {
+        document.getElementById('promoTopPrice').textContent = cfg.promoPrices.top;
+        document.getElementById('promoUrgentPrice').textContent = cfg.promoPrices.urgent;
+      }
+      toggleAddFields();
+      document.getElementById('addModal').classList.add('open');
+    }
+
+    function toggleAddFields() {
+      const type = document.getElementById('newType').value;
+      const isTravel = type === 'travel';
+      const hideCond = (isTravel || type === 'job' || type === 'course');
+      document.getElementById('conditionGroup').style.display = hideCond ? 'none' : 'block';
+      document.getElementById('priceGroup').style.display = type === 'free' ? 'none' : 'block';
+      document.getElementById('buyNowGroup').style.display = type === 'auction' ? 'block' : 'none';
+      document.getElementById('travelFieldsBox').style.display = isTravel ? 'block' : 'none';
+      document.getElementById('shippingGroup').style.display = isTravel ? 'none' : 'block';
+      if (isTravel) document.getElementById('newCategory').value = 'travel';
+      if (type === 'job') document.getElementById('newCategory').value = 'jobs';
+      if (type === 'course') document.getElementById('newCategory').value = 'courses';
+    }
+
+    function selectPromo(tier) {
+      selectedPromo = tier;
+      document.getElementById('promoStd').classList.toggle('selected', tier === 'std');
+      document.getElementById('promoUrgent').classList.toggle('selected', tier === 'urgent');
+      document.getElementById('promoTop').classList.toggle('selected', tier === 'top');
+    }
+
+    async function submitListing(e) {
+      e.preventDefault();
+      const type = document.getElementById('newType').value;
+      const title = document.getElementById('newTitle').value;
+      const category = type === 'travel' ? 'travel' : document.getElementById('newCategory').value;
+      const condition = (type === 'travel' || type === 'job' || type === 'course') ? 'na' : document.getElementById('newCondition').value;
+      const city = document.getElementById('newCity').value;
+      const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
+      const buyNow = Number(document.getElementById('newBuyNow').value || 0);
+      const shipping = document.getElementById('newShipping').value;
+      const desc = document.getElementById('newDesc').value;
+
+      const catObj = CATEGORIES_LIST.find(c => c.id === category);
+      const iconVal = catObj ? catObj.icon : '📦';
+
+      let travelDetails = null;
+      let priceNote = '';
+      if (type === 'travel') {
+        const dest = document.getElementById('newTravelDest').value;
+        const kind = document.getElementById('newTravelKind').value;
+        const date = document.getElementById('newTravelDate').value || 'Termin elastyczny';
+        const guests = document.getElementById('newTravelGuests').value || '2–4 osoby';
+        const board = document.getElementById('newTravelBoard').value;
+        priceNote = document.getElementById('newTravelUnit').value;
+        travelDetails = { dest, kind, date, guests, board };
+      }
+
+      const isTop = (currentUser && currentUser.isPremium) ? true : (selectedPromo === 'top');
+      const isUrgent = (selectedPromo === 'urgent');
+      const phoneVal = (currentUser && currentUser.phone) ? currentUser.phone : (currentCountry === 'NL' ? '+31 6 00 11 22 33' : '+48 500 111 222');
+      const sellerName = currentUser ? currentUser.name : 'Gość PlacoMarkt';
+      const sellerVerified = Boolean(currentUser && currentUser.phone);
+      const endsAtIso = type === 'auction' ? new Date(Date.now() + 1000 * 60 * 60 * 48).toISOString() : null;
+
+      if (sb && currentUser) {
+        const { error } = await sb
+          .from('listings')
+          .insert([{
+            owner_id: currentUser.id,
+            country: currentCountry,
+            type,
+            category,
+            title,
+            city,
+            price,
+            price_note: priceNote,
+            buy_now: buyNow || null,
+            bids: type === 'auction' ? 1 : 0,
+            ends_at: endsAtIso,
+            shipping: type === 'travel' ? travelDetails.kind : shipping,
+            travel_details: travelDetails,
+            icon: iconVal,
+            is_top: isTop,
+            phone: phoneVal,
+            description: desc
+          }]);
+
+        if (error) {
+          alert('Błąd zapisu ogłoszenia w Supabase: ' + error.message);
+          return;
+        }
+        await syncFromSupabase();
+      } else {
+        const newObj = {
+          id: Date.now(),
+          ownerId: currentUser ? currentUser.id : null,
+          type,
+          category,
+          condition,
+          title,
+          city,
+          price,
+          priceNote,
+          buyNow: buyNow || null,
+          bids: type === 'auction' ? 1 : 0,
+          endsAt: type === 'auction' ? Date.now() + 1000 * 60 * 60 * 48 : null,
+          shipping: type === 'travel' ? travelDetails.kind : shipping,
+          travelDetails,
+          icon: iconVal,
+          photos: [...uploadedPhotosTemp],
+          top: isTop,
+          urgent: isUrgent,
+          hidden: false,
+          views: 1,
+          sellerName,
+          sellerVerified,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          ownerEmail: currentUser ? currentUser.email : null,
+          phone: phoneVal,
+          desc
+        };
+        listingsData[currentCountry].unshift(newObj);
+        saveListingsLocal();
+      }
+
+      uploadedPhotosTemp = [];
+      closeModal('addModal');
+      e.target.reset();
+      renderCountryUI();
+      alert('Ogłoszenie zostało opublikowane na PlacoMarkt za darmo (0,00)!');
+    }
+
+    /* ACCOUNT, 2FA (TWO-FACTOR AUTHENTICATION) & ADMIN ACCESS */
+    let currentUser = null;
+    let pending2FAUser = null;
+    let pending2FACode = '';
+
+    let registeredUsers = [
+      {
+        id: 'admin-1',
+        name: 'Administrator PlacoMarkt',
+        email: 'admin@placomarkt.nl',
+        password: 'admin',
+        phone: '+31 6 11 22 33 44',
+        country: 'NL',
+        isPremium: true,
+        premiumUntil: 'Bezterminowo',
+        isAdmin: true,
+        twoFactorEnabled: true,
+        twoFactorSecret: 'PLACO-MARKT-2FA-NL'
+      }
+    ];
+    try {
+      const savedRegUsers = JSON.parse(localStorage.getItem('placomarkt_users_db') || 'null');
+      if (savedRegUsers && Array.isArray(savedRegUsers) && savedRegUsers.length) {
+        registeredUsers = savedRegUsers;
+      }
+    } catch (e) {}
+
+    function saveUsersDb() {
+      try { localStorage.setItem('placomarkt_users_db', JSON.stringify(registeredUsers)); } catch (e) {}
+    }
+
+    let authMode = 'login';
+
+    function updateAccountButton() {
+      const lbl = document.getElementById('navAccountLabel');
+      const admBtn = document.getElementById('navAdminBtn');
+      if (lbl) {
+        if (!currentUser) lbl.textContent = 'Konto';
+        else lbl.textContent = (currentUser.isPremium ? '👑 ' : '') + currentUser.name.split(' ')[0];
+      }
+      if (admBtn) {
+        const showAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
+        admBtn.style.display = showAdmin ? 'inline-flex' : 'none';
+      }
+    }
+
+    function openAccountModal(mode) {
+      if (mode) {
+        authMode = mode;
+        pending2FAUser = null;
+      }
+      renderAccountModal();
+      document.getElementById('accountModal').classList.add('open');
+    }
+
+    function toggleUser2FA() {
+      if (!currentUser) return;
+      currentUser.twoFactorEnabled = !currentUser.twoFactorEnabled;
+      if (currentUser.twoFactorEnabled && !currentUser.twoFactorSecret) {
+        currentUser.twoFactorSecret = 'PM-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+      }
+      const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
+      if (idx >= 0) registeredUsers[idx] = { ...registeredUsers[idx], ...currentUser };
+      saveUsersDb();
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      renderAccountModal();
+      alert(currentUser.twoFactorEnabled
+        ? '🔐 Dwuetapowe logowanie (2FA) zostało WŁĄCZONE dla Twojego konta!'
+        : 'Dwuetapowe logowanie (2FA) zostało wyłączone.');
+    }
+
+    function renderAccountModal() {
+      const body = document.getElementById('accountModalBody');
+      const cfg = COUNTRY_CONFIG[currentCountry];
+
+      // Ekran weryfikacji 2FA (krok 2 logowania)
+      if (pending2FAUser) {
+        body.innerHTML = `
+          <div class="twofa-box">
+            <div style="font-weight:800;font-size:15px;color:var(--green);margin-bottom:6px">🔐 Krok 2 z 2: Weryfikacja dwuetapowa (2FA)</div>
+            <div style="font-size:13px;line-height:1.5">
+              Konto <strong>${pending2FAUser.email}</strong> jest chronione dwuetapowym logowaniem.<br/>
+              Wpisz 6-cyfrowy kod z aplikacji uwierzytelniającej (lub kod testowy wyświetlony poniżej).
+            </div>
+            <div style="margin-top:8px;padding:7px 10px;background:var(--card);border:1px dashed var(--green);border-radius:7px;font-size:12px">
+              Twój jednorazowy kod testowy: <strong style="font-size:15px;letter-spacing:2px;color:var(--accent)">${pending2FACode}</strong>
+            </div>
+          </div>
+          <form onsubmit="verify2FACode(event)">
+            <div class="form-group">
+              <label>Wpisz 6-cyfrowy kod 2FA</label>
+              <input type="text" id="input2FACode" class="twofa-code-input" maxlength="6" pattern="[0-9]{6}" required placeholder="000000" />
+            </div>
+            <div style="display:flex;gap:8px">
+              <button type="button" class="mini-btn" style="flex:1" onclick="pending2FAUser=null;renderAccountModal()">← Wróć</button>
+              <button type="submit" class="add-btn" style="flex:2;justify-content:center;padding:11px">Potwierdź i zaloguj</button>
+            </div>
+          </form>
+        `;
+        return;
+      }
+
+      if (currentUser) {
+        const isMine = (i) => (currentUser.id && i.ownerId === currentUser.id) || (currentUser.email && i.ownerEmail === currentUser.email);
+        const myNL = listingsData.NL.filter(isMine);
+        const myPL = listingsData.PL.filter(isMine);
+        const myAll = [...myNL.map(x => ({...x, c: 'NL'})), ...myPL.map(x => ({...x, c: 'PL'}))];
+
+        const twoFaSection = `
+          <div class="twofa-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+              <div>
+                <div style="font-weight:800;font-size:13px">🔐 Dwuetapowe logowanie (2FA):
+                  <span style="color:${currentUser.twoFactorEnabled ? 'var(--green)' : 'var(--red)'}">
+                    ${currentUser.twoFactorEnabled ? 'AKTYWNE' : 'WYŁĄCZONE'}
+                  </span>
+                </div>
+                <div style="font-size:11px;color:var(--muted);margin-top:2px">
+                  ${currentUser.twoFactorEnabled
+                    ? `Klucz aplikacji Authenticator: <strong>${currentUser.twoFactorSecret || 'PLACO-MARKT-2FA'}</strong>`
+                    : 'Dodaj drugą warstwę ochrony (kod 6-cyfrowy przy logowaniu).'}
+                </div>
+              </div>
+              <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">
+                ${currentUser.twoFactorEnabled ? 'Wyłącz 2FA' : 'Włącz 2FA'}
+              </button>
+            </div>
+          </div>
+        `;
+
+        const premiumCard = currentUser.isPremium ? `
+          <div class="premium-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span class="premium-badge">👑 KONTO PREMIUM AKTYWNE</span>
+              <span style="font-size:12px;font-weight:700">Ważne do: ${currentUser.premiumUntil}</span>
+            </div>
+            <div style="font-size:12px;line-height:1.5">
+              • Wszystkie Twoje ogłoszenia mają automatycznie status <strong>⭐ TOP</strong> (0,00 na start)<br/>
+              • Odznaka <strong>👑 PREMIUM</strong> oraz brak limitu ofert
+            </div>
+          </div>
+        ` : `
+          <div class="premium-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <strong style="font-size:14px">👑 Konto PREMIUM (30 dni)</strong>
+              <strong style="font-size:15px">${cfg.promoPrices.premiumMonth}</strong>
+            </div>
+            <div style="font-size:12px;line-height:1.5;margin-bottom:10px">
+              • Wszystkie Twoje ogłoszenia automatycznie trafiają do <strong>⭐ TOP</strong><br/>
+              • Nielimitowana liczba ogłoszeń za 0,00 w okresie startowym
+            </div>
+            <button type="button" class="premium-btn" onclick="activatePremium()">
+              👑 Aktywuj Konto PREMIUM na 30 dni za darmo (${cfg.promoPrices.premiumMonth})
+            </button>
+          </div>
+        `;
+
+        const adminQuickLink = currentUser.isAdmin
+          ? `<button type="button" class="mini-btn red" style="width:100%;margin-bottom:10px;padding:9px" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Otwórz Panel Administratora</button>`
+          : '';
+
+        body.innerHTML = `
+          <div class="acc-banner">
+            <div>
+              <div style="font-weight:800;font-size:15px">✅ ${currentUser.name} ${currentUser.isPremium ? '<span class="premium-badge">👑 PREMIUM</span>' : ''}</div>
+              <div style="font-size:12px;color:var(--muted)">✉️ ${currentUser.email} • 📞 ${currentUser.phone || 'brak'}</div>
+            </div>
+            <button type="button" class="mini-btn red" onclick="logoutUser()">Wyloguj</button>
+          </div>
+          ${adminQuickLink}
+          ${twoFaSection}
+          ${premiumCard}
+          <div style="font-weight:800;font-size:13px;margin-bottom:8px">Moje ogłoszenia (${myAll.length}):</div>
+          ${myAll.length ? `<div class="admin-list" style="margin-bottom:12px">` + myAll.map(item => `
+            <div class="admin-row">
+              <div>
+                <div style="font-weight:700;font-size:13px">${item.icon} ${item.title} ${item.top ? '⭐' : ''}</div>
+                <div style="font-size:11px;color:var(--muted)">Rynek .${item.c.toLowerCase()} • ${item.city} • 👁️ ${item.views || 1} • ${formatPrice(item.price, item.type === 'free')}</div>
+              </div>
+              <button type="button" class="mini-btn red" onclick="deleteMyListing('${item.c}', ${item.id})">Usuń</button>
+            </div>
+          `).join('') + `</div>` : `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Nie masz jeszcze dodanych ogłoszeń na tym koncie.</p>`}
+          <button type="button" class="add-btn" style="width:100%;justify-content:center" onclick="closeModal('accountModal');openAddModal()">+ Dodaj nowe ogłoszenie</button>
+        `;
+        return;
+      }
+
+      body.innerHTML = `
+        <div class="auth-switch">
+          <button type="button" class="${authMode === 'login' ? 'active' : ''}" onclick="openAccountModal('login')">Zaloguj się</button>
+          <button type="button" class="${authMode === 'register' ? 'active' : ''}" onclick="openAccountModal('register')">Załóż konto</button>
+        </div>
+        ${authMode === 'login' ? `
+          <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label>Adres e-mail</label>
+              <input type="email" id="loginEmail" required placeholder="np. jan@placomarkt.nl" />
+            </div>
+            <div class="form-group">
+              <label>Hasło</label>
+              <input type="password" id="loginPassword" required placeholder="Wpisz hasło" />
+            </div>
+            ${!isSupabaseConfigured ? `<div style="font-size:11px;color:var(--muted);margin-bottom:10px">
+              Konto administratora (z aktywnym 2FA): <strong>admin@placomarkt.nl</strong> / hasło: <strong>admin</strong>.
+            </div>` : ''}
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Dalej (Weryfikacja) →</button>
+          </form>
+        ` : `
+          <form onsubmit="handleRegister(event)">
+            <div class="form-group">
+              <label>Imię lub nazwa użytkownika</label>
+              <input type="text" id="regName" required placeholder="np. Marek Kowalski" />
+            </div>
+            <div class="form-group">
+              <label>Adres e-mail</label>
+              <input type="email" id="regEmail" required placeholder="np. marek@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Numer telefonu (opcjonalnie — daje odznakę ✅ Zweryfikowany)</label>
+              <input type="text" id="regPhone" placeholder="+31 6 ... lub +48 ..." />
+            </div>
+            <div class="form-group">
+              <label>Hasło (min. 5 znaków)</label>
+              <input type="password" id="regPassword" required minlength="5" placeholder="Utwórz hasło" />
+            </div>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;margin-bottom:12px">
+              <input type="checkbox" id="regEnable2FA" checked style="width:auto" />
+              <span>🔐 Włącz dwuetapowe logowanie (2FA) od razu przy rejestracji</span>
+            </label>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Załóż darmowe konto</button>
+          </form>
+        `}
+      `;
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const password = document.getElementById('loginPassword').value;
+
+      if (sb) {
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert('Błąd logowania: ' + error.message);
+          return;
+        }
+        await loadUserProfile(data.user);
+        await syncFromSupabase();
+        renderAccountModal();
+        alert(`Witaj ponownie, ${currentUser.name}!`);
+        return;
+      }
+
+      const found = registeredUsers.find(u => u.email.toLowerCase() === email && u.password === password);
+      if (!found) {
+        alert('Nieprawidłowy e-mail lub hasło.');
+        return;
+      }
+
+      if (found.twoFactorEnabled) {
+        pending2FAUser = found;
+        pending2FACode = String(Math.floor(100000 + Math.random() * 900000));
+        renderAccountModal();
+        return;
+      }
+
+      currentUser = found;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
+      alert(`Witaj ponownie, ${currentUser.name}!`);
+    }
+
+    function verify2FACode(e) {
+      e.preventDefault();
+      const entered = document.getElementById('input2FACode').value.trim();
+      if (entered !== pending2FACode) {
+        alert('❌ Nieprawidłowy kod 2FA! Wpisz poprawny 6-cyfrowy kod.');
+        return;
+      }
+      currentUser = pending2FAUser;
+      pending2FAUser = null;
+      pending2FACode = '';
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
+      alert(`✅ Weryfikacja 2FA zakończona! Witaj, ${currentUser.name}!`);
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const enable2FA = document.getElementById('regEnable2FA').checked;
+
+      if (sb) {
+        const { data, error } = await sb.auth.signUp({
+          email,
+          password,
+          options: { data: { name, phone: phone || '', country: currentCountry } }
+        });
+        if (error) {
+          alert('Błąd rejestracji: ' + error.message);
+          return;
+        }
+        if (data.user) {
+          await loadUserProfile(data.user);
+          renderAccountModal();
+        }
+        alert('Konto utworzone!');
+        return;
+      }
+
+      if (registeredUsers.some(u => u.email.toLowerCase() === email)) {
+        alert('Konto z tym adresem e-mail już istnieje.');
+        return;
+      }
+      const isEmailAdmin = ADMIN_EMAILS.includes(email);
+      const newUser = {
+        id: 'local-' + Date.now(),
+        name,
+        email,
+        phone,
+        password,
+        country: currentCountry,
+        isPremium: false,
+        premiumUntil: null,
+        isAdmin: isEmailAdmin,
+        twoFactorEnabled: enable2FA,
+        twoFactorSecret: 'PM-' + Math.random().toString(36).substring(2, 10).toUpperCase()
+      };
+      registeredUsers.push(newUser);
+      saveUsersDb();
+      currentUser = newUser;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
+      alert(`Konto dla ${newUser.name} zostało założone!${enable2FA ? ' Dwuetapowe logowanie (2FA) jest aktywne.' : ''}`);
+    }
+
+    async function activatePremium() {
+      if (!currentUser) return;
+      const expDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      const expStr = expDate.toLocaleDateString('pl-PL');
+      currentUser.isPremium = true;
+      currentUser.premiumUntil = expStr;
+
+      if (sb && currentUser.id) {
+        await sb.from('profiles').update({ is_premium: true, premium_until: expDate.toISOString() }).eq('id', currentUser.id);
+        await sb.from('listings').update({ is_top: true }).eq('owner_id', currentUser.id);
+        await syncFromSupabase();
+      } else {
+        ['NL', 'PL'].forEach(c => {
+          listingsData[c].forEach(item => {
+            if (item.ownerEmail === currentUser.email) item.top = true;
+          });
+        });
+        saveListingsLocal();
+        try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      }
+
+      updateAccountButton();
+      renderCountryUI();
+      renderAccountModal();
+      alert(`Konto PREMIUM aktywne na 30 dni za darmo (do ${expStr})!`);
+    }
+
+    async function logoutUser() {
+      if (sb) await sb.auth.signOut();
+      currentUser = null;
+      pending2FAUser = null;
+      try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
+    }
+
+    async function deleteMyListing(country, id) {
+      if (sb) {
+        await sb.from('listings').delete().eq('id', id);
+        await syncFromSupabase();
+      } else {
+        listingsData[country] = listingsData[country].filter(x => x.id !== id);
+        saveListingsLocal();
+      }
+      renderCountryUI();
+      renderAccountModal();
+    }
+
+    /* ADMIN PANEL LOGIC */
+    function openAdminPanel() {
+      if (!currentUser || !currentUser.isAdmin) {
+        alert('Dostęp tylko dla zalogowanego Administratora.');
+        openAccountModal('login');
+        return;
+      }
+      document.getElementById('adminMarketLabel').textContent = currentCountry;
+      document.getElementById('admNL').classList.toggle('active', currentCountry === 'NL');
+      document.getElementById('admPL').classList.toggle('active', currentCountry === 'PL');
+
+      const allItems = listingsData[currentCountry];
+      const activeCount = allItems.filter(i => !i.hidden).length;
+      const topCount = allItems.filter(i => i.top && !i.hidden).length;
+      const hiddenCount = allItems.filter(i => i.hidden).length;
+      const openReports = reportsList.filter(r => r.status === 'open').length;
+
+      document.getElementById('adminStats').innerHTML = `
+        <div class="stat-card"><span>Aktywne ogłoszenia (${currentCountry})</span><strong>${activeCount}</strong></div>
+        <div class="stat-card"><span>Wyróżnione ⭐ TOP</span><strong style="color:var(--accent)">${topCount}</strong></div>
+        <div class="stat-card"><span>Ukryte / Zablokowane</span><strong style="color:var(--red)">${hiddenCount}</strong></div>
+        <div class="stat-card"><span>Otwarte zgłoszenia DSA</span><strong style="color:var(--blue)">${openReports}</strong></div>
+      `;
+
+      updateReportBadge();
+      renderAdminBody();
+      document.getElementById('adminModal').classList.add('open');
+    }
+
+    function setAdminTab(tab) {
+      activeAdminTab = tab;
+      document.getElementById('admTabListings').classList.toggle('active', tab === 'listings');
+      document.getElementById('admTabReports').classList.toggle('active', tab === 'reports');
+      document.getElementById('admTabPricing').classList.toggle('active', tab === 'pricing');
+      renderAdminBody();
+    }
+
+    function renderAdminBody() {
+      const body = document.getElementById('adminBody');
+      if (activeAdminTab === 'listings') {
+        const items = listingsData[currentCountry];
+        body.innerHTML = `<div class="admin-list">` + items.map(item => `
+          <div class="admin-row ${item.hidden ? 'blocked-row' : ''}">
+            <div style="flex:1;min-width:220px">
+              <div style="font-weight:800;font-size:14px">${item.icon} ${item.title}</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:3px">
+                📍 ${item.city} • Cena: <strong>${formatPrice(item.price, item.type === 'free')}</strong> • 👁️ ${item.views || 1} •
+                <strong style="color:${item.hidden ? 'var(--red)' : 'var(--green)'}">${item.hidden ? 'UKRYTE' : 'AKTYWNE'}</strong>
+                ${item.top ? ' • ⭐ TOP' : ''}
+              </div>
+            </div>
+            <div class="admin-row-actions">
+              <button class="mini-btn gold" onclick="adminToggleTop(${item.id})">${item.top ? 'Zdejmij TOP' : '⭐ Nadaj TOP'}</button>
+              <button class="mini-btn ${item.hidden ? 'green' : ''}" onclick="adminToggleHide(${item.id})">${item.hidden ? '👁️ Przywróć' : '🙈 Ukryj'}</button>
+              <button class="mini-btn red" onclick="adminDeleteListing(${item.id})">🗑️ Usuń</button>
+            </div>
+          </div>
+        `).join('') + `</div>`;
+      } else if (activeAdminTab === 'reports') {
+        if (!reportsList.length) {
+          body.innerHTML = `<p style="color:var(--muted);padding:20px;text-align:center">Brak zgłoszeń naruszeń.</p>`;
+          return;
+        }
+        body.innerHTML = `<div class="admin-list">` + reportsList.map(r => `
+          <div class="admin-row">
+            <div style="flex:1;min-width:220px">
+              <div style="font-weight:800;font-size:14px">🚩 [${r.country}] ${r.listingTitle}</div>
+              <div style="font-size:12px;color:#b91c1c;margin-top:3px">Powód: <strong>${r.reason}</strong> (${r.date})</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">Status: ${r.status === 'open' ? 'Oczekuje na decyzję' : 'Rozpatrzone'}</div>
+            </div>
+            <div class="admin-row-actions">
+              ${r.status === 'open' ? `
+                <button class="mini-btn red" onclick="adminBlockFromReport(${r.id}, '${r.country}', ${r.listingId})">Zablokuj ogłoszenie</button>
+                <button class="mini-btn green" onclick="adminResolveReport(${r.id})">Odrzuć zgłoszenie</button>
+              ` : `<span style="font-size:12px;font-weight:700;color:var(--green)">✓ Zamknięte</span>`}
+            </div>
+          </div>
+        `).join('') + `</div>`;
+      } else {
+        const cfg = COUNTRY_CONFIG[currentCountry];
+        body.innerHTML = `
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">
+            <div class="stat-card">
+              <span>Cennik startowy (${currentCountry})</span>
+              <div style="margin-top:8px;font-size:13px;line-height:1.7">
+                <div>• Zwykłe ogłoszenie (30 dni): <strong style="display:inline;font-size:14px;color:var(--green)">${cfg.promoPrices.std}</strong></div>
+                <div>• Znaczek ⚡ PILNE: <strong style="display:inline;font-size:14px">${cfg.promoPrices.urgent}</strong></div>
+                <div>• Wyróżnienie ⭐ TOP: <strong style="display:inline;font-size:14px;color:var(--accent)">${cfg.promoPrices.top}</strong></div>
+                <div>• Konto 👑 PREMIUM (30 dni): <strong style="display:inline;font-size:14px;color:#b45309">${cfg.promoPrices.premiumMonth}</strong></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span>Status bezpieczeństwa PlacoMarkt</span>
+              <div style="margin-top:8px;font-size:13px;line-height:1.7">
+                <div>🔐 Dwuetapowe logowanie (2FA) aktywne</div>
+                <div>🛡️ Panel Admina ukryty dla gości</div>
+                <div>✅ 13 kategorii (A–Z, Praca na końcu)</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function adminToggleTop(id) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      item.top = !item.top;
+      saveListingsLocal();
+      if (sb) await sb.from('listings').update({ is_top: item.top }).eq('id', id);
+      renderCountryUI();
+      openAdminPanel();
+    }
+
+    async function adminToggleHide(id) {
+      const item = listingsData[currentCountry].find(x => x.id === id);
+      if (!item) return;
+      item.hidden = !item.hidden;
+      saveListingsLocal();
+      if (sb) await sb.from('listings').update({ is_hidden: item.hidden }).eq('id', id);
+      renderCountryUI();
+      openAdminPanel();
+    }
+
+    async function adminDeleteListing(id) {
+      if (!confirm('Na pewno trwale usunąć to ogłoszenie?')) return;
+      if (sb) await sb.from('listings').delete().eq('id', id);
+      listingsData[currentCountry] = listingsData[currentCountry].filter(x => x.id !== id);
+      saveListingsLocal();
+      renderCountryUI();
+      openAdminPanel();
+    }
+
+    async function adminBlockFromReport(repId, country, listingId) {
+      const item = listingsData[country]?.find(x => x.id === listingId);
+      if (item) item.hidden = true;
+      const rep = reportsList.find(r => r.id === repId);
+      if (rep) rep.status = 'closed';
+      saveListingsLocal();
+      if (sb) {
+        await sb.from('listings').update({ is_hidden: true }).eq('id', listingId);
+        await sb.from('reports').update({ status: 'closed' }).eq('id', repId);
+      }
+      renderCountryUI();
+      openAdminPanel();
+    }
+
+    async function adminResolveReport(repId) {
+      const rep = reportsList.find(r => r.id === repId);
+      if (rep) rep.status = 'closed';
+      if (sb) await sb.from('reports').update({ status: 'closed' }).eq('id', repId);
+      renderCountryUI();
+      openAdminPanel();
+    }
+
+    /* EXTENDED SETTINGS */
+    function openSettings() {
+      const cfg = COUNTRY_CONFIG[currentCountry];
+      document.getElementById('autoDetectCheck').checked = autoDetectLang;
+      document.getElementById('detectedInfo').textContent = `Wykryty język urządzenia: ${navigator.language || 'nieznany'}`;
+
+      const cc = document.getElementById('autoCountryCheck');
+      if (cc) cc.checked = autoDetectCountry;
+      const dci = document.getElementById('detectedCountryInfo');
+      if (dci) {
+        let tz = '';
+        try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e) {}
+        dci.textContent = `Wykryty region: ${tz || 'domyślny'} → ${currentCountry === 'NL' ? '🇳🇱 Holandia (.nl)' : '🇵🇱 Polska (.pl)'}`;
+      }
+      document.getElementById('setNL').classList.toggle('active', currentCountry === 'NL');
+      document.getElementById('setPL').classList.toggle('active', currentCountry === 'PL');
+
+      document.getElementById('settingsLangButtons').innerHTML = cfg.langs.map(l =>
+        `<button type="button" class="country-btn ${l === currentLang ? 'active' : ''}" onclick="setLanguage('${l}');openSettings()">${l}</button>`
+      ).join('');
+
+      document.getElementById('setDarkMode').checked = Boolean(userPrefs.darkMode);
+      document.getElementById('setDualCurrency').checked = Boolean(userPrefs.showDualCurrency);
+      document.getElementById('setPhoneVis').value = userPrefs.phoneVisibility || 'click';
+      document.getElementById('setAntiPhish').checked = Boolean(userPrefs.antiPhishing);
+      document.getElementById('setBidAlerts').checked = Boolean(userPrefs.bidAlerts);
+
+      const defCitySel = document.getElementById('setDefaultCity');
+      defCitySel.innerHTML = cfg.cities.map(c => `<option value="${c}">${c}</option>`).join('');
+      defCitySel.value = currentCountry === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL;
+
+      document.getElementById('settingsModal').classList.add('open');
+    }
+
+    function exportUserData() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        user: currentUser,
+        favorites: favoriteIds,
+        preferences: userPrefs
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'placomarkt-moje-dane.json';
+      a.click();
+    }
+
+    function resetLocalStorageData() {
+      if (!confirm('Wyczyścić zapisane lokalnie ogłoszenia, ulubione i ustawienia?')) return;
+      localStorage.removeItem('placomarkt_listings_v2');
+      localStorage.removeItem('placomarkt_favs');
+      localStorage.removeItem('placomarkt_prefs');
+      localStorage.removeItem('placomarkt_user');
+      localStorage.removeItem('placomarkt_users_db');
+      location.reload();
+    }
+
+    /* LEGAL & DSA INFO MODAL */
+    function openLegalModal(topic) {
+      const contentMap = {
+        about: {
+          title: 'O platformie PlacoMarkt',
+          body: `PlacoMarkt (.nl oraz .pl) to dwujęzyczna platforma ogłoszeniowa i zakupowa łącząca rynek holenderski (EUR) i polski (PLN). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, wczasy, kursy oraz oferty pracy.`
+        },
+        terms: {
+          title: 'Regulamin korzystania z PlacoMarkt',
+          body: `1. Platforma PlacoMarkt pełni wyłącznie rolę tablicy ogłoszeniowej łączącej ogłoszeniodawców z odbiorcami i nie jest stroną zawieranych transakcji.<br/><br/>
+                 2. W okresie rozruchowym wszystkie ogłoszenia, wyróżnienia oraz pakiety startowe są bezpłatne (0,00 € / 0,00 zł).<br/><br/>
+                 3. Zabronione jest publikowanie treści niezgodnych z prawem, prób wyłudzeń (phishing) oraz ofert naruszających przepisy Holandii, Polski i Unii Europejskiej.`
+        },
+        privacy: {
+          title: 'Polityka Prywatności (RODO / GDPR)',
+          body: `Szanujemy Twoją prywatność zgodnie z unijnym rozporządzeniem RODO (GDPR). Dane podane przy rejestracji lub wystawianiu ogłoszenia (imię, e-mail, numer telefonu) przetwarzane są wyłącznie w celu obsługi konta (w tym dwuetapowego logowania 2FA) i umożliwienia kontaktu między użytkownikami.`
+        },
+        dsa: {
+          title: 'Zgłaszanie naruszeń (DSA) i Kontakt',
+          body: `Zgodnie z unijnym Aktem o Usługach Cyfrowych (Digital Services Act), każde ogłoszenie można zgłosić jednym kliknięciem przyciskiem <strong>„🚩 Zgłoś ogłoszenie (DSA)”</strong>.<br/><br/>
+                 Kontakt z administracją platformy: <strong>kontakt@placomarkt.nl</strong> / <strong>admin@placomarkt.nl</strong>.`
+        }
+      };
+      const item = contentMap[topic] || contentMap.about;
+      document.getElementById('legalContent').innerHTML = `
+        <button class="close-modal" onclick="closeModal('legalModal')">×</button>
+        <h2 style="margin-bottom:12px">${item.title}</h2>
+        <div style="font-size:14px;line-height:1.65;color:var(--text)">${item.body}</div>
+      `;
+      document.getElementById('legalModal').classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
