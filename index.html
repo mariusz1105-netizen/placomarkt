@@ -73,7 +73,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
     .nav-container {
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 12px 16px;
       display: flex;
@@ -173,17 +173,17 @@
     }
     .add-btn:hover { background: var(--accent-hover); }
 
-    /* Hero & OLX/Allegro Smart Search */
+    /* Hero & Smart Search */
     .hero {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff;
-      padding: 24px 16px 30px;
+      padding: 22px 16px 26px;
       text-align: center;
     }
     .hero h1 { font-size: 24px; margin-bottom: 6px; font-weight: 800; }
-    .hero p { color: #94a3b8; font-size: 14px; margin-bottom: 16px; }
+    .hero p { color: #94a3b8; font-size: 14px; margin-bottom: 14px; }
     .search-box {
-      max-width: 1020px;
+      max-width: 1040px;
       margin: 0 auto;
       background: var(--card);
       padding: 8px;
@@ -217,7 +217,7 @@
     }
     .search-btn:hover { background: #1d4ed8; }
     .quick-tags {
-      max-width: 1020px;
+      max-width: 1040px;
       margin: 10px auto 0;
       display: flex;
       gap: 6px;
@@ -236,8 +236,175 @@
     }
     .quick-tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-    /* Main Container */
-    .container { max-width: 1240px; margin: 0 auto; padding: 18px 16px; }
+    /* Main Layout: Sidebar Categories + Main Content (Black Friday & Ads + Listings) */
+    .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
+    .page-layout {
+      display: grid;
+      grid-template-columns: 255px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .page-layout { grid-template-columns: 1fr; }
+    }
+
+    .sidebar-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      position: sticky;
+      top: 78px;
+    }
+    @media (max-width: 900px) {
+      .sidebar-panel { position: static; }
+    }
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-header strong { font-size: 14px; font-weight: 800; }
+    .sidebar-reset {
+      background: none;
+      border: none;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .sidebar-cat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    @media (max-width: 900px) {
+      .sidebar-cat-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      }
+    }
+    .sidebar-cat-btn {
+      width: 100%;
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+    }
+    .sidebar-cat-btn:hover {
+      border-color: var(--accent);
+      background: rgba(249,115,22,0.08);
+    }
+    .sidebar-cat-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .sidebar-cat-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+    .sidebar-cat-label {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sidebar-cat-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      background: rgba(148,163,184,0.22);
+      flex-shrink: 0;
+    }
+    .sidebar-cat-btn.active .sidebar-cat-badge {
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+
+    .main-column { min-width: 0; }
+
+    /* Black Friday & Ads Zone in Main Area */
+    .promo-ads-zone {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 720px) {
+      .promo-ads-zone { grid-template-columns: 1fr; }
+    }
+    .bf-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #27272a 60%, #451a03 100%);
+      color: #fff;
+      border: 1px solid #f59e0b;
+      border-radius: 12px;
+      padding: 15px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.16);
+    }
+    .bf-pill {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 5px;
+    }
+    .bf-banner h2 { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
+    .bf-banner p { font-size: 12px; color: #e2e8f0; }
+    .bf-btn {
+      background: #facc15;
+      color: #0f172a;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .bf-btn:hover { background: #fde047; }
+    .ad-slot-card {
+      background: var(--card);
+      border: 1px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+    .ad-slot-tag {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .ad-slot-title { font-size: 14px; font-weight: 800; color: var(--text); }
+    .ad-slot-desc { font-size: 12px; color: var(--muted); }
 
     /* Mode Tabs */
     .mode-tabs {
@@ -245,7 +412,7 @@
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .mode-tab {
       background: var(--card);
@@ -292,7 +459,7 @@
       border: 1px solid #bae6fd;
       border-radius: 12px;
       padding: 14px 16px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       display: none;
     }
     body.dark-mode .travel-filter-bar {
@@ -326,40 +493,6 @@
       font-size: 13px;
       color: var(--text);
     }
-
-    /* OLX/Allegro Alphabetical Categories Grid */
-    .cat-section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
-      gap: 9px;
-      margin-bottom: 20px;
-    }
-    .cat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 11px 8px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s;
-      position: relative;
-    }
-    .cat-card:hover, .cat-card.active {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      background: rgba(249,115,22,0.08);
-    }
-    .cat-icon { font-size: 23px; margin-bottom: 4px; }
-    .cat-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.25; }
-    .cat-count { font-size: 10px; color: var(--muted); margin-top: 2px; }
 
     /* Breadcrumb + Toolbar */
     .breadcrumb-bar {
@@ -432,7 +565,7 @@
     /* Listings Grid & Compact List */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
       gap: 16px;
     }
     .grid.list-view {
@@ -1015,7 +1148,7 @@
 
     /* Footer */
     footer.site-footer {
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 34px auto 0;
       padding: 18px 16px;
       border-top: 1px solid var(--border);
@@ -1087,110 +1220,134 @@
     </div>
   </header>
 
-  <!-- Hero Search (OLX / Allegro style) -->
+  <!-- Hero Search -->
   <section class="hero">
     <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
     <p id="heroSub">Wszystko w jednym miejscu • Szybka wyszukiwarka • Lokalne oferty w EUR i PLN</p>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Wpisz czego szukasz (np. perfumy, wózek, mieszkanie, rower, turcja, praca...)" oninput="renderListings()" />
+      <input type="text" id="searchInput" placeholder="Wpisz czego szukasz (np. perfumy, wózek, wędkarstwo, wędka, rower, turcja, praca...)" oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
       <select id="citySelect" onchange="renderListings()"></select>
       <button class="search-btn" id="lblSearchBtn" onclick="renderListings()">Szukaj</button>
     </div>
     <div class="quick-tags">
       <span style="color:#94a3b8">Popularne:</span>
+      <span class="quick-tag" onclick="quickSearch('wędka')">🎣 Wędkarstwo</span>
       <span class="quick-tag" onclick="quickSearch('perfumy')">💄 Perfumy</span>
       <span class="quick-tag" onclick="quickSearch('zabawki')">🧸 Zabawki</span>
       <span class="quick-tag" onclick="quickSearch('pokój')">🏠 Pokój / Mieszkanie</span>
       <span class="quick-tag" onclick="quickSearch('turcja')">✈️ Wczasy</span>
       <span class="quick-tag" onclick="quickSearch('pioneer')">🎛️ Audio / DJ</span>
-      <span class="quick-tag" onclick="quickSearch('rower')">🚲 Rower / Auto</span>
       <span class="quick-tag" onclick="quickSearch('praca')">💼 Praca</span>
     </div>
   </section>
 
-  <!-- Main Content -->
+  <!-- Main Content: Sidebar Categories + Main Column (Black Friday & Ads + Listings) -->
   <main class="container">
-    <!-- Mode Tabs -->
-    <div class="mode-tabs" id="modeTabs"></div>
-
-    <!-- Dedicated Travel Filter Bar -->
-    <div class="travel-filter-bar" id="travelFilterBar">
-      <div class="travel-filter-title">
-        <span>✈️ Filtry Wczasów, Noclegów i Przejazdów</span>
-        <button type="button" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry</button>
-      </div>
-      <div class="travel-filters-grid">
-        <select id="filterTravelDest" onchange="renderListings()">
-          <option value="all">🌍 Wszystkie kierunki</option>
-          <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polska (Morze / Góry / Mazury)</option>
-          <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Holandia (Wybrzeże / Domki)</option>
-          <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 Belgia / Luksemburg (Ardeny)</option>
-          <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turcja (Alanya / Riwiera)</option>
-          <option value="Chorwacja / Południe Europy">🇭🇷 Chorwacja / Południe Europy</option>
-          <option value="Hiszpania / Wyspy">🇪🇸 Hiszpania / Wyspy</option>
-          <option value="Węgry / Słowacja (Termy)">🇭🇺 Węgry / Słowacja (Termy)</option>
-          <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Trasa PL ↔ NL (Busy / Przejazdy)</option>
-        </select>
-        <select id="filterTravelKind" onchange="renderListings()">
-          <option value="all">🏕️ Rodzaj wyjazdu (Wszystkie)</option>
-          <option value="Domek / Apartament / Pokój">🏠 Domek / Apartament / Pokój</option>
-          <option value="Wyjazd zorganizowany / Wycieczka">🚌 Wyjazd zorganizowany / Wycieczka</option>
-          <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
-          <option value="Przejazd / Bus PL ↔ NL">🚐 Przejazd / Bus PL ↔ NL</option>
-        </select>
-        <select id="filterTravelBoard" onchange="renderListings()">
-          <option value="all">🍽️ Wyżywienie (Dowolne)</option>
-          <option value="Własne (aneks kuchenny)">🍳 Własne (aneks kuchenny)</option>
-          <option value="Ze śniadaniami (BB)">🥐 Ze śniadaniami (BB)</option>
-          <option value="Śniadania + Obiadokolacje (HB)">🍲 Śniadania + Obiadokolacje (HB)</option>
-          <option value="All Inclusive">🍹 All Inclusive</option>
-          <option value="Nie dotyczy (przejazd)">🚐 Nie dotyczy (przejazd)</option>
-        </select>
-        <input type="number" id="filterTravelMaxPrice" placeholder="Max cena..." min="0" oninput="renderListings()" />
-      </div>
-    </div>
-
-    <!-- Alphabetical Categories (Praca na końcu) -->
-    <div class="cat-section-head">
-      <strong>📂 Kategorie (A–Z, Praca na końcu):</strong>
-      <span style="cursor:pointer;color:var(--blue);font-weight:700" onclick="resetFilters()">Pokaż wszystkie kategorie</span>
-    </div>
-    <div class="categories" id="categoriesGrid"></div>
-
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-bar" id="breadcrumbBar"></div>
-
-    <!-- Toolbar: Status, Condition, Price range, Sort, Grid/List toggle -->
-    <div class="toolbar-bar">
-      <div class="toolbar-left">
-        <strong style="font-size:15px" id="resultsHeading">Wszystkie oferty</strong>
-        <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
-      </div>
-      <div class="toolbar-right">
-        <select id="filterCondition" onchange="renderListings()">
-          <option value="all">Stan: Wszystkie</option>
-          <option value="new">✨ Nowe</option>
-          <option value="used">♻️ Używane</option>
-        </select>
-        <input type="number" id="filterMinPrice" placeholder="Cena od" min="0" style="width:84px" oninput="renderListings()" />
-        <input type="number" id="filterMaxPrice" placeholder="Cena do" min="0" style="width:84px" oninput="renderListings()" />
-        <select id="sortSelect" onchange="renderListings()">
-          <option value="featured">Sortuj: Wyróżnione i najnowsze</option>
-          <option value="price_asc">Cena: od najniższej</option>
-          <option value="price_desc">Cena: od najwyższej</option>
-          <option value="views_desc">Najpopularniejsze (odsłony)</option>
-          <option value="auction_end">Licytacje: kończące się wkrótce</option>
-        </select>
-        <div class="view-toggle">
-          <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Widok kafelków">⊞</button>
-          <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="Widok listy">☰</button>
+    <div class="page-layout">
+      <!-- PANEL BOCZNY Z KATEGORIAMI -->
+      <aside class="sidebar-panel" aria-label="Kategorie ogłoszeń">
+        <div class="sidebar-header">
+          <strong>📂 Kategorie</strong>
+          <button type="button" class="sidebar-reset" onclick="resetFilters()">Wszystkie</button>
         </div>
+        <div class="sidebar-cat-list" id="sidebarCategoryList"></div>
+      </aside>
+
+      <!-- GŁÓWNY OBSZAR: BLACK FRIDAY / REKLAMY + FILTRY + OGŁOSZENIA -->
+      <div class="main-column">
+        <!-- STREFA BLACK FRIDAY I INNE REKLAMY -->
+        <section class="promo-ads-zone" aria-label="Black Friday i reklamy">
+          <div class="bf-banner">
+            <div>
+              <span class="bf-pill">Black Friday</span>
+              <h2>Black Friday na PlacoMarkt — okazje i wyróżnienia</h2>
+              <p>Miejsce zarezerwowane na baner Black Friday, kody promocyjne i polecane oferty.</p>
+            </div>
+            <button type="button" class="bf-btn" onclick="toggleCategory('fishing')">🎣 Zobacz Wędkarstwo</button>
+          </div>
+          <div class="ad-slot-card">
+            <span class="ad-slot-tag">Reklama / Partner</span>
+            <div class="ad-slot-title">Miejsce na reklamę lub baner</div>
+            <div class="ad-slot-desc">Tu możesz wstawić kolejną reklamę, ofertę specjalną lub sponsora.</div>
+          </div>
+        </section>
+
+        <!-- Mode Tabs -->
+        <div class="mode-tabs" id="modeTabs"></div>
+
+        <!-- Dedicated Travel Filter Bar -->
+        <div class="travel-filter-bar" id="travelFilterBar">
+          <div class="travel-filter-title">
+            <span>✈️ Filtry Wczasów, Noclegów i Przejazdów</span>
+            <button type="button" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry</button>
+          </div>
+          <div class="travel-filters-grid">
+            <select id="filterTravelDest" onchange="renderListings()">
+              <option value="all">🌍 Wszystkie kierunki</option>
+              <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polska (Morze / Góry / Mazury)</option>
+              <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Holandia (Wybrzeże / Domki)</option>
+              <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 Belgia / Luksemburg (Ardeny)</option>
+              <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turcja (Alanya / Riwiera)</option>
+              <option value="Chorwacja / Południe Europy">🇭🇷 Chorwacja / Południe Europy</option>
+              <option value="Hiszpania / Wyspy">🇪🇸 Hiszpania / Wyspy</option>
+              <option value="Węgry / Słowacja (Termy)">🇭🇺 Węgry / Słowacja (Termy)</option>
+              <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Trasa PL ↔ NL (Busy / Przejazdy)</option>
+            </select>
+            <select id="filterTravelKind" onchange="renderListings()">
+              <option value="all">🏕️ Rodzaj wyjazdu (Wszystkie)</option>
+              <option value="Domek / Apartament / Pokój">🏠 Domek / Apartament / Pokój</option>
+              <option value="Wyjazd zorganizowany / Wycieczka">🚌 Wyjazd zorganizowany / Wycieczka</option>
+              <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
+              <option value="Przejazd / Bus PL ↔ NL">🚐 Przejazd / Bus PL ↔ NL</option>
+            </select>
+            <select id="filterTravelBoard" onchange="renderListings()">
+              <option value="all">🍽️ Wyżywienie (Dowolne)</option>
+              <option value="Własne (aneks kuchenny)">🍳 Własne (aneks kuchenny)</option>
+              <option value="Ze śniadaniami (BB)">🥐 Ze śniadaniami (BB)</option>
+              <option value="Śniadania + Obiadokolacje (HB)">🍲 Śniadania + Obiadokolacje (HB)</option>
+              <option value="All Inclusive">🍹 All Inclusive</option>
+              <option value="Nie dotyczy (przejazd)">🚐 Nie dotyczy (przejazd)</option>
+            </select>
+            <input type="number" id="filterTravelMaxPrice" placeholder="Max cena..." min="0" oninput="renderListings()" />
+          </div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar" id="breadcrumbBar"></div>
+
+        <!-- Toolbar: Status, Condition, Price range, Sort, Grid/List toggle -->
+        <div class="toolbar-bar">
+          <div class="toolbar-left">
+            <strong style="font-size:15px" id="resultsHeading">Wszystkie oferty</strong>
+            <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
+          </div>
+          <div class="toolbar-right">
+            <select id="filterCondition" onchange="renderListings()">
+              <option value="all">Stan: Wszystkie</option>
+              <option value="new">✨ Nowe</option>
+              <option value="used">♻️ Używane</option>
+            </select>
+            <input type="number" id="filterMinPrice" placeholder="Cena od" min="0" style="width:84px" oninput="renderListings()" />
+            <input type="number" id="filterMaxPrice" placeholder="Cena do" min="0" style="width:84px" oninput="renderListings()" />
+            <select id="sortSelect" onchange="renderListings()">
+              <option value="featured">Sortuj: Wyróżnione i najnowsze</option>
+              <option value="price_asc">Cena: od najniższej</option>
+              <option value="price_desc">Cena: od najwyższej</option>
+              <option value="views_desc">Najpopularniejsze (odsłony)</option>
+              <option value="auction_end">Licytacje: kończące się wkrótce</option>
+            </select>
+            <div class="view-toggle">
+              <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Widok kafelków">⊞</button>
+              <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="Widok listy">☰</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listings Grid -->
+        <div class="grid" id="listingsGrid"></div>
       </div>
     </div>
-
-    <!-- Listings Grid -->
-    <div class="grid" id="listingsGrid"></div>
 
     <!-- Legal & Info Footer -->
     <footer class="site-footer">
@@ -1269,7 +1426,7 @@
         </div>
         <div class="form-group">
           <label id="lblTitleField">Tytuł ogłoszenia</label>
-          <input type="text" id="newTitle" required placeholder="np. Perfumy, Zestaw klocków LEGO, Domek nad morzem, Rower..." />
+          <input type="text" id="newTitle" required placeholder="np. Wędka spinningowa, Perfumy, Domek nad morzem, Rower..." />
         </div>
         <div class="form-group">
           <label>Zdjęcia ogłoszenia (maks. 4 zdjęcia z telefonu lub dysku)</label>
@@ -1278,7 +1435,7 @@
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblCatField">Kategoria (alfabetycznie)</label>
+            <label id="lblCatField">Kategoria (w panelu bocznym)</label>
             <select id="newCategory"></select>
           </div>
           <div class="form-group">
@@ -1546,7 +1703,7 @@
       } catch (e) {}
     })();
 
-    // Kategorie ułożone ALFABETYCZNIE (A-Z), a "Praca" celowo na samym końcu!
+    // Kategorie w panelu bocznym (w tym Wędkarstwo, a Praca na końcu)
     const CATEGORIES_LIST = [
       { id: 'kids', icon: '🧸', key: 'catKids' },
       { id: 'home', icon: '🛋️', key: 'catHome' },
@@ -1560,6 +1717,7 @@
       { id: 'sport', icon: '⚽', key: 'catSport' },
       { id: 'services', icon: '🔧', key: 'catServices' },
       { id: 'travel', icon: '✈️', key: 'catTravel' },
+      { id: 'fishing', icon: '🎣', key: 'catFishing' },
       { id: 'jobs', icon: '💼', key: 'catJobs' } // Praca na końcu
     ];
 
@@ -1589,10 +1747,10 @@
         settings: 'Ustawienia',
         add: 'Dodaj',
         heroNL: 'Ogłoszenia, Licytacje, Zakupy i Wczasy w Holandii',
-        subNL: 'Wszystko w jednym miejscu • Kosmetyki, Dla dzieci, Dom, Elektronika, Nieruchomości, Wczasy i Praca (EUR)',
+        subNL: 'Wszystko w jednym miejscu • Wędkarstwo, Kosmetyki, Dla dzieci, Dom, Elektronika, Wczasy i Praca (EUR)',
         heroPL: 'Ogłoszenia, Licytacje, Zakupy i Wczasy w Polsce',
-        subPL: 'Wszystko w jednym miejscu • Kosmetyki, Dla dzieci, Dom, Elektronika, Nieruchomości, Wczasy i Praca (PLN)',
-        searchPlaceholder: 'Wpisz czego szukasz (np. perfumy, zabawki, wózek, mieszkanie, turcja, praca...)',
+        subPL: 'Wszystko w jednym miejscu • Wędkarstwo, Kosmetyki, Dla dzieci, Dom, Elektronika, Wczasy i Praca (PLN)',
+        searchPlaceholder: 'Wpisz czego szukasz (np. wędka, przynęty, perfumy, wózek, mieszkanie, turcja, praca...)',
         searchBtn: 'Szukaj',
         tabAll: 'Wszystkie oferty',
         tabTravel: '✈️ Wczasy i Wyjazdy',
@@ -1614,6 +1772,7 @@
         catSport: 'Sport i Hobby',
         catServices: 'Usługi',
         catTravel: 'Wczasy i Podróże',
+        catFishing: 'Wędkarstwo',
         catJobs: 'Praca',
         freePrice: 'ZA DARMO',
         showPhone: '📞 Pokaż numer telefonu',
@@ -1630,10 +1789,10 @@
         settings: 'Instellingen',
         add: 'Plaatsen',
         heroNL: 'Advertenties, Veilingen, Winkelen & Vakanties',
-        subNL: 'Alles op één plek • Cosmetica, Kinderen, Huis, Elektronica, Woningen, Vakanties & Werk (EUR)',
+        subNL: 'Alles op één plek • Hengelsport, Cosmetica, Kinderen, Huis, Elektronica, Vakanties & Werk (EUR)',
         heroPL: 'Poolse marktplaats in PLN (zł)',
-        subPL: 'Lokale Poolse advertenties • Vakanties & Reizen',
-        searchPlaceholder: 'Waar ben je naar op zoek (bv. parfum, speelgoed, woning, vakantie...)?',
+        subPL: 'Lokale Poolse advertenties • Hengelsport & Reizen',
+        searchPlaceholder: 'Waar ben je naar op zoek (bv. hengel, kunstaas, parfum, woning, vakantie...)?',
         searchBtn: 'Zoeken',
         tabAll: 'Alle advertenties',
         tabTravel: '✈️ Vakanties',
@@ -1655,6 +1814,7 @@
         catSport: 'Sport & Hobby',
         catServices: 'Diensten',
         catTravel: 'Vakanties & Reizen',
+        catFishing: 'Hengelsport (Wędkarstwo)',
         catJobs: 'Werk & Vacatures',
         freePrice: 'GRATIS',
         showPhone: '📞 Toon telefoonnummer',
@@ -1671,10 +1831,10 @@
         settings: 'Settings',
         add: 'Post Ad',
         heroNL: 'Classifieds, Auctions, Shopping & Holidays',
-        subNL: 'Everything in one place • Cosmetics, Kids, Home, Electronics, Housing, Holidays & Jobs',
+        subNL: 'Everything in one place • Fishing, Cosmetics, Kids, Home, Electronics, Holidays & Jobs',
         heroPL: 'Classifieds, Auctions, Shopping & Holidays in Poland',
-        subPL: 'Everything in one place • Local deals in PLN (zł)',
-        searchPlaceholder: 'Search for perfume, toys, housing, holidays, cars, jobs...',
+        subPL: 'Everything in one place • Fishing & local deals in PLN (zł)',
+        searchPlaceholder: 'Search for fishing rod, lures, perfume, toys, housing, holidays, jobs...',
         searchBtn: 'Search',
         tabAll: 'All listings',
         tabTravel: '✈️ Holidays & Trips',
@@ -1696,6 +1856,7 @@
         catSport: 'Sports & Hobby',
         catServices: 'Services',
         catTravel: 'Holidays & Travel',
+        catFishing: 'Fishing',
         catJobs: 'Jobs',
         freePrice: 'FREE',
         showPhone: '📞 Show phone number',
@@ -1712,7 +1873,7 @@
         settings: 'Nustatymai',
         add: 'Įdėti',
         heroNL: 'Skelbimai, Aukcionai, Pirkiniai ir Atostogos',
-        subNL: 'Viskas vienoje vietoje • Kosmetika, Vaikams, Namams, Būstas, Atostogos ir Darbas',
+        subNL: 'Viskas vienoje vietoje • Žvejyba, Kosmetika, Vaikams, Namams, Būstas, Atostogos ir Darbas',
         heroPL: 'Lenkijos skelbimai (PLN)',
         subPL: 'Vietiniai pasiūlymai Lenkijoje',
         searchPlaceholder: 'Ko ieškote?',
@@ -1737,6 +1898,7 @@
         catSport: 'Sportas ir Hobis',
         catServices: 'Paslaugos',
         catTravel: 'Atostogos ir Kelionės',
+        catFishing: 'Žvejyba (Wędkarstwo)',
         catJobs: 'Darbas',
         freePrice: 'NEMOKAMAI',
         showPhone: '📞 Rodyti telefono numerį',
@@ -1753,7 +1915,7 @@
         settings: 'Ayarlar',
         add: 'İlan Ver',
         heroNL: 'İlanlar, Açık Artırma, Alışveriş ve Tatil',
-        subNL: 'Her şey tek yerde • Kozmetik, Çocuk, Ev, Elektronik, Konut, Tatil ve İş İlanları',
+        subNL: 'Her şey tek yerde • Balıkçılık, Kozmetik, Çocuk, Ev, Elektronik, Konut, Tatil ve İş İlanları',
         heroPL: 'Polonya İlanları (PLN)',
         subPL: 'Polonya yerel ilanlar',
         searchPlaceholder: 'Ne arıyorsunuz?',
@@ -1778,6 +1940,7 @@
         catSport: 'Spor & Hobi',
         catServices: 'Hizmetler',
         catTravel: 'Tatil & Seyahat',
+        catFishing: 'Balıkçılık (Wędkarstwo)',
         catJobs: 'İş İlanları',
         freePrice: 'ÜCRETSİZ',
         showPhone: '📞 Telefon numarasını göster',
@@ -1794,10 +1957,10 @@
         settings: 'Налаштування',
         add: 'Додати',
         heroNL: 'Оголошення, Аукціони, Покупки та Відпочинок',
-        subNL: 'Все в одному місці • Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
+        subNL: 'Все в одному місці • Риболовля, Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
         heroPL: 'Оголошення, Аукціони, Покупки та Відпочинок у Польщі',
-        subPL: 'Все в одному місці • Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
-        searchPlaceholder: 'Що шукаєте (парфуми, іграшки, житло, відпочинок, робота...)?',
+        subPL: 'Все в одному місці • Риболовля, Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
+        searchPlaceholder: 'Що шукаєте (вудка, приманки, парфуми, іграшки, житло, відпочинок, робота...)?',
         searchBtn: 'Пошук',
         tabAll: 'Усі оголошення',
         tabTravel: '✈️ Відпочинок і тури',
@@ -1819,6 +1982,7 @@
         catSport: 'Спорт і Хобі',
         catServices: 'Послуги',
         catTravel: 'Відпочинок і подорожі',
+        catFishing: 'Риболовля (Wędkarstwo)',
         catJobs: 'Робота',
         freePrice: 'БЕЗКОШТОВНО',
         showPhone: '📞 Показати номер телефону',
@@ -1835,6 +1999,29 @@
 
     const DEMO_LISTINGS = {
       NL: [
+        {
+          id: 114,
+          type: 'sale',
+          category: 'fishing',
+          condition: 'new',
+          title: 'Wędka spinningowa 2.40 m + kołowrotek i zestaw przynęt na szczupaka / sandacza',
+          city: 'Rotterdam',
+          price: 85,
+          priceNote: 'kompletny zestaw',
+          shipping: '📍 Odbiór osobisty (NL) lub 📦 PostNL',
+          icon: '🎣',
+          photos: [],
+          top: true,
+          urgent: true,
+          hidden: false,
+          views: 205,
+          sellerName: 'VisSport_NL',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+31 6 55 44 33 22',
+          desc: 'Gotowy zestaw spinningowy do łowienia nad wodą w Rotterdamie i okolicach — wędka, kołowrotek, plecionka oraz przynęty na drapieżniki.'
+        },
         {
           id: 111,
           type: 'sale',
@@ -2033,6 +2220,29 @@
         }
       ],
       PL: [
+        {
+          id: 214,
+          type: 'sale',
+          category: 'fishing',
+          condition: 'new',
+          title: 'Zestaw wędkarski spinningowy + pudełko przynęt i podbierak',
+          city: 'Katowice / Śląsk',
+          price: 290,
+          priceNote: 'nowy zestaw',
+          shipping: '📦 InPost Paczkomat / Kurier DPD',
+          icon: '🎣',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 192,
+          sellerName: 'Wędkarz_Śląsk',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+48 502 333 444',
+          desc: 'Wędka, kołowrotek, przynęty gumowe, woblery i składany podbierak na rzekę oraz jezioro.'
+        },
         {
           id: 211,
           type: 'sale',
@@ -2477,7 +2687,6 @@
       const dbTag = isSupabaseConfigured ? ' • 🟢 Baza online' : ' • 🟡 Tryb startowy (0,00)';
       document.getElementById('autoLangNote').textContent = `${currentLang}${dbTag}`;
 
-      // Search Category Select (A-Z, Praca na końcu)
       const searchCatSel = document.getElementById('searchCatSelect');
       searchCatSel.innerHTML = `<option value="all">📂 Wszystkie kategorie</option>` + cfg.categories.map(c =>
         `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${c.icon} ${t[c.key] || c.key}</option>`
@@ -2502,7 +2711,7 @@
         job: visibleItems.filter(i => i.type === 'job').length,
         favorites: favCount
       };
-      // Zakładki trybów — Praca na końcu przed Ulubionymi
+
       const modes = [
         { id: 'all', label: t.tabAll },
         { id: 'sale', label: t.tabSale },
@@ -2522,16 +2731,17 @@
       const showTravelBar = (currentMode === 'travel' || currentCategory === 'travel');
       document.getElementById('travelFilterBar').classList.toggle('open', showTravelBar);
 
-      document.getElementById('categoriesGrid').innerHTML = cfg.categories.map(c => {
+      document.getElementById('sidebarCategoryList').innerHTML = cfg.categories.map(c => {
         const cCount = visibleItems.filter(i => i.category === c.id).length;
-        return `<div class="cat-card ${currentCategory === c.id ? 'active' : ''}" onclick="toggleCategory('${c.id}')">
-          <div class="cat-icon">${c.icon}</div>
-          <div class="cat-name">${t[c.key] || c.key}</div>
-          <div class="cat-count">${cCount} ofert</div>
-        </div>`;
+        return `<button type="button" class="sidebar-cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="toggleCategory('${c.id}')">
+          <span class="sidebar-cat-left">
+            <span>${c.icon}</span>
+            <span class="sidebar-cat-label">${t[c.key] || c.key}</span>
+          </span>
+          <span class="sidebar-cat-badge">${cCount}</span>
+        </button>`;
       }).join('');
 
-      // Breadcrumb
       const crumbEl = document.getElementById('breadcrumbBar');
       const activeCatObj = cfg.categories.find(c => c.id === currentCategory);
       crumbEl.innerHTML = `
@@ -3055,6 +3265,9 @@
       if (currentMode === 'travel' || currentCategory === 'travel') {
         document.getElementById('newType').value = 'travel';
       }
+      if (currentCategory !== 'all' && document.getElementById('newCategory').querySelector(`option[value="${currentCategory}"]`)) {
+        document.getElementById('newCategory').value = currentCategory;
+      }
       const cfg = COUNTRY_CONFIG[currentCountry];
       if (currentUser && currentUser.isPremium) {
         document.getElementById('promoTopPrice').textContent = '0,00 (👑 PREMIUM)';
@@ -3267,7 +3480,6 @@
       const body = document.getElementById('accountModalBody');
       const cfg = COUNTRY_CONFIG[currentCountry];
 
-      // Ekran weryfikacji 2FA (krok 2 logowania)
       if (pending2FAUser) {
         body.innerHTML = `
           <div class="twofa-box">
@@ -3678,7 +3890,7 @@
               <div style="margin-top:8px;font-size:13px;line-height:1.7">
                 <div>🔐 Dwuetapowe logowanie (2FA) aktywne</div>
                 <div>🛡️ Panel Admina ukryty dla gości</div>
-                <div>✅ 13 kategorii (A–Z, Praca na końcu)</div>
+                <div>✅ 14 kategorii (w tym Wędkarstwo, Praca na końcu)</div>
               </div>
             </div>
           </div>
@@ -3800,7 +4012,7 @@
       const contentMap = {
         about: {
           title: 'O platformie PlacoMarkt',
-          body: `PlacoMarkt (.nl oraz .pl) to dwujęzyczna platforma ogłoszeniowa i zakupowa łącząca rynek holenderski (EUR) i polski (PLN). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, wczasy, kursy oraz oferty pracy.`
+          body: `PlacoMarkt (.nl oraz .pl) to dwujęzyczna platforma ogłoszeniowa i zakupowa łącząca rynek holenderski (EUR) i polski (PLN). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, wędkarstwo, wczasy, kursy oraz oferty pracy.`
         },
         terms: {
           title: 'Regulamin korzystania z PlacoMarkt',
