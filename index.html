@@ -183,7 +183,7 @@
     .hero h1 { font-size: 24px; margin-bottom: 6px; font-weight: 800; }
     .hero p { color: #94a3b8; font-size: 14px; margin-bottom: 14px; }
     .search-box {
-      max-width: 1040px;
+      max-width: 1080px;
       margin: 0 auto;
       background: var(--card);
       padding: 8px;
@@ -204,7 +204,7 @@
       color: var(--text);
       outline: none;
     }
-    .search-box input { flex: 2.2; min-width: 210px; }
+    .search-box input.main-q { flex: 2; min-width: 200px; }
     .search-btn {
       background: var(--blue);
       color: #fff;
@@ -217,7 +217,7 @@
     }
     .search-btn:hover { background: #1d4ed8; }
     .quick-tags {
-      max-width: 1040px;
+      max-width: 1080px;
       margin: 10px auto 0;
       display: flex;
       gap: 6px;
@@ -236,7 +236,33 @@
     }
     .quick-tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-    /* Main Layout: Sidebar Categories + Main Content (Black Friday & Ads + Listings) */
+    .suggest-box {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 4px;
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 260;
+      text-align: left;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+    }
+    .suggest-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .suggest-item:last-child { border-bottom: none; }
+    .suggest-item:hover { background: var(--soft-bg); }
+
+    /* Main Layout: Sidebar Categories + Main Content */
     .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
     .page-layout {
       display: grid;
@@ -453,20 +479,33 @@
     }
     .mode-tab.active .count-pill { background: rgba(255,255,255,0.22); color: #fff; }
 
-    /* Travel Filter Bar */
-    .travel-filter-bar {
-      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
-      border: 1px solid #bae6fd;
+    /* Travel & Auto Filter Bars */
+    .travel-filter-bar, .auto-filter-bar {
       border-radius: 12px;
       padding: 14px 16px;
       margin-bottom: 16px;
       display: none;
+    }
+    .travel-filter-bar {
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+      border: 1px solid #bae6fd;
     }
     body.dark-mode .travel-filter-bar {
       background: linear-gradient(135deg, #0c4a6e 0%, #0f172a 100%);
       border-color: #0284c7;
     }
     .travel-filter-bar.open { display: block; }
+
+    .auto-filter-bar {
+      background: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%);
+      border: 1px solid #fdba74;
+    }
+    body.dark-mode .auto-filter-bar {
+      background: linear-gradient(135deg, #431407 0%, #0f172a 100%);
+      border-color: #ea580c;
+    }
+    .auto-filter-bar.open { display: block; }
+
     .travel-filter-title {
       font-size: 14px;
       font-weight: 800;
@@ -479,6 +518,19 @@
       gap: 6px;
     }
     body.dark-mode .travel-filter-title { color: #38bdf8; }
+    .auto-filter-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #c2410c;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    body.dark-mode .auto-filter-title { color: #fb923c; }
+
     .travel-filters-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
@@ -489,6 +541,15 @@
       padding: 9px 11px;
       border-radius: 8px;
       border: 1px solid #7dd3fc;
+      background: var(--input-bg);
+      font-size: 13px;
+      color: var(--text);
+    }
+    .auto-filter-bar select, .auto-filter-bar input {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 8px;
+      border: 1px solid #fdba74;
       background: var(--input-bg);
       font-size: 13px;
       color: var(--text);
@@ -738,6 +799,16 @@
       padding: 3px 7px;
       border-radius: 5px;
     }
+    .auto-pill {
+      background: rgba(249,115,22,0.14);
+      color: #c2410c;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+    }
+    body.dark-mode .auto-pill { color: #fb923c; }
+
     .timer-box {
       background: #f3e8ff;
       color: #6b21a8;
@@ -1003,6 +1074,7 @@
     /* Form */
     .form-group { margin-bottom: 12px; }
     .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 560px) { .form-row-2 { grid-template-columns: 1fr; } }
     .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
@@ -1029,6 +1101,13 @@
     .travel-form-box {
       background: rgba(2,132,199,0.08);
       border: 1px solid #7dd3fc;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .auto-form-box {
+      background: rgba(249,115,22,0.08);
+      border: 1px solid #fdba74;
       border-radius: 10px;
       padding: 12px;
       margin-bottom: 12px;
@@ -1173,7 +1252,7 @@
     }
     .footer-links a:hover { color: var(--accent); }
 
-    /* Bottom Mobile Nav */
+    /* Bottom Mobile Nav (bez "Szukaj") */
     .mobile-nav {
       position: fixed;
       bottom: 0;
@@ -1225,24 +1304,38 @@
     <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
     <p id="heroSub">Wszystko w jednym miejscu • Szybka wyszukiwarka • Lokalne oferty w EUR i PLN</p>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Wpisz czego szukasz (np. perfumy, wózek, wędkarstwo, wędka, rower, turcja, praca...)" oninput="renderListings()" />
+      <input type="text" id="searchInput" class="main-q" placeholder="Wpisz czego szukasz (np. perfumy, wózek, wędkarstwo, wędka, rower, turcja, praca...)" oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
-      <select id="citySelect" onchange="renderListings()"></select>
+
+      <!-- Miejscowość: od 3 liter ze słownika wszystkich miejscowości PL/NL -->
+      <div style="position:relative;flex:1;min-width:175px">
+        <input
+          type="text"
+          id="cityInput"
+          autocomplete="off"
+          placeholder="Miejscowość (od 3 liter)..."
+          oninput="handleCityInput('search');renderListings()"
+          onfocus="handleCityInput('search')"
+          onblur="hideSuggestDelayed('citySuggestSearch')"
+        />
+        <div id="citySuggestSearch" class="suggest-box"></div>
+      </div>
+
       <button class="search-btn" id="lblSearchBtn" onclick="renderListings()">Szukaj</button>
     </div>
     <div class="quick-tags">
       <span style="color:#94a3b8">Popularne:</span>
       <span class="quick-tag" onclick="quickSearch('wędka')">🎣 Wędkarstwo</span>
+      <span class="quick-tag" onclick="quickSearch('skuter')">🛵 Skutery</span>
       <span class="quick-tag" onclick="quickSearch('perfumy')">💄 Perfumy</span>
       <span class="quick-tag" onclick="quickSearch('zabawki')">🧸 Zabawki</span>
       <span class="quick-tag" onclick="quickSearch('pokój')">🏠 Pokój / Mieszkanie</span>
       <span class="quick-tag" onclick="quickSearch('turcja')">✈️ Wczasy</span>
-      <span class="quick-tag" onclick="quickSearch('pioneer')">🎛️ Audio / DJ</span>
       <span class="quick-tag" onclick="quickSearch('praca')">💼 Praca</span>
     </div>
   </section>
 
-  <!-- Main Content: Sidebar Categories + Main Column (Black Friday & Ads + Listings) -->
+  <!-- Main Content: Sidebar Categories + Main Column -->
   <main class="container">
     <div class="page-layout">
       <!-- PANEL BOCZNY Z KATEGORIAMI -->
@@ -1275,6 +1368,37 @@
 
         <!-- Mode Tabs -->
         <div class="mode-tabs" id="modeTabs"></div>
+
+        <!-- Dedicated Auto / Moto / Scooter Filter Bar -->
+        <div class="auto-filter-bar" id="autoFilterBar">
+          <div class="auto-filter-title">
+            <span>🚗 Filtry Motoryzacji (Auta, Motory i Skutery)</span>
+            <button type="button" onclick="resetAutoFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry moto</button>
+          </div>
+          <div class="travel-filters-grid">
+            <select id="filterVehicleKind" onchange="renderListings()">
+              <option value="all">🚘 Rodzaj pojazdu (Wszystkie)</option>
+              <option value="Samochód osobowy">🚗 Samochód osobowy</option>
+              <option value="Motocykl / Motor">🏍️ Motocykl / Motor</option>
+              <option value="Skuter / Motorower">🛵 Skuter / Motorower</option>
+              <option value="Dostawczy / Bus">🚐 Dostawczy / Bus</option>
+              <option value="Quad / ATV">quad Quad / ATV</option>
+              <option value="Części i akcesoria">⚙️ Części i akcesoria</option>
+            </select>
+            <div style="position:relative">
+              <input
+                type="text"
+                id="filterVehicleBrand"
+                autocomplete="off"
+                placeholder="Marka auta / motoru / skutera (od 2 liter)..."
+                oninput="handleBrandInput('filter');renderListings()"
+                onfocus="handleBrandInput('filter')"
+                onblur="hideSuggestDelayed('brandSuggestFilter')"
+              />
+              <div id="brandSuggestFilter" class="suggest-box"></div>
+            </div>
+          </div>
+        </div>
 
         <!-- Dedicated Travel Filter Bar -->
         <div class="travel-filter-bar" id="travelFilterBar">
@@ -1426,7 +1550,7 @@
         </div>
         <div class="form-group">
           <label id="lblTitleField">Tytuł ogłoszenia</label>
-          <input type="text" id="newTitle" required placeholder="np. Wędka spinningowa, Perfumy, Domek nad morzem, Rower..." />
+          <input type="text" id="newTitle" required placeholder="np. Wędka spinningowa, Skuter La Souris, Perfumy, Domek..." />
         </div>
         <div class="form-group">
           <label>Zdjęcia ogłoszenia (maks. 4 zdjęcia z telefonu lub dysku)</label>
@@ -1436,11 +1560,52 @@
         <div class="form-row-2">
           <div class="form-group">
             <label id="lblCatField">Kategoria (w panelu bocznym)</label>
-            <select id="newCategory"></select>
+            <select id="newCategory" onchange="toggleAutoFields()"></select>
           </div>
-          <div class="form-group">
-            <label id="lblCityField">Miasto / Lokalizacja</label>
-            <select id="newCity"></select>
+          <div class="form-group" style="position:relative">
+            <label id="lblCityField">Miejscowość (wpisz min. 3 litery)</label>
+            <input
+              type="text"
+              id="newCity"
+              autocomplete="off"
+              required
+              placeholder="np. Rotterdam, Berkel en Rodenrijs, Siemonia, Wojkowice..."
+              oninput="handleCityInput('add')"
+              onfocus="handleCityInput('add')"
+              onblur="hideSuggestDelayed('citySuggestAdd')"
+            />
+            <div id="citySuggestAdd" class="suggest-box"></div>
+          </div>
+        </div>
+
+        <!-- Dedicated Auto / Moto / Scooter Fields in Add Form -->
+        <div class="auto-form-box" id="autoFieldsBox" style="display:none">
+          <div style="font-weight:800;color:#c2410c;font-size:13px;margin-bottom:10px">🚗 Szczegóły pojazdu (Auto / Motor / Skuter)</div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label>Rodzaj pojazdu</label>
+              <select id="newVehicleKind">
+                <option value="Samochód osobowy">🚗 Samochód osobowy</option>
+                <option value="Motocykl / Motor">🏍️ Motocykl / Motor</option>
+                <option value="Skuter / Motorower">🛵 Skuter / Motorower</option>
+                <option value="Dostawczy / Bus">🚐 Dostawczy / Bus</option>
+                <option value="Quad / ATV">quad Quad / ATV</option>
+                <option value="Części i akcesoria">⚙️ Części i akcesoria</option>
+              </select>
+            </div>
+            <div class="form-group" style="position:relative">
+              <label>Marka (wpisz min. 2 litery)</label>
+              <input
+                type="text"
+                id="newVehicleBrand"
+                autocomplete="off"
+                placeholder="np. La Souris, Vespa, Piaggio, BMW, VW, Yamaha..."
+                oninput="handleBrandInput('add')"
+                onfocus="handleBrandInput('add')"
+                onblur="hideSuggestDelayed('brandSuggestAdd')"
+              />
+              <div id="brandSuggestAdd" class="suggest-box"></div>
+            </div>
           </div>
         </div>
 
@@ -1559,6 +1724,17 @@
       <button class="close-modal" onclick="closeModal('settingsModal')">×</button>
       <h2 style="margin-bottom:14px">⚙️ <span id="settingsHeader">Ustawienia PlacoMarkt</span></h2>
 
+      <!-- Szybkie przejście do wyszukiwania (przeniesione z dołu) -->
+      <div class="set-section" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <div>
+          <h4 style="margin-bottom:2px">🔍 Wyszukiwanie ogłoszeń</h4>
+          <div style="font-size:12px;color:var(--muted)">Przejdź bezpośrednio do paska wyszukiwania i filtrów.</div>
+        </div>
+        <button type="button" class="mini-btn" style="background:var(--blue);color:#fff;border-color:var(--blue);padding:8px 12px" onclick="closeModal('settingsModal');focusSearchBar()">
+          🔍 Szukaj na stronie
+        </button>
+      </div>
+
       <!-- Section 1: Language & Market -->
       <div class="set-section">
         <h4>🌍 Rynek i Język</h4>
@@ -1592,8 +1768,20 @@
           <span>💱 Pokazuj orientacyjną cenę w drugiej walucie (EUR ↔ PLN)</span>
         </label>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
-          <span>Domyślne miasto:</span>
-          <select id="setDefaultCity" onchange="setDefaultCityPref(this.value)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px"></select>
+          <span>Domyślna miejscowość:</span>
+          <div style="position:relative;width:220px">
+            <input
+              type="text"
+              id="setDefaultCity"
+              autocomplete="off"
+              placeholder="Wpisz od 3 liter..."
+              oninput="handleCityInput('settings');setDefaultCityPref(this.value)"
+              onfocus="handleCityInput('settings')"
+              onblur="hideSuggestDelayed('citySuggestSettings')"
+              style="width:100%;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px"
+            />
+            <div id="citySuggestSettings" class="suggest-box"></div>
+          </div>
         </div>
       </div>
 
@@ -1632,9 +1820,8 @@
     </div>
   </div>
 
-  <!-- Mobile Bottom Navigation -->
+  <!-- Mobile Bottom Navigation (bez "Szukaj") -->
   <nav class="mobile-nav">
-    <button onclick="resetFilters()">🔍<span id="mobSearch">Szukaj</span></button>
     <button onclick="setMode('travel')">✈️<span id="mobTravel">Wczasy</span></button>
     <button onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Dodaj</span></button>
     <button onclick="setMode('favorites')">❤️<span>Ulubione</span></button>
@@ -1662,11 +1849,26 @@
 
     const EUR_TO_PLN = 4.30;
 
+    // Marki samochodów, motocykli (motorów) i skuterów (w tym popularne w NL i PL)
+    const VEHICLE_BRANDS = [
+      // Skutery i motorowery
+      'La Souris', 'Vespa', 'Piaggio', 'Kymco', 'SYM', 'Peugeot Motocycles', 'Aprilia',
+      'Gilera', 'Derbi', 'Tomos', 'Puch', 'Rieju', 'Beta', 'Generic', 'Baotian', 'AGM', 'Turbho',
+      // Motocykle / motory
+      'Yamaha', 'Honda', 'Kawasaki', 'Suzuki', 'BMW Motorrad', 'Ducati', 'Triumph',
+      'KTM', 'Harley-Davidson', 'Husqvarna', 'Benelli', 'CFMoto', 'Royal Enfield', 'Junak', 'Romet',
+      // Samochody osobowe i dostawcze
+      'Volkswagen', 'Audi', 'BMW', 'Mercedes-Benz', 'Opel', 'Ford', 'Peugeot', 'Renault',
+      'Citroën', 'Toyota', 'Kia', 'Hyundai', 'Skoda', 'Seat', 'Cupra', 'Fiat', 'Mazda',
+      'Nissan', 'Volvo', 'Dacia', 'Alfa Romeo', 'Jeep', 'Land Rover', 'Porsche', 'Tesla',
+      'Iveco', 'Sprinter', 'Transit', 'Crafter', 'Master', 'Ducato'
+    ];
+
     let userPrefs = {
       darkMode: false,
       showDualCurrency: true,
-      defaultCityNL: 'Cała Holandia',
-      defaultCityPL: 'Cała Polska',
+      defaultCityNL: '',
+      defaultCityPL: '',
       phoneVisibility: 'click',
       antiPhishing: true,
       bidAlerts: true,
@@ -1703,7 +1905,7 @@
       } catch (e) {}
     })();
 
-    // Kategorie w panelu bocznym (w tym Wędkarstwo, a Praca na końcu)
+    // Kategorie w panelu bocznym (Praca na końcu)
     const CATEGORIES_LIST = [
       { id: 'kids', icon: '🧸', key: 'catKids' },
       { id: 'home', icon: '🛋️', key: 'catHome' },
@@ -1718,7 +1920,7 @@
       { id: 'services', icon: '🔧', key: 'catServices' },
       { id: 'travel', icon: '✈️', key: 'catTravel' },
       { id: 'fishing', icon: '🎣', key: 'catFishing' },
-      { id: 'jobs', icon: '💼', key: 'catJobs' } // Praca na końcu
+      { id: 'jobs', icon: '💼', key: 'catJobs' }
     ];
 
     const COUNTRY_CONFIG = {
@@ -1726,7 +1928,6 @@
         domain: '.nl',
         currency: '€',
         langs: ['PL', 'NL', 'EN', 'LT', 'TR'],
-        cities: ['Cała Holandia', 'Rotterdam', 'Den Haag', 'Amsterdam', 'Utrecht', 'Eindhoven', 'Tilburg', 'Breda', 'Groningen'],
         shippingOptions: ['📍 Odbiór osobisty (NL)', '📦 Wysyłka PostNL / DHL NL', '🤝 Nie dotyczy (usługa / wynajem / wczasy / praca)'],
         categories: CATEGORIES_LIST,
         promoPrices: { std: '0,00 €', urgent: '0,00 € (Start)', top: '0,00 € (Start)', premiumMonth: '0,00 € (Promocja Start)' }
@@ -1735,7 +1936,6 @@
         domain: '.pl',
         currency: 'zł',
         langs: ['PL', 'UA', 'EN'],
-        cities: ['Cała Polska', 'Warszawa', 'Kraków', 'Katowice / Śląsk', 'Wrocław', 'Poznań', 'Gdańsk', 'Łódź'],
         shippingOptions: ['📍 Odbiór osobisty (PL)', '📦 InPost Paczkomat / Kurier DPD', '🤝 Nie dotyczy (usługa / nieruchomość / wczasy / praca)'],
         categories: CATEGORIES_LIST,
         promoPrices: { std: '0,00 zł', urgent: '0,00 zł (Start)', top: '0,00 zł (Start)', premiumMonth: '0,00 zł (Promocja Start)' }
@@ -1747,10 +1947,10 @@
         settings: 'Ustawienia',
         add: 'Dodaj',
         heroNL: 'Ogłoszenia, Licytacje, Zakupy i Wczasy w Holandii',
-        subNL: 'Wszystko w jednym miejscu • Wędkarstwo, Kosmetyki, Dla dzieci, Dom, Elektronika, Wczasy i Praca (EUR)',
+        subNL: 'Wszystko w jednym miejscu • Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Dom, Wczasy i Praca (EUR)',
         heroPL: 'Ogłoszenia, Licytacje, Zakupy i Wczasy w Polsce',
-        subPL: 'Wszystko w jednym miejscu • Wędkarstwo, Kosmetyki, Dla dzieci, Dom, Elektronika, Wczasy i Praca (PLN)',
-        searchPlaceholder: 'Wpisz czego szukasz (np. wędka, przynęty, perfumy, wózek, mieszkanie, turcja, praca...)',
+        subPL: 'Wszystko w jednym miejscu • Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Dom, Wczasy i Praca (PLN)',
+        searchPlaceholder: 'Wpisz czego szukasz (np. skuter, wędka, perfumy, wózek, mieszkanie, turcja, praca...)',
         searchBtn: 'Szukaj',
         tabAll: 'Wszystkie oferty',
         tabTravel: '✈️ Wczasy i Wyjazdy',
@@ -1766,7 +1966,7 @@
         catCosmetics: 'Kosmetyki i Perfumy',
         catCourses: 'Kursy i Szkolenia',
         catHousing: 'Mieszkania i Nieruchomości',
-        catAuto: 'Motoryzacja i Rowery',
+        catAuto: 'Motoryzacja, Motory i Skutery',
         catFree: 'Oddam za darmo',
         catFashion: 'Odzież i Obuwie',
         catSport: 'Sport i Hobby',
@@ -1789,10 +1989,10 @@
         settings: 'Instellingen',
         add: 'Plaatsen',
         heroNL: 'Advertenties, Veilingen, Winkelen & Vakanties',
-        subNL: 'Alles op één plek • Hengelsport, Cosmetica, Kinderen, Huis, Elektronica, Vakanties & Werk (EUR)',
+        subNL: 'Alles op één plek • Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Vakanties & Werk',
         heroPL: 'Poolse marktplaats in PLN (zł)',
-        subPL: 'Lokale Poolse advertenties • Hengelsport & Reizen',
-        searchPlaceholder: 'Waar ben je naar op zoek (bv. hengel, kunstaas, parfum, woning, vakantie...)?',
+        subPL: 'Lokale Poolse advertenties • Auto, Motor, Scooter, Hengelsport & Reizen',
+        searchPlaceholder: 'Waar ben je naar op zoek (bv. scooter, motor, hengel, parfum, woning...)?',
         searchBtn: 'Zoeken',
         tabAll: 'Alle advertenties',
         tabTravel: '✈️ Vakanties',
@@ -1808,7 +2008,7 @@
         catCosmetics: 'Cosmetica & Parfum',
         catCourses: 'Cursussen',
         catHousing: 'Woningen & Kamers',
-        catAuto: 'Auto & Fietsen',
+        catAuto: 'Auto, Motor & Scooter',
         catFree: 'Gratis',
         catFashion: 'Kleding & Schoenen',
         catSport: 'Sport & Hobby',
@@ -1831,10 +2031,10 @@
         settings: 'Settings',
         add: 'Post Ad',
         heroNL: 'Classifieds, Auctions, Shopping & Holidays',
-        subNL: 'Everything in one place • Fishing, Cosmetics, Kids, Home, Electronics, Holidays & Jobs',
+        subNL: 'Everything in one place • Cars, Motorcycles, Scooters, Fishing, Cosmetics, Housing, Holidays & Jobs',
         heroPL: 'Classifieds, Auctions, Shopping & Holidays in Poland',
-        subPL: 'Everything in one place • Fishing & local deals in PLN (zł)',
-        searchPlaceholder: 'Search for fishing rod, lures, perfume, toys, housing, holidays, jobs...',
+        subPL: 'Everything in one place • Cars, Motorcycles, Scooters, Fishing & local deals in PLN',
+        searchPlaceholder: 'Search for scooter, motorcycle, car, fishing rod, perfume, housing, holidays...',
         searchBtn: 'Search',
         tabAll: 'All listings',
         tabTravel: '✈️ Holidays & Trips',
@@ -1850,7 +2050,7 @@
         catCosmetics: 'Cosmetics & Perfume',
         catCourses: 'Courses & Training',
         catHousing: 'Housing & Property',
-        catAuto: 'Motors & Bikes',
+        catAuto: 'Cars, Bikes & Scooters',
         catFree: 'Free',
         catFashion: 'Fashion & Shoes',
         catSport: 'Sports & Hobby',
@@ -1873,7 +2073,7 @@
         settings: 'Nustatymai',
         add: 'Įdėti',
         heroNL: 'Skelbimai, Aukcionai, Pirkiniai ir Atostogos',
-        subNL: 'Viskas vienoje vietoje • Žvejyba, Kosmetika, Vaikams, Namams, Būstas, Atostogos ir Darbas',
+        subNL: 'Viskas vienoje vietoje • Auto, Motociklai, Motoroleriai, Žvejyba, Būstas, Atostogos ir Darbas',
         heroPL: 'Lenkijos skelbimai (PLN)',
         subPL: 'Vietiniai pasiūlymai Lenkijoje',
         searchPlaceholder: 'Ko ieškote?',
@@ -1892,7 +2092,7 @@
         catCosmetics: 'Kosmetika ir Kvepalai',
         catCourses: 'Kursai',
         catHousing: 'Būstas',
-        catAuto: 'Auto ir Dviračiai',
+        catAuto: 'Auto, Motociklai ir Motoroleriai',
         catFree: 'Nemokamai',
         catFashion: 'Drabužiai ir Avalynė',
         catSport: 'Sportas ir Hobis',
@@ -1915,7 +2115,7 @@
         settings: 'Ayarlar',
         add: 'İlan Ver',
         heroNL: 'İlanlar, Açık Artırma, Alışveriş ve Tatil',
-        subNL: 'Her şey tek yerde • Balıkçılık, Kozmetik, Çocuk, Ev, Elektronik, Konut, Tatil ve İş İlanları',
+        subNL: 'Her şey tek yerde • Otomobil, Motosiklet, Scooter, Balıkçılık, Kozmetik, Emlak, Tatil ve İş',
         heroPL: 'Polonya İlanları (PLN)',
         subPL: 'Polonya yerel ilanlar',
         searchPlaceholder: 'Ne arıyorsunuz?',
@@ -1934,7 +2134,7 @@
         catCosmetics: 'Kozmetik & Parfüm',
         catCourses: 'Kurslar',
         catHousing: 'Emlak & Oda',
-        catAuto: 'Araç & Bisiklet',
+        catAuto: 'Oto, Motosiklet & Scooter',
         catFree: 'Ücretsiz',
         catFashion: 'Giyim & Ayakkabı',
         catSport: 'Spor & Hobi',
@@ -1957,10 +2157,10 @@
         settings: 'Налаштування',
         add: 'Додати',
         heroNL: 'Оголошення, Аукціони, Покупки та Відпочинок',
-        subNL: 'Все в одному місці • Риболовля, Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
+        subNL: 'Все в одному місці • Авто, Мотоцикли, Скутери, Риболовля, Косметика, Житло, Відпочинок і Робота',
         heroPL: 'Оголошення, Аукціони, Покупки та Відпочинок у Польщі',
-        subPL: 'Все в одному місці • Риболовля, Косметика, Для дітей, Дім, Електроніка, Житло, Відпочинок і Робота',
-        searchPlaceholder: 'Що шукаєте (вудка, приманки, парфуми, іграшки, житло, відпочинок, робота...)?',
+        subPL: 'Все в одному місці • Авто, Мотоцикли, Скутери, Риболовля, Косметика, Житло, Відпочинок і Робота',
+        searchPlaceholder: 'Що шукаєте (скутер, мотоцикл, авто, вудка, парфуми, житло, відпочинок...)?',
         searchBtn: 'Пошук',
         tabAll: 'Усі оголошення',
         tabTravel: '✈️ Відпочинок і тури',
@@ -1976,7 +2176,7 @@
         catCosmetics: 'Косметика та Парфуми',
         catCourses: 'Курси',
         catHousing: 'Житло та Нерухомість',
-        catAuto: 'Авто та Велосипеди',
+        catAuto: 'Авто, Мото та Скутери',
         catFree: 'Безкоштовно',
         catFashion: 'Одяг та Взуття',
         catSport: 'Спорт і Хобі',
@@ -1999,6 +2199,31 @@
 
     const DEMO_LISTINGS = {
       NL: [
+        {
+          id: 115,
+          type: 'sale',
+          category: 'auto',
+          vehicleKind: 'Skuter / Motorower',
+          vehicleBrand: 'La Souris',
+          condition: 'used',
+          title: 'Skuter retro La Souris — stan bardzo dobry, po przeglądzie, komplet dokumentów',
+          city: 'Rotterdam',
+          price: 890,
+          priceNote: 'kenteken NL',
+          shipping: '📍 Odbiór osobisty (NL)',
+          icon: '🛵',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 264,
+          sellerName: 'ScooterNL_RTM',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+31 6 50 12 34 56',
+          desc: 'Zadbany skuter retro marki La Souris w Rotterdamie, odpala od strzała, nowe klocki i regulacja hamulców.'
+        },
         {
           id: 114,
           type: 'sale',
@@ -2221,12 +2446,37 @@
       ],
       PL: [
         {
+          id: 215,
+          type: 'sale',
+          category: 'auto',
+          vehicleKind: 'Motocykl / Motor',
+          vehicleBrand: 'Yamaha',
+          condition: 'used',
+          title: 'Motocykl Yamaha MT-07 — bardzo zadbany, po serwisie olejowym',
+          city: 'Katowice',
+          price: 23900,
+          priceNote: 'zarejestrowany w PL',
+          shipping: '📍 Odbiór osobisty (PL)',
+          icon: '🏍️',
+          photos: [],
+          top: true,
+          urgent: false,
+          hidden: false,
+          views: 245,
+          sellerName: 'MotoŚląsk',
+          sellerVerified: true,
+          sellerRating: 5.0,
+          sellerReviews: [],
+          phone: '+48 505 666 777',
+          desc: 'Świetny motocykl na miasto i trasę, opony w bardzo dobrym stanie, ważne OC i przegląd.'
+        },
+        {
           id: 214,
           type: 'sale',
           category: 'fishing',
           condition: 'new',
           title: 'Zestaw wędkarski spinningowy + pudełko przynęt i podbierak',
-          city: 'Katowice / Śląsk',
+          city: 'Katowice',
           price: 290,
           priceNote: 'nowy zestaw',
           shipping: '📦 InPost Paczkomat / Kurier DPD',
@@ -2272,7 +2522,7 @@
           category: 'kids',
           condition: 'used',
           title: 'Wózek dziecięcy 2w1 + fotelik samochodowy i mata edukacyjna',
-          city: 'Katowice / Śląsk',
+          city: 'Czeladź',
           price: 650,
           priceNote: 'stan bardzo dobry',
           shipping: '📍 Odbiór osobisty (PL)',
@@ -2325,7 +2575,7 @@
           category: 'housing',
           condition: 'na',
           title: 'Mieszkanie 2-pokojowe 48 m² na sprzedaż — Czeladź / Piaski',
-          city: 'Katowice / Śląsk',
+          city: 'Czeladź',
           price: 315000,
           priceNote: 'sprzedaż (pełna własność)',
           shipping: '🤝 Nieruchomość w Polsce',
@@ -2453,6 +2703,173 @@
     let activeAdminTab = 'listings';
     let uploadedPhotosTemp = [];
 
+    // =========================================================================
+    // MIEJSCOWOŚCI OD 3 LITER (WSZYSTKIE MIEJSCOWOŚCI PL I NL Z OPENSTREETMAP)
+    // =========================================================================
+    const citySearchTimers = {};
+    const citySearchCache = {};
+
+    function getCityInputId(ctx) {
+      if (ctx === 'search') return 'cityInput';
+      if (ctx === 'add') return 'newCity';
+      return 'setDefaultCity';
+    }
+
+    function getCitySuggestId(ctx) {
+      if (ctx === 'search') return 'citySuggestSearch';
+      if (ctx === 'add') return 'citySuggestAdd';
+      return 'citySuggestSettings';
+    }
+
+    function handleCityInput(ctx) {
+      const inp = document.getElementById(getCityInputId(ctx));
+      const box = document.getElementById(getCitySuggestId(ctx));
+      if (!inp || !box) return;
+
+      const val = inp.value.trim();
+      clearTimeout(citySearchTimers[ctx]);
+
+      // Nie pokazujemy niczego przy mniej niż 3 literach
+      if (val.length < 3) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+      }
+
+      citySearchTimers[ctx] = setTimeout(() => fetchAllCities(ctx, val), 240);
+    }
+
+    async function fetchAllCities(ctx, query) {
+      const box = document.getElementById(getCitySuggestId(ctx));
+      if (!box) return;
+
+      const countryCode = currentCountry.toLowerCase(); // 'pl' lub 'nl'
+      const cacheKey = `${countryCode}:${query.toLowerCase()}`;
+
+      if (citySearchCache[cacheKey]) {
+        renderCitySuggestions(ctx, citySearchCache[cacheKey]);
+        return;
+      }
+
+      box.innerHTML = `<div class="suggest-item" style="color:var(--muted);cursor:default">Szukam miejscowości...</div>`;
+      box.style.display = 'block';
+
+      try {
+        const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&countrycodes=${countryCode}&featuretype=settlement&limit=15&q=${encodeURIComponent(query)}`;
+        const res = await fetch(url, {
+          headers: { 'Accept-Language': currentCountry === 'NL' ? 'nl,pl' : 'pl' }
+        });
+        const data = await res.json();
+
+        const seen = new Set();
+        const results = [];
+
+        for (const item of data) {
+          const addr = item.address || {};
+          const name = addr.city || addr.town || addr.village || addr.hamlet || addr.municipality || item.name;
+          if (!name) continue;
+
+          const region = addr.state || addr.county || '';
+          const key = `${name.toLowerCase()}|${region.toLowerCase()}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+
+          results.push({ name, region });
+        }
+
+        citySearchCache[cacheKey] = results;
+        renderCitySuggestions(ctx, results);
+      } catch (e) {
+        box.style.display = 'none';
+      }
+    }
+
+    function renderCitySuggestions(ctx, list) {
+      const box = document.getElementById(getCitySuggestId(ctx));
+      if (!box) return;
+
+      if (!list.length) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+      }
+
+      box.innerHTML = list.map(item => `
+        <div class="suggest-item" onmousedown="pickCitySuggestion('${ctx}', '${item.name.replace(/'/g, "\\'")}')">
+          <strong>📍 ${item.name}</strong>${item.region ? ` <span style="font-size:11px;color:var(--muted)">(${item.region})</span>` : ''}
+        </div>
+      `).join('');
+      box.style.display = 'block';
+    }
+
+    function pickCitySuggestion(ctx, cityName) {
+      const inp = document.getElementById(getCityInputId(ctx));
+      const box = document.getElementById(getCitySuggestId(ctx));
+      if (inp) inp.value = cityName;
+      if (box) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+      }
+      if (ctx === 'search') renderListings();
+      if (ctx === 'settings') setDefaultCityPref(cityName);
+    }
+
+    function hideSuggestDelayed(boxId) {
+      setTimeout(() => {
+        const box = document.getElementById(boxId);
+        if (box) box.style.display = 'none';
+      }, 150);
+    }
+
+    // =========================================================================
+    // PODPOWIADANIE MAREK AUT, MOTORÓW I SKUTERÓW
+    // =========================================================================
+    function handleBrandInput(ctx) {
+      const inp = document.getElementById(ctx === 'filter' ? 'filterVehicleBrand' : 'newVehicleBrand');
+      const box = document.getElementById(ctx === 'filter' ? 'brandSuggestFilter' : 'brandSuggestAdd');
+      if (!inp || !box) return;
+
+      const val = inp.value.trim();
+      if (val.length < 2) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+      }
+
+      const q = val.toLowerCase();
+      const matches = VEHICLE_BRANDS.filter(b => b.toLowerCase().includes(q)).slice(0, 12);
+      if (!matches.length) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+      }
+
+      box.innerHTML = matches.map(brand => `
+        <div class="suggest-item" onmousedown="pickBrandSuggestion('${ctx}', '${brand.replace(/'/g, "\\'")}')">
+          🚘 ${brand}
+        </div>
+      `).join('');
+      box.style.display = 'block';
+    }
+
+    function pickBrandSuggestion(ctx, brand) {
+      const inp = document.getElementById(ctx === 'filter' ? 'filterVehicleBrand' : 'newVehicleBrand');
+      const box = document.getElementById(ctx === 'filter' ? 'brandSuggestFilter' : 'brandSuggestAdd');
+      if (inp) inp.value = brand;
+      if (box) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+      }
+      if (ctx === 'filter') renderListings();
+    }
+
+    function focusSearchBar() {
+      const hero = document.querySelector('.hero');
+      const inp = document.getElementById('searchInput');
+      if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (inp) setTimeout(() => inp.focus(), 250);
+    }
+
     function applyThemeFromPrefs() {
       document.body.classList.toggle('dark-mode', Boolean(userPrefs.darkMode));
       document.getElementById('listingsGrid').classList.toggle('list-view', userPrefs.layoutView === 'list');
@@ -2477,7 +2894,7 @@
       if (currentCountry === 'NL') userPrefs.defaultCityNL = val;
       else userPrefs.defaultCityPL = val;
       savePrefs();
-      renderCountryUI();
+      renderListings();
     }
 
     function quickSearch(term) {
@@ -2498,6 +2915,8 @@
         ownerId: row.owner_id,
         type: row.type,
         category: row.category,
+        vehicleKind: row.vehicle_kind || '',
+        vehicleBrand: row.vehicle_brand || '',
         condition: row.condition || 'na',
         title: row.title,
         city: row.city,
@@ -2606,6 +3025,9 @@
       if (autoDetectCountry) currentCountry = detectDeviceCountry();
       if (autoDetectLang) currentLang = detectDeviceLanguage();
 
+      const defCity = currentCountry === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL;
+      if (defCity) document.getElementById('cityInput').value = defCity;
+
       updateAccountButton();
       renderCountryUI();
       await syncFromSupabase();
@@ -2631,6 +3053,7 @@
       currentCountry = country;
       currentCategory = 'all';
       currentMode = 'all';
+      document.getElementById('cityInput').value = (country === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL) || '';
 
       const allowed = COUNTRY_CONFIG[country].langs;
       if (autoDetectLang) {
@@ -2677,6 +3100,9 @@
       document.getElementById('heroTitle').textContent = currentCountry === 'NL' ? t.heroNL : t.heroPL;
       document.getElementById('heroSub').textContent = currentCountry === 'NL' ? t.subNL : t.subPL;
       document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+      document.getElementById('cityInput').placeholder = currentCountry === 'NL'
+        ? 'Miejscowość w NL (od 3 liter)...'
+        : 'Miejscowość w PL (od 3 liter)...';
       document.getElementById('lblSearchBtn').textContent = t.searchBtn;
 
       const pillsEl = document.getElementById('langPills');
@@ -2692,12 +3118,7 @@
         `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${c.icon} ${t[c.key] || c.key}</option>`
       ).join('');
 
-      const citySel = document.getElementById('citySelect');
-      const prevCity = citySel.value;
-      citySel.innerHTML = cfg.cities.map(c => `<option value="${c}">${c}</option>`).join('');
-      const defCity = currentCountry === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL;
-      if (prevCity && cfg.cities.includes(prevCity)) citySel.value = prevCity;
-      else if (defCity && cfg.cities.includes(defCity)) citySel.value = defCity;
+      const cityVal = document.getElementById('cityInput').value.trim();
 
       const visibleItems = listingsData[currentCountry].filter(i => !i.hidden);
       const favCount = visibleItems.filter(i => favoriteIds.includes(i.id)).length;
@@ -2731,6 +3152,9 @@
       const showTravelBar = (currentMode === 'travel' || currentCategory === 'travel');
       document.getElementById('travelFilterBar').classList.toggle('open', showTravelBar);
 
+      const showAutoBar = (currentCategory === 'auto');
+      document.getElementById('autoFilterBar').classList.toggle('open', showAutoBar);
+
       document.getElementById('sidebarCategoryList').innerHTML = cfg.categories.map(c => {
         const cCount = visibleItems.filter(i => i.category === c.id).length;
         return `<button type="button" class="sidebar-cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="toggleCategory('${c.id}')">
@@ -2747,15 +3171,12 @@
       crumbEl.innerHTML = `
         <span class="crumb-link" onclick="resetFilters()">PlacoMarkt${cfg.domain}</span>
         <span>›</span>
-        <span>${citySel.value}</span>
+        <span>${cityVal || (currentCountry === 'NL' ? 'Cała Holandia' : 'Cała Polska')}</span>
         ${activeCatObj ? `<span>›</span><strong>${activeCatObj.icon} ${t[activeCatObj.key]}</strong>` : ''}
       `;
 
       document.getElementById('newCategory').innerHTML = cfg.categories.map(c =>
         `<option value="${c.id}">${c.icon} ${t[c.key] || c.key}</option>`
-      ).join('');
-      document.getElementById('newCity').innerHTML = cfg.cities.slice(1).map(c =>
-        `<option value="${c}">${c}</option>`
       ).join('');
       document.getElementById('newShipping').innerHTML = cfg.shippingOptions.map(s =>
         `<option value="${s}">${s}</option>`
@@ -2781,6 +3202,12 @@
       renderCountryUI();
     }
 
+    function resetAutoFilters() {
+      document.getElementById('filterVehicleKind').value = 'all';
+      document.getElementById('filterVehicleBrand').value = '';
+      renderListings();
+    }
+
     function resetTravelFilters() {
       document.getElementById('filterTravelDest').value = 'all';
       document.getElementById('filterTravelKind').value = 'all';
@@ -2793,10 +3220,11 @@
       currentMode = 'all';
       currentCategory = 'all';
       document.getElementById('searchInput').value = '';
+      document.getElementById('cityInput').value = '';
       document.getElementById('filterCondition').value = 'all';
       document.getElementById('filterMinPrice').value = '';
       document.getElementById('filterMaxPrice').value = '';
-      document.getElementById('citySelect').selectedIndex = 0;
+      resetAutoFilters();
       resetTravelFilters();
       renderCountryUI();
     }
@@ -2830,13 +3258,15 @@
     function renderListings() {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      const city = document.getElementById('citySelect').value;
-      const allCitiesLabel = COUNTRY_CONFIG[currentCountry].cities[0];
+      const city = document.getElementById('cityInput').value.trim().toLowerCase();
 
       const condFilter = document.getElementById('filterCondition').value;
       const minP = Number(document.getElementById('filterMinPrice').value || 0);
       const maxP = Number(document.getElementById('filterMaxPrice').value || 0);
       const sortBy = document.getElementById('sortSelect').value;
+
+      const vKind = document.getElementById('filterVehicleKind').value;
+      const vBrand = document.getElementById('filterVehicleBrand').value.trim().toLowerCase();
 
       const tDest = document.getElementById('filterTravelDest').value;
       const tKind = document.getElementById('filterTravelKind').value;
@@ -2851,15 +3281,20 @@
           return false;
         }
         if (currentCategory !== 'all' && item.category !== currentCategory) return false;
-        if (city && city !== allCitiesLabel && item.city !== city) return false;
+        if (city && !(item.city || '').toLowerCase().includes(city)) return false;
         if (condFilter !== 'all' && item.condition !== condFilter) return false;
         if (minP > 0 && item.price < minP) return false;
         if (maxP > 0 && item.price > maxP) return false;
 
+        if (currentCategory === 'auto') {
+          if (vKind !== 'all' && (item.vehicleKind || '') !== vKind) return false;
+          if (vBrand && !`${item.vehicleBrand || ''} ${item.title}`.toLowerCase().includes(vBrand)) return false;
+        }
+
         if (query) {
           const catObj = CATEGORIES_LIST.find(c => c.id === item.category);
           const catLabel = catObj ? (t[catObj.key] || '').toLowerCase() : '';
-          const hay = `${item.title} ${item.desc} ${item.city} ${catLabel} ${item.sellerName || ''}`.toLowerCase();
+          const hay = `${item.title} ${item.desc} ${item.city} ${item.vehicleKind || ''} ${item.vehicleBrand || ''} ${catLabel} ${item.sellerName || ''}`.toLowerCase();
           const words = query.split(/\s+/);
           if (!words.every(w => hay.includes(w))) return false;
         }
@@ -2918,6 +3353,13 @@
           ? `<div class="timer-box"><span>⏳ ${t.endsIn} <strong class="auction-timer" data-end="${item.endsAt}">${formatTimeLeft(item.endsAt)}</strong></span><span>${item.bids} ${t.bidsCount}</span></div>`
           : '';
 
+        const autoPillsHtml = (item.vehicleKind || item.vehicleBrand)
+          ? `<div class="travel-pills">
+               ${item.vehicleKind ? `<span class="auto-pill">🚘 ${item.vehicleKind}</span>` : ''}
+               ${item.vehicleBrand ? `<span class="auto-pill">🏷️ ${item.vehicleBrand}</span>` : ''}
+             </div>`
+          : '';
+
         const travelPillsHtml = item.travelDetails
           ? `<div class="travel-pills">
                <span class="travel-pill">🌍 ${item.travelDetails.dest.split('(')[0].trim()}</span>
@@ -2955,6 +3397,7 @@
                 <div class="seller-mini-tag">
                   ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'Sprzedawca'} • ⭐ ${(item.sellerRating || 5.0).toFixed(1)}
                 </div>
+                ${autoPillsHtml}
                 ${travelPillsHtml}
                 ${!item.travelDetails ? `<div class="shipping-tag">${item.shipping}</div>` : ''}
                 ${timerHtml}
@@ -3036,6 +3479,16 @@
         `;
       }
 
+      let autoSpecBox = '';
+      if (item.vehicleKind || item.vehicleBrand) {
+        autoSpecBox = `
+          <div class="travel-spec-grid">
+            ${item.vehicleKind ? `<div class="travel-spec-item"><span>Rodzaj pojazdu</span><strong>🚘 ${item.vehicleKind}</strong></div>` : ''}
+            ${item.vehicleBrand ? `<div class="travel-spec-item"><span>Marka</span><strong>🏷️ ${item.vehicleBrand}</strong></div>` : ''}
+          </div>
+        `;
+      }
+
       const similar = listingsData[currentCountry]
         .filter(x => !x.hidden && x.id !== item.id && (x.category === item.category || x.city === item.city))
         .slice(0, 3);
@@ -3081,6 +3534,7 @@
           ${convHtml ? `<span class="converted-price" style="font-size:14px">(${convHtml})</span>` : ''}
         </div>
         ${item.priceNote ? `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">${item.priceNote}</div>` : ''}
+        ${autoSpecBox}
         ${travelSpecBox}
         ${auctionBox}
         <p style="line-height:1.55;margin:12px 0">${item.desc}</p>
@@ -3278,7 +3732,13 @@
         document.getElementById('promoUrgentPrice').textContent = cfg.promoPrices.urgent;
       }
       toggleAddFields();
+      toggleAutoFields();
       document.getElementById('addModal').classList.add('open');
+    }
+
+    function toggleAutoFields() {
+      const cat = document.getElementById('newCategory').value;
+      document.getElementById('autoFieldsBox').style.display = (cat === 'auto') ? 'block' : 'none';
     }
 
     function toggleAddFields() {
@@ -3293,6 +3753,7 @@
       if (isTravel) document.getElementById('newCategory').value = 'travel';
       if (type === 'job') document.getElementById('newCategory').value = 'jobs';
       if (type === 'course') document.getElementById('newCategory').value = 'courses';
+      toggleAutoFields();
     }
 
     function selectPromo(tier) {
@@ -3308,14 +3769,23 @@
       const title = document.getElementById('newTitle').value;
       const category = type === 'travel' ? 'travel' : document.getElementById('newCategory').value;
       const condition = (type === 'travel' || type === 'job' || type === 'course') ? 'na' : document.getElementById('newCondition').value;
-      const city = document.getElementById('newCity').value;
+      const city = document.getElementById('newCity').value.trim();
       const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
       const buyNow = Number(document.getElementById('newBuyNow').value || 0);
       const shipping = document.getElementById('newShipping').value;
       const desc = document.getElementById('newDesc').value;
 
+      const vehicleKind = category === 'auto' ? document.getElementById('newVehicleKind').value : '';
+      const vehicleBrand = category === 'auto' ? document.getElementById('newVehicleBrand').value.trim() : '';
+
       const catObj = CATEGORIES_LIST.find(c => c.id === category);
-      const iconVal = catObj ? catObj.icon : '📦';
+      let iconVal = catObj ? catObj.icon : '📦';
+      if (category === 'auto') {
+        if (vehicleKind.includes('Skuter')) iconVal = '🛵';
+        else if (vehicleKind.includes('Motocykl')) iconVal = '🏍️';
+        else if (vehicleKind.includes('Dostawczy')) iconVal = '🚐';
+        else iconVal = '🚗';
+      }
 
       let travelDetails = null;
       let priceNote = '';
@@ -3344,6 +3814,8 @@
             country: currentCountry,
             type,
             category,
+            vehicle_kind: vehicleKind,
+            vehicle_brand: vehicleBrand,
             title,
             city,
             price,
@@ -3370,6 +3842,8 @@
           ownerId: currentUser ? currentUser.id : null,
           type,
           category,
+          vehicleKind,
+          vehicleBrand,
           condition,
           title,
           city,
@@ -3405,7 +3879,7 @@
       alert('Ogłoszenie zostało opublikowane na PlacoMarkt za darmo (0,00)!');
     }
 
-    /* ACCOUNT, 2FA (TWO-FACTOR AUTHENTICATION) & ADMIN ACCESS */
+    /* ACCOUNT, 2FA & ADMIN ACCESS */
     let currentUser = null;
     let pending2FAUser = null;
     let pending2FACode = '';
@@ -3890,7 +4364,7 @@
               <div style="margin-top:8px;font-size:13px;line-height:1.7">
                 <div>🔐 Dwuetapowe logowanie (2FA) aktywne</div>
                 <div>🛡️ Panel Admina ukryty dla gości</div>
-                <div>✅ 14 kategorii (w tym Wędkarstwo, Praca na końcu)</div>
+                <div>✅ 14 kategorii + marki aut, motorów i skuterów</div>
               </div>
             </div>
           </div>
@@ -3976,9 +4450,7 @@
       document.getElementById('setAntiPhish').checked = Boolean(userPrefs.antiPhishing);
       document.getElementById('setBidAlerts').checked = Boolean(userPrefs.bidAlerts);
 
-      const defCitySel = document.getElementById('setDefaultCity');
-      defCitySel.innerHTML = cfg.cities.map(c => `<option value="${c}">${c}</option>`).join('');
-      defCitySel.value = currentCountry === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL;
+      document.getElementById('setDefaultCity').value = (currentCountry === 'NL' ? userPrefs.defaultCityNL : userPrefs.defaultCityPL) || '';
 
       document.getElementById('settingsModal').classList.add('open');
     }
@@ -4012,7 +4484,7 @@
       const contentMap = {
         about: {
           title: 'O platformie PlacoMarkt',
-          body: `PlacoMarkt (.nl oraz .pl) to dwujęzyczna platforma ogłoszeniowa i zakupowa łącząca rynek holenderski (EUR) i polski (PLN). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, wędkarstwo, wczasy, kursy oraz oferty pracy.`
+          body: `PlacoMarkt (.nl oraz .pl) to dwujęzyczna platforma ogłoszeniowa i zakupowa łącząca rynek holenderski (EUR) i polski (PLN). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, motoryzację (auta, motory, skutery), wędkarstwo, wczasy, kursy oraz oferty pracy.`
         },
         terms: {
           title: 'Regulamin korzystania z PlacoMarkt',
