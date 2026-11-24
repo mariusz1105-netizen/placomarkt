@@ -6,6 +6,12 @@
   <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="PlacoMarkt.online — ogłoszenia, licytacje, zakupy i wczasy. Auta, motory, skutery, elektronika, audio, wędkarstwo, nieruchomości i praca." />
+  <link rel="canonical" href="https://placomarkt.online/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://placomarkt.online/" />
+  <meta property="og:title" content="PlacoMarkt — Platforma Ogłoszeń, Licytacji, Zakupów i Wczasów" />
+  <meta property="og:description" content="Lokalne ogłoszenia, licytacje, zakupy i wczasy w jednym miejscu na placomarkt.online." />
   <title>PlacoMarkt — Platforma Ogłoszeń, Licytacji, Zakupów i Wczasów</title>
   <link id="pwaManifestLink" rel="manifest" href="" />
   <style>
@@ -105,27 +111,6 @@
       align-items: center;
       gap: 7px;
       flex-wrap: wrap;
-    }
-    .lang-pills {
-      display: flex;
-      background: rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 3px;
-      gap: 2px;
-    }
-    .lang-pill {
-      background: transparent;
-      border: none;
-      color: #cbd5e1;
-      padding: 5px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .lang-pill.active {
-      background: #fff;
-      color: var(--primary);
     }
     .icon-btn {
       background: rgba(255,255,255,0.12);
@@ -262,106 +247,8 @@
     .suggest-item:last-child { border-bottom: none; }
     .suggest-item:hover { background: var(--soft-bg); }
 
-    /* Main Layout: Sidebar Categories + Main Content */
+    /* Main Layout (bez bocznego panelu kategorii) */
     .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
-    .page-layout {
-      display: grid;
-      grid-template-columns: 255px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-    @media (max-width: 900px) {
-      .page-layout { grid-template-columns: 1fr; }
-    }
-
-    .sidebar-panel {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      position: sticky;
-      top: 78px;
-    }
-    @media (max-width: 900px) {
-      .sidebar-panel { position: static; }
-    }
-    .sidebar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .sidebar-header strong { font-size: 14px; font-weight: 800; }
-    .sidebar-reset {
-      background: none;
-      border: none;
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .sidebar-cat-list {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    @media (max-width: 900px) {
-      .sidebar-cat-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-      }
-    }
-    .sidebar-cat-btn {
-      width: 100%;
-      background: var(--soft-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s;
-    }
-    .sidebar-cat-btn:hover {
-      border-color: var(--accent);
-      background: rgba(249,115,22,0.08);
-    }
-    .sidebar-cat-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .sidebar-cat-left {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      min-width: 0;
-    }
-    .sidebar-cat-label {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .sidebar-cat-badge {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 10px;
-      background: rgba(148,163,184,0.22);
-      flex-shrink: 0;
-    }
-    .sidebar-cat-btn.active .sidebar-cat-badge {
-      background: rgba(255,255,255,0.25);
-      color: #fff;
-    }
-
     .main-column { min-width: 0; }
 
     /* Black Friday & Ads Zone in Main Area */
@@ -713,6 +600,7 @@
       width: fit-content;
     }
     .badge-top { background: var(--gold); color: #fff; }
+    .badge-sub { background: linear-gradient(90deg, #d97706, #b45309); color: #fff; }
     .badge-urgent { background: var(--red); color: #fff; }
     .badge-hot { background: #ea580c; color: #fff; }
     .badge-auction { background: var(--purple); color: #fff; }
@@ -830,8 +718,38 @@
     }
     .price { font-size: 18px; font-weight: 800; color: var(--text); }
     .price.free-price { color: var(--green); }
-    .converted-price { font-size: 11px; font-weight: 700; color: var(--teal); }
     .sub-price { font-size: 11px; color: var(--muted); }
+
+    /* Sekcja na dole strony dla użytkowników z abonamentem */
+    .subscribers-bottom-section {
+      margin-top: 34px;
+      padding: 20px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(245,158,11,0.11) 0%, var(--card) 55%, rgba(249,115,22,0.08) 100%);
+      border: 2px solid rgba(245,158,11,0.45);
+    }
+    .subscribers-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .subscribers-header h2 {
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subscribers-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
 
     /* Modals */
     .modal-backdrop {
@@ -1228,7 +1146,7 @@
     /* Footer */
     footer.site-footer {
       max-width: 1280px;
-      margin: 34px auto 0;
+      margin: 28px auto 0;
       padding: 18px 16px;
       border-top: 1px solid var(--border);
       display: flex;
@@ -1252,7 +1170,7 @@
     }
     .footer-links a:hover { color: var(--accent); }
 
-    /* Bottom Mobile Nav (bez "Szukaj") */
+    /* Bottom Mobile Nav */
     .mobile-nav {
       position: fixed;
       bottom: 0;
@@ -1281,7 +1199,7 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Header (bez paska języków na górze — wybór języka w Ustawieniach) -->
   <header>
     <div class="nav-container">
       <div class="logo" onclick="resetFilters()">
@@ -1289,7 +1207,6 @@
         <span class="domain-tag" id="domainTag" title="Zmień kraj w ustawieniach">.nl</span>
       </div>
       <div class="nav-controls">
-        <div class="lang-pills" id="langPills"></div>
         <button class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')" title="Ulubione ogłoszenia">❤️ <span id="favCountBadge">0</span></button>
         <button class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Konto</span></button>
         <button class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">🛡️ <span>Admin</span> <span class="notif-dot" id="adminReportBadge">0</span></button>
@@ -1302,12 +1219,11 @@
   <!-- Hero Search -->
   <section class="hero">
     <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
-    <p id="heroSub">Wszystko w jednym miejscu • Szybka wyszukiwarka • Lokalne oferty w EUR i PLN</p>
+    <p id="heroSub">Wszystko w jednym miejscu • Szybka wyszukiwarka • Lokalne oferty</p>
     <div class="search-box">
       <input type="text" id="searchInput" class="main-q" placeholder="Wpisz czego szukasz (np. perfumy, wózek, wędkarstwo, wędka, rower, turcja, praca...)" oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
 
-      <!-- Miejscowość: od 3 liter ze słownika wszystkich miejscowości PL/NL -->
       <div style="position:relative;flex:1;min-width:175px">
         <input
           type="text"
@@ -1335,142 +1251,142 @@
     </div>
   </section>
 
-  <!-- Main Content: Sidebar Categories + Main Column -->
+  <!-- Main Content (bez bocznego panelu kategorii) -->
   <main class="container">
-    <div class="page-layout">
-      <!-- PANEL BOCZNY Z KATEGORIAMI -->
-      <aside class="sidebar-panel" aria-label="Kategorie ogłoszeń">
-        <div class="sidebar-header">
-          <strong>📂 Kategorie</strong>
-          <button type="button" class="sidebar-reset" onclick="resetFilters()">Wszystkie</button>
+    <div class="main-column">
+      <!-- STREFA BLACK FRIDAY I INNE REKLAMY -->
+      <section class="promo-ads-zone" aria-label="Black Friday i reklamy">
+        <div class="bf-banner">
+          <div>
+            <span class="bf-pill">Black Friday</span>
+            <h2>Black Friday na PlacoMarkt — okazje i wyróżnienia</h2>
+            <p>Miejsce zarezerwowane na baner Black Friday, kody promocyjne i polecane oferty.</p>
+          </div>
+          <button type="button" class="bf-btn" onclick="toggleCategory('fishing')">🎣 Zobacz Wędkarstwo</button>
         </div>
-        <div class="sidebar-cat-list" id="sidebarCategoryList"></div>
-      </aside>
+        <div class="ad-slot-card">
+          <span class="ad-slot-tag">Reklama / Partner</span>
+          <div class="ad-slot-title">Miejsce na reklamę lub baner</div>
+          <div class="ad-slot-desc">Tu możesz wstawić kolejną reklamę, ofertę specjalną lub sponsora.</div>
+        </div>
+      </section>
 
-      <!-- GŁÓWNY OBSZAR: BLACK FRIDAY / REKLAMY + FILTRY + OGŁOSZENIA -->
-      <div class="main-column">
-        <!-- STREFA BLACK FRIDAY I INNE REKLAMY -->
-        <section class="promo-ads-zone" aria-label="Black Friday i reklamy">
-          <div class="bf-banner">
-            <div>
-              <span class="bf-pill">Black Friday</span>
-              <h2>Black Friday na PlacoMarkt — okazje i wyróżnienia</h2>
-              <p>Miejsce zarezerwowane na baner Black Friday, kody promocyjne i polecane oferty.</p>
-            </div>
-            <button type="button" class="bf-btn" onclick="toggleCategory('fishing')">🎣 Zobacz Wędkarstwo</button>
-          </div>
-          <div class="ad-slot-card">
-            <span class="ad-slot-tag">Reklama / Partner</span>
-            <div class="ad-slot-title">Miejsce na reklamę lub baner</div>
-            <div class="ad-slot-desc">Tu możesz wstawić kolejną reklamę, ofertę specjalną lub sponsora.</div>
-          </div>
-        </section>
+      <!-- Mode Tabs -->
+      <div class="mode-tabs" id="modeTabs"></div>
 
-        <!-- Mode Tabs -->
-        <div class="mode-tabs" id="modeTabs"></div>
-
-        <!-- Dedicated Auto / Moto / Scooter Filter Bar -->
-        <div class="auto-filter-bar" id="autoFilterBar">
-          <div class="auto-filter-title">
-            <span>🚗 Filtry Motoryzacji (Auta, Motory i Skutery)</span>
-            <button type="button" onclick="resetAutoFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry moto</button>
-          </div>
-          <div class="travel-filters-grid">
-            <select id="filterVehicleKind" onchange="renderListings()">
-              <option value="all">🚘 Rodzaj pojazdu (Wszystkie)</option>
-              <option value="Samochód osobowy">🚗 Samochód osobowy</option>
-              <option value="Motocykl / Motor">🏍️ Motocykl / Motor</option>
-              <option value="Skuter / Motorower">🛵 Skuter / Motorower</option>
-              <option value="Dostawczy / Bus">🚐 Dostawczy / Bus</option>
-              <option value="Quad / ATV">quad Quad / ATV</option>
-              <option value="Części i akcesoria">⚙️ Części i akcesoria</option>
-            </select>
-            <div style="position:relative">
-              <input
-                type="text"
-                id="filterVehicleBrand"
-                autocomplete="off"
-                placeholder="Marka auta / motoru / skutera (od 2 liter)..."
-                oninput="handleBrandInput('filter');renderListings()"
-                onfocus="handleBrandInput('filter')"
-                onblur="hideSuggestDelayed('brandSuggestFilter')"
-              />
-              <div id="brandSuggestFilter" class="suggest-box"></div>
-            </div>
+      <!-- Dedicated Auto / Moto / Scooter Filter Bar -->
+      <div class="auto-filter-bar" id="autoFilterBar">
+        <div class="auto-filter-title">
+          <span>🚗 Filtry Motoryzacji (Auta, Motory i Skutery)</span>
+          <button type="button" onclick="resetAutoFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry moto</button>
+        </div>
+        <div class="travel-filters-grid">
+          <select id="filterVehicleKind" onchange="renderListings()">
+            <option value="all">🚘 Rodzaj pojazdu (Wszystkie)</option>
+            <option value="Samochód osobowy">🚗 Samochód osobowy</option>
+            <option value="Motocykl / Motor">🏍️ Motocykl / Motor</option>
+            <option value="Skuter / Motorower">🛵 Skuter / Motorower</option>
+            <option value="Dostawczy / Bus">🚐 Dostawczy / Bus</option>
+            <option value="Quad / ATV">quad Quad / ATV</option>
+            <option value="Części i akcesoria">⚙️ Części i akcesoria</option>
+          </select>
+          <div style="position:relative">
+            <input
+              type="text"
+              id="filterVehicleBrand"
+              autocomplete="off"
+              placeholder="Marka auta / motoru / skutera (od 2 liter)..."
+              oninput="handleBrandInput('filter');renderListings()"
+              onfocus="handleBrandInput('filter')"
+              onblur="hideSuggestDelayed('brandSuggestFilter')"
+            />
+            <div id="brandSuggestFilter" class="suggest-box"></div>
           </div>
         </div>
-
-        <!-- Dedicated Travel Filter Bar -->
-        <div class="travel-filter-bar" id="travelFilterBar">
-          <div class="travel-filter-title">
-            <span>✈️ Filtry Wczasów, Noclegów i Przejazdów</span>
-            <button type="button" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry</button>
-          </div>
-          <div class="travel-filters-grid">
-            <select id="filterTravelDest" onchange="renderListings()">
-              <option value="all">🌍 Wszystkie kierunki</option>
-              <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polska (Morze / Góry / Mazury)</option>
-              <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Holandia (Wybrzeże / Domki)</option>
-              <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 Belgia / Luksemburg (Ardeny)</option>
-              <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turcja (Alanya / Riwiera)</option>
-              <option value="Chorwacja / Południe Europy">🇭🇷 Chorwacja / Południe Europy</option>
-              <option value="Hiszpania / Wyspy">🇪🇸 Hiszpania / Wyspy</option>
-              <option value="Węgry / Słowacja (Termy)">🇭🇺 Węgry / Słowacja (Termy)</option>
-              <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Trasa PL ↔ NL (Busy / Przejazdy)</option>
-            </select>
-            <select id="filterTravelKind" onchange="renderListings()">
-              <option value="all">🏕️ Rodzaj wyjazdu (Wszystkie)</option>
-              <option value="Domek / Apartament / Pokój">🏠 Domek / Apartament / Pokój</option>
-              <option value="Wyjazd zorganizowany / Wycieczka">🚌 Wyjazd zorganizowany / Wycieczka</option>
-              <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
-              <option value="Przejazd / Bus PL ↔ NL">🚐 Przejazd / Bus PL ↔ NL</option>
-            </select>
-            <select id="filterTravelBoard" onchange="renderListings()">
-              <option value="all">🍽️ Wyżywienie (Dowolne)</option>
-              <option value="Własne (aneks kuchenny)">🍳 Własne (aneks kuchenny)</option>
-              <option value="Ze śniadaniami (BB)">🥐 Ze śniadaniami (BB)</option>
-              <option value="Śniadania + Obiadokolacje (HB)">🍲 Śniadania + Obiadokolacje (HB)</option>
-              <option value="All Inclusive">🍹 All Inclusive</option>
-              <option value="Nie dotyczy (przejazd)">🚐 Nie dotyczy (przejazd)</option>
-            </select>
-            <input type="number" id="filterTravelMaxPrice" placeholder="Max cena..." min="0" oninput="renderListings()" />
-          </div>
-        </div>
-
-        <!-- Breadcrumb -->
-        <div class="breadcrumb-bar" id="breadcrumbBar"></div>
-
-        <!-- Toolbar: Status, Condition, Price range, Sort, Grid/List toggle -->
-        <div class="toolbar-bar">
-          <div class="toolbar-left">
-            <strong style="font-size:15px" id="resultsHeading">Wszystkie oferty</strong>
-            <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
-          </div>
-          <div class="toolbar-right">
-            <select id="filterCondition" onchange="renderListings()">
-              <option value="all">Stan: Wszystkie</option>
-              <option value="new">✨ Nowe</option>
-              <option value="used">♻️ Używane</option>
-            </select>
-            <input type="number" id="filterMinPrice" placeholder="Cena od" min="0" style="width:84px" oninput="renderListings()" />
-            <input type="number" id="filterMaxPrice" placeholder="Cena do" min="0" style="width:84px" oninput="renderListings()" />
-            <select id="sortSelect" onchange="renderListings()">
-              <option value="featured">Sortuj: Wyróżnione i najnowsze</option>
-              <option value="price_asc">Cena: od najniższej</option>
-              <option value="price_desc">Cena: od najwyższej</option>
-              <option value="views_desc">Najpopularniejsze (odsłony)</option>
-              <option value="auction_end">Licytacje: kończące się wkrótce</option>
-            </select>
-            <div class="view-toggle">
-              <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Widok kafelków">⊞</button>
-              <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="Widok listy">☰</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Listings Grid -->
-        <div class="grid" id="listingsGrid"></div>
       </div>
+
+      <!-- Dedicated Travel Filter Bar -->
+      <div class="travel-filter-bar" id="travelFilterBar">
+        <div class="travel-filter-title">
+          <span>✈️ Filtry Wczasów, Noclegów i Przejazdów</span>
+          <button type="button" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Wyczyść filtry</button>
+        </div>
+        <div class="travel-filters-grid">
+          <select id="filterTravelDest" onchange="renderListings()">
+            <option value="all">🌍 Wszystkie kierunki</option>
+            <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polska (Morze / Góry / Mazury)</option>
+            <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Holandia (Wybrzeże / Domki)</option>
+            <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 Belgia / Luksemburg (Ardeny)</option>
+            <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turcja (Alanya / Riwiera)</option>
+            <option value="Chorwacja / Południe Europy">🇭🇷 Chorwacja / Południe Europy</option>
+            <option value="Hiszpania / Wyspy">🇪🇸 Hiszpania / Wyspy</option>
+            <option value="Węgry / Słowacja (Termy)">🇭🇺 Węgry / Słowacja (Termy)</option>
+            <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Trasa PL ↔ NL (Busy / Przejazdy)</option>
+          </select>
+          <select id="filterTravelKind" onchange="renderListings()">
+            <option value="all">🏕️ Rodzaj wyjazdu (Wszystkie)</option>
+            <option value="Domek / Apartament / Pokój">🏠 Domek / Apartament / Pokój</option>
+            <option value="Wyjazd zorganizowany / Wycieczka">🚌 Wyjazd zorganizowany / Wycieczka</option>
+            <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
+            <option value="Przejazd / Bus PL ↔ NL">🚐 Przejazd / Bus PL ↔ NL</option>
+          </select>
+          <select id="filterTravelBoard" onchange="renderListings()">
+            <option value="all">🍽️ Wyżywienie (Dowolne)</option>
+            <option value="Własne (aneks kuchenny)">🍳 Własne (aneks kuchenny)</option>
+            <option value="Ze śniadaniami (BB)">🥐 Ze śniadaniami (BB)</option>
+            <option value="Śniadania + Obiadokolacje (HB)">🍲 Śniadania + Obiadokolacje (HB)</option>
+            <option value="All Inclusive">🍹 All Inclusive</option>
+            <option value="Nie dotyczy (przejazd)">🚐 Nie dotyczy (przejazd)</option>
+          </select>
+          <input type="number" id="filterTravelMaxPrice" placeholder="Max cena..." min="0" oninput="renderListings()" />
+        </div>
+      </div>
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar" id="breadcrumbBar"></div>
+
+      <!-- Toolbar -->
+      <div class="toolbar-bar">
+        <div class="toolbar-left">
+          <strong style="font-size:15px" id="resultsHeading">Wszystkie oferty</strong>
+          <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
+        </div>
+        <div class="toolbar-right">
+          <select id="filterCondition" onchange="renderListings()">
+            <option value="all">Stan: Wszystkie</option>
+            <option value="new">✨ Nowe</option>
+            <option value="used">♻️ Używane</option>
+          </select>
+          <input type="number" id="filterMinPrice" placeholder="Cena od" min="0" style="width:84px" oninput="renderListings()" />
+          <input type="number" id="filterMaxPrice" placeholder="Cena do" min="0" style="width:84px" oninput="renderListings()" />
+          <select id="sortSelect" onchange="renderListings()">
+            <option value="featured">Sortuj: Wyróżnione i najnowsze</option>
+            <option value="price_asc">Cena: od najniższej</option>
+            <option value="price_desc">Cena: od najwyższej</option>
+            <option value="views_desc">Najpopularniejsze (odsłony)</option>
+            <option value="auction_end">Licytacje: kończące się wkrótce</option>
+          </select>
+          <div class="view-toggle">
+            <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Widok kafelków">⊞</button>
+            <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="Widok listy">☰</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listings Grid -->
+      <div class="grid" id="listingsGrid"></div>
+
+      <!-- SEKCJA NA DOLE STRONY DLA UŻYTKOWNIKÓW Z ABONAMENTEM -->
+      <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Oferty użytkowników z abonamentem">
+        <div class="subscribers-header">
+          <div>
+            <h2>👑 Oferty użytkowników z abonamentem</h2>
+            <p>Produkty i ogłoszenia kont z aktywnym abonamentem — widoczne na dole strony przy przewijaniu w dół.</p>
+          </div>
+          <button type="button" class="mini-btn gold" onclick="openAccountModal()">👑 Zarządzaj abonamentem</button>
+        </div>
+        <div class="grid" id="subscribersGrid"></div>
+      </section>
     </div>
 
     <!-- Legal & Info Footer -->
@@ -1559,7 +1475,7 @@
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblCatField">Kategoria (w panelu bocznym)</label>
+            <label id="lblCatField">Kategoria</label>
             <select id="newCategory" onchange="toggleAutoFields()"></select>
           </div>
           <div class="form-group" style="position:relative">
@@ -1686,6 +1602,12 @@
           <textarea id="newDesc" rows="3" required placeholder="Opisz stan, markę, wymiary, warunki, kontakt..."></textarea>
         </div>
         <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+            <input type="checkbox" id="newHasSubscription" style="width:auto" />
+            <span>👑 Oferta użytkownika z abonamentem (pokazuje się również na dole strony)</span>
+          </label>
+        </div>
+        <div class="form-group">
           <label id="lblPromoField">Widoczność ogłoszenia (Promocja na start: wszystko 0,00)</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
@@ -1718,13 +1640,12 @@
     </div>
   </div>
 
-  <!-- Extended Settings Modal -->
+  <!-- Extended Settings Modal (wybór języka schowany tutaj) -->
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:520px">
       <button class="close-modal" onclick="closeModal('settingsModal')">×</button>
       <h2 style="margin-bottom:14px">⚙️ <span id="settingsHeader">Ustawienia PlacoMarkt</span></h2>
 
-      <!-- Szybkie przejście do wyszukiwania (przeniesione z dołu) -->
       <div class="set-section" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div>
           <h4 style="margin-bottom:2px">🔍 Wyszukiwanie ogłoszeń</h4>
@@ -1751,21 +1672,17 @@
         </label>
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="detectedCountryInfo"></div>
         <div style="display:flex;gap:8px">
-          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia (EUR)</button>
-          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 Polska (PLN)</button>
+          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia (EUR €)</button>
+          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 Polska (PLN zł)</button>
         </div>
       </div>
 
-      <!-- Section 2: Appearance & Currency -->
+      <!-- Section 2: Appearance & City -->
       <div class="set-section">
-        <h4>🎨 Wygląd i Waluty</h4>
+        <h4>🎨 Wygląd i Lokalizacja</h4>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
           <span>🌙 Tryb ciemny (Dark Mode)</span>
-        </label>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
-          <input type="checkbox" id="setDualCurrency" checked onchange="toggleSettingPref('showDualCurrency', this.checked)" style="width:auto" />
-          <span>💱 Pokazuj orientacyjną cenę w drugiej walucie (EUR ↔ PLN)</span>
         </label>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
           <span>Domyślna miejscowość:</span>
@@ -1820,7 +1737,7 @@
     </div>
   </div>
 
-  <!-- Mobile Bottom Navigation (bez "Szukaj") -->
+  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-nav">
     <button onclick="setMode('travel')">✈️<span id="mobTravel">Wczasy</span></button>
     <button onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Dodaj</span></button>
@@ -1836,7 +1753,8 @@
     // =========================================================================
     const SUPABASE_URL = 'https://TWOJ-PROJEKT.supabase.co';
     const SUPABASE_ANON_KEY = 'TWOJ-KLUCZ-ANON-PUBLIC';
-    const ADMIN_EMAILS = ['admin@placomarkt.nl', 'kontakt@placomarkt.nl'];
+    // Dopisz tutaj swój adres e-mail administratora, aby po zalogowaniu odblokować panel Admina:
+    const ADMIN_EMAILS = ['admin@placomarkt.nl', 'kontakt@placomarkt.nl', 'admin@placomarkt.online'];
 
     const isSupabaseConfigured =
       SUPABASE_URL.startsWith('https://') &&
@@ -1847,17 +1765,11 @@
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
       : null;
 
-    const EUR_TO_PLN = 4.30;
-
-    // Marki samochodów, motocykli (motorów) i skuterów (w tym popularne w NL i PL)
     const VEHICLE_BRANDS = [
-      // Skutery i motorowery
       'La Souris', 'Vespa', 'Piaggio', 'Kymco', 'SYM', 'Peugeot Motocycles', 'Aprilia',
       'Gilera', 'Derbi', 'Tomos', 'Puch', 'Rieju', 'Beta', 'Generic', 'Baotian', 'AGM', 'Turbho',
-      // Motocykle / motory
       'Yamaha', 'Honda', 'Kawasaki', 'Suzuki', 'BMW Motorrad', 'Ducati', 'Triumph',
       'KTM', 'Harley-Davidson', 'Husqvarna', 'Benelli', 'CFMoto', 'Royal Enfield', 'Junak', 'Romet',
-      // Samochody osobowe i dostawcze
       'Volkswagen', 'Audi', 'BMW', 'Mercedes-Benz', 'Opel', 'Ford', 'Peugeot', 'Renault',
       'Citroën', 'Toyota', 'Kia', 'Hyundai', 'Skoda', 'Seat', 'Cupra', 'Fiat', 'Mazda',
       'Nissan', 'Volvo', 'Dacia', 'Alfa Romeo', 'Jeep', 'Land Rover', 'Porsche', 'Tesla',
@@ -1866,7 +1778,6 @@
 
     let userPrefs = {
       darkMode: false,
-      showDualCurrency: true,
       defaultCityNL: '',
       defaultCityPL: '',
       phoneVisibility: 'click',
@@ -1889,7 +1800,7 @@
         const manifestObj = {
           name: 'PlacoMarkt — Ogłoszenia, Licytacje, Zakupy i Wczasy',
           short_name: 'PlacoMarkt',
-          start_url: '.',
+          start_url: 'https://placomarkt.online/',
           display: 'standalone',
           background_color: '#0f172a',
           theme_color: '#0f172a',
@@ -1905,7 +1816,7 @@
       } catch (e) {}
     })();
 
-    // Kategorie w panelu bocznym (Praca na końcu)
+    // Kategorie — dodana kategoria "Inne" (other) na samym końcu
     const CATEGORIES_LIST = [
       { id: 'kids', icon: '🧸', key: 'catKids' },
       { id: 'home', icon: '🛋️', key: 'catHome' },
@@ -1920,7 +1831,8 @@
       { id: 'services', icon: '🔧', key: 'catServices' },
       { id: 'travel', icon: '✈️', key: 'catTravel' },
       { id: 'fishing', icon: '🎣', key: 'catFishing' },
-      { id: 'jobs', icon: '💼', key: 'catJobs' }
+      { id: 'jobs', icon: '💼', key: 'catJobs' },
+      { id: 'other', icon: '📦', key: 'catOther' }
     ];
 
     const COUNTRY_CONFIG = {
@@ -1974,6 +1886,7 @@
         catTravel: 'Wczasy i Podróże',
         catFishing: 'Wędkarstwo',
         catJobs: 'Praca',
+        catOther: 'Inne',
         freePrice: 'ZA DARMO',
         showPhone: '📞 Pokaż numer telefonu',
         whatsapp: '🟢 Napisz na WhatsApp',
@@ -1989,9 +1902,9 @@
         settings: 'Instellingen',
         add: 'Plaatsen',
         heroNL: 'Advertenties, Veilingen, Winkelen & Vakanties',
-        subNL: 'Alles op één plek • Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Vakanties & Werk',
+        subNL: 'Alles op één plek • Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Vakanties & Werk (EUR)',
         heroPL: 'Poolse marktplaats in PLN (zł)',
-        subPL: 'Lokale Poolse advertenties • Auto, Motor, Scooter, Hengelsport & Reizen',
+        subPL: 'Lokale Poolse advertenties • Auto, Motor, Scooter, Hengelsport & Reizen (PLN)',
         searchPlaceholder: 'Waar ben je naar op zoek (bv. scooter, motor, hengel, parfum, woning...)?',
         searchBtn: 'Zoeken',
         tabAll: 'Alle advertenties',
@@ -2016,6 +1929,7 @@
         catTravel: 'Vakanties & Reizen',
         catFishing: 'Hengelsport (Wędkarstwo)',
         catJobs: 'Werk & Vacatures',
+        catOther: 'Overig',
         freePrice: 'GRATIS',
         showPhone: '📞 Toon telefoonnummer',
         whatsapp: '🟢 WhatsApp bericht',
@@ -2031,9 +1945,9 @@
         settings: 'Settings',
         add: 'Post Ad',
         heroNL: 'Classifieds, Auctions, Shopping & Holidays',
-        subNL: 'Everything in one place • Cars, Motorcycles, Scooters, Fishing, Cosmetics, Housing, Holidays & Jobs',
+        subNL: 'Everything in one place • Cars, Motorcycles, Scooters, Fishing, Cosmetics, Housing, Holidays & Jobs (EUR)',
         heroPL: 'Classifieds, Auctions, Shopping & Holidays in Poland',
-        subPL: 'Everything in one place • Cars, Motorcycles, Scooters, Fishing & local deals in PLN',
+        subPL: 'Everything in one place • Cars, Motorcycles, Scooters, Fishing & local deals (PLN)',
         searchPlaceholder: 'Search for scooter, motorcycle, car, fishing rod, perfume, housing, holidays...',
         searchBtn: 'Search',
         tabAll: 'All listings',
@@ -2058,6 +1972,7 @@
         catTravel: 'Holidays & Travel',
         catFishing: 'Fishing',
         catJobs: 'Jobs',
+        catOther: 'Other',
         freePrice: 'FREE',
         showPhone: '📞 Show phone number',
         whatsapp: '🟢 Chat on WhatsApp',
@@ -2100,6 +2015,7 @@
         catTravel: 'Atostogos ir Kelionės',
         catFishing: 'Žvejyba (Wędkarstwo)',
         catJobs: 'Darbas',
+        catOther: 'Kita',
         freePrice: 'NEMOKAMAI',
         showPhone: '📞 Rodyti telefono numerį',
         whatsapp: '🟢 Rašyti per WhatsApp',
@@ -2142,6 +2058,7 @@
         catTravel: 'Tatil & Seyahat',
         catFishing: 'Balıkçılık (Wędkarstwo)',
         catJobs: 'İş İlanları',
+        catOther: 'Diğer',
         freePrice: 'ÜCRETSİZ',
         showPhone: '📞 Telefon numarasını göster',
         whatsapp: '🟢 WhatsApp ile yaz',
@@ -2184,6 +2101,7 @@
         catTravel: 'Відпочинок і подорожі',
         catFishing: 'Риболовля (Wędkarstwo)',
         catJobs: 'Робота',
+        catOther: 'Інше',
         freePrice: 'БЕЗКОШТОВНО',
         showPhone: '📞 Показати номер телефону',
         whatsapp: '🟢 Написати у WhatsApp',
@@ -2214,6 +2132,7 @@
           icon: '🛵',
           photos: [],
           top: true,
+          hasSubscription: true,
           urgent: false,
           hidden: false,
           views: 264,
@@ -2237,6 +2156,7 @@
           icon: '🎣',
           photos: [],
           top: true,
+          hasSubscription: true,
           urgent: true,
           hidden: false,
           views: 205,
@@ -2260,6 +2180,7 @@
           icon: '💄',
           photos: [],
           top: true,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 238,
@@ -2285,6 +2206,7 @@
           icon: '🧸',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: true,
           hidden: false,
           views: 174,
@@ -2308,6 +2230,7 @@
           icon: '🏠',
           photos: [],
           top: true,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 214,
@@ -2333,6 +2256,7 @@
           icon: '🏖️',
           photos: [],
           top: true,
+          hasSubscription: true,
           urgent: true,
           hidden: false,
           views: 348,
@@ -2365,6 +2289,7 @@
           icon: '🎛️',
           photos: [],
           top: true,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 275,
@@ -2388,6 +2313,7 @@
           icon: '🛋️',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 152,
@@ -2411,6 +2337,7 @@
           icon: '💼',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 162,
@@ -2433,6 +2360,7 @@
           icon: '🎁',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: true,
           hidden: false,
           views: 81,
@@ -2460,6 +2388,7 @@
           icon: '🏍️',
           photos: [],
           top: true,
+          hasSubscription: true,
           urgent: false,
           hidden: false,
           views: 245,
@@ -2483,6 +2412,7 @@
           icon: '🎣',
           photos: [],
           top: true,
+          hasSubscription: true,
           urgent: false,
           hidden: false,
           views: 192,
@@ -2506,6 +2436,7 @@
           icon: '💄',
           photos: [],
           top: true,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 219,
@@ -2529,6 +2460,7 @@
           icon: '🧸',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: true,
           hidden: false,
           views: 183,
@@ -2552,6 +2484,7 @@
           icon: '🌊',
           photos: [],
           top: true,
+          hasSubscription: true,
           urgent: false,
           hidden: false,
           views: 310,
@@ -2582,6 +2515,7 @@
           icon: '🏢',
           photos: [],
           top: true,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 412,
@@ -2607,6 +2541,7 @@
           icon: '🔊',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 164,
@@ -2630,6 +2565,7 @@
           icon: '💼',
           photos: [],
           top: false,
+          hasSubscription: false,
           urgent: false,
           hidden: false,
           views: 141,
@@ -2729,7 +2665,6 @@
       const val = inp.value.trim();
       clearTimeout(citySearchTimers[ctx]);
 
-      // Nie pokazujemy niczego przy mniej niż 3 literach
       if (val.length < 3) {
         box.style.display = 'none';
         box.innerHTML = '';
@@ -2743,7 +2678,7 @@
       const box = document.getElementById(getCitySuggestId(ctx));
       if (!box) return;
 
-      const countryCode = currentCountry.toLowerCase(); // 'pl' lub 'nl'
+      const countryCode = currentCountry.toLowerCase();
       const cacheKey = `${countryCode}:${query.toLowerCase()}`;
 
       if (citySearchCache[cacheKey]) {
@@ -2930,6 +2865,7 @@
         icon: row.icon || '📦',
         photos: row.photos || [],
         top: Boolean(row.is_top),
+        hasSubscription: Boolean(row.has_subscription || row.is_top),
         urgent: Boolean(row.is_urgent),
         hidden: Boolean(row.is_hidden),
         views: row.views || 1,
@@ -3105,11 +3041,6 @@
         : 'Miejscowość w PL (od 3 liter)...';
       document.getElementById('lblSearchBtn').textContent = t.searchBtn;
 
-      const pillsEl = document.getElementById('langPills');
-      pillsEl.innerHTML = cfg.langs.map(l =>
-        `<button class="lang-pill ${l === currentLang ? 'active' : ''}" onclick="setLanguage('${l}')">${l}</button>`
-      ).join('');
-
       const dbTag = isSupabaseConfigured ? ' • 🟢 Baza online' : ' • 🟡 Tryb startowy (0,00)';
       document.getElementById('autoLangNote').textContent = `${currentLang}${dbTag}`;
 
@@ -3154,17 +3085,6 @@
 
       const showAutoBar = (currentCategory === 'auto');
       document.getElementById('autoFilterBar').classList.toggle('open', showAutoBar);
-
-      document.getElementById('sidebarCategoryList').innerHTML = cfg.categories.map(c => {
-        const cCount = visibleItems.filter(i => i.category === c.id).length;
-        return `<button type="button" class="sidebar-cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="toggleCategory('${c.id}')">
-          <span class="sidebar-cat-left">
-            <span>${c.icon}</span>
-            <span class="sidebar-cat-label">${t[c.key] || c.key}</span>
-          </span>
-          <span class="sidebar-cat-badge">${cCount}</span>
-        </button>`;
-      }).join('');
 
       const crumbEl = document.getElementById('breadcrumbBar');
       const activeCatObj = cfg.categories.find(c => c.id === currentCategory);
@@ -3229,22 +3149,12 @@
       renderCountryUI();
     }
 
+    // Wyłącznie jedna waluta na kraj (NL = €, PL = zł), bez przeliczania między walutami
     function formatPrice(val, isFree) {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       if (isFree || val === 0) return t.freePrice;
       const num = Number(val).toLocaleString('pl-PL', { minimumFractionDigits: val % 1 !== 0 ? 2 : 0, maximumFractionDigits: 2 });
       return currentCountry === 'NL' ? `${num} €` : `${num} zł`;
-    }
-
-    function formatConvertedPrice(val, isFree) {
-      if (!userPrefs.showDualCurrency || isFree || !val || val <= 0) return '';
-      if (currentCountry === 'NL') {
-        const pln = Math.round(val * EUR_TO_PLN).toLocaleString('pl-PL');
-        return `≈ ${pln} zł`;
-      } else {
-        const eur = (val / EUR_TO_PLN).toLocaleString('pl-PL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-        return `≈ ${eur} €`;
-      }
     }
 
     function formatTimeLeft(endsAt) {
@@ -3253,6 +3163,88 @@
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
       return `${h}h ${m}m ${s}s`;
+    }
+
+    function buildListingCardHtml(item, isSubscriberCard = false) {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      let typeBadge = '';
+      if (item.type === 'auction') typeBadge = `<span class="badge badge-auction">🔨 LICYTACJA</span>`;
+      else if (item.type === 'job') typeBadge = `<span class="badge badge-job">💼 PRACA</span>`;
+      else if (item.type === 'course') typeBadge = `<span class="badge badge-course">🎓 KURS</span>`;
+      else if (item.type === 'travel') typeBadge = `<span class="badge badge-travel">✈️ WCZASY</span>`;
+      else if (item.type === 'free') typeBadge = `<span class="badge badge-free">🎁 GRATIS</span>`;
+
+      const condHtml = item.condition === 'new'
+        ? `<span class="condition-pill">✨ NOWE</span>`
+        : (item.condition === 'used' ? `<span class="condition-pill used">♻️ UŻYWANE</span>` : '');
+
+      const isFav = favoriteIds.includes(item.id);
+      const isHot = (item.views || 0) >= 200;
+      const hasPhoto = item.photos && item.photos.length > 0;
+      const mediaHtml = hasPhoto ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon;
+
+      const timerHtml = item.type === 'auction'
+        ? `<div class="timer-box"><span>⏳ ${t.endsIn} <strong class="auction-timer" data-end="${item.endsAt}">${formatTimeLeft(item.endsAt)}</strong></span><span>${item.bids} ${t.bidsCount}</span></div>`
+        : '';
+
+      const autoPillsHtml = (item.vehicleKind || item.vehicleBrand)
+        ? `<div class="travel-pills">
+             ${item.vehicleKind ? `<span class="auto-pill">🚘 ${item.vehicleKind}</span>` : ''}
+             ${item.vehicleBrand ? `<span class="auto-pill">🏷️ ${item.vehicleBrand}</span>` : ''}
+           </div>`
+        : '';
+
+      const travelPillsHtml = item.travelDetails
+        ? `<div class="travel-pills">
+             <span class="travel-pill">🌍 ${item.travelDetails.dest.split('(')[0].trim()}</span>
+             <span class="travel-pill">📅 ${item.travelDetails.date}</span>
+             <span class="travel-pill">🍽️ ${item.travelDetails.board.split('(')[0].trim()}</span>
+           </div>`
+        : '';
+
+      return `
+        <div class="card ${item.top || isSubscriberCard ? 'top-offer' : ''}" onclick="openDetail(${item.id})">
+          <div class="card-img ${item.type === 'travel' && !hasPhoto ? 'travel-img' : ''}">
+            ${mediaHtml}
+            <div class="badges">
+              <div class="badges-col">
+                ${isSubscriberCard || item.hasSubscription ? '<span class="badge badge-sub">👑 ABONAMENT</span>' : ''}
+                ${item.top ? '<span class="badge badge-top">⭐ TOP</span>' : ''}
+                ${item.urgent ? '<span class="badge badge-urgent">⚡ PILNE</span>' : ''}
+                ${isHot && !item.urgent ? '<span class="badge badge-hot">🔥 POPULARNE</span>' : ''}
+              </div>
+              <div>${typeBadge}</div>
+            </div>
+            <button type="button" class="fav-heart-btn" onclick="toggleFavorite(${item.id}, event)" title="Zapisz w ulubionych">
+              ${isFav ? '❤️' : '🤍'}
+            </button>
+          </div>
+          <div class="card-body">
+            <div>
+              ${condHtml}
+              <div class="card-title">${item.title}</div>
+              <div class="card-meta">
+                <span>📍 ${item.city}</span>
+                <span>👁️ ${item.views || 1}</span>
+              </div>
+              <div class="seller-mini-tag">
+                ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'Sprzedawca'} • ⭐ ${(item.sellerRating || 5.0).toFixed(1)}
+              </div>
+              ${autoPillsHtml}
+              ${travelPillsHtml}
+              ${!item.travelDetails ? `<div class="shipping-tag">${item.shipping}</div>` : ''}
+              ${timerHtml}
+            </div>
+            <div class="card-footer">
+              <div>
+                <div class="price ${item.type === 'free' ? 'free-price' : ''}">${formatPrice(item.price, item.type === 'free')}</div>
+                ${item.priceNote ? `<div class="sub-price">${item.priceNote}</div>` : ''}
+              </div>
+              <span style="font-size:12px;font-weight:700;color:var(--blue)">Szczegóły →</span>
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     function renderListings() {
@@ -3329,91 +3321,20 @@
           <h3>${currentMode === 'favorites' ? 'Brak ulubionych ogłoszeń' : 'Nie znaleziono ogłoszeń pasujących do wyszukiwania'}</h3>
           <p style="color:var(--muted);margin-top:6px">${currentMode === 'favorites' ? 'Kliknij serduszko ❤️ na wybranym ogłoszeniu, aby zapisać je tutaj.' : 'Wyczyść filtry lub kliknij „+ Dodaj”, aby dodać pierwszą ofertę w tej kategorii.'}</p>
         </div>`;
-        return;
+      } else {
+        grid.innerHTML = list.map(item => buildListingCardHtml(item, false)).join('');
       }
 
-      grid.innerHTML = list.map(item => {
-        let typeBadge = '';
-        if (item.type === 'auction') typeBadge = `<span class="badge badge-auction">🔨 LICYTACJA</span>`;
-        else if (item.type === 'job') typeBadge = `<span class="badge badge-job">💼 PRACA</span>`;
-        else if (item.type === 'course') typeBadge = `<span class="badge badge-course">🎓 KURS</span>`;
-        else if (item.type === 'travel') typeBadge = `<span class="badge badge-travel">✈️ WCZASY</span>`;
-        else if (item.type === 'free') typeBadge = `<span class="badge badge-free">🎁 GRATIS</span>`;
-
-        const condHtml = item.condition === 'new'
-          ? `<span class="condition-pill">✨ NOWE</span>`
-          : (item.condition === 'used' ? `<span class="condition-pill used">♻️ UŻYWANE</span>` : '');
-
-        const isFav = favoriteIds.includes(item.id);
-        const isHot = (item.views || 0) >= 200;
-        const hasPhoto = item.photos && item.photos.length > 0;
-        const mediaHtml = hasPhoto ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon;
-
-        const timerHtml = item.type === 'auction'
-          ? `<div class="timer-box"><span>⏳ ${t.endsIn} <strong class="auction-timer" data-end="${item.endsAt}">${formatTimeLeft(item.endsAt)}</strong></span><span>${item.bids} ${t.bidsCount}</span></div>`
-          : '';
-
-        const autoPillsHtml = (item.vehicleKind || item.vehicleBrand)
-          ? `<div class="travel-pills">
-               ${item.vehicleKind ? `<span class="auto-pill">🚘 ${item.vehicleKind}</span>` : ''}
-               ${item.vehicleBrand ? `<span class="auto-pill">🏷️ ${item.vehicleBrand}</span>` : ''}
-             </div>`
-          : '';
-
-        const travelPillsHtml = item.travelDetails
-          ? `<div class="travel-pills">
-               <span class="travel-pill">🌍 ${item.travelDetails.dest.split('(')[0].trim()}</span>
-               <span class="travel-pill">📅 ${item.travelDetails.date}</span>
-               <span class="travel-pill">🍽️ ${item.travelDetails.board.split('(')[0].trim()}</span>
-             </div>`
-          : '';
-
-        const convHtml = formatConvertedPrice(item.price, item.type === 'free');
-
-        return `
-          <div class="card ${item.top ? 'top-offer' : ''}" onclick="openDetail(${item.id})">
-            <div class="card-img ${item.type === 'travel' && !hasPhoto ? 'travel-img' : ''}">
-              ${mediaHtml}
-              <div class="badges">
-                <div class="badges-col">
-                  ${item.top ? '<span class="badge badge-top">⭐ TOP</span>' : ''}
-                  ${item.urgent ? '<span class="badge badge-urgent">⚡ PILNE</span>' : ''}
-                  ${isHot && !item.urgent ? '<span class="badge badge-hot">🔥 POPULARNE</span>' : ''}
-                </div>
-                <div>${typeBadge}</div>
-              </div>
-              <button type="button" class="fav-heart-btn" onclick="toggleFavorite(${item.id}, event)" title="Zapisz w ulubionych">
-                ${isFav ? '❤️' : '🤍'}
-              </button>
-            </div>
-            <div class="card-body">
-              <div>
-                ${condHtml}
-                <div class="card-title">${item.title}</div>
-                <div class="card-meta">
-                  <span>📍 ${item.city}</span>
-                  <span>👁️ ${item.views || 1}</span>
-                </div>
-                <div class="seller-mini-tag">
-                  ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'Sprzedawca'} • ⭐ ${(item.sellerRating || 5.0).toFixed(1)}
-                </div>
-                ${autoPillsHtml}
-                ${travelPillsHtml}
-                ${!item.travelDetails ? `<div class="shipping-tag">${item.shipping}</div>` : ''}
-                ${timerHtml}
-              </div>
-              <div class="card-footer">
-                <div>
-                  <div class="price ${item.type === 'free' ? 'free-price' : ''}">${formatPrice(item.price, item.type === 'free')}</div>
-                  ${convHtml ? `<div class="converted-price">${convHtml}</div>` : ''}
-                  ${item.priceNote ? `<div class="sub-price">${item.priceNote}</div>` : ''}
-                </div>
-                <span style="font-size:12px;font-weight:700;color:var(--blue)">Szczegóły →</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
+      // Sekcja na dole strony dla użytkowników z abonamentem
+      const subItems = listingsData[currentCountry].filter(i => !i.hidden && i.hasSubscription);
+      const subSection = document.getElementById('subscribersSection');
+      const subGrid = document.getElementById('subscribersGrid');
+      if (subItems.length) {
+        subSection.style.display = 'block';
+        subGrid.innerHTML = subItems.map(item => buildListingCardHtml(item, true)).join('');
+      } else {
+        subSection.style.display = 'none';
+      }
     }
 
     function updateTimers() {
@@ -3508,7 +3429,6 @@
         </div>
       ` : '';
 
-      const convHtml = formatConvertedPrice(item.price, item.type === 'free');
       const reviews = item.sellerReviews || [];
       const condBadge = item.condition === 'new'
         ? '<span class="condition-pill">✨ STAN: NOWY</span>'
@@ -3519,6 +3439,7 @@
         <div id="detailHeroBox" class="detail-hero ${item.type === 'travel' && !hasPhotos ? 'travel-hero' : ''}">${heroContent}</div>
         ${thumbsHtml}
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;align-items:center">
+          ${item.hasSubscription ? '<span class="badge badge-sub">👑 ABONAMENT</span>' : ''}
           ${item.top ? '<span class="badge badge-top">⭐ WYRÓŻNIONE TOP</span>' : ''}
           ${item.urgent ? '<span class="badge badge-urgent">⚡ PILNE</span>' : ''}
           ${item.type === 'travel' ? '<span class="badge badge-travel">✈️ WCZASY I WYJAZDY</span>' : ''}
@@ -3531,7 +3452,6 @@
           <div class="price ${item.type === 'free' ? 'free-price' : ''}" style="font-size:24px">
             ${formatPrice(item.price, item.type === 'free')}
           </div>
-          ${convHtml ? `<span class="converted-price" style="font-size:14px">(${convHtml})</span>` : ''}
         </div>
         ${item.priceNote ? `<div style="font-size:13px;color:var(--muted);margin-bottom:10px">${item.priceNote}</div>` : ''}
         ${autoSpecBox}
@@ -3726,10 +3646,12 @@
       if (currentUser && currentUser.isPremium) {
         document.getElementById('promoTopPrice').textContent = '0,00 (👑 PREMIUM)';
         document.getElementById('promoUrgentPrice').textContent = '0,00 (👑 PREMIUM)';
+        document.getElementById('newHasSubscription').checked = true;
         selectPromo('top');
       } else {
         document.getElementById('promoTopPrice').textContent = cfg.promoPrices.top;
         document.getElementById('promoUrgentPrice').textContent = cfg.promoPrices.urgent;
+        document.getElementById('newHasSubscription').checked = false;
       }
       toggleAddFields();
       toggleAutoFields();
@@ -3774,6 +3696,7 @@
       const buyNow = Number(document.getElementById('newBuyNow').value || 0);
       const shipping = document.getElementById('newShipping').value;
       const desc = document.getElementById('newDesc').value;
+      const hasSubscription = document.getElementById('newHasSubscription').checked || Boolean(currentUser && currentUser.isPremium);
 
       const vehicleKind = category === 'auto' ? document.getElementById('newVehicleKind').value : '';
       const vehicleBrand = category === 'auto' ? document.getElementById('newVehicleBrand').value.trim() : '';
@@ -3857,6 +3780,7 @@
           icon: iconVal,
           photos: [...uploadedPhotosTemp],
           top: isTop,
+          hasSubscription,
           urgent: isUrgent,
           hidden: false,
           views: 1,
@@ -4011,38 +3935,38 @@
         const premiumCard = currentUser.isPremium ? `
           <div class="premium-box">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <span class="premium-badge">👑 KONTO PREMIUM AKTYWNE</span>
+              <span class="premium-badge">👑 KONTO Z ABONAMENTEM (PREMIUM) AKTYWNE</span>
               <span style="font-size:12px;font-weight:700">Ważne do: ${currentUser.premiumUntil}</span>
             </div>
             <div style="font-size:12px;line-height:1.5">
-              • Wszystkie Twoje ogłoszenia mają automatycznie status <strong>⭐ TOP</strong> (0,00 na start)<br/>
-              • Odznaka <strong>👑 PREMIUM</strong> oraz brak limitu ofert
+              • Wszystkie Twoje ogłoszenia mają automatycznie status <strong>⭐ TOP</strong> oraz wyświetlają się w sekcji abonamentowej na dole strony<br/>
+              • Odznaka <strong>👑 ABONAMENT</strong> oraz brak limitu ofert
             </div>
           </div>
         ` : `
           <div class="premium-box">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-              <strong style="font-size:14px">👑 Konto PREMIUM (30 dni)</strong>
+              <strong style="font-size:14px">👑 Abonament PREMIUM (30 dni)</strong>
               <strong style="font-size:15px">${cfg.promoPrices.premiumMonth}</strong>
             </div>
             <div style="font-size:12px;line-height:1.5;margin-bottom:10px">
-              • Wszystkie Twoje ogłoszenia automatycznie trafiają do <strong>⭐ TOP</strong><br/>
+              • Twoje ogłoszenia pojawiają się w dedykowanej sekcji dla abonamentowiczów na dole strony oraz z odznaką <strong>⭐ TOP</strong><br/>
               • Nielimitowana liczba ogłoszeń za 0,00 w okresie startowym
             </div>
             <button type="button" class="premium-btn" onclick="activatePremium()">
-              👑 Aktywuj Konto PREMIUM na 30 dni za darmo (${cfg.promoPrices.premiumMonth})
+              👑 Aktywuj Abonament PREMIUM na 30 dni za darmo (${cfg.promoPrices.premiumMonth})
             </button>
           </div>
         `;
 
-        const adminQuickLink = currentUser.isAdmin
+        const adminQuickLink = (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()))
           ? `<button type="button" class="mini-btn red" style="width:100%;margin-bottom:10px;padding:9px" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Otwórz Panel Administratora</button>`
           : '';
 
         body.innerHTML = `
           <div class="acc-banner">
             <div>
-              <div style="font-weight:800;font-size:15px">✅ ${currentUser.name} ${currentUser.isPremium ? '<span class="premium-badge">👑 PREMIUM</span>' : ''}</div>
+              <div style="font-weight:800;font-size:15px">✅ ${currentUser.name} ${currentUser.isPremium ? '<span class="premium-badge">👑 ABONAMENT</span>' : ''}</div>
               <div style="font-size:12px;color:var(--muted)">✉️ ${currentUser.email} • 📞 ${currentUser.phone || 'brak'}</div>
             </div>
             <button type="button" class="mini-btn red" onclick="logoutUser()">Wyloguj</button>
@@ -4074,7 +3998,7 @@
           <form onsubmit="handleLogin(event)">
             <div class="form-group">
               <label>Adres e-mail</label>
-              <input type="email" id="loginEmail" required placeholder="np. jan@placomarkt.nl" />
+              <input type="email" id="loginEmail" required placeholder="np. admin@placomarkt.nl" />
             </div>
             <div class="form-group">
               <label>Hasło</label>
@@ -4234,7 +4158,10 @@
       } else {
         ['NL', 'PL'].forEach(c => {
           listingsData[c].forEach(item => {
-            if (item.ownerEmail === currentUser.email) item.top = true;
+            if (item.ownerEmail === currentUser.email) {
+              item.top = true;
+              item.hasSubscription = true;
+            }
           });
         });
         saveListingsLocal();
@@ -4244,7 +4171,7 @@
       updateAccountButton();
       renderCountryUI();
       renderAccountModal();
-      alert(`Konto PREMIUM aktywne na 30 dni za darmo (do ${expStr})!`);
+      alert(`Abonament PREMIUM aktywny na 30 dni za darmo (do ${expStr})!`);
     }
 
     async function logoutUser() {
@@ -4270,7 +4197,8 @@
 
     /* ADMIN PANEL LOGIC */
     function openAdminPanel() {
-      if (!currentUser || !currentUser.isAdmin) {
+      const isAllowedAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
+      if (!isAllowedAdmin) {
         alert('Dostęp tylko dla zalogowanego Administratora.');
         openAccountModal('login');
         return;
@@ -4317,6 +4245,7 @@
                 📍 ${item.city} • Cena: <strong>${formatPrice(item.price, item.type === 'free')}</strong> • 👁️ ${item.views || 1} •
                 <strong style="color:${item.hidden ? 'var(--red)' : 'var(--green)'}">${item.hidden ? 'UKRYTE' : 'AKTYWNE'}</strong>
                 ${item.top ? ' • ⭐ TOP' : ''}
+                ${item.hasSubscription ? ' • 👑 ABONAMENT' : ''}
               </div>
             </div>
             <div class="admin-row-actions">
@@ -4356,7 +4285,7 @@
                 <div>• Zwykłe ogłoszenie (30 dni): <strong style="display:inline;font-size:14px;color:var(--green)">${cfg.promoPrices.std}</strong></div>
                 <div>• Znaczek ⚡ PILNE: <strong style="display:inline;font-size:14px">${cfg.promoPrices.urgent}</strong></div>
                 <div>• Wyróżnienie ⭐ TOP: <strong style="display:inline;font-size:14px;color:var(--accent)">${cfg.promoPrices.top}</strong></div>
-                <div>• Konto 👑 PREMIUM (30 dni): <strong style="display:inline;font-size:14px;color:#b45309">${cfg.promoPrices.premiumMonth}</strong></div>
+                <div>• Abonament 👑 PREMIUM (30 dni): <strong style="display:inline;font-size:14px;color:#b45309">${cfg.promoPrices.premiumMonth}</strong></div>
               </div>
             </div>
             <div class="stat-card">
@@ -4364,7 +4293,7 @@
               <div style="margin-top:8px;font-size:13px;line-height:1.7">
                 <div>🔐 Dwuetapowe logowanie (2FA) aktywne</div>
                 <div>🛡️ Panel Admina ukryty dla gości</div>
-                <div>✅ 14 kategorii + marki aut, motorów i skuterów</div>
+                <div>✅ 15 kategorii (w tym Inne) + sekcja abonamentowa na dole</div>
               </div>
             </div>
           </div>
@@ -4435,7 +4364,7 @@
       if (dci) {
         let tz = '';
         try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch(e) {}
-        dci.textContent = `Wykryty region: ${tz || 'domyślny'} → ${currentCountry === 'NL' ? '🇳🇱 Holandia (.nl)' : '🇵🇱 Polska (.pl)'}`;
+        dci.textContent = `Wykryty region: ${tz || 'domyślny'} → ${currentCountry === 'NL' ? '🇳🇱 Holandia (EUR €)' : '🇵🇱 Polska (PLN zł)'}`;
       }
       document.getElementById('setNL').classList.toggle('active', currentCountry === 'NL');
       document.getElementById('setPL').classList.toggle('active', currentCountry === 'PL');
@@ -4445,7 +4374,6 @@
       ).join('');
 
       document.getElementById('setDarkMode').checked = Boolean(userPrefs.darkMode);
-      document.getElementById('setDualCurrency').checked = Boolean(userPrefs.showDualCurrency);
       document.getElementById('setPhoneVis').value = userPrefs.phoneVisibility || 'click';
       document.getElementById('setAntiPhish').checked = Boolean(userPrefs.antiPhishing);
       document.getElementById('setBidAlerts').checked = Boolean(userPrefs.bidAlerts);
@@ -4484,7 +4412,7 @@
       const contentMap = {
         about: {
           title: 'O platformie PlacoMarkt',
-          body: `PlacoMarkt (.nl oraz .pl) to dwujęzyczna platforma ogłoszeniowa i zakupowa łącząca rynek holenderski (EUR) i polski (PLN). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, motoryzację (auta, motory, skutery), wędkarstwo, wczasy, kursy oraz oferty pracy.`
+          body: `PlacoMarkt to platforma ogłoszeniowa i zakupowa działająca osobno na rynku holenderskim (EUR €) i polskim (PLN zł). Łączy w jednym miejscu ogłoszenia lokalne, licytacje, zakupy nowych i używanych rzeczy, motoryzację (auta, motory, skutery), wędkarstwo, wczasy, kursy oraz oferty pracy.`
         },
         terms: {
           title: 'Regulamin korzystania z PlacoMarkt',
