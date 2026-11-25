@@ -1672,17 +1672,23 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = 'https://TWOJ-PROJEKT.supabase.co';
-    const SUPABASE_ANON_KEY = 'TWOJ-KLUCZ-ANON-PUBLIC';
+    // =========================================================================
+    // SUPABASE PLACOMARKT — URL projektu oraz bucket/tabela 'ogloszenia'
+    // Wklej swój Publishable key (sb_publishable_...) w SUPABASE_PUBLISHABLE_KEY
+    // =========================================================================
+    const SUPABASE_URL = 'https://dotadrdquekzdqoxvtkk.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'WKLEJ_TUTAJ_SWOJ_KLUCZ_PUBLISHABLE';
+    const SUPABASE_TABLE_OGLOSZENIA = 'ogloszenia';
+    const SUPABASE_BUCKET_OGLOSZENIA = 'ogloszenia';
     const ADMIN_EMAILS = ['admin@placomarkt.nl', 'kontakt@placomarkt.nl', 'admin@placomarkt.online'];
 
     const isSupabaseConfigured =
       SUPABASE_URL.startsWith('https://') &&
-      !SUPABASE_URL.includes('TWOJ-PROJEKT') &&
-      SUPABASE_ANON_KEY.length > 20;
+      SUPABASE_PUBLISHABLE_KEY.length > 20 &&
+      !SUPABASE_PUBLISHABLE_KEY.includes('WKLEJ_TUTAJ');
 
-    const sb = isSupabaseConfigured
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    const sb = isSupabaseConfigured && window.supabase
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
 
     const VEHICLE_BRANDS = [
@@ -2391,6 +2397,7 @@
     let selectedPromo = 'std';
     let activeAdminTab = 'listings';
     let uploadedPhotosTemp = [];
+    let uploadedPhotoFilesTemp = [];
 
     const citySearchTimers = {};
     const citySearchCache = {};
@@ -2561,60 +2568,109 @@
       renderCountryUI();
     }
 
-    function mapDbListingToUi(row) {
+    // =========================================================================
+    // INTEGRACJA Z TABELĄ 'ogloszenia' ORAZ BUCKETEM 'ogloszenia' W SUPABASE
+    // =========================================================================
+    function parsePriceNumber(val) {
+      if (typeof val === 'number') return Number.isFinite(val) ? val : 0;
+      if (!val) return 0;
+      const cleaned = String(val).replace(/[^0-9.,-]/g, '').replace(',', '.');
+      const num = parseFloat(cleaned);
+      return Number.isFinite(num) ? num : 0;
+    }
+
+    function mapOgloszenieRowToUi(row) {
+      const rawCat = (row.kategoria || 'other').toLowerCase();
+      const matchedCat = CATEGORIES_LIST.find(c =>
+        c.id === rawCat ||
+        c.key.toLowerCase().includes(rawCat) ||
+        (rawCat.includes('auto') || rawCat.includes('motoryz') ? c.id === 'auto' : false) ||
+        (rawCat.includes('wędk') || rawCat.includes('wedk') || rawCat.includes('hengel') ? c.id === 'fishing' : false) ||
+        (rawCat.includes('elektron') || rawCat.includes('audio') ? c.id === 'electronics' : false) ||
+        (rawCat.includes('wakac') || rawCat.includes('podró') || rawCat.includes('travel') ? c.id === 'travel' : false)
+      );
+      const catId = matchedCat ? matchedCat.id : 'other';
+      const numericPrice = parsePriceNumber(row.cena);
+      const photos = row.zdjecie_url ? [row.zdjecie_url] : [];
+
       return {
-        id: row.id, ownerId: row.owner_id, type: row.type, category: row.category,
-        vehicleKind: row.vehicle_kind || '', vehicleBrand: row.vehicle_brand || '',
-        condition: row.condition || 'na', title: row.title, city: row.city,
-        price: Number(row.price || 0), priceNote: row.price_note || '',
-        buyNow: row.buy_now ? Number(row.buy_now) : null, bids: row.bids || 0,
-        endsAt: row.ends_at ? new Date(row.ends_at).getTime() : null,
-        shipping: row.shipping || '', travelDetails: row.travel_details || null,
-        icon: row.icon || '📦', photos: row.photos || [], top: Boolean(row.is_top),
-        hasSubscription: Boolean(row.has_subscription || row.is_top),
-        urgent: Boolean(row.is_urgent), hidden: Boolean(row.is_hidden),
-        views: row.views || 1, sellerName: row.seller_name || 'PlacoMarkt',
-        sellerVerified: Boolean(row.seller_verified), sellerRating: Number(row.seller_rating || 5.0),
-        sellerReviews: row.seller_reviews || [], phone: row.phone || '', desc: row.description || ''
+        id: row.id,
+        fromSupabaseOgloszenia: true,
+        type: catId === 'travel' ? 'travel' : 'sale',
+        category: catId,
+        vehicleKind: '',
+        vehicleBrand: '',
+        condition: 'na',
+        title: row.tytul || 'Ogłoszenie',
+        city: COUNTRY_CONFIG[currentCountry].allArea,
+        price: numericPrice,
+        priceNote: row.cena && isNaN(Number(String(row.cena).replace(',', '.'))) ? String(row.cena) : '',
+        shipping: COUNTRY_CONFIG[currentCountry].shippingOptions[0],
+        icon: matchedCat ? matchedCat.icon : '📦',
+        photos,
+        top: false,
+        hasSubscription: false,
+        urgent: false,
+        hidden: false,
+        views: 1,
+        sellerName: 'PlacoMarkt',
+        sellerVerified: true,
+        sellerRating: 5.0,
+        sellerReviews: [],
+        phone: '',
+        desc: row.opis || ''
       };
+    }
+
+    async function uploadFileToOgloszeniaBucket(file) {
+      if (!sb || !file) return null;
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const filePath = `${Date.now()}_${safeName}`;
+      const { error: upErr } = await sb.storage
+        .from(SUPABASE_BUCKET_OGLOSZENIA)
+        .upload(filePath, file, { upsert: false });
+      if (upErr) {
+        console.error('Upload error to bucket ogloszenia:', upErr);
+        return null;
+      }
+      const { data: pubData } = sb.storage
+        .from(SUPABASE_BUCKET_OGLOSZENIA)
+        .getPublicUrl(filePath);
+      return pubData?.publicUrl || null;
     }
 
     async function syncFromSupabase() {
       if (!sb) return;
       try {
-        const { data: sessionData } = await sb.auth.getSession();
-        if (sessionData?.session?.user) {
-          await loadUserProfile(sessionData.session.user);
-        }
         const { data: rows, error } = await sb
-          .from('listings')
+          .from(SUPABASE_TABLE_OGLOSZENIA)
           .select('*')
-          .order('is_top', { ascending: false })
           .order('created_at', { ascending: false });
-        if (!error && rows) {
-          ['NL', 'PL', 'UK', 'ES', 'BE', 'DE'].forEach(c => {
-            const cRows = rows.filter(r => r.country === c).map(mapDbListingToUi);
-            if (cRows.length) listingsData[c] = cRows;
-          });
+
+        if (!error && Array.isArray(rows)) {
+          const dbItems = rows.map(mapOgloszenieRowToUi);
+          const baseItems = (DEMO_LISTINGS[currentCountry] || []).filter(d => !dbItems.some(x => x.id === d.id));
+          listingsData[currentCountry] = [...dbItems, ...baseItems];
+          renderCountryUI();
         }
-        renderCountryUI();
-      } catch (err) {}
+      } catch (err) {
+        console.error('Sync error:', err);
+      }
     }
 
     async function loadUserProfile(authUser) {
-      if (!sb || !authUser) return;
-      const { data: prof } = await sb.from('profiles').select('*').eq('id', authUser.id).single();
+      if (!authUser) return;
       const emailLower = (authUser.email || '').toLowerCase();
       currentUser = {
         id: authUser.id,
-        name: prof?.name || authUser.user_metadata?.name || authUser.email.split('@')[0],
+        name: authUser.user_metadata?.name || authUser.email.split('@')[0],
         email: authUser.email,
-        phone: prof?.phone || authUser.user_metadata?.phone || '',
-        country: prof?.country || currentCountry,
-        isPremium: Boolean(prof?.is_premium),
-        premiumUntil: prof?.premium_until ? new Date(prof.premium_until).toLocaleDateString() : null,
-        isAdmin: Boolean(prof?.is_admin || ADMIN_EMAILS.includes(emailLower)),
-        twoFactorEnabled: Boolean(prof?.two_factor_enabled)
+        phone: authUser.user_metadata?.phone || '',
+        country: authUser.user_metadata?.country || currentCountry,
+        isPremium: false,
+        premiumUntil: null,
+        isAdmin: ADMIN_EMAILS.includes(emailLower),
+        twoFactorEnabled: false
       };
       updateAccountButton();
     }
@@ -2696,6 +2752,7 @@
         currentLang = allowed[0];
       }
       renderCountryUI();
+      syncFromSupabase();
     }
 
     function setLanguage(lang) {
@@ -3053,7 +3110,7 @@
           return false;
         }
         if (currentCategory !== 'all' && item.category !== currentCategory) return false;
-        if (city && !(item.city || '').toLowerCase().includes(city)) return false;
+        if (city && !item.fromSupabaseOgloszenia && !(item.city || '').toLowerCase().includes(city)) return false;
         if (condFilter !== 'all' && item.condition !== condFilter) return false;
         if (minP > 0 && item.price < minP) return false;
         if (maxP > 0 && item.price > maxP) return false;
@@ -3250,7 +3307,6 @@
       item.price += inc;
       item.bids += 1;
       saveListingsLocal();
-      if (sb) await sb.from('listings').update({ price: item.price, bids: item.bids }).eq('id', id);
       openDetail(id);
       renderListings();
     }
@@ -3264,7 +3320,6 @@
       if (!item) return;
       const reason = prompt('DSA');
       if (!reason) return;
-      if (sb) await sb.from('reports').insert([{ country: currentCountry, listing_id: item.id, listing_title: item.title, reason }]);
       reportsList.unshift({ id: Date.now(), country: currentCountry, listingId: item.id, listingTitle: item.title, reason, date: new Date().toLocaleTimeString(), status: 'open' });
       updateReportBadge();
     }
@@ -3272,6 +3327,7 @@
     function handlePhotoUpload(ev) {
       const files = Array.from(ev.target.files || []).slice(0, 4);
       uploadedPhotosTemp = [];
+      uploadedPhotoFilesTemp = files;
       const strip = document.getElementById('photoPreviewStrip');
       strip.innerHTML = '';
       files.forEach(file => {
@@ -3295,6 +3351,7 @@
 
     function openAddModal() {
       uploadedPhotosTemp = [];
+      uploadedPhotoFilesTemp = [];
       document.getElementById('photoPreviewStrip').innerHTML = '';
       if (currentMode === 'travel' || currentCategory === 'travel') document.getElementById('newType').value = 'travel';
       if (currentCategory !== 'all' && document.getElementById('newCategory').querySelector(`option[value="${currentCategory}"]`)) {
@@ -3337,14 +3394,14 @@
     async function submitListing(e) {
       e.preventDefault();
       const type = document.getElementById('newType').value;
-      const title = document.getElementById('newTitle').value;
+      const title = document.getElementById('newTitle').value.trim();
       const category = type === 'travel' ? 'travel' : document.getElementById('newCategory').value;
       const condition = (type === 'travel' || type === 'job' || type === 'course') ? 'na' : document.getElementById('newCondition').value;
       const city = document.getElementById('newCity').value.trim();
       const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
       const buyNow = Number(document.getElementById('newBuyNow').value || 0);
       const shipping = document.getElementById('newShipping').value;
-      const desc = document.getElementById('newDesc').value;
+      const desc = document.getElementById('newDesc').value.trim();
       const hasSubscription = document.getElementById('newHasSubscription').checked || Boolean(currentUser && currentUser.isPremium);
       const vehicleKind = category === 'auto' ? document.getElementById('newVehicleKind').value : '';
       const vehicleBrand = category === 'auto' ? document.getElementById('newVehicleBrand').value.trim() : '';
@@ -3375,37 +3432,79 @@
       const isUrgent = (selectedPromo === 'urgent');
       const phoneVal = (currentUser && currentUser.phone) ? currentUser.phone : '';
       const sellerName = currentUser ? currentUser.name : 'PlacoMarkt';
+      const cur = COUNTRY_CONFIG[currentCountry].currency;
+      const cenaText = type === 'free' ? '0' : `${price} ${cur}`;
 
-      if (sb && currentUser) {
-        const { error } = await sb.from('listings').insert([{
-          owner_id: currentUser.id, country: currentCountry, type, category,
-          vehicle_kind: vehicleKind, vehicle_brand: vehicleBrand, title, city, price,
-          price_note: priceNote, buy_now: buyNow || null, bids: type === 'auction' ? 1 : 0,
-          ends_at: type === 'auction' ? new Date(Date.now() + 1000 * 60 * 60 * 48).toISOString() : null,
-          shipping: type === 'travel' ? travelDetails.kind : shipping,
-          travel_details: travelDetails, icon: iconVal, is_top: isTop, phone: phoneVal, description: desc
-        }]);
-        if (!error) await syncFromSupabase();
-      } else {
-        listingsData[currentCountry] = listingsData[currentCountry] || [];
-        listingsData[currentCountry].unshift({
-          id: Date.now(), ownerId: currentUser?.id || null, type, category,
-          vehicleKind, vehicleBrand, condition, title, city, price, priceNote,
-          buyNow: buyNow || null, bids: type === 'auction' ? 1 : 0,
-          endsAt: type === 'auction' ? Date.now() + 1000 * 60 * 60 * 48 : null,
-          shipping: type === 'travel' ? travelDetails.kind : shipping,
-          travelDetails, icon: iconVal, photos: [...uploadedPhotosTemp],
-          top: isTop, hasSubscription, urgent: isUrgent, hidden: false, views: 1,
-          sellerName, sellerVerified: Boolean(phoneVal), sellerRating: 5.0, sellerReviews: [],
-          ownerEmail: currentUser?.email || null, phone: phoneVal, desc
-        });
-        saveListingsLocal();
+      let uploadedPublicUrl = null;
+      if (sb && uploadedPhotoFilesTemp.length > 0) {
+        uploadedPublicUrl = await uploadFileToOgloszeniaBucket(uploadedPhotoFilesTemp[0]);
       }
 
+      let insertedRow = null;
+      if (sb) {
+        const { data: insData, error: insErr } = await sb
+          .from(SUPABASE_TABLE_OGLOSZENIA)
+          .insert([{
+            tytul: title,
+            cena: cenaText,
+            kategoria: category,
+            opis: `${desc}${city ? `\nLokalizacja: ${city}` : ''}`,
+            zdjecie_url: uploadedPublicUrl || (uploadedPhotosTemp[0] || null)
+          }])
+          .select();
+
+        if (!insErr && Array.isArray(insData) && insData[0]) {
+          insertedRow = insData[0];
+        } else if (insErr) {
+          console.error('Insert error to public.ogloszenia:', insErr);
+        }
+      }
+
+      const photosFinal = uploadedPublicUrl ? [uploadedPublicUrl] : [...uploadedPhotosTemp];
+      const newItem = {
+        id: insertedRow ? insertedRow.id : Date.now(),
+        fromSupabaseOgloszenia: Boolean(insertedRow),
+        ownerId: currentUser?.id || null,
+        type,
+        category,
+        vehicleKind,
+        vehicleBrand,
+        condition,
+        title,
+        city,
+        price,
+        priceNote,
+        buyNow: buyNow || null,
+        bids: type === 'auction' ? 1 : 0,
+        endsAt: type === 'auction' ? Date.now() + 1000 * 60 * 60 * 48 : null,
+        shipping: type === 'travel' ? travelDetails.kind : shipping,
+        travelDetails,
+        icon: iconVal,
+        photos: photosFinal,
+        top: isTop,
+        hasSubscription,
+        urgent: isUrgent,
+        hidden: false,
+        views: 1,
+        sellerName,
+        sellerVerified: Boolean(phoneVal),
+        sellerRating: 5.0,
+        sellerReviews: [],
+        ownerEmail: currentUser?.email || null,
+        phone: phoneVal,
+        desc
+      };
+
+      listingsData[currentCountry] = listingsData[currentCountry] || [];
+      listingsData[currentCountry].unshift(newItem);
+      saveListingsLocal();
+
       uploadedPhotosTemp = [];
+      uploadedPhotoFilesTemp = [];
       closeModal('addModal');
       e.target.reset();
       renderCountryUI();
+      if (sb) await syncFromSupabase();
     }
 
     let currentUser = null;
@@ -3569,15 +3668,6 @@
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
-      if (sb) {
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
-        if (!error && data.user) {
-          await loadUserProfile(data.user);
-          await syncFromSupabase();
-          renderAccountModal();
-        }
-        return;
-      }
       const found = registeredUsers.find(u => u.email.toLowerCase() === email && u.password === password);
       if (!found) return;
       if (found.twoFactorEnabled) {
@@ -3610,14 +3700,6 @@
       const phone = document.getElementById('regPhone').value.trim();
       const password = document.getElementById('regPassword').value;
       const enable2FA = document.getElementById('regEnable2FA').checked;
-      if (sb) {
-        const { data, error } = await sb.auth.signUp({ email, password, options: { data: { name, phone, country: currentCountry } } });
-        if (!error && data.user) {
-          await loadUserProfile(data.user);
-          renderAccountModal();
-        }
-        return;
-      }
       if (registeredUsers.some(u => u.email.toLowerCase() === email)) return;
       const newUser = {
         id: 'local-' + Date.now(), name, email, phone, password, country: currentCountry,
@@ -3637,26 +3719,19 @@
       const expDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
       currentUser.isPremium = true;
       currentUser.premiumUntil = expDate.toLocaleDateString();
-      if (sb && currentUser.id) {
-        await sb.from('profiles').update({ is_premium: true, premium_until: expDate.toISOString() }).eq('id', currentUser.id);
-        await sb.from('listings').update({ is_top: true }).eq('owner_id', currentUser.id);
-        await syncFromSupabase();
-      } else {
-        Object.keys(listingsData).forEach(c => {
-          (listingsData[c] || []).forEach(item => {
-            if (item.ownerEmail === currentUser.email) { item.top = true; item.hasSubscription = true; }
-          });
+      Object.keys(listingsData).forEach(c => {
+        (listingsData[c] || []).forEach(item => {
+          if (item.ownerEmail === currentUser.email) { item.top = true; item.hasSubscription = true; }
         });
-        saveListingsLocal();
-        try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
-      }
+      });
+      saveListingsLocal();
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       updateAccountButton();
       renderCountryUI();
       renderAccountModal();
     }
 
     async function logoutUser() {
-      if (sb) await sb.auth.signOut();
       currentUser = null;
       pending2FAUser = null;
       try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
@@ -3665,8 +3740,12 @@
     }
 
     async function deleteMyListing(country, id) {
-      if (sb) { await sb.from('listings').delete().eq('id', id); await syncFromSupabase(); }
-      else { listingsData[country] = (listingsData[country] || []).filter(x => x.id !== id); saveListingsLocal(); }
+      const target = (listingsData[country] || []).find(x => x.id === id);
+      if (sb && target?.fromSupabaseOgloszenia) {
+        await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
+      }
+      listingsData[country] = (listingsData[country] || []).filter(x => x.id !== id);
+      saveListingsLocal();
       renderCountryUI();
       renderAccountModal();
     }
@@ -3738,7 +3817,6 @@
       if (!item) return;
       item.top = !item.top;
       saveListingsLocal();
-      if (sb) await sb.from('listings').update({ is_top: item.top }).eq('id', id);
       renderCountryUI();
       openAdminPanel();
     }
@@ -3748,13 +3826,15 @@
       if (!item) return;
       item.hidden = !item.hidden;
       saveListingsLocal();
-      if (sb) await sb.from('listings').update({ is_hidden: item.hidden }).eq('id', id);
       renderCountryUI();
       openAdminPanel();
     }
 
     async function adminDeleteListing(id) {
-      if (sb) await sb.from('listings').delete().eq('id', id);
+      const target = (listingsData[currentCountry] || []).find(x => x.id === id);
+      if (sb && target?.fromSupabaseOgloszenia) {
+        await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
+      }
       listingsData[currentCountry] = (listingsData[currentCountry] || []).filter(x => x.id !== id);
       saveListingsLocal();
       renderCountryUI();
@@ -3767,10 +3847,6 @@
       const rep = reportsList.find(r => r.id === repId);
       if (rep) rep.status = 'closed';
       saveListingsLocal();
-      if (sb) {
-        await sb.from('listings').update({ is_hidden: true }).eq('id', listingId);
-        await sb.from('reports').update({ status: 'closed' }).eq('id', repId);
-      }
       renderCountryUI();
       openAdminPanel();
     }
@@ -3778,7 +3854,6 @@
     async function adminResolveReport(repId) {
       const rep = reportsList.find(r => r.id === repId);
       if (rep) rep.status = 'closed';
-      if (sb) await sb.from('reports').update({ status: 'closed' }).eq('id', repId);
       renderCountryUI();
       openAdminPanel();
     }
