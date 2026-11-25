@@ -1190,7 +1190,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://dotadrdquekzdqoxvtkk.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_IkdITk0oV5NKdAJ-NMyeTg_s_KY3...';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_IkdITkOoV5NKdAJ-NMyeTg_s_KY3Ufl';
     const SUPABASE_TABLE_OGLOSZENIA = 'ogloszenia';
     const SUPABASE_BUCKET_OGLOSZENIA = 'ogloszenia';
     const ADMIN_EMAIL = 'adminplacomarkt@gmail.com';
@@ -1211,7 +1211,6 @@
       'Opel', 'Ford', 'Toyota', 'Kia', 'Hyundai', 'Skoda', 'Renault', 'Fiat', 'Volvo'
     ];
 
-    // Bardziej realistyczne karty tymczasowe — znikają gdy pojawią się realne ogłoszenia
     const PLACEHOLDER_OFFERS = {
       NL: [
         {
@@ -1400,7 +1399,6 @@
       return u;
     }
 
-    // Analiza możliwej szkodliwości — tylko powiadamia admina, nic nie blokuje
     function analyzeListingHarm(item) {
       const reasons = [];
       const text = `${item.title || ''} ${item.desc || ''}`.toLowerCase();
@@ -1973,7 +1971,6 @@
       }
       const photosFinal = uploadedUrl ? [uploadedUrl] : [...uploadedPhotosTemp];
 
-      // Edycja własnego ogłoszenia
       if (editingListingCountry && editingListingId !== null) {
         const arr = listingsData[editingListingCountry] || [];
         const idx = arr.findIndex(x => String(x.id) === String(editingListingId));
@@ -2003,7 +2000,6 @@
         return;
       }
 
-      // Nowe ogłoszenie — publikuje się od razu, a powiadomienie o ryzyku trafia do admina
       let insertedRow = null;
       if (sb) {
         const { data, error } = await sb.from(SUPABASE_TABLE_OGLOSZENIA).insert([{
@@ -2047,11 +2043,9 @@
         desc
       };
 
-      // Usuń karty startowe (placeholder), gdy pojawia się pierwsze realne ogłoszenie
       listingsData[currentCountry] = (listingsData[currentCountry] || []).filter(x => !x.isPlaceholder);
       listingsData[currentCountry].unshift(newItem);
 
-      // Sprawdź szkodliwość i wyślij powiadomienie do admina (bez blokowania publikacji)
       const harmReasons = analyzeListingHarm(newItem);
       if (harmReasons.length > 0) {
         const alertMsg = {
@@ -2157,7 +2151,7 @@
             <h4>📢 Wyślij propozycję reklamy (ze zdjęciem) do Admina</h4>
             <form onsubmit="submitHelpOrAdForm(event, 'reklama')">
               <div class="form-group"><input type="text" id="adSubTitle" required placeholder="Nazwa firmy / hasło reklamowe..." /></div>
-              <div class="form-group"><textarea id="adSubDesc" rows="2" required placeholder="Opis reklamy / kontakt..." ></textarea></div>
+              <div class="form-group"><textarea id="adSubDesc" rows="2" required placeholder="Opis reklamy / kontakt..."></textarea></div>
               <div class="form-group"><input type="file" id="adSubPhoto" accept="image/*" onchange="handleAdPhotoPick(event)" /></div>
               <button type="button" class="mini-btn gold" onclick="submitHelpOrAdForm(event, 'reklama')">Wyślij reklamę do Admina</button>
             </form>
@@ -2215,7 +2209,6 @@
         };
         adminMessages.unshift(msg);
         if (sb) sb.from('wiadomosci_admin').insert([msg]).catch(() => {});
-        // Otwiera również klienta pocztowego na adminplacomarkt@gmail.com jako kopię
         window.open(`mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent('[PlacoMarkt] ' + temat)}&body=${encodeURIComponent(tresc)}`, '_blank');
         updateAccountButton();
         alert('Wysłano wiadomość do Admina oraz przygotowano kopię e-mail na ' + ADMIN_EMAIL);
@@ -2307,7 +2300,6 @@
       renderCountryUI();
     }
 
-    // PANEL ADMINA (tylko dla adminplacomarkt@gmail.com)
     function openAdminPanel() {
       const isAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
       if (!isAdmin) {
