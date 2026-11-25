@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#f97316" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="description" content="PlacoMarkt.online — ogłoszenia, licytacje, zakupy, wczasy, nieruchomości i ogródki działkowe (NL & PL)." />
@@ -16,7 +16,7 @@
   <link id="pwaManifestLink" rel="manifest" href="" />
   <style>
     :root {
-      --primary: #0f172a;
+      --primary: #f97316;
       --accent: #f97316;
       --accent-hover: #ea580c;
       --blue: #2563eb;
@@ -24,25 +24,25 @@
       --purple: #7c3aed;
       --teal: #0284c7;
       --red: #dc2626;
-      --bg: #ffedd5;
+      --bg: #f8fafc;
       --card: #ffffff;
       --text: #1e293b;
       --muted: #64748b;
-      --border: #fed7aa;
+      --border: #e2e8f0;
       --gold: #f59e0b;
       --gold-bg: #fffbeb;
       --input-bg: #ffffff;
-      --soft-bg: #fff7ed;
+      --soft-bg: #f1f5f9;
     }
     body.dark-mode {
-      --bg: #2a1406;
+      --bg: #0f172a;
       --card: #1e293b;
       --text: #f1f5f9;
-      --muted: #cbd5e1;
-      --border: #7c2d12;
+      --muted: #94a3b8;
+      --border: #334155;
       --gold-bg: #292112;
       --input-bg: #0f172a;
-      --soft-bg: #331808;
+      --soft-bg: #0f172a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     body { background: var(--bg); color: var(--text); padding-bottom: 85px; transition: background 0.2s, color 0.2s; }
@@ -70,12 +70,12 @@
     }
 
     header {
-      background: var(--primary);
+      background: #f97316;
       color: #fff;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.16);
     }
     .nav-container {
       max-width: 1280px;
@@ -95,15 +95,16 @@
       align-items: center;
       gap: 8px;
       cursor: pointer;
+      color: #ffffff;
     }
-    .logo span.brand-accent { color: var(--accent); }
+    .logo span.brand-accent { color: #0f172a; }
     .logo span.domain-tag {
       font-size: 11px;
-      background: rgba(255,255,255,0.12);
+      background: rgba(15,23,42,0.22);
       padding: 3px 8px;
       border-radius: 6px;
       font-weight: 700;
-      color: #38bdf8;
+      color: #ffffff;
     }
     .nav-controls {
       display: flex;
@@ -112,8 +113,8 @@
       flex-wrap: wrap;
     }
     .icon-btn {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(15,23,42,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
       color: #fff;
       padding: 7px 11px;
       border-radius: 8px;
@@ -125,14 +126,14 @@
       gap: 5px;
       position: relative;
     }
-    .icon-btn:hover { background: rgba(255,255,255,0.22); }
-    .fav-nav-btn.active { background: rgba(239,68,68,0.28); border-color: #f87171; }
+    .icon-btn:hover { background: rgba(15,23,42,0.3); }
+    .fav-nav-btn.active { background: #0f172a; border-color: #ffffff; }
     .admin-btn {
-      background: rgba(239,68,68,0.22);
-      border-color: rgba(248,113,113,0.45);
-      color: #fecaca;
+      background: #991b1b;
+      border-color: rgba(255,255,255,0.45);
+      color: #ffffff;
     }
-    .admin-btn:hover { background: rgba(239,68,68,0.38); color: #fff; }
+    .admin-btn:hover { background: #7f1d1d; color: #fff; }
     .notif-dot {
       background: var(--red);
       color: #fff;
@@ -142,9 +143,9 @@
       border-radius: 10px;
     }
     .add-btn {
-      background: var(--accent);
+      background: #0f172a;
       color: #fff;
-      border: none;
+      border: 1px solid #0f172a;
       padding: 9px 15px;
       border-radius: 8px;
       font-weight: 700;
@@ -153,18 +154,18 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 2px 6px rgba(249,115,22,0.35);
+      box-shadow: 0 2px 6px rgba(15,23,42,0.25);
     }
-    .add-btn:hover { background: var(--accent-hover); }
+    .add-btn:hover { background: #1e293b; }
 
     .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
       color: #fff;
       padding: 22px 16px 26px;
       text-align: center;
     }
-    .hero h1 { font-size: 24px; margin-bottom: 6px; font-weight: 800; }
-    .hero p { color: #94a3b8; font-size: 14px; margin-bottom: 14px; }
+    .hero h1 { font-size: 24px; margin-bottom: 6px; font-weight: 800; color: #ffffff; }
+    .hero p { color: #fff7ed; font-size: 14px; margin-bottom: 14px; }
     .search-box {
       max-width: 1080px;
       margin: 0 auto;
@@ -174,7 +175,7 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.16);
     }
     .search-box input, .search-box select {
       flex: 1;
@@ -210,15 +211,15 @@
       font-size: 12px;
     }
     .quick-tag {
-      background: rgba(255,255,255,0.1);
-      color: #e2e8f0;
-      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(15,23,42,0.22);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.3);
       padding: 4px 10px;
       border-radius: 14px;
       cursor: pointer;
       transition: background 0.15s;
     }
-    .quick-tag:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .quick-tag:hover { background: #0f172a; border-color: #0f172a; color: #fff; }
 
     .suggest-box {
       display: none;
@@ -259,9 +260,9 @@
       .promo-ads-zone { grid-template-columns: 1fr; }
     }
     .bf-banner {
-      background: linear-gradient(135deg, #9a3412 0%, #c2410c 60%, #ea580c 100%);
+      background: linear-gradient(135deg, #111827 0%, #1f2937 65%, #7c2d12 100%);
       color: #fff;
-      border: 1px solid #fdba74;
+      border: 3px solid #000000;
       border-radius: 12px;
       padding: 15px 18px;
       display: flex;
@@ -269,7 +270,7 @@
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      box-shadow: 0 6px 18px rgba(234,88,12,0.2);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
     }
     .bf-pill {
       display: inline-block;
@@ -284,7 +285,7 @@
       margin-bottom: 5px;
     }
     .bf-banner h2 { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
-    .bf-banner p { font-size: 12px; color: #ffedd5; }
+    .bf-banner p { font-size: 12px; color: #e2e8f0; }
     .bf-btn {
       background: #facc15;
       color: #0f172a;
@@ -299,7 +300,7 @@
     .bf-btn:hover { background: #fde047; }
     .ad-slot-card {
       background: var(--card);
-      border: 1px dashed #fb923c;
+      border: 1px dashed var(--border);
       border-radius: 12px;
       padding: 14px 16px;
       display: flex;
@@ -311,7 +312,7 @@
       font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--muted);
     }
     .ad-slot-title { font-size: 14px; font-weight: 800; color: var(--text); }
     .ad-slot-desc { font-size: 12px; color: var(--muted); }
@@ -345,7 +346,7 @@
     .mode-tab.travel-tab.active { background: var(--teal); border-color: var(--teal); }
     .mode-tab.fav-tab.active { background: var(--red); border-color: var(--red); }
     .count-pill {
-      background: rgba(148,163,184,0.25);
+      background: rgba(148,163,184,0.22);
       padding: 1px 7px;
       border-radius: 10px;
       font-size: 11px;
@@ -359,27 +360,29 @@
       display: none;
     }
     .travel-filter-bar {
-      background: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%);
-      border: 1px solid #fdba74;
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+      border: 1px solid #bae6fd;
     }
+    body.dark-mode .travel-filter-bar { background: #0c2a3e; border-color: #0369a1; }
     .travel-filter-bar.open { display: block; }
 
     .auto-filter-bar {
       background: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%);
-      border: 1px solid #fdba74;
+      border: 1px solid #fed7aa;
     }
+    body.dark-mode .auto-filter-bar { background: #2c1608; border-color: #9a3412; }
     .auto-filter-bar.open { display: block; }
 
     .housing-filter-bar {
-      background: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%);
-      border: 1px solid #fdba74;
+      background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+      border: 1px solid #bbf7d0;
     }
+    body.dark-mode .housing-filter-bar { background: #052e16; border-color: #15803d; }
     .housing-filter-bar.open { display: block; }
 
     .travel-filter-title, .auto-filter-title, .housing-filter-title {
       font-size: 14px;
       font-weight: 800;
-      color: #c2410c;
       margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
@@ -387,9 +390,12 @@
       flex-wrap: wrap;
       gap: 6px;
     }
-    body.dark-mode .travel-filter-title,
-    body.dark-mode .auto-filter-title,
-    body.dark-mode .housing-filter-title { color: #fb923c; }
+    .travel-filter-title { color: #0369a1; }
+    .auto-filter-title { color: #c2410c; }
+    .housing-filter-title { color: #15803d; }
+    body.dark-mode .travel-filter-title { color: #7dd3fc; }
+    body.dark-mode .auto-filter-title { color: #fdba74; }
+    body.dark-mode .housing-filter-title { color: #86efac; }
 
     .travel-filters-grid {
       display: grid;
@@ -497,7 +503,7 @@
       align-items: stretch;
     }
     .card:hover {
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.09);
       transform: translateY(-2px);
     }
     .card.top-offer {
@@ -506,7 +512,7 @@
     }
     .card-img {
       height: 168px;
-      background: #fed7aa;
+      background: #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -535,7 +541,7 @@
       display: block;
     }
     .card-img.travel-img {
-      background: linear-gradient(135deg, #fdba74 0%, #ffedd5 100%);
+      background: linear-gradient(135deg, #bae6fd 0%, #e0f2fe 100%);
     }
     .badges {
       position: absolute;
@@ -562,7 +568,7 @@
       width: fit-content;
     }
     .badge-top { background: var(--gold); color: #fff; }
-    .badge-sub { background: linear-gradient(90deg, #f97316, #ea580c); color: #fff; }
+    .badge-sub { background: linear-gradient(90deg, #f59e0b, #ea580c); color: #fff; }
     .badge-urgent { background: var(--red); color: #fff; }
     .badge-hot { background: #ea580c; color: #fff; }
     .badge-auction { background: var(--purple); color: #fff; }
@@ -574,7 +580,7 @@
       bottom: 8px;
       right: 8px;
       background: rgba(255,255,255,0.94);
-      border: 1px solid #fed7aa;
+      border: 1px solid #e2e8f0;
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -613,15 +619,15 @@
       gap: 5px;
       font-size: 11px;
       font-weight: 700;
-      color: #c2410c;
-      background: #ffedd5;
+      color: #0369a1;
+      background: #e0f2fe;
       padding: 3px 8px;
       border-radius: 5px;
       margin-bottom: 6px;
       width: fit-content;
       flex-wrap: wrap;
     }
-    body.dark-mode .seller-mini-tag { background: #7c2d12; color: #fed7aa; }
+    body.dark-mode .seller-mini-tag { background: #0c4a6e; color: #bae6fd; }
     .trust-pct-pill {
       display: inline-flex;
       align-items: center;
@@ -653,22 +659,22 @@
       margin-bottom: 7px;
     }
     .travel-pill {
-      background: #ffedd5;
-      color: #c2410c;
+      background: #e0f2fe;
+      color: #0369a1;
       font-size: 11px;
       font-weight: 700;
       padding: 3px 7px;
       border-radius: 5px;
     }
     .auto-pill {
-      background: rgba(249,115,22,0.16);
+      background: rgba(249,115,22,0.14);
       color: #c2410c;
       font-size: 11px;
       font-weight: 700;
       padding: 3px 7px;
       border-radius: 5px;
     }
-    body.dark-mode .auto-pill { color: #fb923c; }
+    body.dark-mode .auto-pill { color: #fdba74; }
     .housing-pill {
       background: rgba(22,163,74,0.14);
       color: #15803d;
@@ -677,7 +683,7 @@
       padding: 3px 7px;
       border-radius: 5px;
     }
-    body.dark-mode .housing-pill { color: #4ade80; }
+    body.dark-mode .housing-pill { color: #86efac; }
 
     .timer-box {
       background: #f3e8ff;
@@ -706,12 +712,12 @@
       margin-top: 34px;
       padding: 20px;
       border-radius: 14px;
-      background: linear-gradient(135deg, #fdba74 0%, #ffedd5 55%, #fed7aa 100%);
-      border: 2px solid #fb923c;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 2px solid #f59e0b;
     }
     body.dark-mode .subscribers-bottom-section {
-      background: linear-gradient(135deg, #7c2d12 0%, #431407 100%);
-      border-color: #ea580c;
+      background: linear-gradient(135deg, #272011 0%, #1e293b 100%);
+      border-color: #d97706;
     }
     .subscribers-header {
       display: flex;
@@ -721,7 +727,7 @@
       gap: 10px;
       margin-bottom: 14px;
       padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid rgba(245,158,11,0.35);
     }
     .subscribers-header h2 {
       font-size: 18px;
@@ -740,7 +746,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(124,45,18,0.45);
+      background: rgba(15,23,42,0.55);
       backdrop-filter: blur(2px);
       z-index: 200;
       align-items: center;
@@ -751,7 +757,7 @@
     .modal {
       background: var(--card);
       color: var(--text);
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: 14px;
       max-width: 680px;
       width: 100%;
@@ -779,7 +785,7 @@
     }
     .detail-hero {
       height: 220px;
-      background: #ffedd5;
+      background: #e2e8f0;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -795,7 +801,7 @@
       object-fit: cover;
     }
     .detail-hero.travel-hero {
-      background: linear-gradient(135deg, #fdba74 0%, #ffedd5 100%);
+      background: linear-gradient(135deg, #bae6fd 0%, #e0f2fe 100%);
     }
     .gallery-thumbs {
       display: flex;
@@ -840,7 +846,7 @@
       cursor: pointer;
       text-align: center;
     }
-    .btn-phone { background: var(--primary); color: #fff; }
+    .btn-phone { background: #0f172a; color: #fff; }
     .btn-wa { background: #16a34a; color: #fff; }
     .btn-chat { background: var(--blue); color: #fff; }
     .btn-share { background: #0284c7; color: #fff; }
@@ -848,8 +854,8 @@
     .btn-report { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; margin-top: 8px; width: 100%; }
 
     .bid-panel {
-      background: rgba(249,115,22,0.08);
-      border: 1px solid #fdba74;
+      background: rgba(124,58,237,0.08);
+      border: 1px solid #ddd6fe;
       border-radius: 10px;
       padding: 14px;
       margin: 12px 0;
@@ -907,7 +913,7 @@
       color: var(--text);
     }
     .admin-tab.active {
-      background: var(--accent);
+      background: #0f172a;
       color: #fff;
     }
     .admin-list { display: flex; flex-direction: column; gap: 10px; }
@@ -967,9 +973,23 @@
       border-radius: 7px;
       border: 1px solid var(--border);
     }
-    .travel-form-box, .auto-form-box, .housing-form-box {
+    .travel-form-box {
+      background: rgba(2,132,199,0.08);
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .auto-form-box {
       background: rgba(249,115,22,0.08);
-      border: 1px solid #fdba74;
+      border: 1px solid #fed7aa;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .housing-form-box {
+      background: rgba(22,163,74,0.08);
+      border: 1px solid #bbf7d0;
       border-radius: 10px;
       padding: 12px;
       margin-bottom: 12px;
@@ -988,14 +1008,14 @@
       text-align: center;
       background: var(--soft-bg);
     }
-    .promo-card.selected { border-color: var(--accent); background: rgba(249,115,22,0.14); }
+    .promo-card.selected { border-color: var(--accent); background: rgba(249,115,22,0.12); }
 
     .acc-btn {
-      background: rgba(37,99,235,0.25);
-      border-color: rgba(96,165,250,0.45);
-      color: #dbeafe;
+      background: rgba(15,23,42,0.22);
+      border-color: rgba(255,255,255,0.4);
+      color: #ffffff;
     }
-    .acc-btn:hover { background: rgba(37,99,235,0.4); color: #fff; }
+    .acc-btn:hover { background: rgba(15,23,42,0.34); color: #fff; }
     .auth-switch { display: flex; gap: 8px; margin-bottom: 14px; }
     .auth-switch button {
       flex: 1;
@@ -1246,20 +1266,14 @@
       max-width: 1280px;
       margin: 28px auto 0;
       padding: 18px 16px;
-      background: #fed7aa;
-      border: 1px solid #fb923c;
-      border-radius: 12px;
+      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
       font-size: 12px;
-      color: var(--text);
-    }
-    body.dark-mode footer.site-footer {
-      background: #7c2d12;
-      border-color: #ea580c;
+      color: var(--muted);
     }
     .footer-links {
       display: flex;
@@ -1267,7 +1281,7 @@
       flex-wrap: wrap;
     }
     .footer-links a {
-      color: var(--text);
+      color: var(--muted);
       text-decoration: none;
       font-weight: 600;
       cursor: pointer;
@@ -1279,23 +1293,19 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: #fed7aa;
-      border-top: 2px solid #fb923c;
+      background: var(--card);
+      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
       padding: 8px 0;
       z-index: 90;
-    }
-    body.dark-mode .mobile-nav {
-      background: #7c2d12;
-      border-top-color: #ea580c;
     }
     .mobile-nav button {
       background: none;
       border: none;
       font-size: 11px;
       font-weight: 700;
-      color: var(--text);
+      color: var(--muted);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1345,7 +1355,7 @@
       <button type="button" class="search-btn" id="lblSearchBtn" onclick="renderListings()">Szukaj</button>
     </div>
     <div class="quick-tags" id="quickTagsBar">
-      <span style="color:#94a3b8" id="lblPopularTag">Popularne:</span>
+      <span style="color:#fff7ed" id="lblPopularTag">Popularne:</span>
       <span class="quick-tag" onclick="quickSearch('hengel')">🎣 <span id="qtFishing">Wędkarstwo</span></span>
       <span class="quick-tag" onclick="quickSearch('scooter')">🛵 <span id="qtScooters">Auta, Motory i Skutery</span></span>
       <span class="quick-tag" onclick="quickSearch('volkstuin')">🏡 <span id="qtGarden">Ogródek działkowy / Volkstuin</span></span>
@@ -1380,7 +1390,7 @@
       <div class="housing-filter-bar" id="housingFilterBar">
         <div class="housing-filter-title">
           <span id="housingFilterTitle">🏠 Nieruchomości, Działki i Ogródki</span>
-          <button type="button" id="btnClearHousingFilters" onclick="resetHousingFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
+          <button type="button" id="btnClearHousingFilters" onclick="resetHousingFilters()" style="background:var(--card);border:1px solid #86efac;color:#15803d;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterHousingKind" onchange="renderListings()">
@@ -1434,7 +1444,7 @@
       <div class="travel-filter-bar" id="travelFilterBar">
         <div class="travel-filter-title">
           <span id="travelFilterTitle">✈️ Wczasy i Podróże</span>
-          <button type="button" id="btnClearTravelFilters" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
+          <button type="button" id="btnClearTravelFilters" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:#0369a1;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterTravelDest" onchange="renderListings()">
@@ -1937,10 +1947,10 @@
           short_name: 'PlacoMarkt',
           start_url: 'https://placomarkt.online/',
           display: 'standalone',
-          background_color: '#0f172a',
-          theme_color: '#0f172a',
+          background_color: '#f97316',
+          theme_color: '#f97316',
           icons: [{
-            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%230f172a"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="%23f97316" font-family="sans-serif" font-weight="bold">P</text></svg>',
+            src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%23f97316"/><text x="50" y="66" font-size="52" text-anchor="middle" fill="%230f172a" font-family="sans-serif" font-weight="bold">P</text></svg>',
             sizes: '192x192',
             type: 'image/svg+xml'
           }]
@@ -4406,7 +4416,7 @@
             <div class="hub-sidebar">
               <div>
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-                  <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">
+                  <div style="width:36px;height:36px;border-radius:50%;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">
                     ${(currentUser.name || 'U').slice(0, 1).toUpperCase()}
                   </div>
                   <div style="min-width:0">
@@ -4521,7 +4531,7 @@
         } catch (err) {}
       }
       if (currentUser) {
-        const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === (currentUser.email || '').toLowerCase());
+        const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
         if (idx >= 0) {
           registeredUsers[idx].password = newPass;
           saveUsersDb();
@@ -4532,64 +4542,56 @@
       renderAccountModal();
     }
 
-    function completeUserLogin(user) {
-      currentUser = { ...user, isAdmin: Boolean(user.isAdmin || ADMIN_EMAILS.includes((user.email || '').toLowerCase())) };
-      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
-      pending2FAUser = null;
-      pending2FACode = '';
-      updateAccountButton();
-      renderAccountModal();
-    }
-
     async function handleLoginSubmit(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const rawInput = document.getElementById('loginEmail').value.trim();
-      const email = rawInput.toLowerCase();
+      const rawLogin = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const email = rawLogin === 'admin' ? 'adminplacomarkt@gmail.com' : rawLogin;
       const pass = document.getElementById('loginPass').value;
 
       if (sb && email.includes('@')) {
-        try {
-          const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-          if (!error && data?.user) {
-            applySupabaseAuthUser(data.user);
-            renderAccountModal();
-            return;
-          }
-        } catch (err) {}
+        const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+        if (!error && data?.user) {
+          applySupabaseAuthUser(data.user);
+          renderAccountModal();
+          return;
+        }
       }
 
-      const found = registeredUsers.find(u =>
-        (u.email.toLowerCase() === email || u.name.toLowerCase() === email) &&
-        u.password === pass
-      );
-      if (!found) {
-        alert(t.errWrongLogin);
-        return;
-      }
+      const found = registeredUsers.find(u => u.email.toLowerCase() === email && u.password === pass);
+      if (!found) { alert(t.errWrongLogin); return; }
       if (found.twoFactorEnabled) {
         pending2FAUser = found;
         pending2FACode = String(Math.floor(100000 + Math.random() * 900000));
         renderAccountModal();
         return;
       }
-      completeUserLogin(found);
+      currentUser = found;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
     }
 
     function verify2FACode(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const code = document.getElementById('input2FACode').value.trim();
-      if (code !== pending2FACode) {
-        alert(t.errWrong2FA);
-        return;
-      }
-      completeUserLogin(pending2FAUser);
+      const typed = document.getElementById('input2FACode').value.trim();
+      if (typed !== pending2FACode) { alert(t.errWrong2FA); return; }
+      currentUser = pending2FAUser;
+      pending2FAUser = null;
+      pending2FACode = '';
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
     }
 
     async function handleRegisterSubmit(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      if (regAgeChoice === 'minor') {
+        alert(t.errUnderage);
+        return;
+      }
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim().toLowerCase();
       const pass = document.getElementById('regPass').value;
@@ -4598,7 +4600,7 @@
       const acceptedTerms = document.getElementById('regAcceptTerms').checked;
       const enable2FA = document.getElementById('regEnable2FA').checked;
 
-      if (regAgeChoice === 'minor' || !isAdultBirthDate(birthDate)) {
+      if (!isAdultBirthDate(birthDate)) {
         alert(t.errUnderage);
         return;
       }
@@ -4608,118 +4610,82 @@
       }
 
       if (sb) {
-        try {
-          const { data, error } = await sb.auth.signUp({
-            email,
-            password: pass,
-            options: {
-              emailRedirectTo: 'https://placomarkt.online/',
-              data: { name, phone, birth_date: birthDate }
+        const { data, error } = await sb.auth.signUp({
+          email,
+          password: pass,
+          options: {
+            emailRedirectTo: 'https://placomarkt.online/',
+            data: {
+              name,
+              phone,
+              birth_date: birthDate,
+              accepted_terms: true,
+              country: currentCountry
             }
-          });
-          if (!error && data?.user) {
-            applySupabaseAuthUser(data.user);
-            renderAccountModal();
-            return;
           }
-        } catch (err) {}
+        });
+        if (!error && data?.user) {
+          applySupabaseAuthUser(data.user);
+          renderAccountModal();
+          return;
+        }
       }
 
-      if (registeredUsers.some(u => u.email.toLowerCase() === email)) {
-        alert(t.errEmailExists);
-        return;
-      }
+      if (registeredUsers.some(u => u.email.toLowerCase() === email)) { alert(t.errEmailExists); return; }
       const newUser = {
         id: 'u-' + Date.now(), name, email, password: pass, phone, birthDate,
         country: currentCountry, isPremium: false, premiumUntil: null,
         isAdmin: ADMIN_EMAILS.includes(email),
         twoFactorEnabled: enable2FA, passkeyEnabled: false,
-        twoFactorSecret: 'PLACO-' + Math.random().toString(36).substring(2, 8).toUpperCase()
+        twoFactorSecret: 'PM-' + Math.random().toString(36).substring(2, 8).toUpperCase()
       };
       registeredUsers.push(newUser);
       saveUsersDb();
-      completeUserLogin(newUser);
-    }
-
-    async function logoutUser() {
-      if (sb) {
-        try { await sb.auth.signOut(); } catch (err) {}
-      }
-      currentUser = null;
-      pending2FAUser = null;
-      try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
+      currentUser = newUser;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       updateAccountButton();
       renderAccountModal();
     }
 
     function activatePremiumSubscription() {
       if (!currentUser) return;
-      const untilDate = new Date(Date.now() + 30 * 86400000).toLocaleDateString();
+      const until = new Date(Date.now() + 30 * 86400000).toLocaleDateString();
       currentUser.isPremium = true;
-      currentUser.premiumUntil = untilDate;
+      currentUser.premiumUntil = until;
+      const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
+      if (idx >= 0) registeredUsers[idx] = currentUser;
+      saveUsersDb();
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
-      const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
-      if (idx >= 0) {
-        registeredUsers[idx].isPremium = true;
-        registeredUsers[idx].premiumUntil = untilDate;
-        saveUsersDb();
-      }
+      (listingsData[currentCountry] || []).forEach(item => {
+        if ((currentUser.id && item.ownerId === currentUser.id) || (currentUser.email && item.ownerEmail === currentUser.email)) {
+          item.top = true;
+          item.hasSubscription = true;
+        }
+      });
+      saveListingsLocal();
       updateAccountButton();
       renderAccountModal();
-      renderListings();
+      renderCountryUI();
     }
 
-    function deleteMyListing(country, id) {
-      listingsData[country] = (listingsData[country] || []).filter(i => i.id !== id);
+    async function deleteMyListing(country, id) {
+      listingsData[country] = (listingsData[country] || []).filter(x => x.id !== id);
       saveListingsLocal();
-      renderAccountModal();
-      renderListings();
-    }
-
-    function openSettings() {
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      document.getElementById('autoDetectCheck').checked = autoDetectLang;
-      document.getElementById('detectedInfo').textContent = `${currentLang} • ${currentCountry}`;
-      document.getElementById('autoCountryCheck').checked = autoDetectCountry;
-      document.getElementById('detectedCountryInfo').textContent = COUNTRY_CONFIG[currentCountry].regionLabel;
-
-      const langLabels = { NL: '🇳🇱 NL', PL: '🇵🇱 PL', UK: '🇬🇧 UK', TR: '🇹🇷 TR' };
-      const langBox = document.getElementById('settingsLangButtons');
-      if (langBox) {
-        langBox.innerHTML = AVAILABLE_LANGS.map(code =>
-          `<button type="button" class="country-btn ${currentLang === code ? 'active' : ''}" onclick="setLanguage('${code}');openSettings()">${langLabels[code] || code}</button>`
-        ).join('');
+      if (sb) {
+        try { await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id); } catch (e) {}
       }
-
-      document.getElementById('setNL').classList.toggle('active', currentCountry === 'NL');
-      document.getElementById('setPL').classList.toggle('active', currentCountry === 'PL');
-
-      document.getElementById('setDarkMode').checked = Boolean(userPrefs.darkMode);
-      document.getElementById('setDefaultCity').value = getDefaultCityForCountry(currentCountry);
-      document.getElementById('setPhoneVis').value = userPrefs.phoneVisibility;
-      document.getElementById('setAntiPhish').checked = Boolean(userPrefs.antiPhishing);
-      document.getElementById('setBidAlerts').checked = Boolean(userPrefs.bidAlerts);
-
-      document.getElementById('settingsModal').classList.add('open');
+      renderAccountModal();
+      renderCountryUI();
     }
 
-    function exportUserData() {
-      const payload = { country: currentCountry, lang: currentLang, prefs: userPrefs, favorites: favoriteIds, listings: listingsData };
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `placomarkt-${currentCountry.toLowerCase()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function resetLocalStorageData() {
-      localStorage.removeItem('placomarkt_prefs');
-      localStorage.removeItem('placomarkt_favs');
-      localStorage.removeItem('placomarkt_listings_v6');
-      localStorage.removeItem('placomarkt_user');
-      location.reload();
+    async function logoutUser() {
+      if (sb) {
+        try { await sb.auth.signOut(); } catch (e) {}
+      }
+      currentUser = null;
+      try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
     }
 
     function openAdminPanel() {
@@ -4728,11 +4694,12 @@
         openAccountModal('login');
         return;
       }
+      ['NL', 'PL'].forEach(c => {
+        const btn = document.getElementById('adm' + c);
+        if (btn) btn.classList.toggle('active', c === currentCountry);
+      });
       document.getElementById('adminMarketLabel').textContent = currentCountry;
-      document.getElementById('admNL').classList.toggle('active', currentCountry === 'NL');
-      document.getElementById('admPL').classList.toggle('active', currentCountry === 'PL');
-      renderAdminStats();
-      renderAdminBody();
+      renderAdminPanel();
       document.getElementById('adminModal').classList.add('open');
     }
 
@@ -4741,116 +4708,180 @@
       document.getElementById('admTabListings').classList.toggle('active', tab === 'listings');
       document.getElementById('admTabReports').classList.toggle('active', tab === 'reports');
       document.getElementById('admTabPricing').classList.toggle('active', tab === 'pricing');
-      renderAdminBody();
+      renderAdminPanel();
     }
 
-    function renderAdminStats() {
+    function renderAdminPanel() {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const list = listingsData[currentCountry] || [];
-      const activeCount = list.filter(i => !i.hidden).length;
-      const topCount = list.filter(i => i.top && !i.hidden).length;
-      const openReports = reportsList.filter(r => r.status === 'open').length;
+      const items = listingsData[currentCountry] || [];
+      const openReports = reportsList.filter(r => r.status === 'open');
       document.getElementById('adminStats').innerHTML = `
-        <div class="stat-card"><span>${t.admTotalLbl}</span><strong>${activeCount}</strong></div>
-        <div class="stat-card"><span>${t.admTopLbl}</span><strong>${topCount}</strong></div>
-        <div class="stat-card"><span>${t.admDsaLbl}</span><strong style="color:var(--red)">${openReports}</strong></div>
+        <div class="stat-card"><span>${t.admTotalLbl}</span><strong>${items.filter(i => !i.hidden).length}</strong></div>
+        <div class="stat-card"><span>${t.admTopLbl}</span><strong>${items.filter(i => i.top).length}</strong></div>
+        <div class="stat-card"><span>${t.admDsaLbl}</span><strong>${openReports.length}</strong></div>
+        <div class="stat-card"><span>${t.admUserCol}</span><strong>${registeredUsers.length}</strong></div>
       `;
-    }
 
-    function renderAdminBody() {
       const body = document.getElementById('adminBody');
       if (activeAdminTab === 'listings') {
-        const list = listingsData[currentCountry] || [];
-        body.innerHTML = `<div class="admin-list">` + list.map(item => {
+        body.innerHTML = `<div class="admin-list">` + items.map(item => {
           const loc = getLocalizedListing(item, currentLang);
           return `
             <div class="admin-row ${item.hidden ? 'blocked-row' : ''}">
               <div>
-                <strong>#${item.id} ${item.icon} ${loc.title}</strong>
-                <div style="font-size:12px;color:var(--muted)">📍 ${item.city} • <strong>${formatPrice(item.price, item.type === 'free')}</strong></div>
+                <strong>${item.icon} ${loc.title}</strong>
+                <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')}</div>
               </div>
               <div class="admin-row-actions">
-                <button type="button" class="mini-btn gold" onclick="adminToggleTop(${item.id})">${item.top ? '★ TOP' : '☆ TOP'}</button>
-                <button type="button" class="mini-btn" onclick="adminToggleSub(${item.id})">${item.hasSubscription ? '👑 ON' : '👑 OFF'}</button>
+                <button type="button" class="mini-btn gold" onclick="adminToggleTop(${item.id})">${item.top ? '⭐' : '☆ TOP'}</button>
                 <button type="button" class="mini-btn" onclick="adminToggleHide(${item.id})">${item.hidden ? '👁️' : '🚫'}</button>
-                <button type="button" class="mini-btn red" onclick="adminDeleteListing(${item.id})">🗑️</button>
+                <button type="button" class="mini-btn red" onclick="adminDelete(${item.id})">✕</button>
               </div>
             </div>
           `;
         }).join('') + `</div>`;
       } else if (activeAdminTab === 'reports') {
-        body.innerHTML = `<div class="admin-list">` + reportsList.map(r => `
+        body.innerHTML = `<div class="admin-list">` + reportsList.map(rep => `
           <div class="admin-row">
-            <div>
-              <strong>🚩 #${r.listingId} ${r.listingTitle}</strong>
-              <div style="font-size:12px">${r.reason}</div>
-            </div>
-            <button type="button" class="mini-btn green" onclick="adminResolveReport(${r.id})">✓</button>
+            <div><strong>🚩 ${rep.listingTitle}</strong><div style="font-size:12px;color:var(--muted)">${rep.reason}</div></div>
+            <button type="button" class="mini-btn green" onclick="adminResolveReport(${rep.id})">✓</button>
           </div>
         `).join('') + `</div>`;
       } else {
         const cfg = COUNTRY_CONFIG[currentCountry];
         body.innerHTML = `
-          <div class="admin-row">
-            <div><strong>⭐ TOP</strong></div>
-            <input type="text" id="priceTopInput" value="${cfg.promoPrices.top}" style="width:110px;padding:6px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--text)" />
-          </div>
-          <div class="admin-row">
-            <div><strong>👑 ${t.subBtn}</strong></div>
-            <input type="text" id="priceSubInput" value="${cfg.promoPrices.premiumMonth}" style="width:110px;padding:6px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--text)" />
-          </div>
-          <button type="button" class="add-btn" style="margin-top:12px" onclick="adminSavePricing()">💾</button>
+          <div class="form-group"><label>⭐ TOP (${cfg.currency})</label><input type="text" id="editTopPrice" value="${cfg.promoPrices.top}" /></div>
+          <div class="form-group"><label>⚡ PILNE (${cfg.currency})</label><input type="text" id="editUrgentPrice" value="${cfg.promoPrices.urgent}" /></div>
+          <button type="button" class="add-btn" onclick="adminSavePrices()">✓</button>
         `;
       }
     }
 
     function adminToggleTop(id) {
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
-      if (item) { item.top = !item.top; saveListingsLocal(); renderAdminPanel(); renderListings(); }
-    }
-    function adminToggleSub(id) {
-      const item = (listingsData[currentCountry] || []).find(x => x.id === id);
-      if (item) { item.hasSubscription = !item.hasSubscription; saveListingsLocal(); renderAdminPanel(); renderListings(); }
-    }
-    function adminToggleHide(id) {
-      const item = (listingsData[currentCountry] || []).find(x => x.id === id);
-      if (item) { item.hidden = !item.hidden; saveListingsLocal(); renderAdminPanel(); renderListings(); }
-    }
-    function adminDeleteListing(id) {
-      listingsData[currentCountry] = (listingsData[currentCountry] || []).filter(x => x.id !== id);
+      if (item) item.top = !item.top;
       saveListingsLocal();
       renderAdminPanel();
-      renderListings();
+      renderCountryUI();
     }
+
+    function adminToggleHide(id) {
+      const item = (listingsData[currentCountry] || []).find(x => x.id === id);
+      if (item) item.hidden = !item.hidden;
+      saveListingsLocal();
+      renderAdminPanel();
+      renderCountryUI();
+    }
+
+    async function adminDelete(id) {
+      listingsData[currentCountry] = (listingsData[currentCountry] || []).filter(x => x.id !== id);
+      saveListingsLocal();
+      if (sb) {
+        try { await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id); } catch (e) {}
+      }
+      renderAdminPanel();
+      renderCountryUI();
+    }
+
     function adminResolveReport(repId) {
-      const r = reportsList.find(x => x.id === repId);
-      if (r) r.status = 'resolved';
+      const rep = reportsList.find(r => r.id === repId);
+      if (rep) rep.status = 'resolved';
       updateReportBadge();
       renderAdminPanel();
     }
-    function adminSavePricing() {
+
+    function adminSavePrices() {
       const cfg = COUNTRY_CONFIG[currentCountry];
-      cfg.promoPrices.top = document.getElementById('priceTopInput').value.trim() || cfg.promoPrices.top;
-      cfg.promoPrices.premiumMonth = document.getElementById('priceSubInput').value.trim() || cfg.promoPrices.premiumMonth;
+      cfg.promoPrices.top = document.getElementById('editTopPrice').value;
+      cfg.promoPrices.urgent = document.getElementById('editUrgentPrice').value;
       renderCountryUI();
       renderAdminPanel();
     }
 
-    function openLegalModal(docType) {
+    function openLegalModal(docKey) {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      let title = t.aboutTitle, html = t.aboutHtml;
-      if (docType === 'terms') { title = t.termsTitle; html = t.termsHtml; }
-      else if (docType === 'privacy') { title = t.privacyTitle; html = t.privacyHtml; }
-      else if (docType === 'dsa') { title = t.dsaTitle; html = t.dsaHtml; }
-      document.getElementById('legalContent').innerHTML = `<button type="button" class="close-modal" onclick="closeModal('legalModal')">×</button><h2 style="margin-bottom:10px">${title}</h2>${html}`;
+      let title = t.aboutTitle;
+      let bodyHtml = t.aboutHtml;
+      if (docKey === 'terms') { title = t.termsTitle; bodyHtml = t.termsHtml; }
+      else if (docKey === 'privacy') { title = t.privacyTitle; bodyHtml = t.privacyHtml; }
+      else if (docKey === 'dsa') { title = t.dsaTitle; bodyHtml = t.dsaHtml; }
+
+      document.getElementById('legalContent').innerHTML = `
+        <button type="button" class="close-modal" onclick="closeModal('legalModal')">×</button>
+        <h2 style="margin-bottom:10px;padding-right:32px">${title}</h2>
+        ${bodyHtml}
+      `;
       document.getElementById('legalModal').classList.add('open');
+    }
+
+    function openSettings() {
+      const cfg = COUNTRY_CONFIG[currentCountry];
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      applyFullLanguageUi();
+
+      document.getElementById('autoDetectCheck').checked = autoDetectLang;
+      document.getElementById('detectedInfo').textContent = `${detectDeviceLanguage()} • ${currentLang}`;
+
+      document.getElementById('autoCountryCheck').checked = autoDetectCountry;
+      document.getElementById('detectedCountryInfo').textContent = `${detectDeviceCountry()} • ${currentCountry}`;
+
+      ['NL', 'PL'].forEach(c => {
+        const btn = document.getElementById('set' + c);
+        if (btn) btn.classList.toggle('active', c === currentCountry);
+      });
+
+      const langNames = {
+        NL: '🇳🇱 Nederlands',
+        PL: '🇵🇱 Polski',
+        UK: '🇬🇧 English (UK)',
+        TR: '🇹🇷 Türkçe'
+      };
+      document.getElementById('settingsLangButtons').innerHTML = cfg.langs.map(code =>
+        `<button type="button" class="country-btn ${code === currentLang ? 'active' : ''}" onclick="setLanguage('${code}');openSettings()">${langNames[code] || code}</button>`
+      ).join('');
+
+      document.getElementById('setDarkMode').checked = Boolean(userPrefs.darkMode);
+      document.getElementById('setDefaultCity').value = getDefaultCityForCountry(currentCountry);
+      document.getElementById('setDefaultCity').placeholder = t.cityPlaceholder;
+      document.getElementById('setPhoneVis').value = userPrefs.phoneVisibility;
+      document.getElementById('setAntiPhish').checked = Boolean(userPrefs.antiPhishing);
+      document.getElementById('setBidAlerts').checked = Boolean(userPrefs.bidAlerts);
+
+      document.getElementById('settingsModal').classList.add('open');
+    }
+
+    function exportUserData() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        currentCountry,
+        currentLang,
+        user: currentUser,
+        favorites: favoriteIds,
+        prefs: userPrefs
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `placomarkt-dane-${currentCountry}.json`;
+      a.click();
+    }
+
+    function resetLocalStorageData() {
+      localStorage.removeItem('placomarkt_listings_v6');
+      localStorage.removeItem('placomarkt_favs');
+      localStorage.removeItem('placomarkt_prefs');
+      location.reload();
     }
 
     function closeModal(id) {
       document.getElementById(id).classList.remove('open');
     }
-    document.querySelectorAll('.modal-backdrop').forEach(el => {
-      el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+
+    window.addEventListener('click', (e) => {
+      ['detailModal', 'addModal', 'settingsModal', 'adminModal', 'accountModal', 'legalModal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (e.target === el) closeModal(id);
+      });
     });
 
     initApp();
