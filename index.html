@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="pl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1198,19 +1198,19 @@
       </div>
       <div class="nav-controls">
         <button class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')">❤️ <span id="favCountBadge">0</span></button>
-        <button class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Account</span></button>
+        <button class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Konto</span></button>
         <button class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">🛡️ <span>Admin</span> <span class="notif-dot" id="adminReportBadge">0</span></button>
-        <button class="icon-btn" onclick="openSettings()">⚙️ <span id="lblSettings">Instellingen</span></button>
-        <button class="add-btn" onclick="openAddModal()">+ <span id="lblAddBtn">Plaatsen</span></button>
+        <button class="icon-btn" onclick="openSettings()">⚙️ <span id="lblSettings">Ustawienia</span></button>
+        <button class="add-btn" onclick="openAddModal()">+ <span id="lblAddBtn">Dodaj</span></button>
       </div>
     </div>
   </header>
 
   <section class="hero">
-    <h1 id="heroTitle">Advertenties, Veilingen, Winkelen & Vakanties</h1>
-    <p id="heroSub">Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Volkstuinen, Vakanties & Werk (€)</p>
+    <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
+    <p id="heroSub">Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca (€)</p>
     <div class="search-box">
-      <input type="text" id="searchInput" class="main-q" placeholder="Waar ben je naar op zoek..." oninput="renderListings()" />
+      <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz..." oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
 
       <div style="position:relative;flex:1;min-width:175px">
@@ -1218,7 +1218,7 @@
           type="text"
           id="cityInput"
           autocomplete="off"
-          placeholder="Plaats (vanaf 3 letters)..."
+          placeholder="Miejscowość (od 3 liter)..."
           oninput="handleCityInput('search');renderListings()"
           onfocus="handleCityInput('search')"
           onblur="hideSuggestDelayed('citySuggestSearch')"
@@ -1226,17 +1226,17 @@
         <div id="citySuggestSearch" class="suggest-box"></div>
       </div>
 
-      <button class="search-btn" id="lblSearchBtn" onclick="renderListings()">Zoeken</button>
+      <button class="search-btn" id="lblSearchBtn" onclick="renderListings()">Szukaj</button>
     </div>
     <div class="quick-tags" id="quickTagsBar">
-      <span style="color:#94a3b8" id="lblPopularTag">Populair:</span>
-      <span class="quick-tag" onclick="quickSearch('hengel')">🎣 <span id="qtFishing">Hengelsport</span></span>
-      <span class="quick-tag" onclick="quickSearch('scooter')">🛵 <span id="qtScooters">Auto, Motor & Scooter</span></span>
-      <span class="quick-tag" onclick="quickSearch('volkstuin')">🏡 <span id="qtGarden">Volkstuin / Ogródek</span></span>
-      <span class="quick-tag" onclick="quickSearch('parfum')">💄 <span id="qtPerfumes">Cosmetica & Parfum</span></span>
-      <span class="quick-tag" onclick="quickSearch('woning')">🏠 <span id="qtHousing">Woningen, Kamers & Tuinen</span></span>
-      <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ <span id="qtTravel">Vakanties & Reizen</span></span>
-      <span class="quick-tag" onclick="quickSearch('werk')">💼 <span id="qtJobs">Werk & Vacatures</span></span>
+      <span style="color:#94a3b8" id="lblPopularTag">Popularne:</span>
+      <span class="quick-tag" onclick="quickSearch('hengel')">🎣 <span id="qtFishing">Wędkarstwo</span></span>
+      <span class="quick-tag" onclick="quickSearch('scooter')">🛵 <span id="qtScooters">Auta, Motory i Skutery</span></span>
+      <span class="quick-tag" onclick="quickSearch('volkstuin')">🏡 <span id="qtGarden">Ogródek działkowy / Volkstuin</span></span>
+      <span class="quick-tag" onclick="quickSearch('parfum')">💄 <span id="qtPerfumes">Kosmetyki i Perfumy</span></span>
+      <span class="quick-tag" onclick="quickSearch('woning')">🏠 <span id="qtHousing">Nieruchomości, Działki i Ogródki</span></span>
+      <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ <span id="qtTravel">Wczasy i Podróże</span></span>
+      <span class="quick-tag" onclick="quickSearch('werk')">💼 <span id="qtJobs">Praca</span></span>
     </div>
   </section>
 
@@ -1246,15 +1246,15 @@
         <div class="bf-banner">
           <div>
             <span class="bf-pill">Black Friday</span>
-            <h2 id="bfTitle">Black Friday op PlacoMarkt</h2>
-            <p id="bfDesc">Aanbiedingen & uitgelichte deals.</p>
+            <h2 id="bfTitle">Black Friday na PlacoMarkt</h2>
+            <p id="bfDesc">Okazje i wyróżnione oferty.</p>
           </div>
-          <button type="button" class="bf-btn" id="bfActionBtn" onclick="toggleCategory('fishing')">🎣 Hengelsport</button>
+          <button type="button" class="bf-btn" id="bfActionBtn" onclick="toggleCategory('fishing')">🎣 Wędkarstwo</button>
         </div>
         <div class="ad-slot-card">
           <span class="ad-slot-tag" id="adSlotTag">Partner</span>
-          <div class="ad-slot-title" id="adSlotTitle">Advertentieruimte</div>
-          <div class="ad-slot-desc" id="adSlotDesc">Ruimte voor partner of actie.</div>
+          <div class="ad-slot-title" id="adSlotTitle">Miejsce na reklamę</div>
+          <div class="ad-slot-desc" id="adSlotDesc">Baner lub oferta partnerska.</div>
         </div>
       </section>
 
@@ -1263,22 +1263,22 @@
       <!-- FILTRY: NIERUCHOMOŚCI, DZIAŁKI I OGRÓDKI -->
       <div class="housing-filter-bar" id="housingFilterBar">
         <div class="housing-filter-title">
-          <span id="housingFilterTitle">🏠 Woningen, Kamers & Volkstuinen</span>
+          <span id="housingFilterTitle">🏠 Nieruchomości, Działki i Ogródki</span>
           <button type="button" id="btnClearHousingFilters" onclick="resetHousingFilters()" style="background:var(--card);border:1px solid #86efac;color:#15803d;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterHousingKind" onchange="renderListings()">
-            <option value="all" id="optHousAll">🏠 Alle objecten</option>
-            <option value="garden" id="optHousGarden">🏡 Volkstuin / Ogródek działkowy</option>
-            <option value="flat" id="optHousFlat">🏢 Appartement / Huis</option>
-            <option value="room" id="optHousRoom">🛏️ Kamer / Pokój</option>
-            <option value="garage" id="optHousGarage">🚗 Garage / Opslag</option>
+            <option value="all" id="optHousAll">🏠 Wszystkie obiekty</option>
+            <option value="garden" id="optHousGarden">🏡 Ogródek działkowy / Volkstuin</option>
+            <option value="flat" id="optHousFlat">🏢 Mieszkanie / Dom</option>
+            <option value="room" id="optHousRoom">🛏️ Pokój / Stancja</option>
+            <option value="garage" id="optHousGarage">🚗 Garaż / Magazyn</option>
           </select>
           <select id="filterHousingDeal" onchange="renderListings()">
-            <option value="all" id="optDealAll">🤝 Alle transacties</option>
-            <option value="sell" id="optDealSell">🏷️ Te koop / Overname</option>
-            <option value="buy" id="optDealBuy">🔎 Gezocht / Kupię</option>
-            <option value="rent" id="optDealRent">🔑 Te huur / Wynajem</option>
+            <option value="all" id="optDealAll">🤝 Wszystkie transakcje</option>
+            <option value="sell" id="optDealSell">🏷️ Sprzedam / Odstąpię</option>
+            <option value="buy" id="optDealBuy">🔎 Kupię / Szukam</option>
+            <option value="rent" id="optDealRent">🔑 Wynajmę / Dzierżawa</option>
           </select>
         </div>
       </div>
@@ -1286,25 +1286,25 @@
       <!-- FILTRY: AUTO, MOTOR & SCOOTER -->
       <div class="auto-filter-bar" id="autoFilterBar">
         <div class="auto-filter-title">
-          <span id="autoFilterTitle">🚗 Auto, Motor & Scooter</span>
+          <span id="autoFilterTitle">🚗 Auta, Motory i Skutery</span>
           <button type="button" id="btnClearAutoFilters" onclick="resetAutoFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterVehicleKind" onchange="renderListings()">
-            <option value="all" id="optVehAll">🚘 Alle voertuigen</option>
-            <option value="car" id="optVehCar">🚗 Auto</option>
-            <option value="moto" id="optVehMoto">🏍️ Motor</option>
-            <option value="scooter" id="optVehScooter">🛵 Scooter</option>
-            <option value="van" id="optVehVan">🚐 Bus / Dostawczy</option>
+            <option value="all" id="optVehAll">🚘 Wszystkie pojazdy</option>
+            <option value="car" id="optVehCar">🚗 Samochód osobowy</option>
+            <option value="moto" id="optVehMoto">🏍️ Motocykl / Motor</option>
+            <option value="scooter" id="optVehScooter">🛵 Skuter / Motorower</option>
+            <option value="van" id="optVehVan">🚐 Dostawczy / Bus</option>
             <option value="quad" id="optVehQuad">🏎️ Quad / ATV</option>
-            <option value="parts" id="optVehParts">⚙️ Onderdelen / Części</option>
+            <option value="parts" id="optVehParts">⚙️ Części i akcesoria</option>
           </select>
           <div style="position:relative">
             <input
               type="text"
               id="filterVehicleBrand"
               autocomplete="off"
-              placeholder="Merk (vanaf 2 letters)..."
+              placeholder="Marka (od 2 liter)..."
               oninput="handleBrandInput('filter');renderListings()"
               onfocus="handleBrandInput('filter')"
               onblur="hideSuggestDelayed('brandSuggestFilter')"
@@ -1317,37 +1317,37 @@
       <!-- FILTRY: WAKACJE -->
       <div class="travel-filter-bar" id="travelFilterBar">
         <div class="travel-filter-title">
-          <span id="travelFilterTitle">✈️ Vakanties & Reizen</span>
+          <span id="travelFilterTitle">✈️ Wczasy i Podróże</span>
           <button type="button" id="btnClearTravelFilters" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterTravelDest" onchange="renderListings()">
-            <option value="all" id="optDestAll">🌍 Alle bestemmingen</option>
-            <option value="PL" id="optDestPL">🇵🇱 Polen / Polska</option>
-            <option value="NL" id="optDestNL">🇳🇱 Nederland / Holandia</option>
-            <option value="BE" id="optDestBE">🇧🇪 België / Luxemburg</option>
-            <option value="TR" id="optDestTR">🇹🇷 Turkije / Turcja</option>
-            <option value="HR" id="optDestHR">🇭🇷 Kroatië / Chorwacja</option>
-            <option value="ES" id="optDestES">🇪🇸 Spanje / Hiszpania</option>
-            <option value="HU" id="optDestHU">🇭🇺 Hongarije / Węgry</option>
-            <option value="BUS" id="optDestBUS">🚐 PL ↔ NL</option>
+            <option value="all" id="optDestAll">🌍 Wszystkie kierunki</option>
+            <option value="PL" id="optDestPL">🇵🇱 Polska</option>
+            <option value="NL" id="optDestNL">🇳🇱 Holandia</option>
+            <option value="BE" id="optDestBE">🇧🇪 Belgia / Luksemburg</option>
+            <option value="TR" id="optDestTR">🇹🇷 Turcja</option>
+            <option value="HR" id="optDestHR">🇭🇷 Chorwacja</option>
+            <option value="ES" id="optDestES">🇪🇸 Hiszpania</option>
+            <option value="HU" id="optDestHU">🇭🇺 Węgry / Słowacja</option>
+            <option value="BUS" id="optDestBUS">🚐 Trasa PL ↔ NL</option>
           </select>
           <select id="filterTravelKind" onchange="renderListings()">
-            <option value="all" id="optKindAll">🏕️ Alle verblijven</option>
-            <option value="house" id="optKindHouse">🏠 Vakantiehuis / Domek</option>
-            <option value="tour" id="optKindTour">🚌 Groepsreis / Wycieczka</option>
+            <option value="all" id="optKindAll">🏕️ Wszystkie formy</option>
+            <option value="house" id="optKindHouse">🏠 Domek / Apartament</option>
+            <option value="tour" id="optKindTour">🚌 Wycieczka zorganizowana</option>
             <option value="allinc" id="optKindAllInc">☀️ Last Minute / All Inclusive</option>
-            <option value="bus" id="optKindBus">🚐 Bus / Przejazd PL ↔ NL</option>
+            <option value="bus" id="optKindBus">🚐 Przejazd / Bus PL ↔ NL</option>
           </select>
           <select id="filterTravelBoard" onchange="renderListings()">
-            <option value="all" id="optBoardAll">🍽️ Verzorging</option>
-            <option value="self" id="optBoardSelf">🍳 Zelfverzorging / Własne</option>
-            <option value="bb" id="optBoardBB">🥐 BB (Ontbijt / Śniadania)</option>
-            <option value="hb" id="optBoardHB">🍲 HB (Halfpension)</option>
+            <option value="all" id="optBoardAll">🍽️ Wyżywienie</option>
+            <option value="self" id="optBoardSelf">🍳 Własne</option>
+            <option value="bb" id="optBoardBB">🥐 Ze śniadaniami (BB)</option>
+            <option value="hb" id="optBoardHB">🍲 Śniadania + Obiadokolacje (HB)</option>
             <option value="ai" id="optBoardAI">🍹 All Inclusive</option>
-            <option value="na" id="optBoardNA">🚐 N.v.t. / Nie dotyczy</option>
+            <option value="na" id="optBoardNA">🚐 Nie dotyczy</option>
           </select>
-          <input type="number" id="filterTravelMaxPrice" placeholder="Max" min="0" oninput="renderListings()" />
+          <input type="number" id="filterTravelMaxPrice" placeholder="Do" min="0" oninput="renderListings()" />
         </div>
       </div>
 
@@ -1355,40 +1355,40 @@
 
       <div class="toolbar-bar">
         <div class="toolbar-left">
-          <strong style="font-size:15px" id="resultsHeading">Gevonden advertenties</strong>
+          <strong style="font-size:15px" id="resultsHeading">Znalezione oferty</strong>
           <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
         </div>
         <div class="toolbar-right">
           <select id="filterCondition" onchange="renderListings()">
-            <option value="all" id="optCondAll">Conditie: Alles</option>
-            <option value="new" id="optCondNew">✨ Nieuw</option>
-            <option value="used" id="optCondUsed">♻️ Gebruikt</option>
+            <option value="all" id="optCondAll">Stan: Wszystkie</option>
+            <option value="new" id="optCondNew">✨ Nowe</option>
+            <option value="used" id="optCondUsed">♻️ Używane</option>
           </select>
-          <input type="number" id="filterMinPrice" placeholder="Min" min="0" style="width:80px" oninput="renderListings()" />
-          <input type="number" id="filterMaxPrice" placeholder="Max" min="0" style="width:80px" oninput="renderListings()" />
+          <input type="number" id="filterMinPrice" placeholder="Od" min="0" style="width:80px" oninput="renderListings()" />
+          <input type="number" id="filterMaxPrice" placeholder="Do" min="0" style="width:80px" oninput="renderListings()" />
           <select id="sortSelect" onchange="renderListings()">
-            <option value="featured" id="sortFeatured">Sorteer: Uitgelicht & Nieuw</option>
-            <option value="price_asc" id="sortPriceAsc">Prijs: laag → hoog</option>
-            <option value="price_desc" id="sortPriceDesc">Prijs: hoog → laag</option>
-            <option value="views_desc" id="sortViewsDesc">Populairst</option>
-            <option value="auction_end" id="sortAuctionEnd">Veiling: eindigt snel</option>
+            <option value="featured" id="sortFeatured">Sortuj: Polecane i nowe</option>
+            <option value="price_asc" id="sortPriceAsc">Cena: rosnąco</option>
+            <option value="price_desc" id="sortPriceDesc">Cena: malejąco</option>
+            <option value="views_desc" id="sortViewsDesc">Najpopularniejsze</option>
+            <option value="auction_end" id="sortAuctionEnd">Aukcje: kończące się</option>
           </select>
           <div class="view-toggle">
-            <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Grid">⊞</button>
-            <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="List">☰</button>
+            <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Siatka">⊞</button>
+            <button type="button" id="btnViewList" onclick="setLayoutView('list')" title="Lista">☰</button>
           </div>
         </div>
       </div>
 
       <div class="grid" id="listingsGrid"></div>
 
-      <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Abonnement">
+      <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Abonament">
         <div class="subscribers-header">
           <div>
-            <h2 id="subSectionTitle">👑 Abonnement — Uitgelichte accounts</h2>
-            <p id="subSectionDesc">Aanbiedingen van accounts met een actief abonnement onderaan de pagina.</p>
+            <h2 id="subSectionTitle">👑 Oferty z abonamentem</h2>
+            <p id="subSectionDesc">Ogłoszenia kont z aktywnym abonamentem na dole strony.</p>
           </div>
-          <button type="button" class="mini-btn gold" id="subManageBtn" onclick="openAccountModal()">👑 Abonnement</button>
+          <button type="button" class="mini-btn gold" id="subManageBtn" onclick="openAccountModal()">👑 Abonament</button>
         </div>
         <div class="grid" id="subscribersGrid"></div>
       </section>
@@ -1399,10 +1399,10 @@
         <strong>PlacoMarkt</strong> © 2026 • NL • PL
       </div>
       <div class="footer-links">
-        <a id="footAbout" onclick="openLegalModal('about')">Over ons</a>
-        <a id="footTerms" onclick="openLegalModal('terms')">Voorwaarden</a>
-        <a id="footPrivacy" onclick="openLegalModal('privacy')">Privacy (AVG / GDPR)</a>
-        <a id="footDsa" onclick="openLegalModal('dsa')">DSA & Contact</a>
+        <a id="footAbout" onclick="openLegalModal('about')">O nas</a>
+        <a id="footTerms" onclick="openLegalModal('terms')">Regulamin</a>
+        <a id="footPrivacy" onclick="openLegalModal('privacy')">Prywatność (RODO)</a>
+        <a id="footDsa" onclick="openLegalModal('dsa')">DSA i Kontakt</a>
       </div>
     </footer>
   </main>
@@ -1429,9 +1429,9 @@
       <div class="admin-stats" id="adminStats"></div>
 
       <div class="admin-tabs">
-        <button class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">📋 Listings</button>
+        <button class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">📋 Ogłoszenia</button>
         <button class="admin-tab" id="admTabReports" onclick="setAdminTab('reports')">🚩 DSA (<span id="repCountTab">0</span>)</button>
-        <button class="admin-tab" id="admTabPricing" onclick="setAdminTab('pricing')">💳 Pricing</button>
+        <button class="admin-tab" id="admTabPricing" onclick="setAdminTab('pricing')">💳 Cennik</button>
       </div>
 
       <div id="adminBody"></div>
@@ -1441,45 +1441,45 @@
   <div class="modal-backdrop" id="addModal">
     <div class="modal">
       <button class="close-modal" onclick="closeModal('addModal')">×</button>
-      <h2 style="margin-bottom:12px" id="addModalTitle">+ Plaatsen</h2>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj ogłoszenie</h2>
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblOfferType">Type</label>
+            <label id="lblOfferType">Typ</label>
             <select id="newType" onchange="toggleAddFields()">
-              <option value="sale" id="optTypeSale">Direct kopen</option>
-              <option value="auction" id="optTypeAuction">🔨 Veiling</option>
-              <option value="travel" id="optTypeTravel">✈️ Vakanties & Reizen</option>
-              <option value="course" id="optTypeCourse">🎓 Cursussen</option>
-              <option value="free" id="optTypeFree">🎁 Gratis</option>
-              <option value="job" id="optTypeJob">💼 Werk</option>
+              <option value="sale" id="optTypeSale">Kup teraz</option>
+              <option value="auction" id="optTypeAuction">🔨 Licytacja</option>
+              <option value="travel" id="optTypeTravel">✈️ Wakacje i podróże</option>
+              <option value="course" id="optTypeCourse">🎓 Kursy</option>
+              <option value="free" id="optTypeFree">🎁 Za darmo</option>
+              <option value="job" id="optTypeJob">💼 Praca</option>
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
-            <label id="lblConditionField">Conditie</label>
+            <label id="lblConditionField">Stan</label>
             <select id="newCondition">
-              <option value="new" id="optNewCond">✨ Nieuw</option>
-              <option value="used" id="optUsedCond">♻️ Gebruikt</option>
-              <option value="na" id="optNaCond">N.v.t.</option>
+              <option value="new" id="optNewCond">✨ Nowy</option>
+              <option value="used" id="optUsedCond">♻️ Używany</option>
+              <option value="na" id="optNaCond">Nie dotyczy</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label id="lblTitleField">Titel</label>
+          <label id="lblTitleField">Tytuł</label>
           <input type="text" id="newTitle" required />
         </div>
         <div class="form-group">
-          <label id="lblPhotosField">Foto's (max. 4)</label>
+          <label id="lblPhotosField">Zdjęcia (maks. 4)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblCatField">Categorie</label>
+            <label id="lblCatField">Kategoria</label>
             <select id="newCategory" onchange="toggleCategorySubFields()"></select>
           </div>
           <div class="form-group" style="position:relative">
-            <label id="lblCityField">Plaats (vanaf 3 letters)</label>
+            <label id="lblCityField">Miejscowość (od 3 liter)</label>
             <input
               type="text"
               id="newCity"
@@ -1495,23 +1495,23 @@
 
         <!-- POLA: NIERUCHOMOŚCI, DZIAŁKI I OGRÓDKI -->
         <div class="housing-form-box" id="housingFieldsBox" style="display:none">
-          <div style="font-weight:800;color:#15803d;font-size:13px;margin-bottom:10px" id="lblHousingBoxTitle">🏠 Woningen, Kamers & Volkstuinen</div>
+          <div style="font-weight:800;color:#15803d;font-size:13px;margin-bottom:10px" id="lblHousingBoxTitle">🏠 Nieruchomości, Działki i Ogródki</div>
           <div class="form-row-2">
             <div class="form-group">
-              <label id="lblHousingKind">Object</label>
+              <label id="lblHousingKind">Rodzaj obiektu</label>
               <select id="newHousingKind">
-                <option value="garden" id="optAddHousGarden">🏡 Volkstuin / Ogródek działkowy</option>
-                <option value="flat" id="optAddHousFlat">🏢 Appartement / Huis</option>
-                <option value="room" id="optAddHousRoom">🛏️ Kamer / Pokój</option>
-                <option value="garage" id="optAddHousGarage">🚗 Garage / Opslag</option>
+                <option value="garden" id="optAddHousGarden">🏡 Ogródek działkowy / Volkstuin</option>
+                <option value="flat" id="optAddHousFlat">🏢 Mieszkanie / Dom</option>
+                <option value="room" id="optAddHousRoom">🛏️ Pokój / Stancja</option>
+                <option value="garage" id="optAddHousGarage">🚗 Garaż / Magazyn</option>
               </select>
             </div>
             <div class="form-group">
-              <label id="lblHousingDeal">Transactie</label>
+              <label id="lblHousingDeal">Transakcja</label>
               <select id="newHousingDeal">
-                <option value="sell" id="optAddDealSell">🏷️ Te koop / Overname</option>
-                <option value="buy" id="optAddDealBuy">🔎 Gezocht / Kupię</option>
-                <option value="rent" id="optAddDealRent">🔑 Te huur / Wynajem</option>
+                <option value="sell" id="optAddDealSell">🏷️ Sprzedam / Odstąpię</option>
+                <option value="buy" id="optAddDealBuy">🔎 Kupię / Szukam</option>
+                <option value="rent" id="optAddDealRent">🔑 Wynajmę / Dzierżawa</option>
               </select>
             </div>
           </div>
@@ -1519,21 +1519,21 @@
 
         <!-- POLA: AUTO, MOTOR & SCOOTER -->
         <div class="auto-form-box" id="autoFieldsBox" style="display:none">
-          <div style="font-weight:800;color:#c2410c;font-size:13px;margin-bottom:10px" id="lblAutoBoxTitle">🚗 Auto, Motor & Scooter</div>
+          <div style="font-weight:800;color:#c2410c;font-size:13px;margin-bottom:10px" id="lblAutoBoxTitle">🚗 Auta, Motory i Skutery</div>
           <div class="form-row-2">
             <div class="form-group">
-              <label id="lblVehicleKind">Type</label>
+              <label id="lblVehicleKind">Typ</label>
               <select id="newVehicleKind">
-                <option value="car" id="optAddVehCar">🚗 Auto</option>
-                <option value="moto" id="optAddVehMoto">🏍️ Motor</option>
-                <option value="scooter" id="optAddVehScooter">🛵 Scooter</option>
-                <option value="van" id="optAddVehVan">🚐 Bus / Dostawczy</option>
+                <option value="car" id="optAddVehCar">🚗 Samochód osobowy</option>
+                <option value="moto" id="optAddVehMoto">🏍️ Motocykl / Motor</option>
+                <option value="scooter" id="optAddVehScooter">🛵 Skuter / Motorower</option>
+                <option value="van" id="optAddVehVan">🚐 Dostawczy / Bus</option>
                 <option value="quad" id="optAddVehQuad">🏎️ Quad / ATV</option>
-                <option value="parts" id="optAddVehParts">⚙️ Onderdelen / Części</option>
+                <option value="parts" id="optAddVehParts">⚙️ Części i akcesoria</option>
               </select>
             </div>
             <div class="form-group" style="position:relative">
-              <label id="lblVehicleBrand">Merk (vanaf 2 letters)</label>
+              <label id="lblVehicleBrand">Marka (od 2 liter)...</label>
               <input
                 type="text"
                 id="newVehicleBrand"
@@ -1549,96 +1549,96 @@
 
         <!-- POLA: WAKACJE -->
         <div class="travel-form-box" id="travelFieldsBox" style="display:none">
-          <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px" id="lblTravelBoxTitle">✈️ Vakanties & Reizen</div>
+          <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px" id="lblTravelBoxTitle">✈️ Wczasy i Podróże</div>
           <div class="form-row-2">
             <div class="form-group">
-              <label id="lblTravelDest">Bestemming</label>
+              <label id="lblTravelDest">Kierunek</label>
               <select id="newTravelDest">
-                <option value="PL" id="optAddDestPL">🇵🇱 Polen / Polska</option>
-                <option value="NL" id="optAddDestNL">🇳🇱 Nederland / Holandia</option>
-                <option value="BE" id="optAddDestBE">🇧🇪 België / Luxemburg</option>
-                <option value="TR" id="optAddDestTR">🇹🇷 Turkije / Turcja</option>
-                <option value="HR" id="optAddDestHR">🇭🇷 Kroatië / Chorwacja</option>
-                <option value="ES" id="optAddDestES">🇪🇸 Spanje / Hiszpania</option>
-                <option value="HU" id="optAddDestHU">🇭🇺 Hongarije / Węgry</option>
-                <option value="BUS" id="optAddDestBUS">🚐 PL ↔ NL</option>
+                <option value="PL" id="optAddDestPL">🇵🇱 Polska</option>
+                <option value="NL" id="optAddDestNL">🇳🇱 Holandia</option>
+                <option value="BE" id="optAddDestBE">🇧🇪 Belgia / Luksemburg</option>
+                <option value="TR" id="optAddDestTR">🇹🇷 Turcja</option>
+                <option value="HR" id="optAddDestHR">🇭🇷 Chorwacja</option>
+                <option value="ES" id="optAddDestES">🇪🇸 Hiszpania</option>
+                <option value="HU" id="optAddDestHU">🇭🇺 Węgry / Słowacja</option>
+                <option value="BUS" id="optAddDestBUS">🚐 Trasa PL ↔ NL</option>
               </select>
             </div>
             <div class="form-group">
-              <label id="lblTravelKind">Type</label>
+              <label id="lblTravelKind">Rodzaj wyjazdu</label>
               <select id="newTravelKind">
-                <option value="house" id="optAddKindHouse">🏠 Vakantiehuis / Domek</option>
-                <option value="tour" id="optAddKindTour">🚌 Groepsreis / Wycieczka</option>
+                <option value="house" id="optAddKindHouse">🏠 Domek / Apartament</option>
+                <option value="tour" id="optAddKindTour">🚌 Wycieczka zorganizowana</option>
                 <option value="allinc" id="optAddKindAllInc">☀️ Last Minute / All Inclusive</option>
-                <option value="bus" id="optAddKindBus">🚐 Bus / Przejazd PL ↔ NL</option>
+                <option value="bus" id="optAddKindBus">🚐 Przejazd / Bus PL ↔ NL</option>
               </select>
             </div>
           </div>
           <div class="form-row-2">
             <div class="form-group">
-              <label id="lblTravelDate">Periode</label>
+              <label id="lblTravelDate">Termin</label>
               <input type="text" id="newTravelDate" />
             </div>
             <div class="form-group">
-              <label id="lblTravelGuests">Personen</label>
+              <label id="lblTravelGuests">Liczba osób</label>
               <input type="text" id="newTravelGuests" />
             </div>
           </div>
           <div class="form-row-2">
             <div class="form-group">
-              <label id="lblTravelBoard">Verzorging</label>
+              <label id="lblTravelBoard">Wyżywienie</label>
               <select id="newTravelBoard">
-                <option value="self" id="optAddBoardSelf">🍳 Zelfverzorging / Własne</option>
-                <option value="bb" id="optAddBoardBB">🥐 BB</option>
-                <option value="hb" id="optAddBoardHB">🍲 HB</option>
+                <option value="self" id="optAddBoardSelf">🍳 Własne</option>
+                <option value="bb" id="optAddBoardBB">🥐 Ze śniadaniami (BB)</option>
+                <option value="hb" id="optAddBoardHB">🍲 Śniadania + Obiadokolacje (HB)</option>
                 <option value="ai" id="optAddBoardAI">🍹 All Inclusive</option>
-                <option value="na" id="optAddBoardNA">🚐 N.v.t.</option>
+                <option value="na" id="optAddBoardNA">🚐 Nie dotyczy</option>
               </select>
             </div>
             <div class="form-group">
-              <label id="lblTravelUnit">Prijs per</label>
+              <label id="lblTravelUnit">Cena za</label>
               <select id="newTravelUnit">
-                <option value="person" id="optUnitPerson">/ persoon</option>
-                <option value="night" id="optUnitNight">/ nacht</option>
-                <option value="stay" id="optUnitStay">/ verblijf</option>
-                <option value="trip" id="optUnitTrip">/ enkele reis</option>
+                <option value="person" id="optUnitPerson">/ osoba</option>
+                <option value="night" id="optUnitNight">/ doba</option>
+                <option value="stay" id="optUnitStay">/ cały pobyt</option>
+                <option value="trip" id="optUnitTrip">/ przejazd w 1 stronę</option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="form-group" id="priceGroup">
-          <label id="lblPriceField">Prijs</label>
+          <label id="lblPriceField">Cena</label>
           <input type="number" id="newPrice" min="0" step="0.01" />
         </div>
         <div class="form-group" id="buyNowGroup" style="display:none">
-          <label id="lblBuyNowField">Direct kopen</label>
+          <label id="lblBuyNowField">Kup teraz</label>
           <input type="number" id="newBuyNow" min="0" step="0.01" />
         </div>
         <div class="form-group" id="shippingGroup">
-          <label id="lblShipField">Levering / Ophalen</label>
+          <label id="lblShipField">Dostawa / Odbiór</label>
           <select id="newShipping"></select>
         </div>
         <div class="form-group">
-          <label id="lblDescField">Omschrijving</label>
+          <label id="lblDescField">Opis</label>
           <textarea id="newDesc" rows="3" required></textarea>
         </div>
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newHasSubscription" style="width:auto" />
-            <span id="lblSubCheckbox">👑 Abonnement</span>
+            <span id="lblSubCheckbox">👑 Abonament</span>
           </label>
         </div>
         <div class="form-group">
-          <label id="lblPromoField">Zichtbaarheid</label>
+          <label id="lblPromoField">Widoczność</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoStdPrice">0,00 €</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoStdSub">30d</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoStdSub">30 dni</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
               <strong style="color:var(--red)" id="promoUrgentPrice">0,00 €</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoUrgentSub">⚡ SPOED</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoUrgentSub">⚡ PILNE</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
               <strong style="color:var(--accent)" id="promoTopPrice">0,00 €</strong>
@@ -1647,7 +1647,7 @@
           </div>
         </div>
         <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:12px;font-size:15px" id="submitOfferBtn">
-          Plaatsen
+          Dodaj ogłoszenie
         </button>
       </form>
     </div>
@@ -1656,7 +1656,7 @@
   <div class="modal-backdrop" id="accountModal">
     <div class="modal" style="max-width:480px">
       <button class="close-modal" onclick="closeModal('accountModal')">×</button>
-      <h2 style="margin-bottom:12px" id="accountModalTitle">👤 Account</h2>
+      <h2 style="margin-bottom:12px" id="accountModalTitle">👤 Konto</h2>
       <div id="accountModalBody"></div>
     </div>
   </div>
@@ -1664,46 +1664,46 @@
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:540px">
       <button class="close-modal" onclick="closeModal('settingsModal')">×</button>
-      <h2 style="margin-bottom:14px">⚙️ <span id="settingsHeader">Instellingen</span></h2>
+      <h2 style="margin-bottom:14px">⚙️ <span id="settingsHeader">Ustawienia</span></h2>
 
       <div class="set-section" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div>
-          <h4 style="margin-bottom:2px" id="setSearchTitle">🔍 Zoeken</h4>
-          <div style="font-size:12px;color:var(--muted)" id="setSearchDesc">Zoeken</div>
+          <h4 style="margin-bottom:2px" id="setSearchTitle">🔍 Szukaj</h4>
+          <div style="font-size:12px;color:var(--muted)" id="setSearchDesc">Szybkie wyszukiwanie w ogłoszeniach</div>
         </div>
         <button type="button" class="mini-btn" style="background:var(--blue);color:#fff;border-color:var(--blue);padding:8px 12px" onclick="closeModal('settingsModal');focusSearchBar()">
-          🔍 <span id="setSearchBtn">Zoeken</span>
+          🔍 <span id="setSearchBtn">Szukaj</span>
         </button>
       </div>
 
       <div class="set-section">
-        <h4 id="setMarketLangTitle">🌍 Land, Taal & Valuta</h4>
+        <h4 id="setMarketLangTitle">🌍 Kraj, Język i Waluta</h4>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px">
           <input type="checkbox" id="autoDetectCheck" checked onchange="toggleAutoLang()" style="width:auto" />
-          <span id="lblAutoDetect">Automatische taaldetectie</span>
+          <span id="lblAutoDetect">Automatyczne wykrywanie języka</span>
         </label>
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="detectedInfo"></div>
         <div id="settingsLangButtons" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
 
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px">
           <input type="checkbox" id="autoCountryCheck" checked onchange="toggleAutoCountry()" style="width:auto" />
-          <span id="lblAutoCountry">Automatische landdetectie</span>
+          <span id="lblAutoCountry">Automatyczne wykrywanie kraju</span>
         </label>
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px" id="detectedCountryInfo"></div>
         <div style="display:flex;gap:6px;flex-wrap:wrap" id="settingsCountryButtons">
-          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Nederland (€)</button>
+          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia (€)</button>
           <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 Polska (zł)</button>
         </div>
       </div>
 
       <div class="set-section">
-        <h4 id="setAppearTitle">🎨 Weergave</h4>
+        <h4 id="setAppearTitle">🎨 Wygląd</h4>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
-          <span id="lblDarkMode">🌙 Donkere modus</span>
+          <span id="lblDarkMode">🌙 Tryb ciemny</span>
         </label>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
-          <span id="lblDefaultCity">Plaats:</span>
+          <span id="lblDefaultCity">Miejscowość:</span>
           <div style="position:relative;width:220px">
             <input
               type="text"
@@ -1720,22 +1720,22 @@
       </div>
 
       <div class="set-section">
-        <h4 id="setSecTitle">🔒 Privacy & 2FA</h4>
+        <h4 id="setSecTitle">🔒 Prywatność i 2FA</h4>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:8px">
-          <span id="lblPhoneVis">Telefoon:</span>
+          <span id="lblPhoneVis">Telefon:</span>
           <select id="setPhoneVis" onchange="toggleSettingPref('phoneVisibility', this.value)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px">
-            <option value="click" id="optPhoneClick">Na klikken</option>
-            <option value="logged" id="optPhoneLogged">Ingelogd</option>
-            <option value="chat_only" id="optPhoneChat">Chat</option>
+            <option value="click" id="optPhoneClick">Po kliknięciu</option>
+            <option value="logged" id="optPhoneLogged">Dla zalogowanych</option>
+            <option value="chat_only" id="optPhoneChat">Tylko czat</option>
           </select>
         </div>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setAntiPhish" checked onchange="toggleSettingPref('antiPhishing', this.checked)" style="width:auto" />
-          <span id="lblAntiPhish">🛡️ Anti-phishing</span>
+          <span id="lblAntiPhish">🛡️ Blokada linków</span>
         </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setBidAlerts" checked onchange="toggleSettingPref('bidAlerts', this.checked)" style="width:auto" />
-          <span id="lblBidAlerts">🔔 Bodmeldingen</span>
+          <span id="lblBidAlerts">🔔 Powiadomienia o licytacjach</span>
         </label>
         <button type="button" class="mini-btn green" style="width:100%" onclick="closeModal('settingsModal');openAccountModal()">
           🔐 2FA
@@ -1743,9 +1743,9 @@
       </div>
 
       <div class="set-section" style="margin-bottom:0">
-        <h4 id="setDataTitle">📱 Gegevens</h4>
+        <h4 id="setDataTitle">📱 Dane</h4>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button type="button" class="mini-btn" id="btnExportData" onclick="exportUserData()">📥 Export JSON</button>
+          <button type="button" class="mini-btn" id="btnExportData" onclick="exportUserData()">📥 Eksport JSON</button>
           <button type="button" class="mini-btn red" id="btnResetData" onclick="resetLocalStorageData()">🗑️ Reset</button>
         </div>
       </div>
@@ -1753,19 +1753,15 @@
   </div>
 
   <nav class="mobile-nav">
-    <button onclick="setMode('travel')">✈️<span id="mobTravel">Vakanties</span></button>
-    <button onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Plaatsen</span></button>
-    <button onclick="setMode('favorites')">❤️<span id="mobFav">Favorieten</span></button>
-    <button onclick="openAccountModal()">👤<span id="mobAcc">Account</span></button>
-    <button onclick="openSettings()">⚙️<span id="mobSet">Opties</span></button>
+    <button onclick="setMode('travel')">✈️<span id="mobTravel">Wczasy</span></button>
+    <button onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Dodaj</span></button>
+    <button onclick="setMode('favorites')">❤️<span id="mobFav">Ulubione</span></button>
+    <button onclick="openAccountModal()">👤<span id="mobAcc">Konto</span></button>
+    <button onclick="openSettings()">⚙️<span id="mobSet">Opcje</span></button>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // =========================================================================
-    // SUPABASE PLACOMARKT — URL projektu oraz bucket/tabela 'ogloszenia'
-    // Wklej swój Publishable key (sb_publishable_...) w SUPABASE_PUBLISHABLE_KEY
-    // =========================================================================
     const SUPABASE_URL = 'https://dotadrdquekzdqoxvtkk.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'WKLEJ_TUTAJ_SWOJ_KLUCZ_PUBLISHABLE';
     const SUPABASE_TABLE_OGLOSZENIA = 'ogloszenia';
@@ -1850,8 +1846,8 @@
       { id: 'other', icon: '📦', key: 'catOther' }
     ];
 
-    // Wyłącznie 2 rynki: Holandia (NL) i Polska (PL)
-    // Wyłącznie 6 języków: PL, NL, DE, UK (EN), BE (FR), TR
+    // Wyłącznie 2 rynki: NL i PL
+    // Wyłącznie 6 języków: NL, PL, DE, UK, BE, TR
     const AVAILABLE_LANGS = ['NL', 'PL', 'DE', 'UK', 'BE', 'TR'];
 
     const COUNTRY_CONFIG = {
@@ -1860,8 +1856,8 @@
         iso: 'nl',
         defaultLang: 'NL',
         currency: '€',
-        regionLabel: '🇳🇱 Nederland (EUR €)',
-        allArea: 'Heel Nederland',
+        regionLabel: '🇳🇱 Holandia (EUR €)',
+        allArea: 'Cała Holandia',
         langs: AVAILABLE_LANGS,
         categories: CATEGORIES_LIST,
         promoPrices: { std: '0,00 €', urgent: '0,00 €', top: '0,00 €', premiumMonth: '0,00 €' }
@@ -1956,24 +1952,24 @@
         searchBtn: 'Szukaj', searchDesc: 'Szybkie wyszukiwanie w ogłoszeniach',
         popularTag: 'Popularne:', allCats: 'Wszystkie kategorie',
         foundOffers: 'Znalezione oferty', favOffers: 'Ulubione',
-        tabAll: 'Wszystkie', tabTravel: '✈️ Wczasy', tabSale: 'Kup Teraz',
-        tabAuction: '🔨 Licytacje', tabCourse: '🎓 Kursy', tabFree: '🎁 Za darmo',
+        tabAll: 'Wszystkie', tabTravel: '✈️ Wczasy', tabSale: 'Kup teraz',
+        tabAuction: '🔨 Licytacja', tabCourse: '🎓 Kursy', tabFree: '🎁 Za darmo',
         tabJob: '💼 Praca', tabFav: '❤️ Ulubione',
         catKids: 'Dla dzieci i Zabawki', catHome: 'Dom i Ogród', catElectronics: 'Elektronika i Audio',
         catCosmetics: 'Kosmetyki i Perfumy', catCourses: 'Kursy i Szkolenia', catHousing: 'Nieruchomości, Działki i Ogródki',
         catAuto: 'Auta, Motory i Skutery', catFree: 'Za darmo', catFashion: 'Odzież i Obuwie',
-        catSport: 'Sport i Hobby', catServices: 'Usługi', catTravel: 'Wczasy i Podróże',
+        catSport: 'Sport i Hobby', catServices: 'Usługi', catTravel: 'Wakacje i podróże',
         catFishing: 'Wędkarstwo', catJobs: 'Praca', catOther: 'Inne',
         qtGarden: 'Ogródek działkowy / Volkstuin',
         freePrice: 'ZA DARMO', showPhone: '📞 Pokaż numer', whatsapp: '🟢 WhatsApp',
         chat: '💬 Wiadomość', share: '📤 Udostępnij', report: '🚩 Zgłoś (DSA)',
-        bidNow: 'Licytuj', buyNow: 'Kup Teraz ⚡', endsIn: 'Koniec:', bidsCount: 'ofert',
-        details: 'Szczegóły', condAll: 'Stan: Wszystkie', condNew: '✨ Nowe', condUsed: '♻️ Używane', condNa: 'Nie dotyczy',
+        bidNow: 'Licytuj', buyNow: 'Kup teraz ⚡', endsIn: 'Koniec:', bidsCount: 'ofert',
+        details: 'Szczegóły', condAll: 'Stan: Wszystkie', condNew: '✨ Nowy', condUsed: '♻️ Używany', condNa: 'Nie dotyczy',
         minPlaceholder: 'Od', maxPlaceholder: 'Do',
         sortFeatured: 'Sortuj: Polecane i nowe', sortPriceAsc: 'Cena: rosnąco',
         sortPriceDesc: 'Cena: malejąco', sortViewsDesc: 'Najpopularniejsze', sortAuctionEnd: 'Aukcje: kończące się',
         badgeTop: '⭐ TOP', badgeSub: '👑 ABONAMENT', badgeUrgent: '⚡ PILNE', badgeHot: '🔥 POPULARNE',
-        badgeNew: '✨ NOWE', badgeUsed: '♻️ UŻYWANE',
+        badgeNew: '✨ NOWY', badgeUsed: '♻️ UŻYWANY',
         bfTitle: 'Black Friday na PlacoMarkt', bfDesc: 'Okazje i wyróżnione oferty.', bfBtn: '🎣 Wędkarstwo',
         adTag: 'Partner', adTitle: 'Miejsce na reklamę', adDesc: 'Baner lub oferta partnerska.',
         subTitle: '👑 Oferty z abonamentem',
@@ -1988,7 +1984,7 @@
         phoneClick: 'Po kliknięciu', phoneLogged: 'Dla zalogowanych', phoneChat: 'Tylko czat',
         addTitle: '+ Dodaj ogłoszenie', lblType: 'Typ', lblCond: 'Stan', lblTitle: 'Tytuł',
         lblPhotos: 'Zdjęcia (maks. 4)', lblCat: 'Kategoria', lblCity: 'Miejscowość (od 3 liter)',
-        lblPrice: 'Cena', lblBuyNow: 'Kup Teraz', lblShip: 'Dostawa / Odbiór', lblDesc: 'Opis',
+        lblPrice: 'Cena', lblBuyNow: 'Kup teraz', lblShip: 'Dostawa / Odbiór', lblDesc: 'Opis',
         lblSub: '👑 Abonament', lblVis: 'Widoczność', btnSubmit: 'Dodaj ogłoszenie',
         shipPickup: '📍 Odbiór osobisty', shipPost: '📦 Wysyłka (InPost / DPD / PostNL)', shipNa: '🤝 Nie dotyczy',
         housObject: 'Rodzaj obiektu', housDeal: 'Transakcja',
@@ -2277,7 +2273,7 @@
         {
           id: 116, type: 'sale', category: 'housing', housingKind: 'garden', housingDeal: 'sell',
           condition: 'used', title: 'Volkstuin met tuinhuisje — Rotterdam Zuid',
-          city: 'Rotterdam', price: 3200, priceNote: 'overname', shippingCode: 'pickup',
+          city: 'Rotterdam', price: 3200, priceNote: 'odstępne', shippingCode: 'pickup',
           icon: '🏡', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 290,
           sellerName: 'TuinRTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
           phone: '+31 6 11 22 33 44', desc: 'Volkstuin met houten huisje, kas en gereedschap in Rotterdam Zuid.'
@@ -2285,7 +2281,7 @@
         {
           id: 115, type: 'sale', category: 'auto', vehicleKind: 'scooter', vehicleBrand: 'La Souris',
           condition: 'used', title: 'La Souris retro scooter — NL kenteken',
-          city: 'Rotterdam', price: 890, priceNote: 'NL kenteken', shippingCode: 'pickup',
+          city: 'Rotterdam', price: 890, priceNote: 'NL', shippingCode: 'pickup',
           icon: '🛵', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 264,
           sellerName: 'ScooterNL_RTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
           phone: '+31 6 50 12 34 56', desc: 'La Souris retro scooter in Rotterdam.'
@@ -2293,7 +2289,7 @@
         {
           id: 114, type: 'sale', category: 'fishing', condition: 'new',
           title: 'Spinhengel 2.40 m + molen & kunstaas set',
-          city: 'Rotterdam', price: 85, priceNote: 'set', shippingCode: 'pickup',
+          city: 'Rotterdam', price: 85, priceNote: 'zestaw', shippingCode: 'pickup',
           icon: '🎣', photos: [], top: true, hasSubscription: true, urgent: true, hidden: false, views: 205,
           sellerName: 'VisSport_NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
           phone: '+31 6 55 44 33 22', desc: 'Spinhengel en kunstaas set.'
@@ -2301,7 +2297,7 @@
         {
           id: 111, type: 'sale', category: 'cosmetics', condition: 'new',
           title: 'Eau de parfum 100 ml — cadeauset',
-          city: 'Rotterdam', price: 49, priceNote: 'nieuw', shippingCode: 'post',
+          city: 'Rotterdam', price: 49, priceNote: 'nowy', shippingCode: 'post',
           icon: '💄', photos: [], top: true, hasSubscription: false, urgent: false, hidden: false, views: 238,
           sellerName: 'BeautyNL_Shop', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
           phone: '+31 6 44 11 22 33', desc: 'Eau de parfum 100 ml.'
@@ -2388,9 +2384,9 @@
 
     let reportsList = [];
     let currentCountry = 'NL';
-    let currentLang = 'NL';
-    let autoDetectLang = true;
-    let autoDetectCountry = true;
+    let currentLang = 'PL';
+    let autoDetectLang = false;
+    let autoDetectCountry = false;
     let currentMode = 'all';
     let currentCategory = 'all';
     let selectedPromo = 'std';
@@ -2439,9 +2435,9 @@
       box.innerHTML = `<div class="suggest-item" style="color:var(--muted);cursor:default">...</div>`;
       box.style.display = 'block';
       try {
-        const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
+        const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
         const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&countrycodes=${countryCode}&featuretype=settlement&limit=15&q=${encodeURIComponent(query)}`;
-        const res = await fetch(url, { headers: { 'Accept-Language': t.htmlLang || 'nl' } });
+        const res = await fetch(url, { headers: { 'Accept-Language': t.htmlLang || 'pl' } });
         const data = await res.json();
         const seen = new Set();
         const results = [];
@@ -2568,9 +2564,6 @@
       renderCountryUI();
     }
 
-    // =========================================================================
-    // INTEGRACJA Z TABELĄ 'ogloszenia' ORAZ BUCKETEM 'ogloszenia' W SUPABASE
-    // =========================================================================
     function parsePriceNumber(val) {
       if (typeof val === 'number') return Number.isFinite(val) ? val : 0;
       if (!val) return 0;
@@ -2677,7 +2670,7 @@
       const map = { NL: 'NL', PL: 'PL', DE: 'DE', EN: 'UK', FR: 'BE', TR: 'TR' };
       const code = map[raw];
       if (code && AVAILABLE_LANGS.includes(code)) return code;
-      return COUNTRY_CONFIG[currentCountry].defaultLang;
+      return 'PL';
     }
 
     async function initApp() {
@@ -2725,7 +2718,7 @@
       if (syncLangToCountry || autoDetectLang) {
         currentLang = COUNTRY_CONFIG[country].defaultLang;
       } else if (!AVAILABLE_LANGS.includes(currentLang)) {
-        currentLang = COUNTRY_CONFIG[country].defaultLang;
+        currentLang = 'PL';
       }
       renderCountryUI();
       syncFromSupabase();
@@ -2811,8 +2804,8 @@
 
     function applyFullLanguageUi() {
       const cfg = COUNTRY_CONFIG[currentCountry];
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
-      document.documentElement.lang = t.htmlLang || 'nl';
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      document.documentElement.lang = t.htmlLang || 'pl';
 
       document.getElementById('domainTag').textContent = cfg.domain;
       document.getElementById('lblSettings').textContent = t.settings;
@@ -2840,7 +2833,6 @@
       document.getElementById('adSlotTitle').textContent = t.adTitle;
       document.getElementById('adSlotDesc').textContent = t.adDesc;
 
-      // Filtry Nieruchomości / Ogródki
       document.getElementById('housingFilterTitle').textContent = `🏠 ${t.catHousing}`;
       document.getElementById('optHousAll').textContent = t.housAll;
       document.getElementById('optHousGarden').textContent = t.housGarden;
@@ -2852,7 +2844,6 @@
       document.getElementById('optDealBuy').textContent = t.dealBuy;
       document.getElementById('optDealRent').textContent = t.dealRent;
 
-      // Filtry Auto
       document.getElementById('autoFilterTitle').textContent = `🚗 ${t.catAuto}`;
       document.getElementById('optVehAll').textContent = t.vehAll;
       document.getElementById('optVehCar').textContent = t.vehCar;
@@ -2863,7 +2854,6 @@
       document.getElementById('optVehParts').textContent = t.vehParts;
       document.getElementById('filterVehicleBrand').placeholder = t.vehBrandPlaceholder;
 
-      // Filtry Wakacje
       document.getElementById('travelFilterTitle').textContent = `✈️ ${t.catTravel}`;
       document.getElementById('optDestAll').textContent = t.destAll;
       document.getElementById('optDestPL').textContent = t.destPL;
@@ -2887,7 +2877,6 @@
       document.getElementById('optBoardNA').textContent = t.boardNA;
       document.getElementById('filterTravelMaxPrice').placeholder = t.maxPlaceholder;
 
-      // Pasek sortowania i stanu
       document.getElementById('optCondAll').textContent = t.condAll;
       document.getElementById('optCondNew').textContent = t.condNew;
       document.getElementById('optCondUsed').textContent = t.condUsed;
@@ -2899,19 +2888,16 @@
       document.getElementById('sortViewsDesc').textContent = t.sortViewsDesc;
       document.getElementById('sortAuctionEnd').textContent = t.sortAuctionEnd;
 
-      // Sekcja abonamentu
       document.getElementById('subSectionTitle').textContent = t.subTitle;
       document.getElementById('subSectionDesc').textContent = t.subDesc;
       document.getElementById('subManageBtn').textContent = t.subBtn;
 
-      // Nawigacja mobilna
       document.getElementById('mobTravel').textContent = t.mobTravel;
       document.getElementById('mobAdd').textContent = t.mobAdd;
       document.getElementById('mobFav').textContent = t.mobFav;
       document.getElementById('mobAcc').textContent = t.mobAcc;
       document.getElementById('mobSet').textContent = t.mobSet;
 
-      // Ustawienia
       document.getElementById('settingsHeader').textContent = t.setHeader;
       document.getElementById('setSearchTitle').textContent = `🔍 ${t.searchBtn}`;
       document.getElementById('setSearchDesc').textContent = t.searchDesc;
@@ -2931,7 +2917,6 @@
       document.getElementById('lblBidAlerts').textContent = t.setBidAlerts;
       document.getElementById('setDataTitle').textContent = t.setDataTitle;
 
-      // Formularz dodawania ogłoszenia — pełne tłumaczenie wszystkich opcji!
       document.getElementById('addModalTitle').textContent = t.addTitle;
       document.getElementById('lblOfferType').textContent = t.lblType;
       document.getElementById('optTypeSale').textContent = t.tabSale;
@@ -2951,7 +2936,6 @@
       document.getElementById('lblCatField').textContent = t.lblCat;
       document.getElementById('lblCityField').textContent = t.lblCity;
 
-      // Pola nieruchomości w dodawaniu
       document.getElementById('lblHousingBoxTitle').textContent = `🏠 ${t.catHousing}`;
       document.getElementById('lblHousingKind').textContent = t.housObject;
       document.getElementById('optAddHousGarden').textContent = t.housGarden;
@@ -2963,7 +2947,6 @@
       document.getElementById('optAddDealBuy').textContent = t.dealBuy;
       document.getElementById('optAddDealRent').textContent = t.dealRent;
 
-      // Pola pojazdów w dodawaniu
       document.getElementById('lblAutoBoxTitle').textContent = `🚗 ${t.catAuto}`;
       document.getElementById('lblVehicleKind').textContent = t.lblType;
       document.getElementById('optAddVehCar').textContent = t.vehCar;
@@ -2974,7 +2957,6 @@
       document.getElementById('optAddVehParts').textContent = t.vehParts;
       document.getElementById('lblVehicleBrand').textContent = t.vehBrandPlaceholder;
 
-      // Pola wakacji w dodawaniu
       document.getElementById('lblTravelBoxTitle').textContent = `✈️ ${t.catTravel}`;
       document.getElementById('lblTravelDest').textContent = t.travDest;
       document.getElementById('optAddDestPL').textContent = t.destPL;
@@ -3022,7 +3004,7 @@
 
     function renderCountryUI() {
       const cfg = COUNTRY_CONFIG[currentCountry];
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       applyFullLanguageUi();
 
       const searchCatSel = document.getElementById('searchCatSelect');
@@ -3143,10 +3125,10 @@
     }
 
     function formatPrice(val, isFree) {
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       if (isFree || val === 0) return t.freePrice;
       const cur = COUNTRY_CONFIG[currentCountry].currency;
-      const num = Number(val).toLocaleString('en-US', {
+      const num = Number(val).toLocaleString('pl-PL', {
         minimumFractionDigits: val % 1 !== 0 ? 2 : 0,
         maximumFractionDigits: 2
       });
@@ -3163,7 +3145,7 @@
     }
 
     function buildListingCardHtml(item, isSubscriberCard = false) {
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       let typeBadge = '';
       if (item.type === 'auction') typeBadge = `<span class="badge badge-auction">${t.tabAuction}</span>`;
       else if (item.type === 'job') typeBadge = `<span class="badge badge-job">${t.tabJob}</span>`;
@@ -3256,7 +3238,7 @@
     }
 
     function renderListings() {
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
       const city = document.getElementById('cityInput').value.trim().toLowerCase();
 
@@ -3354,13 +3336,13 @@
 
     function setDetailHeroPhoto(src, thumbEl) {
       const hero = document.getElementById('detailHeroBox');
-      if (hero) hero.innerHTML = `<img src="${src}" alt="Preview" />`;
+      if (hero) hero.innerHTML = `<img src="${src}" alt="Podgląd" />`;
       document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
       if (thumbEl) thumbEl.classList.add('active');
     }
 
     function openDetail(id) {
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.NL;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const cur = COUNTRY_CONFIG[currentCountry].currency;
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
       if (!item) return;
@@ -3443,11 +3425,11 @@
     function rateSeller(id) {
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
       if (!item) return;
-      const starsStr = prompt('1 - 5', '5');
+      const starsStr = prompt('Ocena 1 - 5', '5');
       if (!starsStr) return;
       const stars = Math.min(5, Math.max(1, Number(starsStr) || 5));
       item.sellerReviews = item.sellerReviews || [];
-      item.sellerReviews.unshift({ author: currentUser ? currentUser.name : 'User', stars, text: '' });
+      item.sellerReviews.unshift({ author: currentUser ? currentUser.name : 'Użytkownik', stars, text: '' });
       item.sellerRating = item.sellerReviews.reduce((acc, r) => acc + r.stars, 0) / item.sellerReviews.length;
       saveListingsLocal();
       openDetail(id);
@@ -3473,11 +3455,11 @@
         openAccountModal('login');
         return;
       }
-      document.getElementById(`phoneBtn_${id}`).textContent = '📞 ' + phone;
+      document.getElementById(`phoneBtn_${id}`).textContent = '📞 ' + (phone || 'Brak numeru');
     }
 
     function sendChatMsg(title) {
-      const msg = prompt(title);
+      const msg = prompt(`Wiadomość — ${title}`);
       if (!msg) return;
       if (userPrefs.antiPhishing && /http:\/\/|https:\/\/|www\.|\.xyz|\.top/i.test(msg)) return;
     }
@@ -3499,7 +3481,7 @@
     async function reportListing(id) {
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
       if (!item) return;
-      const reason = prompt('DSA');
+      const reason = prompt('Powód zgłoszenia (DSA)');
       if (!reason) return;
       reportsList.unshift({ id: Date.now(), country: currentCountry, listingId: item.id, listingTitle: item.title, reason, date: new Date().toLocaleTimeString(), status: 'open' });
       updateReportBadge();
@@ -3722,7 +3704,7 @@
       const lbl = document.getElementById('navAccountLabel');
       const admBtn = document.getElementById('navAdminBtn');
       if (lbl) {
-        if (!currentUser) lbl.textContent = TRANSLATIONS[currentLang]?.mobAcc || 'Account';
+        if (!currentUser) lbl.textContent = TRANSLATIONS[currentLang]?.mobAcc || 'Konto';
         else lbl.textContent = (currentUser.isPremium ? '👑 ' : '') + currentUser.name.split(' ')[0];
       }
       if (admBtn) {
@@ -3754,10 +3736,10 @@
       if (pending2FAUser) {
         body.innerHTML = `
           <div class="twofa-box">
-            <div style="font-weight:800;font-size:14px;color:var(--green);margin-bottom:6px">🔐 2FA</div>
+            <div style="font-weight:800;font-size:14px;color:var(--green);margin-bottom:6px">🔐 Kod weryfikacyjny 2FA</div>
             <div style="font-size:12px"><strong>${pending2FAUser.email}</strong></div>
             <div style="margin-top:8px;padding:7px 10px;background:var(--card);border:1px dashed var(--green);border-radius:7px;font-size:12px">
-              2FA: <strong style="font-size:15px;letter-spacing:2px;color:var(--accent)">${pending2FACode}</strong>
+              Kod 2FA: <strong style="font-size:15px;letter-spacing:2px;color:var(--accent)">${pending2FACode}</strong>
             </div>
           </div>
           <form onsubmit="verify2FACode(event)">
@@ -3765,8 +3747,8 @@
               <input type="text" id="input2FACode" class="twofa-code-input" maxlength="6" pattern="[0-9]{6}" required placeholder="000000" />
             </div>
             <div style="display:flex;gap:8px">
-              <button type="button" class="mini-btn" style="flex:1" onclick="pending2FAUser=null;renderAccountModal()">←</button>
-              <button type="submit" class="add-btn" style="flex:2;justify-content:center;padding:11px">OK</button>
+              <button type="button" class="mini-btn" style="flex:1" onclick="pending2FAUser=null;renderAccountModal()">← Wróć</button>
+              <button type="submit" class="add-btn" style="flex:2;justify-content:center;padding:11px">Potwierdź</button>
             </div>
           </form>
         `;
@@ -3777,7 +3759,7 @@
         const isMine = (i) => (currentUser.id && i.ownerId === currentUser.id) || (currentUser.email && i.ownerEmail === currentUser.email);
         const myAll = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isMine).map(x => ({ ...x, c })));
         const adminQuickLink = (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()))
-          ? `<button type="button" class="mini-btn red" style="width:100%;margin-bottom:10px;padding:9px" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Admin</button>`
+          ? `<button type="button" class="mini-btn red" style="width:100%;margin-bottom:10px;padding:9px" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Panel Admina</button>`
           : '';
 
         body.innerHTML = `
@@ -3786,23 +3768,23 @@
               <div style="font-weight:800;font-size:15px">${currentUser.name} ${currentUser.isPremium ? '<span class="premium-badge">👑</span>' : ''}</div>
               <div style="font-size:12px;color:var(--muted)">${currentUser.email}</div>
             </div>
-            <button type="button" class="mini-btn red" onclick="logoutUser()">Logout</button>
+            <button type="button" class="mini-btn red" onclick="logoutUser()">Wyloguj</button>
           </div>
           ${adminQuickLink}
           <div class="twofa-box">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-              <strong>🔐 2FA: ${currentUser.twoFactorEnabled ? 'ON' : 'OFF'}</strong>
-              <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">${currentUser.twoFactorEnabled ? 'OFF' : 'ON'}</button>
+              <strong>🔐 2FA: ${currentUser.twoFactorEnabled ? 'Włączone' : 'Wyłączone'}</strong>
+              <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">${currentUser.twoFactorEnabled ? 'Wyłącz' : 'Włącz'}</button>
             </div>
           </div>
           <div class="premium-box">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-              <strong>👑 PREMIUM</strong>
+              <strong>👑 ABONAMENT</strong>
               <strong>${cfg.promoPrices.premiumMonth}</strong>
             </div>
             ${currentUser.isPremium
-              ? `<div style="font-size:12px">✅ ${currentUser.premiumUntil}</div>`
-              : `<button type="button" class="premium-btn" onclick="activatePremium()">👑 30d (${cfg.promoPrices.premiumMonth})</button>`}
+              ? `<div style="font-size:12px">✅ Aktywny do: ${currentUser.premiumUntil}</div>`
+              : `<button type="button" class="premium-btn" onclick="activatePremium()">👑 Aktywuj 30 dni (${cfg.promoPrices.premiumMonth})</button>`}
           </div>
           ${myAll.map(item => `
             <div class="admin-row" style="margin-bottom:8px">
@@ -3816,38 +3798,38 @@
 
       body.innerHTML = `
         <div class="auth-switch">
-          <button type="button" class="${authMode === 'login' ? 'active' : ''}" onclick="openAccountModal('login')">Login</button>
-          <button type="button" class="${authMode === 'register' ? 'active' : ''}" onclick="openAccountModal('register')">Register</button>
+          <button type="button" class="${authMode === 'login' ? 'active' : ''}" onclick="openAccountModal('login')">Logowanie</button>
+          <button type="button" class="${authMode === 'register' ? 'active' : ''}" onclick="openAccountModal('register')">Rejestracja</button>
         </div>
         ${authMode === 'login' ? `
           <form onsubmit="handleLogin(event)">
             <div class="form-group">
-              <input type="email" id="loginEmail" required placeholder="Email" />
+              <input type="email" id="loginEmail" required placeholder="E-mail" />
             </div>
             <div class="form-group">
-              <input type="password" id="loginPassword" required placeholder="Password" />
+              <input type="password" id="loginPassword" required placeholder="Hasło" />
             </div>
-            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">→</button>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się</button>
           </form>
         ` : `
           <form onsubmit="handleRegister(event)">
             <div class="form-group">
-              <input type="text" id="regName" required placeholder="Name" />
+              <input type="text" id="regName" required placeholder="Imię / Nazwa" />
             </div>
             <div class="form-group">
-              <input type="email" id="regEmail" required placeholder="Email" />
+              <input type="email" id="regEmail" required placeholder="E-mail" />
             </div>
             <div class="form-group">
-              <input type="text" id="regPhone" placeholder="Phone" />
+              <input type="text" id="regPhone" placeholder="Telefon" />
             </div>
             <div class="form-group">
-              <input type="password" id="regPassword" required minlength="5" placeholder="Password" />
+              <input type="password" id="regPassword" required minlength="5" placeholder="Hasło" />
             </div>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;margin-bottom:12px">
               <input type="checkbox" id="regEnable2FA" checked style="width:auto" />
-              <span>🔐 2FA</span>
+              <span>🔐 Włącz weryfikację 2FA</span>
             </label>
-            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">OK</button>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zarejestruj</button>
           </form>
         `}
       `;
@@ -3907,7 +3889,7 @@
       if (!currentUser) return;
       const expDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
       currentUser.isPremium = true;
-      currentUser.premiumUntil = expDate.toLocaleDateString();
+      currentUser.premiumUntil = expDate.toLocaleDateString('pl-PL');
       Object.keys(listingsData).forEach(c => {
         (listingsData[c] || []).forEach(item => {
           if (item.ownerEmail === currentUser.email) { item.top = true; item.hasSubscription = true; }
@@ -4096,10 +4078,10 @@
 
     function openLegalModal(topic) {
       const map = {
-        about: { title: 'PlacoMarkt', body: 'NL (€) • PL (zł)' },
-        terms: { title: 'Terms', body: 'PlacoMarkt' },
-        privacy: { title: 'Privacy / GDPR', body: 'PlacoMarkt' },
-        dsa: { title: 'DSA', body: 'admin@placomarkt.nl' }
+        about: { title: 'O nas — PlacoMarkt', body: 'Platforma ogłoszeniowa: NL (€) • PL (zł).' },
+        terms: { title: 'Regulamin', body: 'Regulamin korzystania z serwisu PlacoMarkt.' },
+        privacy: { title: 'Prywatność / RODO', body: 'Informacja o przetwarzaniu danych osobowych w serwisie PlacoMarkt.' },
+        dsa: { title: 'DSA i Kontakt', body: 'Kontakt: admin@placomarkt.nl' }
       };
       const item = map[topic] || map.about;
       document.getElementById('legalContent').innerHTML = `
