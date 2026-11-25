@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -69,7 +69,6 @@
       box-shadow: 0 2px 8px rgba(249,115,22,0.4);
     }
 
-    /* Header */
     header {
       background: var(--primary);
       color: #fff;
@@ -158,7 +157,6 @@
     }
     .add-btn:hover { background: var(--accent-hover); }
 
-    /* Hero & Smart Search */
     .hero {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
       color: #fff;
@@ -248,11 +246,9 @@
     .suggest-item:last-child { border-bottom: none; }
     .suggest-item:hover { background: var(--soft-bg); }
 
-    /* Main Layout */
     .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
     .main-column { min-width: 0; }
 
-    /* Black Friday & Ads Zone */
     .promo-ads-zone {
       display: grid;
       grid-template-columns: 1.7fr 1fr;
@@ -320,7 +316,6 @@
     .ad-slot-title { font-size: 14px; font-weight: 800; color: var(--text); }
     .ad-slot-desc { font-size: 12px; color: var(--muted); }
 
-    /* Mode Tabs */
     .mode-tabs {
       display: flex;
       gap: 8px;
@@ -351,14 +346,8 @@
       background: var(--accent);
       border-color: var(--accent);
     }
-    .mode-tab.travel-tab.active {
-      background: var(--teal);
-      border-color: var(--teal);
-    }
-    .mode-tab.fav-tab.active {
-      background: var(--red);
-      border-color: var(--red);
-    }
+    .mode-tab.travel-tab.active { background: var(--teal); border-color: var(--teal); }
+    .mode-tab.fav-tab.active { background: var(--red); border-color: var(--red); }
     .count-pill {
       background: rgba(148,163,184,0.25);
       padding: 1px 7px;
@@ -367,7 +356,6 @@
     }
     .mode-tab.active .count-pill { background: rgba(255,255,255,0.22); color: #fff; }
 
-    /* Travel & Auto Filter Bars */
     .travel-filter-bar, .auto-filter-bar {
       border-radius: 12px;
       padding: 14px 16px;
@@ -443,7 +431,6 @@
       color: var(--text);
     }
 
-    /* Breadcrumb + Toolbar */
     .breadcrumb-bar {
       display: flex;
       align-items: center;
@@ -511,15 +498,12 @@
       color: #fff;
     }
 
-    /* Listings Grid & Compact List */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
       gap: 16px;
     }
-    .grid.list-view {
-      grid-template-columns: 1fr;
-    }
+    .grid.list-view { grid-template-columns: 1fr; }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -721,7 +705,6 @@
     .price.free-price { color: var(--green); }
     .sub-price { font-size: 11px; color: var(--muted); }
 
-    /* Sekcja na dole strony dla użytkowników z abonamentem */
     .subscribers-bottom-section {
       margin-top: 34px;
       padding: 20px;
@@ -752,7 +735,6 @@
       margin-top: 2px;
     }
 
-    /* Modals */
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -840,19 +822,6 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    .travel-spec-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 8px;
-      background: rgba(2,132,199,0.08);
-      border: 1px solid #7dd3fc;
-      border-radius: 10px;
-      padding: 12px;
-      margin: 12px 0;
-    }
-    .travel-spec-item { font-size: 12px; }
-    .travel-spec-item span { display: block; color: var(--muted); font-size: 11px; }
-    .travel-spec-item strong { color: var(--teal); font-size: 13px; }
     .detail-actions {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
@@ -874,26 +843,6 @@
     .btn-share { background: #0284c7; color: #fff; }
     .btn-fav-detail { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
     .btn-report { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; margin-top: 8px; width: 100%; }
-
-    .similar-box {
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-    }
-    .similar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .similar-card {
-      background: var(--soft-bg);
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .similar-card:hover { border-color: var(--accent); }
 
     .bid-panel {
       background: rgba(124,58,237,0.08);
@@ -922,7 +871,6 @@
       cursor: pointer;
     }
 
-    /* Admin Dashboard Styles */
     .admin-stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
@@ -990,7 +938,6 @@
     .mini-btn.green { background: #dcfce7; border-color: #86efac; color: #166534; }
     .mini-btn.red { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
 
-    /* Form */
     .form-group { margin-bottom: 12px; }
     .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     @media (max-width: 560px) { .form-row-2 { grid-template-columns: 1fr; } }
@@ -1082,7 +1029,6 @@
       border-color: var(--primary);
     }
 
-    /* 2FA Box */
     .twofa-box {
       background: rgba(22,163,74,0.08);
       border: 1px solid #86efac;
@@ -1129,7 +1075,6 @@
       box-shadow: 0 3px 10px rgba(245,158,11,0.35);
     }
 
-    /* Settings Section Cards */
     .set-section {
       border: 1px solid var(--border);
       background: var(--soft-bg);
@@ -1144,7 +1089,6 @@
       color: var(--accent);
     }
 
-    /* Footer */
     footer.site-footer {
       max-width: 1280px;
       margin: 28px auto 0;
@@ -1171,7 +1115,6 @@
     }
     .footer-links a:hover { color: var(--accent); }
 
-    /* Bottom Mobile Nav */
     .mobile-nav {
       position: fixed;
       bottom: 0;
@@ -1200,7 +1143,6 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <div class="nav-container">
       <div class="logo" onclick="resetFilters()">
@@ -1209,18 +1151,17 @@
       </div>
       <div class="nav-controls">
         <button class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')">❤️ <span id="favCountBadge">0</span></button>
-        <button class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Konto</span></button>
+        <button class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Account</span></button>
         <button class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">🛡️ <span>Admin</span> <span class="notif-dot" id="adminReportBadge">0</span></button>
-        <button class="icon-btn" onclick="openSettings()">⚙️ <span id="lblSettings">Ustawienia</span></button>
-        <button class="add-btn" onclick="openAddModal()">+ <span id="lblAddBtn">Dodaj</span></button>
+        <button class="icon-btn" onclick="openSettings()">⚙️ <span id="lblSettings">Instellingen</span></button>
+        <button class="add-btn" onclick="openAddModal()">+ <span id="lblAddBtn">Plaatsen</span></button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Search -->
   <section class="hero">
     <h1 id="heroTitle">Advertenties, Veilingen, Winkelen & Vakanties</h1>
-    <p id="heroSub">Alles op één plek • Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Vakanties & Werk (EUR)</p>
+    <p id="heroSub">Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Vakanties & Werk (€)</p>
     <div class="search-box">
       <input type="text" id="searchInput" class="main-q" placeholder="Waar ben je naar op zoek..." oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
@@ -1243,60 +1184,56 @@
     <div class="quick-tags" id="quickTagsBar">
       <span style="color:#94a3b8" id="lblPopularTag">Populair:</span>
       <span class="quick-tag" onclick="quickSearch('hengel')">🎣 <span id="qtFishing">Hengelsport</span></span>
-      <span class="quick-tag" onclick="quickSearch('scooter')">🛵 <span id="qtScooters">Scooters</span></span>
-      <span class="quick-tag" onclick="quickSearch('parfum')">💄 <span id="qtPerfumes">Parfum</span></span>
-      <span class="quick-tag" onclick="quickSearch('speelgoed')">🧸 <span id="qtToys">Speelgoed</span></span>
-      <span class="quick-tag" onclick="quickSearch('kamer')">🏠 <span id="qtHousing">Woningen</span></span>
-      <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ <span id="qtTravel">Vakanties</span></span>
-      <span class="quick-tag" onclick="quickSearch('werk')">💼 <span id="qtJobs">Werk</span></span>
+      <span class="quick-tag" onclick="quickSearch('scooter')">🛵 <span id="qtScooters">Auto, Motor & Scooter</span></span>
+      <span class="quick-tag" onclick="quickSearch('parfum')">💄 <span id="qtPerfumes">Cosmetica & Parfum</span></span>
+      <span class="quick-tag" onclick="quickSearch('speelgoed')">🧸 <span id="qtToys">Kinderen & Speelgoed</span></span>
+      <span class="quick-tag" onclick="quickSearch('woning')">🏠 <span id="qtHousing">Woningen & Kamers</span></span>
+      <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ <span id="qtTravel">Vakanties & Reizen</span></span>
+      <span class="quick-tag" onclick="quickSearch('werk')">💼 <span id="qtJobs">Werk & Vacatures</span></span>
     </div>
   </section>
 
-  <!-- Main Content -->
   <main class="container">
     <div class="main-column">
-      <!-- STREFA BLACK FRIDAY I INNE REKLAMY -->
       <section class="promo-ads-zone" aria-label="Black Friday">
         <div class="bf-banner">
           <div>
             <span class="bf-pill">Black Friday</span>
-            <h2 id="bfTitle">Black Friday op PlacoMarkt — deals & promoties</h2>
-            <p id="bfDesc">Promotiebanner, kortingscodes en uitgelichte aanbiedingen.</p>
+            <h2 id="bfTitle">Black Friday op PlacoMarkt</h2>
+            <p id="bfDesc">Aanbiedingen & uitgelichte deals.</p>
           </div>
           <button type="button" class="bf-btn" id="bfActionBtn" onclick="toggleCategory('fishing')">🎣 Hengelsport</button>
         </div>
         <div class="ad-slot-card">
-          <span class="ad-slot-tag" id="adSlotTag">Partner / Advertentie</span>
+          <span class="ad-slot-tag" id="adSlotTag">Partner</span>
           <div class="ad-slot-title" id="adSlotTitle">Advertentieruimte</div>
-          <div class="ad-slot-desc" id="adSlotDesc">Ruimte voor een partnerbanner of speciale actie.</div>
+          <div class="ad-slot-desc" id="adSlotDesc">Ruimte voor partner of actie.</div>
         </div>
       </section>
 
-      <!-- Mode Tabs -->
       <div class="mode-tabs" id="modeTabs"></div>
 
-      <!-- Dedicated Auto / Moto / Scooter Filter Bar -->
       <div class="auto-filter-bar" id="autoFilterBar">
         <div class="auto-filter-title">
-          <span id="autoFilterTitle">🚗 Voertuigfilters (Auto, Motor & Scooter)</span>
+          <span id="autoFilterTitle">🚗 Auto, Motor & Scooter</span>
           <button type="button" id="btnClearAutoFilters" onclick="resetAutoFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterVehicleKind" onchange="renderListings()">
-            <option value="all">🚘 Alle voertuigtypes</option>
-            <option value="Samochód osobowy">🚗 Auto / Personenauto</option>
-            <option value="Motocykl / Motor">🏍️ Motor / Motorfiets</option>
-            <option value="Skuter / Motorower">🛵 Scooter / Bromfiets</option>
-            <option value="Dostawczy / Bus">🚐 Bus / Bestelauto</option>
-            <option value="Quad / ATV">quad Quad / ATV</option>
-            <option value="Części i akcesoria">⚙️ Onderdelen & Accessoires</option>
+            <option value="all" id="optVehAll">🚘 Alle voertuigen</option>
+            <option value="Samochód osobowy" id="optVehCar">🚗 Auto</option>
+            <option value="Motocykl / Motor" id="optVehMoto">🏍️ Motor</option>
+            <option value="Skuter / Motorower" id="optVehScooter">🛵 Scooter</option>
+            <option value="Dostawczy / Bus" id="optVehVan">🚐 Bus</option>
+            <option value="Quad / ATV" id="optVehQuad">quad Quad</option>
+            <option value="Części i akcesoria" id="optVehParts">⚙️ Onderdelen</option>
           </select>
           <div style="position:relative">
             <input
               type="text"
               id="filterVehicleBrand"
               autocomplete="off"
-              placeholder="Merk (vanaf 2 letters, bv. La Souris)..."
+              placeholder="Merk (vanaf 2 letters)..."
               oninput="handleBrandInput('filter');renderListings()"
               onfocus="handleBrandInput('filter')"
               onblur="hideSuggestDelayed('brandSuggestFilter')"
@@ -1306,50 +1243,47 @@
         </div>
       </div>
 
-      <!-- Dedicated Travel Filter Bar -->
       <div class="travel-filter-bar" id="travelFilterBar">
         <div class="travel-filter-title">
-          <span id="travelFilterTitle">✈️ Vakanties & Reizen filters</span>
+          <span id="travelFilterTitle">✈️ Vakanties & Reizen</span>
           <button type="button" id="btnClearTravelFilters" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:var(--teal);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
         </div>
         <div class="travel-filters-grid">
           <select id="filterTravelDest" onchange="renderListings()">
-            <option value="all">🌍 Alle bestemmingen</option>
+            <option value="all" id="optDestAll">🌍 Alle bestemmingen</option>
             <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polen</option>
             <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Nederland</option>
             <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 België / Luxemburg</option>
-            <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turkije (Alanya)</option>
+            <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turkije</option>
             <option value="Chorwacja / Południe Europy">🇭🇷 Kroatië</option>
             <option value="Hiszpania / Wyspy">🇪🇸 Spanje</option>
             <option value="Węgry / Słowacja (Termy)">🇭🇺 Hongarije / Slowakije</option>
-            <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Route PL ↔ NL</option>
+            <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 PL ↔ NL</option>
           </select>
           <select id="filterTravelKind" onchange="renderListings()">
-            <option value="all">🏕️ Alle verblijven</option>
-            <option value="Domek / Apartament / Pokój">🏠 Vakantiehuis / Appartement / Kamer</option>
-            <option value="Wyjazd zorganizowany / Wycieczka">🚌 Groepsreis / Excursie</option>
+            <option value="all" id="optKindAll">🏕️ Alle verblijven</option>
+            <option value="Domek / Apartament / Pokój">🏠 Vakantiehuis / Appartement</option>
+            <option value="Wyjazd zorganizowany / Wycieczka">🚌 Groepsreis</option>
             <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
-            <option value="Przejazd / Bus PL ↔ NL">🚐 Bus / Vervoer PL ↔ NL</option>
+            <option value="Przejazd / Bus PL ↔ NL">🚐 Bus / Vervoer</option>
           </select>
           <select id="filterTravelBoard" onchange="renderListings()">
-            <option value="all">🍽️ Verzorging</option>
+            <option value="all" id="optBoardAll">🍽️ Verzorging</option>
             <option value="Własne (aneks kuchenny)">🍳 Zelfverzorging</option>
-            <option value="Ze śniadaniami (BB)">🥐 Logies & Ontbijt (BB)</option>
-            <option value="Śniadania + Obiadokolacje (HB)">🍲 Halfpension (HB)</option>
+            <option value="Ze śniadaniami (BB)">🥐 BB</option>
+            <option value="Śniadania + Obiadokolacje (HB)">🍲 HB</option>
             <option value="All Inclusive">🍹 All Inclusive</option>
             <option value="Nie dotyczy (przejazd)">🚐 N.v.t.</option>
           </select>
-          <input type="number" id="filterTravelMaxPrice" placeholder="Max prijs..." min="0" oninput="renderListings()" />
+          <input type="number" id="filterTravelMaxPrice" placeholder="Max" min="0" oninput="renderListings()" />
         </div>
       </div>
 
-      <!-- Breadcrumb -->
       <div class="breadcrumb-bar" id="breadcrumbBar"></div>
 
-      <!-- Toolbar -->
       <div class="toolbar-bar">
         <div class="toolbar-left">
-          <strong style="font-size:15px" id="resultsHeading">Alle advertenties</strong>
+          <strong style="font-size:15px" id="resultsHeading">Gevonden advertenties</strong>
           <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
         </div>
         <div class="toolbar-right">
@@ -1362,10 +1296,10 @@
           <input type="number" id="filterMaxPrice" placeholder="Max" min="0" style="width:80px" oninput="renderListings()" />
           <select id="sortSelect" onchange="renderListings()">
             <option value="featured" id="sortFeatured">Sorteer: Uitgelicht & Nieuw</option>
-            <option value="price_asc" id="sortPriceAsc">Prijs: laag naar hoog</option>
-            <option value="price_desc" id="sortPriceDesc">Prijs: hoog naar laag</option>
+            <option value="price_asc" id="sortPriceAsc">Prijs: laag → hoog</option>
+            <option value="price_desc" id="sortPriceDesc">Prijs: hoog → laag</option>
             <option value="views_desc" id="sortViewsDesc">Populairst</option>
-            <option value="auction_end" id="sortAuctionEnd">Veiling: eindigt binnenkort</option>
+            <option value="auction_end" id="sortAuctionEnd">Veiling: eindigt snel</option>
           </select>
           <div class="view-toggle">
             <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')" title="Grid">⊞</button>
@@ -1374,10 +1308,8 @@
         </div>
       </div>
 
-      <!-- Listings Grid -->
       <div class="grid" id="listingsGrid"></div>
 
-      <!-- SEKCJA NA DOLE STRONY DLA UŻYTKOWNIKÓW Z ABONAMENTEM -->
       <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Abonnement">
         <div class="subscribers-header">
           <div>
@@ -1390,7 +1322,6 @@
       </section>
     </div>
 
-    <!-- Legal & Info Footer -->
     <footer class="site-footer">
       <div id="footerLeft">
         <strong>PlacoMarkt</strong> © 2026 • NL • PL • UK • ES • BE • DE
@@ -1404,17 +1335,14 @@
     </footer>
   </main>
 
-  <!-- Detail Modal -->
   <div class="modal-backdrop" id="detailModal">
     <div class="modal" id="detailContent"></div>
   </div>
 
-  <!-- Legal / Info Modal -->
   <div class="modal-backdrop" id="legalModal">
     <div class="modal" id="legalContent"></div>
   </div>
 
-  <!-- Admin Panel Modal -->
   <div class="modal-backdrop" id="adminModal">
     <div class="modal admin-modal">
       <button class="close-modal" onclick="closeModal('adminModal')">×</button>
@@ -1435,37 +1363,36 @@
       <div class="admin-tabs">
         <button class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">📋 Listings</button>
         <button class="admin-tab" id="admTabReports" onclick="setAdminTab('reports')">🚩 DSA (<span id="repCountTab">0</span>)</button>
-        <button class="admin-tab" id="admTabPricing" onclick="setAdminTab('pricing')">💳 Pricing & Status</button>
+        <button class="admin-tab" id="admTabPricing" onclick="setAdminTab('pricing')">💳 Pricing</button>
       </div>
 
       <div id="adminBody"></div>
     </div>
   </div>
 
-  <!-- Add Listing Modal -->
   <div class="modal-backdrop" id="addModal">
     <div class="modal">
       <button class="close-modal" onclick="closeModal('addModal')">×</button>
-      <h2 style="margin-bottom:12px" id="addModalTitle">+ Nieuwe advertentie</h2>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Plaatsen</h2>
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblOfferType">Type aanbod</label>
+            <label id="lblOfferType">Type</label>
             <select id="newType" onchange="toggleAddFields()">
-              <option value="sale">Direct kopen</option>
-              <option value="auction">🔨 Veiling</option>
-              <option value="travel">✈️ Vakantie / Verblijf / Rit</option>
-              <option value="course">🎓 Cursus</option>
-              <option value="free">🎁 Gratis</option>
-              <option value="job">💼 Werk</option>
+              <option value="sale" id="optTypeSale">Direct kopen</option>
+              <option value="auction" id="optTypeAuction">🔨 Veiling</option>
+              <option value="travel" id="optTypeTravel">✈️ Vakanties & Reizen</option>
+              <option value="course" id="optTypeCourse">🎓 Cursussen</option>
+              <option value="free" id="optTypeFree">🎁 Gratis</option>
+              <option value="job" id="optTypeJob">💼 Werk</option>
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
             <label id="lblConditionField">Conditie</label>
             <select id="newCondition">
-              <option value="new">✨ Nieuw</option>
-              <option value="used">♻️ Gebruikt</option>
-              <option value="na">N.v.t.</option>
+              <option value="new" id="optNewCond">✨ Nieuw</option>
+              <option value="used" id="optUsedCond">♻️ Gebruikt</option>
+              <option value="na" id="optNaCond">N.v.t.</option>
             </select>
           </div>
         </div>
@@ -1499,17 +1426,17 @@
         </div>
 
         <div class="auto-form-box" id="autoFieldsBox" style="display:none">
-          <div style="font-weight:800;color:#c2410c;font-size:13px;margin-bottom:10px" id="lblAutoBoxTitle">🚗 Voertuigdetails</div>
+          <div style="font-weight:800;color:#c2410c;font-size:13px;margin-bottom:10px" id="lblAutoBoxTitle">🚗 Auto, Motor & Scooter</div>
           <div class="form-row-2">
             <div class="form-group">
-              <label id="lblVehicleKind">Type voertuig</label>
+              <label id="lblVehicleKind">Type</label>
               <select id="newVehicleKind">
-                <option value="Samochód osobowy">🚗 Auto / Personenauto</option>
-                <option value="Motocykl / Motor">🏍️ Motor / Motorfiets</option>
-                <option value="Skuter / Motorower">🛵 Scooter / Bromfiets</option>
-                <option value="Dostawczy / Bus">🚐 Bus / Bestelauto</option>
-                <option value="Quad / ATV">quad Quad / ATV</option>
-                <option value="Części i akcesoria">⚙️ Onderdelen & Accessoires</option>
+                <option value="Samochód osobowy">🚗 Auto</option>
+                <option value="Motocykl / Motor">🏍️ Motor</option>
+                <option value="Skuter / Motorower">🛵 Scooter</option>
+                <option value="Dostawczy / Bus">🚐 Bus</option>
+                <option value="Quad / ATV">quad Quad</option>
+                <option value="Części i akcesoria">⚙️ Onderdelen</option>
               </select>
             </div>
             <div class="form-group" style="position:relative">
@@ -1528,7 +1455,7 @@
         </div>
 
         <div class="travel-form-box" id="travelFieldsBox" style="display:none">
-          <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px" id="lblTravelBoxTitle">✈️ Vakantiedetails</div>
+          <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px" id="lblTravelBoxTitle">✈️ Vakanties & Reizen</div>
           <div class="form-row-2">
             <div class="form-group">
               <label id="lblTravelDest">Bestemming</label>
@@ -1536,20 +1463,20 @@
                 <option value="Polska (Morze / Góry / Mazury)">🇵🇱 Polen</option>
                 <option value="Holandia (Wybrzeże / Domki)">🇳🇱 Nederland</option>
                 <option value="Belgia / Luksemburg (Ardeny)">🇧🇪 België / Luxemburg</option>
-                <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turkije (Alanya)</option>
+                <option value="Turcja (Alanya / Riwiera)">🇹🇷 Turkije</option>
                 <option value="Chorwacja / Południe Europy">🇭🇷 Kroatië</option>
                 <option value="Hiszpania / Wyspy">🇪🇸 Spanje</option>
                 <option value="Węgry / Słowacja (Termy)">🇭🇺 Hongarije / Slowakije</option>
-                <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 Route PL ↔ NL</option>
+                <option value="Trasa PL ↔ NL (Busy / Przejazdy)">🚐 PL ↔ NL</option>
               </select>
             </div>
             <div class="form-group">
-              <label id="lblTravelKind">Type verblijf / reis</label>
+              <label id="lblTravelKind">Type</label>
               <select id="newTravelKind">
-                <option value="Domek / Apartament / Pokój">🏠 Vakantiehuis / Appartement / Kamer</option>
-                <option value="Wyjazd zorganizowany / Wycieczka">🚌 Groepsreis / Excursie</option>
+                <option value="Domek / Apartament / Pokój">🏠 Vakantiehuis / Appartement</option>
+                <option value="Wyjazd zorganizowany / Wycieczka">🚌 Groepsreis</option>
                 <option value="Last Minute / All Inclusive">☀️ Last Minute / All Inclusive</option>
-                <option value="Przejazd / Bus PL ↔ NL">🚐 Bus / Vervoer PL ↔ NL</option>
+                <option value="Przejazd / Bus PL ↔ NL">🚐 Bus / Vervoer</option>
               </select>
             </div>
           </div>
@@ -1559,7 +1486,7 @@
               <input type="text" id="newTravelDate" />
             </div>
             <div class="form-group">
-              <label id="lblTravelGuests">Aantal personen</label>
+              <label id="lblTravelGuests">Personen</label>
               <input type="text" id="newTravelGuests" />
             </div>
           </div>
@@ -1568,8 +1495,8 @@
               <label id="lblTravelBoard">Verzorging</label>
               <select id="newTravelBoard">
                 <option value="Własne (aneks kuchenny)">🍳 Zelfverzorging</option>
-                <option value="Ze śniadaniami (BB)">🥐 Logies & Ontbijt (BB)</option>
-                <option value="Śniadania + Obiadokolacje (HB)">🍲 Halfpension (HB)</option>
+                <option value="Ze śniadaniami (BB)">🥐 BB</option>
+                <option value="Śniadania + Obiadokolacje (HB)">🍲 HB</option>
                 <option value="All Inclusive">🍹 All Inclusive</option>
                 <option value="Nie dotyczy (przejazd)">🚐 N.v.t.</option>
               </select>
@@ -1578,7 +1505,7 @@
               <label id="lblTravelUnit">Prijs per</label>
               <select id="newTravelUnit">
                 <option value="/ osoba">/ persoon</option>
-                <option value="/ doba (cały obiekt)">/ nacht (geheel)</option>
+                <option value="/ doba (cały obiekt)">/ nacht</option>
                 <option value="/ cały pobyt (pakiet)">/ verblijf</option>
                 <option value="/ przejazd w 1 stronę">/ enkele reis</option>
               </select>
@@ -1591,7 +1518,7 @@
           <input type="number" id="newPrice" min="0" step="0.01" />
         </div>
         <div class="form-group" id="buyNowGroup" style="display:none">
-          <label id="lblBuyNowField">Direct kopen prijs (optioneel)</label>
+          <label id="lblBuyNowField">Direct kopen</label>
           <input type="number" id="newBuyNow" min="0" step="0.01" />
         </div>
         <div class="form-group" id="shippingGroup">
@@ -1605,15 +1532,15 @@
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newHasSubscription" style="width:auto" />
-            <span id="lblSubCheckbox">👑 Abonnement-aanbieding (ook onderaan de pagina zichtbaar)</span>
+            <span id="lblSubCheckbox">👑 Abonnement</span>
           </label>
         </div>
         <div class="form-group">
-          <label id="lblPromoField">Zichtbaarheid (Start: 0,00)</label>
+          <label id="lblPromoField">Zichtbaarheid</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoStdPrice">0,00 €</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoStdSub">Standaard 30d</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoStdSub">30d</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
               <strong style="color:var(--red)" id="promoUrgentPrice">0,00 €</strong>
@@ -1632,16 +1559,14 @@
     </div>
   </div>
 
-  <!-- Account Modal -->
   <div class="modal-backdrop" id="accountModal">
     <div class="modal" style="max-width:480px">
       <button class="close-modal" onclick="closeModal('accountModal')">×</button>
-      <h2 style="margin-bottom:12px" id="accountModalTitle">👤 Account — PlacoMarkt</h2>
+      <h2 style="margin-bottom:12px" id="accountModalTitle">👤 Account</h2>
       <div id="accountModalBody"></div>
     </div>
   </div>
 
-  <!-- Extended Settings Modal -->
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:540px">
       <button class="close-modal" onclick="closeModal('settingsModal')">×</button>
@@ -1650,7 +1575,7 @@
       <div class="set-section" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
         <div>
           <h4 style="margin-bottom:2px" id="setSearchTitle">🔍 Zoeken</h4>
-          <div style="font-size:12px;color:var(--muted)" id="setSearchDesc">Ga direct naar de zoekbalk en filters.</div>
+          <div style="font-size:12px;color:var(--muted)" id="setSearchDesc">Zoeken</div>
         </div>
         <button type="button" class="mini-btn" style="background:var(--blue);color:#fff;border-color:var(--blue);padding:8px 12px" onclick="closeModal('settingsModal');focusSearchBar()">
           🔍 <span id="setSearchBtn">Zoeken</span>
@@ -1682,13 +1607,13 @@
       </div>
 
       <div class="set-section">
-        <h4 id="setAppearTitle">🎨 Weergave & Locatie</h4>
+        <h4 id="setAppearTitle">🎨 Weergave</h4>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
           <span id="lblDarkMode">🌙 Donkere modus</span>
         </label>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
-          <span id="lblDefaultCity">Standaard plaats:</span>
+          <span id="lblDefaultCity">Plaats:</span>
           <div style="position:relative;width:220px">
             <input
               type="text"
@@ -1707,16 +1632,16 @@
       <div class="set-section">
         <h4 id="setSecTitle">🔒 Privacy & 2FA</h4>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:8px">
-          <span id="lblPhoneVis">Telefoon zichtbaar:</span>
+          <span id="lblPhoneVis">Telefoon:</span>
           <select id="setPhoneVis" onchange="toggleSettingPref('phoneVisibility', this.value)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px">
             <option value="click" id="optPhoneClick">Na klikken</option>
-            <option value="logged" id="optPhoneLogged">Alleen ingelogd</option>
-            <option value="chat_only" id="optPhoneChat">Alleen chat</option>
+            <option value="logged" id="optPhoneLogged">Ingelogd</option>
+            <option value="chat_only" id="optPhoneChat">Chat</option>
           </select>
         </div>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setAntiPhish" checked onchange="toggleSettingPref('antiPhishing', this.checked)" style="width:auto" />
-          <span id="lblAntiPhish">🛡️ Blokkeer verdachte links in chat</span>
+          <span id="lblAntiPhish">🛡️ Anti-phishing</span>
         </label>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setBidAlerts" checked onchange="toggleSettingPref('bidAlerts', this.checked)" style="width:auto" />
@@ -1737,7 +1662,6 @@
     </div>
   </div>
 
-  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-nav">
     <button onclick="setMode('travel')">✈️<span id="mobTravel">Vakanties</span></button>
     <button onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Plaatsen</span></button>
@@ -1913,19 +1837,16 @@
       NL: {
         settings: 'Instellingen', add: 'Plaatsen',
         heroNL: 'Advertenties, Veilingen, Winkelen & Vakanties',
-        heroPL: 'Advertenties & Vakanties (PLN)',
-        heroUK: 'Classifieds, Auctions, Shopping & Holidays',
-        heroES: 'Anuncios, Subastas, Compras y Vacaciones',
-        heroBE: 'Advertenties, Veilingen & Vakanties (BE)',
-        heroDE: 'Kleinanzeigen, Auktionen, Shop & Reisen',
+        heroPL: 'Advertenties, Veilingen, Winkelen & Vakanties (PL)',
+        heroUK: 'Advertenties, Veilingen, Winkelen & Vakanties (UK)',
+        heroES: 'Advertenties, Veilingen, Winkelen & Vakanties (ES)',
+        heroBE: 'Advertenties, Veilingen, Winkelen & Vakanties (BE)',
+        heroDE: 'Advertenties, Veilingen, Winkelen & Vakanties (DE)',
         subGeneric: 'Auto, Motor, Scooter, Hengelsport, Cosmetica, Woningen, Vakanties & Werk',
-        searchPlaceholder: 'Waar ben je naar op zoek (bv. scooter, motor, hengel, parfum, woning)...',
+        searchPlaceholder: 'Waar ben je naar op zoek...',
         cityPlaceholder: 'Plaats (vanaf 3 letters)...',
-        searchBtn: 'Zoeken',
-        popularTag: 'Populair:',
-        allCats: 'Alle categorieën',
-        foundOffers: 'Gevonden advertenties',
-        favOffers: 'Favorieten',
+        searchBtn: 'Zoeken', popularTag: 'Populair:', allCats: 'Alle categorieën',
+        foundOffers: 'Gevonden advertenties', favOffers: 'Favorieten',
         tabAll: 'Alles', tabTravel: '✈️ Vakanties', tabSale: 'Direct kopen',
         tabAuction: '🔨 Veilingen', tabCourse: '🎓 Cursussen', tabFree: '🎁 Gratis',
         tabJob: '💼 Werk', tabFav: '❤️ Favorieten',
@@ -1948,7 +1869,17 @@
         subTitle: '👑 Abonnement — Uitgelichte accounts',
         subDesc: 'Aanbiedingen van accounts met een actief abonnement onderaan de pagina.',
         subBtn: '👑 Abonnement',
-        mobTravel: 'Vakanties', mobAdd: 'Plaatsen', mobFav: 'Favorieten', mobAcc: 'Account', mobSet: 'Opties'
+        mobTravel: 'Vakanties', mobAdd: 'Plaatsen', mobFav: 'Favorieten', mobAcc: 'Account', mobSet: 'Opties',
+        setHeader: 'Instellingen', setMarketTitle: '🌍 Land, Taal & Valuta',
+        setAutoLang: 'Automatische taaldetectie', setAutoCountry: 'Automatische landdetectie',
+        setAppearTitle: '🎨 Weergave', setDarkMode: '🌙 Donkere modus', setCityLabel: 'Plaats:',
+        setSecTitle: '🔒 Privacy & 2FA', setPhoneLabel: 'Telefoon:', setAntiPhish: '🛡️ Anti-phishing',
+        setBidAlerts: '🔔 Bodmeldingen', setDataTitle: '📱 Gegevens',
+        addTitle: '+ Plaatsen', lblType: 'Type', lblCond: 'Conditie', lblTitle: 'Titel',
+        lblPhotos: "Foto's (max. 4)", lblCat: 'Categorie', lblCity: 'Plaats (vanaf 3 letters)',
+        lblPrice: 'Prijs', lblShip: 'Levering / Ophalen', lblDesc: 'Omschrijving',
+        lblSub: '👑 Abonnement', lblVis: 'Zichtbaarheid', btnSubmit: 'Plaatsen',
+        footAbout: 'Over ons', footTerms: 'Voorwaarden', footPrivacy: 'Privacy (AVG / GDPR)', footDsa: 'DSA & Contact'
       },
       PL: {
         settings: 'Ustawienia', add: 'Dodaj',
@@ -1959,13 +1890,10 @@
         heroBE: 'Ogłoszenia, Licytacje, Zakupy i Wczasy (BE)',
         heroDE: 'Ogłoszenia, Licytacje, Zakupy i Wczasy (DE)',
         subGeneric: 'Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Dom, Wczasy i Praca',
-        searchPlaceholder: 'Czego szukasz (np. skuter, motor, wędka, perfumy, dom, wczasy, praca)...',
+        searchPlaceholder: 'Czego szukasz...',
         cityPlaceholder: 'Miejscowość (od 3 liter)...',
-        searchBtn: 'Szukaj',
-        popularTag: 'Popularne:',
-        allCats: 'Wszystkie kategorie',
-        foundOffers: 'Znalezione oferty',
-        favOffers: 'Ulubione',
+        searchBtn: 'Szukaj', popularTag: 'Popularne:', allCats: 'Wszystkie kategorie',
+        foundOffers: 'Znalezione oferty', favOffers: 'Ulubione',
         tabAll: 'Wszystkie', tabTravel: '✈️ Wczasy', tabSale: 'Kup Teraz',
         tabAuction: '🔨 Licytacje', tabCourse: '🎓 Kursy', tabFree: '🎁 Za darmo',
         tabJob: '💼 Praca', tabFav: '❤️ Ulubione',
@@ -1988,7 +1916,17 @@
         subTitle: '👑 Oferty z abonamentem',
         subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.',
         subBtn: '👑 Abonament',
-        mobTravel: 'Wczasy', mobAdd: 'Dodaj', mobFav: 'Ulubione', mobAcc: 'Konto', mobSet: 'Opcje'
+        mobTravel: 'Wczasy', mobAdd: 'Dodaj', mobFav: 'Ulubione', mobAcc: 'Konto', mobSet: 'Opcje',
+        setHeader: 'Ustawienia', setMarketTitle: '🌍 Kraj, Język i Waluta',
+        setAutoLang: 'Automatyczne wykrywanie języka', setAutoCountry: 'Automatyczne wykrywanie kraju',
+        setAppearTitle: '🎨 Wygląd', setDarkMode: '🌙 Tryb ciemny', setCityLabel: 'Miejscowość:',
+        setSecTitle: '🔒 Prywatność i 2FA', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Blokada linków',
+        setBidAlerts: '🔔 Powiadomienia o licytacjach', setDataTitle: '📱 Dane',
+        addTitle: '+ Dodaj ogłoszenie', lblType: 'Typ', lblCond: 'Stan', lblTitle: 'Tytuł',
+        lblPhotos: 'Zdjęcia (maks. 4)', lblCat: 'Kategoria', lblCity: 'Miejscowość (od 3 liter)',
+        lblPrice: 'Cena', lblShip: 'Dostawa / Odbiór', lblDesc: 'Opis',
+        lblSub: '👑 Abonament', lblVis: 'Widoczność', btnSubmit: 'Dodaj',
+        footAbout: 'O nas', footTerms: 'Regulamin', footPrivacy: 'Prywatność (RODO)', footDsa: 'DSA i Kontakt'
       },
       EN: {
         settings: 'Settings', add: 'Post Ad',
@@ -1999,13 +1937,10 @@
         heroBE: 'Classifieds, Auctions, Shopping & Holidays (BE)',
         heroDE: 'Classifieds, Auctions, Shopping & Holidays (DE)',
         subGeneric: 'Cars, Bikes, Scooters, Fishing, Cosmetics, Housing, Holidays & Jobs',
-        searchPlaceholder: 'Search (e.g. scooter, bike, car, fishing, perfume, housing, holidays)...',
+        searchPlaceholder: 'What are you looking for...',
         cityPlaceholder: 'City / Town (3+ letters)...',
-        searchBtn: 'Search',
-        popularTag: 'Popular:',
-        allCats: 'All categories',
-        foundOffers: 'Listings found',
-        favOffers: 'Favorites',
+        searchBtn: 'Search', popularTag: 'Popular:', allCats: 'All categories',
+        foundOffers: 'Listings found', favOffers: 'Favorites',
         tabAll: 'All', tabTravel: '✈️ Holidays', tabSale: 'Buy Now',
         tabAuction: '🔨 Auctions', tabCourse: '🎓 Courses', tabFree: '🎁 Free',
         tabJob: '💼 Jobs', tabFav: '❤️ Favorites',
@@ -2019,8 +1954,8 @@
         bidNow: 'Bid', buyNow: 'Buy Now ⚡', endsIn: 'Ends:', bidsCount: 'bids',
         details: 'Details', condAll: 'Condition: All', condNew: '✨ New', condUsed: '♻️ Used',
         minPlaceholder: 'Min', maxPlaceholder: 'Max',
-        sortFeatured: 'Sort: Featured & New', sortPriceAsc: 'Price: low to high',
-        sortPriceDesc: 'Price: high to low', sortViewsDesc: 'Most viewed', sortAuctionEnd: 'Auctions: ending soon',
+        sortFeatured: 'Sort: Featured & New', sortPriceAsc: 'Price: low → high',
+        sortPriceDesc: 'Price: high → low', sortViewsDesc: 'Most viewed', sortAuctionEnd: 'Auctions: ending soon',
         badgeTop: '⭐ TOP', badgeSub: '👑 SUBSCRIPTION', badgeUrgent: '⚡ URGENT', badgeHot: '🔥 POPULAR',
         badgeNew: '✨ NEW', badgeUsed: '♻️ USED',
         bfTitle: 'Black Friday on PlacoMarkt', bfDesc: 'Deals & featured listings.', bfBtn: '🎣 Fishing',
@@ -2028,7 +1963,17 @@
         subTitle: '👑 Subscription — Featured accounts',
         subDesc: 'Listings from accounts with an active subscription at the bottom of the page.',
         subBtn: '👑 Subscription',
-        mobTravel: 'Holidays', mobAdd: 'Post', mobFav: 'Favorites', mobAcc: 'Account', mobSet: 'Options'
+        mobTravel: 'Holidays', mobAdd: 'Post', mobFav: 'Favorites', mobAcc: 'Account', mobSet: 'Options',
+        setHeader: 'Settings', setMarketTitle: '🌍 Country, Language & Currency',
+        setAutoLang: 'Auto-detect language', setAutoCountry: 'Auto-detect country',
+        setAppearTitle: '🎨 Appearance', setDarkMode: '🌙 Dark mode', setCityLabel: 'City:',
+        setSecTitle: '🔒 Privacy & 2FA', setPhoneLabel: 'Phone:', setAntiPhish: '🛡️ Anti-phishing',
+        setBidAlerts: '🔔 Bid alerts', setDataTitle: '📱 Data',
+        addTitle: '+ Post listing', lblType: 'Type', lblCond: 'Condition', lblTitle: 'Title',
+        lblPhotos: 'Photos (max. 4)', lblCat: 'Category', lblCity: 'City (3+ letters)',
+        lblPrice: 'Price', lblShip: 'Delivery / Pickup', lblDesc: 'Description',
+        lblSub: '👑 Subscription', lblVis: 'Visibility', btnSubmit: 'Post',
+        footAbout: 'About', footTerms: 'Terms', footPrivacy: 'Privacy (GDPR)', footDsa: 'DSA & Contact'
       },
       ES: {
         settings: 'Ajustes', add: 'Publicar',
@@ -2039,13 +1984,10 @@
         heroBE: 'Anuncios, Subastas, Compras y Vacaciones (BE)',
         heroDE: 'Anuncios, Subastas, Compras y Vacaciones (DE)',
         subGeneric: 'Coches, Motos, Scooters, Pesca, Cosmética, Vivienda, Vacaciones y Empleo',
-        searchPlaceholder: '¿Qué buscas (scooter, moto, coche, pesca, perfume, piso, vacaciones)...?',
+        searchPlaceholder: '¿Qué buscas...',
         cityPlaceholder: 'Ciudad (desde 3 letras)...',
-        searchBtn: 'Buscar',
-        popularTag: 'Popular:',
-        allCats: 'Todas las categorías',
-        foundOffers: 'Anuncios encontrados',
-        favOffers: 'Favoritos',
+        searchBtn: 'Buscar', popularTag: 'Popular:', allCats: 'Todas las categorías',
+        foundOffers: 'Anuncios encontrados', favOffers: 'Favoritos',
         tabAll: 'Todo', tabTravel: '✈️ Vacaciones', tabSale: 'Comprar ya',
         tabAuction: '🔨 Subastas', tabCourse: '🎓 Cursos', tabFree: '🎁 Gratis',
         tabJob: '💼 Empleo', tabFav: '❤️ Favoritos',
@@ -2059,8 +2001,8 @@
         bidNow: 'Pujar', buyNow: 'Comprar ya ⚡', endsIn: 'Termina:', bidsCount: 'pujas',
         details: 'Detalles', condAll: 'Estado: Todos', condNew: '✨ Nuevo', condUsed: '♻️ Usado',
         minPlaceholder: 'Mín', maxPlaceholder: 'Máx',
-        sortFeatured: 'Ordenar: Destacados y recientes', sortPriceAsc: 'Precio: menor a mayor',
-        sortPriceDesc: 'Precio: mayor a menor', sortViewsDesc: 'Más vistos', sortAuctionEnd: 'Subastas: terminan pronto',
+        sortFeatured: 'Ordenar: Destacados y recientes', sortPriceAsc: 'Precio: menor → mayor',
+        sortPriceDesc: 'Precio: mayor → menor', sortViewsDesc: 'Más vistos', sortAuctionEnd: 'Subastas: terminan pronto',
         badgeTop: '⭐ TOP', badgeSub: '👑 SUSCRIPCIÓN', badgeUrgent: '⚡ URGENTE', badgeHot: '🔥 POPULAR',
         badgeNew: '✨ NUEVO', badgeUsed: '♻️ USADO',
         bfTitle: 'Black Friday en PlacoMarkt', bfDesc: 'Ofertas y anuncios destacados.', bfBtn: '🎣 Pesca',
@@ -2068,7 +2010,17 @@
         subTitle: '👑 Suscripción — Cuentas destacadas',
         subDesc: 'Anuncios de cuentas con suscripción activa en la parte inferior.',
         subBtn: '👑 Suscripción',
-        mobTravel: 'Viajes', mobAdd: 'Publicar', mobFav: 'Favoritos', mobAcc: 'Cuenta', mobSet: 'Ajustes'
+        mobTravel: 'Viajes', mobAdd: 'Publicar', mobFav: 'Favoritos', mobAcc: 'Cuenta', mobSet: 'Ajustes',
+        setHeader: 'Ajustes', setMarketTitle: '🌍 País, Idioma y Moneda',
+        setAutoLang: 'Detección automática de idioma', setAutoCountry: 'Detección automática de país',
+        setAppearTitle: '🎨 Apariencia', setDarkMode: '🌙 Modo oscuro', setCityLabel: 'Ciudad:',
+        setSecTitle: '🔒 Privacidad y 2FA', setPhoneLabel: 'Teléfono:', setAntiPhish: '🛡️ Anti-phishing',
+        setBidAlerts: '🔔 Alertas de pujas', setDataTitle: '📱 Datos',
+        addTitle: '+ Publicar anuncio', lblType: 'Tipo', lblCond: 'Estado', lblTitle: 'Título',
+        lblPhotos: 'Fotos (máx. 4)', lblCat: 'Categoría', lblCity: 'Ciudad (desde 3 letras)',
+        lblPrice: 'Precio', lblShip: 'Entrega / Recogida', lblDesc: 'Descripción',
+        lblSub: '👑 Suscripción', lblVis: 'Visibilidad', btnSubmit: 'Publicar',
+        footAbout: 'Sobre nosotros', footTerms: 'Condiciones', footPrivacy: 'Privacidad (RGPD)', footDsa: 'DSA y Contacto'
       },
       FR: {
         settings: 'Paramètres', add: 'Publier',
@@ -2079,13 +2031,10 @@
         heroBE: 'Annonces, Enchères, Achats & Vacances (BE)',
         heroDE: 'Annonces, Enchères, Achats & Vacances (DE)',
         subGeneric: 'Autos, Motos, Scooters, Pêche, Cosmétiques, Logement, Vacances & Emploi',
-        searchPlaceholder: 'Que recherchez-vous (scooter, moto, voiture, pêche, parfum, logement)... ?',
+        searchPlaceholder: 'Que recherchez-vous...',
         cityPlaceholder: 'Ville (dès 3 lettres)...',
-        searchBtn: 'Rechercher',
-        popularTag: 'Populaire :',
-        allCats: 'Toutes les catégories',
-        foundOffers: 'Annonces trouvées',
-        favOffers: 'Favoris',
+        searchBtn: 'Rechercher', popularTag: 'Populaire :', allCats: 'Toutes les catégories',
+        foundOffers: 'Annonces trouvées', favOffers: 'Favoris',
         tabAll: 'Tout', tabTravel: '✈️ Vacances', tabSale: 'Achat direct',
         tabAuction: '🔨 Enchères', tabCourse: '🎓 Formations', tabFree: '🎁 Gratuit',
         tabJob: '💼 Emploi', tabFav: '❤️ Favoris',
@@ -2108,7 +2057,17 @@
         subTitle: '👑 Abonnement — Comptes mis en avant',
         subDesc: 'Annonces des comptes avec abonnement actif en bas de page.',
         subBtn: '👑 Abonnement',
-        mobTravel: 'Vacances', mobAdd: 'Publier', mobFav: 'Favoris', mobAcc: 'Compte', mobSet: 'Options'
+        mobTravel: 'Vacances', mobAdd: 'Publier', mobFav: 'Favoris', mobAcc: 'Compte', mobSet: 'Options',
+        setHeader: 'Paramètres', setMarketTitle: '🌍 Pays, Langue & Devise',
+        setAutoLang: 'Détection auto de la langue', setAutoCountry: 'Détection auto du pays',
+        setAppearTitle: '🎨 Affichage', setDarkMode: '🌙 Mode sombre', setCityLabel: 'Ville :',
+        setSecTitle: '🔒 Confidentialité & 2FA', setPhoneLabel: 'Téléphone :', setAntiPhish: '🛡️ Anti-phishing',
+        setBidAlerts: '🔔 Alertes enchères', setDataTitle: '📱 Données',
+        addTitle: '+ Publier une annonce', lblType: 'Type', lblCond: 'État', lblTitle: 'Titre',
+        lblPhotos: 'Photos (max. 4)', lblCat: 'Catégorie', lblCity: 'Ville (dès 3 lettres)',
+        lblPrice: 'Prix', lblShip: 'Livraison / Retrait', lblDesc: 'Description',
+        lblSub: '👑 Abonnement', lblVis: 'Visibilité', btnSubmit: 'Publier',
+        footAbout: 'À propos', footTerms: 'Conditions', footPrivacy: 'Confidentialité (RGPD)', footDsa: 'DSA & Contact'
       },
       DE: {
         settings: 'Einstellungen', add: 'Inserieren',
@@ -2119,13 +2078,10 @@
         heroBE: 'Anzeigen, Auktionen, Shop & Reisen (BE)',
         heroDE: 'Anzeigen, Auktionen, Shop & Reisen (DE)',
         subGeneric: 'Autos, Motorräder, Roller, Angeln, Kosmetik, Immobilien, Reisen & Jobs',
-        searchPlaceholder: 'Was suchst du (Roller, Motorrad, Auto, Angeln, Parfum, Wohnung, Reisen)...?',
+        searchPlaceholder: 'Was suchst du...',
         cityPlaceholder: 'Ort (ab 3 Buchstaben)...',
-        searchBtn: 'Suchen',
-        popularTag: 'Beliebt:',
-        allCats: 'Alle Kategorien',
-        foundOffers: 'Gefundene Anzeigen',
-        favOffers: 'Favoriten',
+        searchBtn: 'Suchen', popularTag: 'Beliebt:', allCats: 'Alle Kategorien',
+        foundOffers: 'Gefundene Anzeigen', favOffers: 'Favoriten',
         tabAll: 'Alle', tabTravel: '✈️ Reisen', tabSale: 'Sofortkauf',
         tabAuction: '🔨 Auktionen', tabCourse: '🎓 Kurse', tabFree: '🎁 Zu verschenken',
         tabJob: '💼 Jobs', tabFav: '❤️ Favoriten',
@@ -2148,7 +2104,17 @@
         subTitle: '👑 Abo — Ausgewählte Konten',
         subDesc: 'Anzeigen von Konten mit aktivem Abo unten auf der Seite.',
         subBtn: '👑 Abo',
-        mobTravel: 'Reisen', mobAdd: 'Inserat', mobFav: 'Favoriten', mobAcc: 'Konto', mobSet: 'Optionen'
+        mobTravel: 'Reisen', mobAdd: 'Inserat', mobFav: 'Favoriten', mobAcc: 'Konto', mobSet: 'Optionen',
+        setHeader: 'Einstellungen', setMarketTitle: '🌍 Land, Sprache & Währung',
+        setAutoLang: 'Automatische Spracherkennung', setAutoCountry: 'Automatische Ländererkennung',
+        setAppearTitle: '🎨 Darstellung', setDarkMode: '🌙 Dunkler Modus', setCityLabel: 'Ort:',
+        setSecTitle: '🔒 Datenschutz & 2FA', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-Phishing',
+        setBidAlerts: '🔔 Gebotsbenachrichtigungen', setDataTitle: '📱 Daten',
+        addTitle: '+ Inserat aufgeben', lblType: 'Typ', lblCond: 'Zustand', lblTitle: 'Titel',
+        lblPhotos: 'Fotos (max. 4)', lblCat: 'Kategorie', lblCity: 'Ort (ab 3 Buchstaben)',
+        lblPrice: 'Preis', lblShip: 'Versand / Abholung', lblDesc: 'Beschreibung',
+        lblSub: '👑 Abo', lblVis: 'Sichtbarkeit', btnSubmit: 'Inserieren',
+        footAbout: 'Über uns', footTerms: 'Bedingungen', footPrivacy: 'Datenschutz (DSGVO)', footDsa: 'DSA & Kontakt'
       },
       TR: {
         settings: 'Ayarlar', add: 'İlan Ver',
@@ -2159,13 +2125,10 @@
         heroBE: 'İlanlar, Açık Artırma, Alışveriş ve Tatil (BE)',
         heroDE: 'İlanlar, Açık Artırma, Alışveriş ve Tatil (DE)',
         subGeneric: 'Oto, Motosiklet, Scooter, Balıkçılık, Kozmetik, Konut, Tatil ve İş',
-        searchPlaceholder: 'Ne arıyorsunuz (scooter, motor, oto, balık, parfüm, ev, tatil)...?',
+        searchPlaceholder: 'Ne arıyorsunuz...',
         cityPlaceholder: 'Şehir (en az 3 harf)...',
-        searchBtn: 'Ara',
-        popularTag: 'Popüler:',
-        allCats: 'Tüm kategoriler',
-        foundOffers: 'Bulunan ilanlar',
-        favOffers: 'Favoriler',
+        searchBtn: 'Ara', popularTag: 'Popüler:', allCats: 'Tüm kategoriler',
+        foundOffers: 'Bulunan ilanlar', favOffers: 'Favoriler',
         tabAll: 'Tümü', tabTravel: '✈️ Tatil', tabSale: 'Hemen Al',
         tabAuction: '🔨 Açık Artırma', tabCourse: '🎓 Kurslar', tabFree: '🎁 Ücretsiz',
         tabJob: '💼 İş', tabFav: '❤️ Favoriler',
@@ -2179,8 +2142,8 @@
         bidNow: 'Teklif ver', buyNow: 'Hemen Al ⚡', endsIn: 'Bitiş:', bidsCount: 'teklif',
         details: 'Detaylar', condAll: 'Durum: Tümü', condNew: '✨ Yeni', condUsed: '♻️ İkinci el',
         minPlaceholder: 'Min', maxPlaceholder: 'Maks',
-        sortFeatured: 'Sırala: Öne çıkan & Yeni', sortPriceAsc: 'Fiyat: düşükten yükseğe',
-        sortPriceDesc: 'Fiyat: yüksekten düşüğe', sortViewsDesc: 'En popüler', sortAuctionEnd: 'Açık artırma: yakında biten',
+        sortFeatured: 'Sırala: Öne çıkan & Yeni', sortPriceAsc: 'Fiyat: düşük → yüksek',
+        sortPriceDesc: 'Fiyat: yüksek → düşük', sortViewsDesc: 'En popüler', sortAuctionEnd: 'Açık artırma: yakında biten',
         badgeTop: '⭐ TOP', badgeSub: '👑 ABONELİK', badgeUrgent: '⚡ ACİL', badgeHot: '🔥 POPÜLER',
         badgeNew: '✨ YENİ', badgeUsed: '♻️ İKİNCİ EL',
         bfTitle: 'PlacoMarkt Black Friday', bfDesc: 'Fırsatlar ve öne çıkan ilanlar.', bfBtn: '🎣 Balıkçılık',
@@ -2188,7 +2151,17 @@
         subTitle: '👑 Abonelik — Öne çıkan hesaplar',
         subDesc: 'Aktif aboneliğe sahip hesapların ilanları sayfa altında.',
         subBtn: '👑 Abonelik',
-        mobTravel: 'Tatil', mobAdd: 'İlan Ver', mobFav: 'Favoriler', mobAcc: 'Hesap', mobSet: 'Ayarlar'
+        mobTravel: 'Tatil', mobAdd: 'İlan Ver', mobFav: 'Favoriler', mobAcc: 'Hesap', mobSet: 'Ayarlar',
+        setHeader: 'Ayarlar', setMarketTitle: '🌍 Ülke, Dil ve Para Birimi',
+        setAutoLang: 'Otomatik dil algılama', setAutoCountry: 'Otomatik ülke algılama',
+        setAppearTitle: '🎨 Görünüm', setDarkMode: '🌙 Karanlık mod', setCityLabel: 'Şehir:',
+        setSecTitle: '🔒 Gizlilik ve 2FA', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-phishing',
+        setBidAlerts: '🔔 Teklif bildirimleri', setDataTitle: '📱 Veriler',
+        addTitle: '+ İlan ver', lblType: 'Tür', lblCond: 'Durum', lblTitle: 'Başlık',
+        lblPhotos: 'Fotoğraflar (en fazla 4)', lblCat: 'Kategori', lblCity: 'Şehir (en az 3 harf)',
+        lblPrice: 'Fiyat', lblShip: 'Teslimat / Alım', lblDesc: 'Açıklama',
+        lblSub: '👑 Abonelik', lblVis: 'Görünürlük', btnSubmit: 'Yayınla',
+        footAbout: 'Hakkımızda', footTerms: 'Koşullar', footPrivacy: 'Gizlilik (KVKK / GDPR)', footDsa: 'DSA ve İletişim'
       },
       UA: {
         settings: 'Налаштування', add: 'Додати',
@@ -2199,13 +2172,10 @@
         heroBE: 'Оголошення, Аукціони, Покупки та Відпочинок (BE)',
         heroDE: 'Оголошення, Аукціони, Покупки та Відпочинок (DE)',
         subGeneric: 'Авто, Мото, Скутери, Риболовля, Косметика, Житло, Відпочинок і Робота',
-        searchPlaceholder: 'Що шукаєте (скутер, мото, авто, вудка, парфуми, житло, відпочинок)...?',
+        searchPlaceholder: 'Що шукаєте...',
         cityPlaceholder: 'Місто (від 3 літер)...',
-        searchBtn: 'Пошук',
-        popularTag: 'Популярне:',
-        allCats: 'Усі категорії',
-        foundOffers: 'Знайдені оголошення',
-        favOffers: 'Обране',
+        searchBtn: 'Пошук', popularTag: 'Популярне:', allCats: 'Усі категорії',
+        foundOffers: 'Знайдені оголошення', favOffers: 'Обране',
         tabAll: 'Усе', tabTravel: '✈️ Відпочинок', tabSale: 'Купити зараз',
         tabAuction: '🔨 Аукціони', tabCourse: '🎓 Курси', tabFree: '🎁 Безкоштовно',
         tabJob: '💼 Робота', tabFav: '❤️ Обране',
@@ -2228,7 +2198,17 @@
         subTitle: '👑 Підписка — Виділені акаунти',
         subDesc: 'Оголошення акаунтів з активною підпискою внизу сторінки.',
         subBtn: '👑 Підписка',
-        mobTravel: 'Відпочинок', mobAdd: 'Додати', mobFav: 'Обране', mobAcc: 'Акаунт', mobSet: 'Опції'
+        mobTravel: 'Відпочинок', mobAdd: 'Додати', mobFav: 'Обране', mobAcc: 'Акаунт', mobSet: 'Опції',
+        setHeader: 'Налаштування', setMarketTitle: '🌍 Країна, Мова та Валюта',
+        setAutoLang: 'Автовизначення мови', setAutoCountry: 'Автовизначення країни',
+        setAppearTitle: '🎨 Вигляд', setDarkMode: '🌙 Темна тема', setCityLabel: 'Місто:',
+        setSecTitle: '🔒 Приватність і 2FA', setPhoneLabel: 'Телефон:', setAntiPhish: '🛡️ Антифішинг',
+        setBidAlerts: '🔔 Сповіщення про ставки', setDataTitle: '📱 Дані',
+        addTitle: '+ Додати оголошення', lblType: 'Тип', lblCond: 'Стан', lblTitle: 'Назва',
+        lblPhotos: 'Фото (макс. 4)', lblCat: 'Категорія', lblCity: 'Місто (від 3 літер)',
+        lblPrice: 'Ціна', lblShip: 'Доставка / Самовивіз', lblDesc: 'Опис',
+        lblSub: '👑 Підписка', lblVis: 'Видимість', btnSubmit: 'Опублікувати',
+        footAbout: 'Про нас', footTerms: 'Умови', footPrivacy: 'Приватність (GDPR)', footDsa: 'DSA і Контакти'
       }
     };
 
@@ -2236,162 +2216,143 @@
       NL: [
         {
           id: 115, type: 'sale', category: 'auto', vehicleKind: 'Skuter / Motorower', vehicleBrand: 'La Souris',
-          condition: 'used', title: 'La Souris retro scooter — netjes onderhouden, NL kenteken',
+          condition: 'used', title: 'La Souris retro scooter — NL kenteken',
           city: 'Rotterdam', price: 890, priceNote: 'NL kenteken', shipping: '📍 Ophalen (NL)',
           icon: '🛵', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 264,
           sellerName: 'ScooterNL_RTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+31 6 50 12 34 56', desc: 'Goed rijdende retro scooter in Rotterdam, compleet met papieren en remmen in orde.'
+          phone: '+31 6 50 12 34 56', desc: 'La Souris retro scooter in Rotterdam.'
         },
         {
           id: 114, type: 'sale', category: 'fishing', condition: 'new',
-          title: 'Spinhengel 2.40 m + molen en kunstaas set voor roofvis',
-          city: 'Rotterdam', price: 85, priceNote: 'complete set', shipping: '📍 Ophalen (NL) / 📦 PostNL',
+          title: 'Spinhengel 2.40 m + molen & kunstaas set',
+          city: 'Rotterdam', price: 85, priceNote: 'set', shipping: '📍 Ophalen (NL)',
           icon: '🎣', photos: [], top: true, hasSubscription: true, urgent: true, hidden: false, views: 205,
           sellerName: 'VisSport_NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+31 6 55 44 33 22', desc: 'Complete spinset voor snoek en snoekbaars in Rotterdam en omgeving.'
+          phone: '+31 6 55 44 33 22', desc: 'Spinhengel en kunstaas set.'
         },
         {
           id: 111, type: 'sale', category: 'cosmetics', condition: 'new',
-          title: 'Eau de parfum 100 ml — nieuw in folie (cadeauset)',
-          city: 'Rotterdam', price: 49, priceNote: 'nieuw in folie', shipping: '📦 PostNL / DHL NL',
+          title: 'Eau de parfum 100 ml — cadeauset',
+          city: 'Rotterdam', price: 49, priceNote: 'nieuw', shipping: '📦 PostNL / DHL NL',
           icon: '💄', photos: [], top: true, hasSubscription: false, urgent: false, hidden: false, views: 238,
-          sellerName: 'BeautyNL_Shop', sellerVerified: true, sellerRating: 4.9,
-          sellerReviews: [{ author: 'Monika D.', stars: 5, text: 'Snelle levering.' }],
-          phone: '+31 6 44 11 22 33', desc: 'Originele geuren en verzorgingssets, geseald geleverd.'
-        },
-        {
-          id: 112, type: 'sale', category: 'kids', condition: 'used',
-          title: 'Kinderen speelgoed & bouwstenen + loopfiets',
-          city: 'Den Haag', price: 65, priceNote: 'totaalpakket', shipping: '📍 Ophalen (NL)',
-          icon: '🧸', photos: [], top: false, hasSubscription: false, urgent: true, hidden: false, views: 174,
-          sellerName: 'Karolina M.', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+31 6 77 88 99 00', desc: 'Net kinderspeelgoed en lichte loopfiets.'
+          sellerName: 'BeautyNL_Shop', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
+          phone: '+31 6 44 11 22 33', desc: 'Eau de parfum 100 ml.'
         },
         {
           id: 108, type: 'travel', category: 'travel', condition: 'na',
-          title: 'Alanya — Hotel 4★ aan zee, vertrek Eindhoven',
-          city: 'Eindhoven', price: 549, priceNote: '/ persoon (7 nachten)', shipping: '☀️ Last Minute / All Inclusive',
+          title: 'Alanya — Hotel 4★ aan zee',
+          city: 'Eindhoven', price: 549, priceNote: '/ persoon', shipping: '☀️ Last Minute / All Inclusive',
           icon: '🏖️', photos: [], top: true, hasSubscription: true, urgent: true, hidden: false, views: 348,
           sellerName: 'SunTravel NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
           phone: '+31 6 33 77 88 99',
-          travelDetails: { dest: 'Turcja (Alanya / Riwiera)', kind: 'Last Minute / All Inclusive', date: '14–21.06', guests: '2 personen', board: 'All Inclusive' },
-          desc: 'Vlucht vanaf Eindhoven naar Antalya, transfer en All Inclusive verblijf in Alanya.'
+          travelDetails: { dest: 'Turcja (Alanya / Riwiera)', kind: 'Last Minute / All Inclusive', date: '14–21.06', guests: '2', board: 'All Inclusive' },
+          desc: 'Alanya hotel aan zee.'
         }
       ],
       PL: [
         {
           id: 215, type: 'sale', category: 'auto', vehicleKind: 'Motocykl / Motor', vehicleBrand: 'Yamaha',
-          condition: 'used', title: 'Motocykl Yamaha MT-07 — zadbany, po serwisie',
-          city: 'Katowice', price: 23900, priceNote: 'zarejestrowany', shipping: '📍 Odbiór osobisty (PL)',
+          condition: 'used', title: 'Yamaha MT-07',
+          city: 'Katowice', price: 23900, priceNote: 'PL', shipping: '📍 Odbiór osobisty (PL)',
           icon: '🏍️', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 245,
           sellerName: 'MotoŚląsk', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+48 505 666 777', desc: 'Motocykl w bardzo dobrym stanie technicznym i wizualnym.'
+          phone: '+48 505 666 777', desc: 'Yamaha MT-07.'
         },
         {
           id: 214, type: 'sale', category: 'fishing', condition: 'new',
-          title: 'Wędka spinningowa + przynęty i podbierak',
-          city: 'Katowice', price: 290, priceNote: 'nowy zestaw', shipping: '📦 InPost / Kurier DPD',
+          title: 'Wędka spinningowa + przynęty',
+          city: 'Katowice', price: 290, priceNote: 'nowy', shipping: '📦 InPost / Kurier DPD',
           icon: '🎣', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 192,
           sellerName: 'Wędkarz_Śląsk', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+48 502 333 444', desc: 'Kompletny zestaw na drapieżniki.'
-        },
-        {
-          id: 207, type: 'travel', category: 'travel', condition: 'na',
-          title: 'Domki letniskowe nad Bałtykiem — blisko plaży',
-          city: 'Gdańsk', price: 340, priceNote: '/ doba', shipping: '🏠 Domek / Apartament / Pokój',
-          icon: '🌊', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 310,
-          sellerName: 'Bałtyk Resort', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
-          phone: '+48 504 777 888',
-          travelDetails: { dest: 'Polska (Morze / Góry / Mazury)', kind: 'Domek / Apartament / Pokój', date: 'Lato', guests: 'Do 5 osób', board: 'Własne (aneks kuchenny)' },
-          desc: 'Drewniane domki z tarasem i parkingiem.'
+          phone: '+48 502 333 444', desc: 'Zestaw spinningowy.'
         }
       ],
       UK: [
         {
           id: 301, type: 'sale', category: 'auto', vehicleKind: 'Samochód osobowy', vehicleBrand: 'Volkswagen',
-          condition: 'used', title: 'VW Golf 1.6 TDI — clean condition, long MOT',
-          city: 'London', price: 4850, priceNote: 'MOT included', shipping: '📍 Collection (UK)',
+          condition: 'used', title: 'VW Golf 1.6 TDI — UK MOT',
+          city: 'London', price: 4850, priceNote: 'MOT', shipping: '📍 Collection (UK)',
           icon: '🚗', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 188,
           sellerName: 'UK_Motors', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
-          phone: '+44 7700 900123', desc: 'Reliable hatchback with full service history.'
+          phone: '+44 7700 900123', desc: 'VW Golf 1.6 TDI in London.'
         },
         {
           id: 302, type: 'sale', category: 'fishing', condition: 'new',
-          title: 'Carp & coarse fishing rod set + tackle box',
-          city: 'Manchester', price: 75, priceNote: 'brand new', shipping: '📦 Royal Mail / Evri / DPD UK',
+          title: 'Fishing rod & tackle set',
+          city: 'Manchester', price: 75, priceNote: 'new', shipping: '📦 Royal Mail / Evri / DPD UK',
           icon: '🎣', photos: [], top: true, hasSubscription: false, urgent: false, hidden: false, views: 120,
           sellerName: 'AnglerUK', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+44 7700 900456', desc: 'Complete fishing starter kit.'
+          phone: '+44 7700 900456', desc: 'Fishing rod and tackle set.'
         }
       ],
       ES: [
         {
           id: 401, type: 'travel', category: 'travel', condition: 'na',
           title: 'Apartamento cerca de la playa — Costa Blanca',
-          city: 'Alicante', price: 85, priceNote: '/ noche', shipping: '🏠 Domek / Apartament / Pokój',
+          city: 'Alicante', price: 85, priceNote: '/ noche', shipping: '🏠 Vakantiehuis / Appartement',
           icon: '🏖️', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 210,
           sellerName: 'CostasES', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
           phone: '+34 600 112 233',
-          travelDetails: { dest: 'Hiszpania / Wyspy', kind: 'Domek / Apartament / Pokój', date: 'Todo el año', guests: '2–4 personas', board: 'Własne (aneks kuchenny)' },
-          desc: 'Apartamento luminoso con terraza y piscina comunitaria.'
+          travelDetails: { dest: 'Hiszpania / Wyspy', kind: 'Domek / Apartament / Pokój', date: '01–08.07', guests: '2–4', board: 'Własne (aneks kuchenny)' },
+          desc: 'Apartamento cerca de la playa en Alicante.'
         },
         {
           id: 402, type: 'sale', category: 'auto', vehicleKind: 'Skuter / Motorower', vehicleBrand: 'Vespa',
-          condition: 'used', title: 'Vespa Primavera 125 — muy buen estado',
-          city: 'Madrid', price: 2950, priceNote: 'ITV al día', shipping: '📍 Recogida en mano (ES)',
+          condition: 'used', title: 'Vespa Primavera 125',
+          city: 'Madrid', price: 2950, priceNote: 'ES', shipping: '📍 Recogida en mano (ES)',
           icon: '🛵', photos: [], top: false, hasSubscription: false, urgent: false, hidden: false, views: 134,
           sellerName: 'ScooterES', sellerVerified: true, sellerRating: 4.8, sellerReviews: [],
-          phone: '+34 600 445 566', desc: 'Scooter urbano ágil y económico.'
+          phone: '+34 600 445 566', desc: 'Vespa Primavera 125 en Madrid.'
         }
       ],
       BE: [
         {
           id: 501, type: 'sale', category: 'auto', vehicleKind: 'Skuter / Motorower', vehicleBrand: 'Piaggio',
-          condition: 'used', title: 'Piaggio scooter / bromfiets — keuring & papieren',
-          city: 'Antwerpen', price: 790, priceNote: 'BE papieren', shipping: '📍 Ophalen / Retrait (BE)',
+          condition: 'used', title: 'Piaggio scooter — BE',
+          city: 'Antwerpen', price: 790, priceNote: 'BE', shipping: '📍 Ophalen / Retrait (BE)',
           icon: '🛵', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 156,
           sellerName: 'MotoBE', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
-          phone: '+32 470 11 22 33', desc: 'Verzorgde scooter in Antwerpen.'
+          phone: '+32 470 11 22 33', desc: 'Piaggio scooter in Antwerpen.'
         },
         {
           id: 502, type: 'sale', category: 'fishing', condition: 'new',
-          title: 'Hengelset + molen voor rivier en kanaal',
+          title: 'Hengelset & molen',
           city: 'Gent', price: 80, priceNote: 'nieuw', shipping: '📦 bpost / DPD BE',
           icon: '🎣', photos: [], top: false, hasSubscription: false, urgent: false, hidden: false, views: 98,
           sellerName: 'VisBE', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+32 470 44 55 66', desc: 'Nieuwe hengelsportset.'
+          phone: '+32 470 44 55 66', desc: 'Hengelset in Gent.'
         }
       ],
       DE: [
         {
           id: 601, type: 'sale', category: 'auto', vehicleKind: 'Samochód osobowy', vehicleBrand: 'BMW',
-          condition: 'used', title: 'BMW Touring — gepflegt, TÜV neu',
-          city: 'Köln', price: 8900, priceNote: 'TÜV neu', shipping: '📍 Abholung (DE)',
+          condition: 'used', title: 'BMW Touring — DE',
+          city: 'Köln', price: 8900, priceNote: 'DE', shipping: '📍 Abholung (DE)',
           icon: '🚗', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 204,
           sellerName: 'AutoDE', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
-          phone: '+49 170 1234567', desc: 'Zuverlässiger Kombi in gutem Zustand.'
+          phone: '+49 170 1234567', desc: 'BMW Touring in Köln.'
         },
         {
           id: 602, type: 'sale', category: 'fishing', condition: 'new',
-          title: 'Angelrute + Rolle & Köder-Set',
+          title: 'Angelrute & Rolle Set',
           city: 'Düsseldorf', price: 89, priceNote: 'neu', shipping: '📦 DHL / Hermes DE',
           icon: '🎣', photos: [], top: false, hasSubscription: false, urgent: false, hidden: false, views: 115,
           sellerName: 'AngelnDE', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
-          phone: '+49 170 7654321', desc: 'Komplettes Angelset.'
+          phone: '+49 170 7654321', desc: 'Angelrute und Rolle Set.'
         }
       ]
     };
 
     let listingsData = JSON.parse(JSON.stringify(DEMO_LISTINGS));
     try {
-      const savedListings = JSON.parse(localStorage.getItem('placomarkt_listings_v3') || 'null');
+      const savedListings = JSON.parse(localStorage.getItem('placomarkt_listings_v4') || 'null');
       if (savedListings && savedListings.NL && savedListings.PL) {
         listingsData = { ...JSON.parse(JSON.stringify(DEMO_LISTINGS)), ...savedListings };
       }
     } catch (e) {}
 
     function saveListingsLocal() {
-      try { localStorage.setItem('placomarkt_listings_v3', JSON.stringify(listingsData)); } catch (e) {}
+      try { localStorage.setItem('placomarkt_listings_v4', JSON.stringify(listingsData)); } catch (e) {}
     }
 
     let favoriteIds = [];
@@ -2763,7 +2724,7 @@
       if (tabBadge) tabBadge.textContent = openCount;
     }
 
-    function renderCountryUI() {
+    function applyFullLanguageUi() {
       const cfg = COUNTRY_CONFIG[currentCountry];
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.EN;
       document.documentElement.lang = currentLang.toLowerCase();
@@ -2798,6 +2759,9 @@
       document.getElementById('adSlotTitle').textContent = t.adTitle;
       document.getElementById('adSlotDesc').textContent = t.adDesc;
 
+      document.getElementById('autoFilterTitle').textContent = `🚗 ${t.catAuto}`;
+      document.getElementById('travelFilterTitle').textContent = `✈️ ${t.catTravel}`;
+
       document.getElementById('optCondAll').textContent = t.condAll;
       document.getElementById('optCondNew').textContent = t.condNew;
       document.getElementById('optCondUsed').textContent = t.condUsed;
@@ -2819,7 +2783,45 @@
       document.getElementById('mobAcc').textContent = t.mobAcc;
       document.getElementById('mobSet').textContent = t.mobSet;
 
+      document.getElementById('settingsHeader').textContent = t.setHeader;
+      document.getElementById('setMarketLangTitle').textContent = t.setMarketTitle;
+      document.getElementById('lblAutoDetect').textContent = t.setAutoLang;
+      document.getElementById('lblAutoCountry').textContent = t.setAutoCountry;
+      document.getElementById('setAppearTitle').textContent = t.setAppearTitle;
+      document.getElementById('lblDarkMode').textContent = t.setDarkMode;
+      document.getElementById('lblDefaultCity').textContent = t.setCityLabel;
+      document.getElementById('setSecTitle').textContent = t.setSecTitle;
+      document.getElementById('lblPhoneVis').textContent = t.setPhoneLabel;
+      document.getElementById('lblAntiPhish').textContent = t.setAntiPhish;
+      document.getElementById('lblBidAlerts').textContent = t.setBidAlerts;
+      document.getElementById('setDataTitle').textContent = t.setDataTitle;
+
+      document.getElementById('addModalTitle').textContent = t.addTitle;
+      document.getElementById('lblOfferType').textContent = t.lblType;
+      document.getElementById('lblConditionField').textContent = t.lblCond;
+      document.getElementById('lblTitleField').textContent = t.lblTitle;
+      document.getElementById('lblPhotosField').textContent = t.lblPhotos;
+      document.getElementById('lblCatField').textContent = t.lblCat;
+      document.getElementById('lblCityField').textContent = t.lblCity;
+      document.getElementById('lblPriceField').textContent = t.lblPrice;
+      document.getElementById('lblShipField').textContent = t.lblShip;
+      document.getElementById('lblDescField').textContent = t.lblDesc;
+      document.getElementById('lblSubCheckbox').textContent = t.lblSub;
+      document.getElementById('lblPromoField').textContent = t.lblVis;
+      document.getElementById('submitOfferBtn').textContent = t.btnSubmit;
+
+      document.getElementById('footAbout').textContent = t.footAbout;
+      document.getElementById('footTerms').textContent = t.footTerms;
+      document.getElementById('footPrivacy').textContent = t.footPrivacy;
+      document.getElementById('footDsa').textContent = t.footDsa;
+
       document.getElementById('autoLangNote').textContent = `${currentCountry} • ${currentLang}`;
+    }
+
+    function renderCountryUI() {
+      const cfg = COUNTRY_CONFIG[currentCountry];
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.EN;
+      applyFullLanguageUi();
 
       const searchCatSel = document.getElementById('searchCatSelect');
       searchCatSel.innerHTML = `<option value="all">📂 ${t.allCats}</option>` + cfg.categories.map(c =>
@@ -2922,7 +2924,6 @@
       renderCountryUI();
     }
 
-    // Wyłącznie waluta przypisana do danego kraju (EUR €, PLN zł lub GBP £) — bez przeliczania
     function formatPrice(val, isFree) {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.EN;
       if (isFree || val === 0) return t.freePrice;
@@ -3784,6 +3785,7 @@
 
     function openSettings() {
       const cfg = COUNTRY_CONFIG[currentCountry];
+      applyFullLanguageUi();
       document.getElementById('autoDetectCheck').checked = autoDetectLang;
       document.getElementById('detectedInfo').textContent = `${navigator.language || ''}`;
 
@@ -3820,7 +3822,7 @@
     }
 
     function resetLocalStorageData() {
-      localStorage.removeItem('placomarkt_listings_v3');
+      localStorage.removeItem('placomarkt_listings_v4');
       localStorage.removeItem('placomarkt_favs');
       localStorage.removeItem('placomarkt_prefs');
       localStorage.removeItem('placomarkt_user');
