@@ -811,6 +811,7 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
     .modal.admin-modal { max-width: 920px; }
+    .modal.hub-modal { max-width: 720px; }
     .close-modal {
       position: absolute;
       top: 14px;
@@ -1087,6 +1088,150 @@
       border-color: var(--primary);
     }
 
+    .alt-login-divider {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 12px 0;
+      font-weight: 700;
+    }
+    .alt-login-btn {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--soft-bg);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .alt-login-btn:hover { border-color: var(--accent); background: var(--card); }
+    .google-g-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #ea4335;
+      font-weight: 900;
+      font-size: 13px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .age-choice-box {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+    .age-choice-title {
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .age-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .age-choice-btn {
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+    }
+    .age-choice-btn.selected-adult {
+      border-color: var(--green);
+      background: rgba(22,163,74,0.12);
+      color: var(--green);
+    }
+    .age-choice-btn.selected-minor {
+      border-color: var(--red);
+      background: rgba(220,38,38,0.12);
+      color: var(--red);
+    }
+
+    .hub-shell {
+      display: grid;
+      grid-template-columns: 215px 1fr;
+      gap: 14px;
+      margin-top: 8px;
+    }
+    @media (max-width: 640px) {
+      .hub-shell { grid-template-columns: 1fr; }
+    }
+    .hub-sidebar {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .hub-nav-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 7px 8px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .hub-nav-link:hover { background: var(--card); color: var(--accent); }
+    .hub-top-tabs {
+      display: flex;
+      gap: 14px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .hub-top-tab {
+      background: none;
+      border: none;
+      padding: 8px 4px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+    .hub-top-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .hub-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .hub-col-title {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
     .twofa-box {
       background: rgba(22,163,74,0.08);
       border: 1px solid #86efac;
@@ -1145,6 +1290,31 @@
       font-weight: 800;
       margin-bottom: 8px;
       color: var(--accent);
+    }
+
+    .legal-doc-body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .legal-doc-body h3 {
+      font-size: 14px;
+      font-weight: 800;
+      margin: 14px 0 5px;
+      color: var(--accent);
+    }
+    .legal-doc-body p, .legal-doc-body li {
+      margin-bottom: 6px;
+    }
+    .legal-doc-body ul {
+      padding-left: 18px;
+      margin-bottom: 8px;
+    }
+    .inline-link {
+      color: var(--blue);
+      text-decoration: underline;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     footer.site-footer {
@@ -1406,7 +1576,7 @@
 
     <footer class="site-footer">
       <div id="footerLeft">
-        <strong>PlacoMarkt</strong> © 2026 • NL • PL
+        <strong>PlacoMarkt.online</strong> © 2026 • NL • PL • 18+
       </div>
       <div class="footer-links">
         <a id="footAbout" onclick="openLegalModal('about')">O nas</a>
@@ -1613,10 +1783,17 @@
           </div>
         </div>
 
-        <div class="form-group" id="priceGroup">
-          <label id="lblPriceField">Cena</label>
-          <input type="number" id="newPrice" min="0" step="0.01" />
+        <div class="form-row-2" id="priceRowBox">
+          <div class="form-group" id="priceGroup">
+            <label id="lblPriceField">Cena</label>
+            <input type="number" id="newPrice" min="0" step="0.01" />
+          </div>
+          <div class="form-group" id="reservePriceGroup" style="display:none">
+            <label id="lblReservePriceField">🔒 Cena minimalna (opcjonalnie)</label>
+            <input type="number" id="newReservePrice" min="0" step="0.01" placeholder="np. 500" />
+          </div>
         </div>
+
         <div class="form-group" id="buyNowGroup" style="display:none">
           <label id="lblBuyNowField">Kup teraz (opcjonalnie przy licytacji)</label>
           <input type="number" id="newBuyNow" min="0" step="0.01" />
@@ -1660,7 +1837,7 @@
   </div>
 
   <div class="modal-backdrop" id="accountModal">
-    <div class="modal" style="max-width:480px">
+    <div class="modal" id="accountModalBox" style="max-width:480px">
       <button class="close-modal" onclick="closeModal('accountModal')">×</button>
       <h2 style="margin-bottom:12px" id="accountModalTitle">👤 Konto</h2>
       <div id="accountModalBody"></div>
@@ -1906,6 +2083,7 @@
         freePrice: 'GRATIS', showPhone: '📞 Toon telefoon', whatsapp: '🟢 WhatsApp',
         chat: '💬 Bericht', share: '📤 Delen', report: '🚩 Melden (DSA)',
         bidNow: 'Bieden', buyNow: 'Koop nu ⚡', endsIn: 'Eindigt:', bidsCount: 'biedingen',
+        reserveLbl: 'Minimumprijs', reserveMet: '✅ Minimumprijs behaald', reserveNotMet: '⏳ Onder minimumprijs',
         details: 'Details', condAll: 'Staat: Alles', condNew: '✨ Nieuw', condUsed: '♻️ Gebruikt', condNa: 'N.v.t.',
         minPlaceholder: 'Min', maxPlaceholder: 'Max',
         sortFeatured: 'Sorteer: Uitgelicht & Nieuw', sortPriceAsc: 'Prijs: laag → hoog',
@@ -1921,13 +2099,14 @@
         setHeader: 'Instellingen', setMarketTitle: '🌍 Land, Taal & Valuta',
         setAutoLang: 'Automatische taaldetectie', setAutoCountry: 'Automatische landdetectie',
         setAppearTitle: '🎨 Weergave', setDarkMode: '🌙 Donkere modus', setCityLabel: 'Plaats:',
-        setSecTitle: '🔒 Privacy, 2FA & Wachtwoord', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-phishing',
+        setSecTitle: '🔒 Privacy, 2FA & Wachtwoord', setPhoneLabel: 'Telefoon:', setAntiPhish: '🛡️ Anti-phishing',
         setBidAlerts: '🔔 Bodmeldingen', setDataTitle: '📱 Gegevens',
         phoneClick: 'Na klikken', phoneLogged: 'Ingelogd', phoneChat: 'Alleen chat',
         addTitle: '+ Plaatsen', lblPriceMode: 'Prijs / Verkoopvorm', lblCond: 'Staat', lblTitle: 'Titel',
         lblPhotos: "Foto's (max. 4)", lblCat: 'Categorie', lblCity: 'Plaats (vanaf 3 letters)',
-        lblPrice: 'Prijs', lblBuyNow: 'Koop nu (optioneel bij veiling)', lblShip: 'Levering / Odbiór', lblDesc: 'Omschrijving',
-        lblSub: '👑 Abonnement', lblVis: 'Zichtbaarheid', btnSubmit: 'Plaatsen',
+        lblPrice: 'Prijs', lblReservePrice: '🔒 Minimumprijs (optioneel)', lblBuyNow: 'Koop nu (optioneel bij veiling)',
+        lblShip: 'Levering / Ophalen', lblDesc: 'Omschrijving',
+        lblSub: '👑 Abonament', lblVis: 'Zichtbaarheid', btnSubmit: 'Plaatsen',
         shipPickup: '📍 Ophalen', shipPost: '📦 Verzending (PostNL / InPost / DHL)', shipNa: '🤝 N.v.t.',
         housObject: 'Object', housDeal: 'Transactie',
         housAll: '🏠 Alle objecten', housGarden: '🏡 Volkstuin',
@@ -1947,16 +2126,85 @@
         boardHB: '🍲 HB (Halfpension)', boardAI: '🍹 All Inclusive', boardNA: '🚐 N.v.t.',
         unitPerson: '/ persoon', unitNight: '/ nacht', unitStay: '/ verblijf', unitTrip: '/ enkele reis',
         footAbout: 'Over ons', footTerms: 'Voorwaarden', footPrivacy: 'Privacy (AVG)', footDsa: 'DSA & Contact',
-        aboutTitle: 'Over ons — PlacoMarkt',
-        aboutBody: 'Advertentie- en veilingplatform voor Nederland (EUR €) en Polen (PLN zł).',
-        termsTitle: 'Voorwaarden',
-        termsBody: 'Gebruiksvoorwaarden van PlacoMarkt.online.',
-        privacyTitle: 'Privacy (AVG)',
-        privacyBody: 'Informatie over gegevensverwerking op PlacoMarkt.online.',
-        dsaTitle: 'DSA & Contact',
-        dsaBody: 'Contact en meldingen (Digital Services Act): adminplacomarkt@gmail.com',
+        aboutTitle: 'Over ons — PlacoMarkt.online',
+        aboutHtml: `
+          <div class="legal-doc-body">
+            <p><strong>PlacoMarkt.online</strong> is een advertentie- en veilingplatform voor gebruikers in Nederland (EUR €) en Polen (PLN zł).</p>
+            <h3>1. Doel van het platform</h3>
+            <p>PlacoMarkt maakt het mogelijk om lokale advertenties, veilingen, gratis spullen, woningen, volkstuinen, voertuigen, vakanties en vacatures te plaatsen en te bekijken.</p>
+            <h3>2. Verantwoordelijkheid</h3>
+            <p>PlacoMarkt.online is geen partij bij koop-, verkoop- of huurovereenkomsten tussen gebruikers en bemiddelt niet bij betalingen of verzending.</p>
+            <h3>3. Contact</h3>
+            <p>Beheerder: <strong>adminplacomarkt@gmail.com</strong></p>
+          </div>
+        `,
+        termsTitle: 'Algemene Voorwaarden — PlacoMarkt.online',
+        termsHtml: `
+          <div class="legal-doc-body">
+            <h3>§1. Algemene bepalingen en leeftijd (18+)</h3>
+            <ul>
+              <li>Het aanmaken van een account en het plaatsen van advertenties op <strong>PlacoMarkt.online</strong> is uitsluitend toegestaan voor meerderjarige personen (<strong>18 jaar of ouder</strong>).</li>
+              <li>Bij registratie is het opgeven van een correcte geboortedatum verplicht ter controle van de meerderjarigheid.</li>
+            </ul>
+            <h3>§2. Regels voor advertenties en verboden goederen</h3>
+            <ul>
+              <li>De adverteerder is volledig verantwoordelijk voor de waarheidsgetrouwheid van de advertentie en het recht om het aangeboden object te verkopen.</li>
+              <li>Het is verboden om illegale goederen, namaakproducten, wapens, medicijnen, gestolen goederen, spam of misleidende links te plaatsen.</li>
+              <li>Advertenties zijn standaard 30 dagen geldig. De beheerder kan advertenties die in strijd zijn met de voorwaarden verbergen of verwijderen.</li>
+            </ul>
+            <h3>§3. Veilingen en Koop nu</h3>
+            <ul>
+              <li>Het uitbrengen van een bod in een veiling is een bindende koopintentie voor het geboden bedrag.</li>
+              <li>Betaling en levering worden rechtstreeks tussen koper en verkoper afgesproken.</li>
+            </ul>
+          </div>
+        `,
+        privacyTitle: 'Privacybeleid (AVG / GDPR) — PlacoMarkt.online',
+        privacyHtml: `
+          <div class="legal-doc-body">
+            <h3>1. Verwerkingsverantwoordelijke</h3>
+            <p>De beheerder van persoonsgegevens op <strong>PlacoMarkt.online</strong> is bereikbaar via: <strong>adminplacomarkt@gmail.com</strong>.</p>
+            <h3>2. Welke gegevens verwerken wij?</h3>
+            <ul>
+              <li>E-mailadres, naam/gebruikersnaam, telefoonnummer (optioneel), stad/regio en geboortedatum (uitsluitend ter verificatie van de leeftijd 18+).</li>
+              <li>Inhoud van geplaatste advertenties, foto's, biedingen en DSA-meldingen.</li>
+            </ul>
+            <h3>3. Rechten van de gebruiker (AVG)</h3>
+            <p>Je hebt recht op inzage, correctie, export van je gegevens (knop <em>Export JSON</em> in Instellingen) en verwijdering van je account en gegevens.</p>
+          </div>
+        `,
+        dsaTitle: 'DSA (Digital Services Act) & Contact',
+        dsaHtml: `
+          <div class="legal-doc-body">
+            <h3>1. Meldpunt voor onwettige inhoud (DSA)</h3>
+            <p>Elke gebruiker kan een verdachte of onwettige advertentie melden met de knop <strong>🚩 Melden (DSA)</strong> op de advertentiepagina.</p>
+            <h3>2. Contactpunt</h3>
+            <p>E-mail: <strong>adminplacomarkt@gmail.com</strong> • Domein: <strong>https://placomarkt.online</strong></p>
+          </div>
+        `,
         accLoginTab: 'Inloggen', accRegTab: 'Registreren',
         accEmailPh: 'E-mail', accPassPh: 'Wachtwoord', accNamePh: 'Naam', accPhonePh: 'Telefoon',
+        accBirthLbl: 'Geboortedatum (verplicht 18+)',
+        accAgeLbl: '1. Jouw leeftijd',
+        accUnder18: 'Jonger dan 18 jaar',
+        acc18Plus: '18 jaar of ouder',
+        accConsentsLbl: '2. Toestemmingen en verklaringen',
+        accCheckAll: 'Vink alle verplichte toestemmingen aan',
+        accOrLoginWith: 'OF',
+        accPasskeyBtn: '🔑 INLOGGEN MET TOEGANGSSLEUTEL',
+        accGoogleBtn: 'DOORGAAN MET GOOGLE',
+        accPasskeySetupBtn: '🔑 Toegangssleutel (Passkey) instellen',
+        accPasskeyReadyMsg: 'Toegangssleutel is gekoppeld aan dit apparaat.',
+        accHubBuyTab: 'KOPEN', accHubSellTab: 'VERKOPEN', accHubAccTab: 'ACCOUNT',
+        accHubWatching: 'Favorieten', accHubBidding: 'Biedingen', accHubOrders: 'Mijn aankopen',
+        accHubPostAd: 'Advertentie plaatsen', accHubMyAds: 'Mijn advertenties', accHubEndedAds: 'Beëindigd',
+        accHubProfile: 'Profiel & 2FA', accHubSub: 'Abonnement', accHubPrefs: 'Instellingen',
+        accAcceptTermsPrefix: 'Ik ben 18+ en accepteer de ',
+        accAcceptTermsLink: 'Voorwaarden',
+        accAcceptAnd: ' en het ',
+        accAcceptPrivacyLink: 'Privacybeleid (AVG)',
+        errUnderage: 'Registratie is alleen mogelijk voor personen van 18 jaar of ouder.',
+        errMustAcceptTerms: 'Je moet de Voorwaarden en het Privacybeleid accepteren.',
         accLoginBtn: 'Inloggen', accRegBtn: 'Registreren', accLogoutBtn: 'Uitloggen',
         accForgotBtn: '🔑 Wachtwoord vergeten / herstellen',
         accResetTitle: '🔑 Wachtwoord herstellen',
@@ -2007,6 +2255,7 @@
         freePrice: 'ZA DARMO', showPhone: '📞 Pokaż numer', whatsapp: '🟢 WhatsApp',
         chat: '💬 Wiadomość', share: '📤 Udostępnij', report: '🚩 Zgłoś (DSA)',
         bidNow: 'Licytuj', buyNow: 'Kup teraz ⚡', endsIn: 'Koniec:', bidsCount: 'ofert',
+        reserveLbl: 'Cena minimalna', reserveMet: '✅ Cena minimalna osiągnięta', reserveNotMet: '⏳ Poniżej ceny minimalnej',
         details: 'Szczegóły', condAll: 'Stan: Wszystkie', condNew: '✨ Nowy', condUsed: '♻️ Używany', condNa: 'Nie dotyczy',
         minPlaceholder: 'Od', maxPlaceholder: 'Do',
         sortFeatured: 'Sortuj: Polecane i nowe', sortPriceAsc: 'Cena: rosnąco',
@@ -2027,7 +2276,8 @@
         phoneClick: 'Po kliknięciu', phoneLogged: 'Dla zalogowanych', phoneChat: 'Tylko czat',
         addTitle: '+ Dodaj ogłoszenie', lblPriceMode: 'Cena / Forma sprzedaży', lblCond: 'Stan', lblTitle: 'Tytuł',
         lblPhotos: 'Zdjęcia (maks. 4)', lblCat: 'Kategoria', lblCity: 'Miejscowość (od 3 liter)',
-        lblPrice: 'Cena', lblBuyNow: 'Kup teraz (opcjonalnie przy licytacji)', lblShip: 'Dostawa / Odbiór', lblDesc: 'Opis',
+        lblPrice: 'Cena', lblReservePrice: '🔒 Cena minimalna (opcjonalnie)', lblBuyNow: 'Kup teraz (opcjonalnie przy licytacji)',
+        lblShip: 'Dostawa / Odbiór', lblDesc: 'Opis',
         lblSub: '👑 Abonament', lblVis: 'Widoczność', btnSubmit: 'Dodaj ogłoszenie',
         shipPickup: '📍 Odbiór osobisty', shipPost: '📦 Wysyłka (InPost / DPD / PostNL)', shipNa: '🤝 Nie dotyczy',
         housObject: 'Rodzaj obiektu', housDeal: 'Transakcja',
@@ -2048,18 +2298,87 @@
         boardHB: '🍲 Śniadania + Obiadokolacje (HB)', boardAI: '🍹 All Inclusive', boardNA: '🚐 Nie dotyczy',
         unitPerson: '/ osoba', unitNight: '/ doba', unitStay: '/ cały pobyt', unitTrip: '/ przejazd w 1 stronę',
         footAbout: 'O nas', footTerms: 'Regulamin', footPrivacy: 'Prywatność (RODO)', footDsa: 'DSA i Kontakt',
-        aboutTitle: 'O nas — PlacoMarkt',
-        aboutBody: 'Platforma ogłoszeniowa i licytacyjna dla Holandii (EUR €) i Polski (PLN zł).',
-        termsTitle: 'Regulamin',
-        termsBody: 'Regulamin korzystania z serwisu PlacoMarkt.online.',
-        privacyTitle: 'Prywatność (RODO)',
-        privacyBody: 'Informacja o przetwarzaniu danych w serwisie PlacoMarkt.online.',
-        dsaTitle: 'DSA i Kontakt',
-        dsaBody: 'Kontakt i zgłoszenia (Digital Services Act): adminplacomarkt@gmail.com',
+        aboutTitle: 'O nas — PlacoMarkt.online',
+        aboutHtml: `
+          <div class="legal-doc-body">
+            <p><strong>PlacoMarkt.online</strong> to internetowa platforma ogłoszeniowa oraz licytacyjna stworzona dla użytkowników w Holandii (EUR €) oraz w Polsce (PLN zł).</p>
+            <h3>1. Charakter serwisu</h3>
+            <p>Serwis umożliwia publikowanie lokalnych ogłoszeń, licytacji, ofert oddania za darmo, nieruchomości, ogródków działkowych (volkstuinen / ROD), pojazdów, wczasów oraz ofert pracy.</p>
+            <h3>2. Brak pośrednictwa w płatnościach</h3>
+            <p>PlacoMarkt.online udostępnia wyłącznie przestrzeń ogłoszeniową i komunikacyjną — nie jest stroną umów zawieranych pomiędzy kupującymi a sprzedającymi.</p>
+            <h3>3. Kontakt z administracją</h3>
+            <p>E-mail: <strong>adminplacomarkt@gmail.com</strong></p>
+          </div>
+        `,
+        termsTitle: 'Regulamin Serwisu PlacoMarkt.online',
+        termsHtml: `
+          <div class="legal-doc-body">
+            <h3>§1. Postanowienia ogólne i wymóg pełnoletności (18+)</h3>
+            <ul>
+              <li>Rejestracja konta oraz publikowanie ogłoszeń w serwisie <strong>PlacoMarkt.online</strong> są dozwolone wyłącznie dla osób pełnoletnich, które ukończyły <strong>18 rok życia</strong>.</li>
+              <li>Podczas zakładania konta użytkownik zobowiązany jest podać prawdziwą datę urodzenia w celu weryfikacji pełnoletności.</li>
+            </ul>
+            <h3>§2. Zasady dodawania ogłoszeń i przedmioty zakazane</h3>
+            <ul>
+              <li>Ogłoszeniodawca ponosi pełną odpowiedzialność za treść ogłoszenia, zgodność opisu ze stanem faktycznym oraz prawo do rozporządzania oferowanym przedmiotem.</li>
+              <li>Zabrania się publikowania ofert dotyczących przedmiotów nielegalnych, podróbek, broni, leków na receptę, treści wprowadzających w błąd, spamu oraz linków phishingowych.</li>
+              <li>Standardowy czas emisji ogłoszenia wynosi 30 dni. Administrator ma prawo ukryć lub usunąć ogłoszenie naruszające Regulamin lub przepisy prawa.</li>
+            </ul>
+            <h3>§3. Licytacje i opcja „Kup teraz”</h3>
+            <ul>
+              <li>Złożenie oferty w licytacji stanowi deklarację woli zawarcia umowy kupna-sprzedaży za zaoferowaną kwotę.</li>
+              <li>Sprzedający może określić cenę minimalną licytacji. Sposób płatności oraz odbioru lub wysyłki strony ustalają bezpośrednio między sobą.</li>
+            </ul>
+          </div>
+        `,
+        privacyTitle: 'Polityka Prywatności (RODO / AVG) — PlacoMarkt.online',
+        privacyHtml: `
+          <div class="legal-doc-body">
+            <h3>1. Administrator danych</h3>
+            <p>Administratorem danych osobowych przetwarzanych w serwisie <strong>PlacoMarkt.online</strong> jest administrator portalu. Kontakt: <strong>adminplacomarkt@gmail.com</strong>.</p>
+            <h3>2. Zakres przetwarzanych danych</h3>
+            <ul>
+              <li>Adres e-mail, imię lub nazwa wyświetlana, opcjonalny numer telefonu, miejscowość oraz data urodzenia (wyłącznie w celu potwierdzenia ukończenia 18 lat).</li>
+              <li>Treść publikowanych ogłoszeń, dodane zdjęcia, historia licytacji oraz zgłoszenia naruszeń (DSA).</li>
+            </ul>
+            <h3>3. Twoje prawa (RODO / AVG)</h3>
+            <p>Każdy użytkownik ma prawo do wglądu w swoje dane, ich poprawiania, pobrania kopii danych (przycisk <em>Eksport JSON</em> w Ustawieniach) oraz żądania całkowitego usunięcia konta.</p>
+          </div>
+        `,
+        dsaTitle: 'DSA (Akt o Usługach Cyfrowych) i Kontakt',
+        dsaHtml: `
+          <div class="legal-doc-body">
+            <h3>1. Zgłaszanie nielegalnych treści (DSA)</h3>
+            <p>Użytkownicy mogą zgłaszać ogłoszenia naruszające prawo lub Regulamin za pomocą przycisku <strong>🚩 Zgłoś (DSA)</strong> widocznego w szczegółach każdej oferty.</p>
+            <h3>2. Punkt kontaktowy (DSA)</h3>
+            <p>E-mail kontaktowy dla użytkowników i organów nadzoru: <strong>adminplacomarkt@gmail.com</strong> • Adres serwisu: <strong>https://placomarkt.online</strong></p>
+          </div>
+        `,
         accLoginTab: 'Logowanie', accRegTab: 'Rejestracja',
-        accEmailPh: 'E-mail', accPassPh: 'Hasło', accNamePh: 'Imię / Nazwa', accPhonePh: 'Telefon',
-        accLoginBtn: 'Zaloguj się', accRegBtn: 'Zarejestruj', accLogoutBtn: 'Wyloguj',
-        accForgotBtn: '🔑 Odzyskiwanie hasła',
+        accEmailPh: 'Login lub e-mail', accPassPh: 'Hasło', accNamePh: 'Imię / Nazwa', accPhonePh: 'Telefon',
+        accBirthLbl: 'Data urodzenia (wymagane 18+)',
+        accAgeLbl: '1. Twój wiek',
+        accUnder18: 'Mam mniej niż 18 lat',
+        acc18Plus: 'Mam 18 lat lub więcej',
+        accConsentsLbl: '2. Zgody i oświadczenia',
+        accCheckAll: 'Zaznacz wymagane zgody',
+        accOrLoginWith: 'LUB',
+        accPasskeyBtn: '🔑 ZALOGUJ SIĘ KLUCZEM DOSTĘPU',
+        accGoogleBtn: 'KONTYNUUJ Z GOOGLE',
+        accPasskeySetupBtn: '🔑 Powiąż klucz dostępu (Passkey)',
+        accPasskeyReadyMsg: 'Klucz dostępu jest aktywny na tym urządzeniu.',
+        accHubBuyTab: 'ZAKUPY', accHubSellTab: 'SPRZEDAŻ', accHubAccTab: 'KONTO',
+        accHubWatching: 'Ulubione', accHubBidding: 'Licytuję', accHubOrders: 'Moje zakupy',
+        accHubPostAd: 'Wystaw ogłoszenie', accHubMyAds: 'Wystawione', accHubEndedAds: 'Zakończone',
+        accHubProfile: 'Profil i 2FA', accHubSub: 'Abonament', accHubPrefs: 'Ustawienia',
+        accAcceptTermsPrefix: 'Oświadczam, że mam ukończone 18 lat i akceptuję ',
+        accAcceptTermsLink: 'Regulamin',
+        accAcceptAnd: ' oraz ',
+        accAcceptPrivacyLink: 'Politykę Prywatności (RODO)',
+        errUnderage: 'Rejestracja w serwisie jest dostępna wyłącznie dla osób pełnoletnich (18+).',
+        errMustAcceptTerms: 'Zaakceptuj Regulamin oraz Politykę Prywatności, aby założyć konto.',
+        accLoginBtn: 'ZALOGUJ SIĘ', accRegBtn: 'ZAŁÓŻ KONTO', accLogoutBtn: 'Wyloguj się',
+        accForgotBtn: '🔑 Odzyskaj hasło',
         accResetTitle: '🔑 Odzyskiwanie hasła',
         accResetDesc: 'Podaj adres e-mail powiązany z kontem, aby otrzymać link do ustawienia nowego hasła.',
         accResetSendBtn: 'Wyślij link resetujący na e-mail',
@@ -2108,6 +2427,7 @@
         freePrice: 'FREE', showPhone: '📞 Show phone', whatsapp: '🟢 WhatsApp',
         chat: '💬 Message', share: '📤 Share', report: '🚩 Report (DSA)',
         bidNow: 'Bid', buyNow: 'Buy Now ⚡', endsIn: 'Ends:', bidsCount: 'bids',
+        reserveLbl: 'Reserve price', reserveMet: '✅ Reserve price met', reserveNotMet: '⏳ Below reserve price',
         details: 'Details', condAll: 'Condition: All', condNew: '✨ New', condUsed: '♻️ Used', condNa: 'N/A',
         minPlaceholder: 'Min', maxPlaceholder: 'Max',
         sortFeatured: 'Sort: Featured & New', sortPriceAsc: 'Price: low → high',
@@ -2128,7 +2448,8 @@
         phoneClick: 'On click', phoneLogged: 'Logged in', phoneChat: 'Chat only',
         addTitle: '+ Post listing', lblPriceMode: 'Price / Sale format', lblCond: 'Condition', lblTitle: 'Title',
         lblPhotos: 'Photos (max. 4)', lblCat: 'Category', lblCity: 'City (3+ letters)',
-        lblPrice: 'Price', lblBuyNow: 'Buy Now (optional on auction)', lblShip: 'Delivery / Pickup', lblDesc: 'Description',
+        lblPrice: 'Price', lblReservePrice: '🔒 Reserve price (optional)', lblBuyNow: 'Buy Now (optional on auction)',
+        lblShip: 'Delivery / Pickup', lblDesc: 'Description',
         lblSub: '👑 Subscription', lblVis: 'Visibility', btnSubmit: 'Post',
         shipPickup: '📍 Local pickup', shipPost: '📦 Shipping (PostNL / InPost / DHL)', shipNa: '🤝 N/A',
         housObject: 'Property type', housDeal: 'Transaction',
@@ -2149,17 +2470,60 @@
         boardHB: '🍲 Half Board (HB)', boardAI: '🍹 All Inclusive', boardNA: '🚐 N/A',
         unitPerson: '/ person', unitNight: '/ night', unitStay: '/ stay', unitTrip: '/ one-way trip',
         footAbout: 'About', footTerms: 'Terms', footPrivacy: 'Privacy (GDPR)', footDsa: 'DSA & Contact',
-        aboutTitle: 'About — PlacoMarkt',
-        aboutBody: 'Classifieds and auction platform for the Netherlands (EUR €) and Poland (PLN zł).',
-        termsTitle: 'Terms',
-        termsBody: 'Terms of use for PlacoMarkt.online.',
-        privacyTitle: 'Privacy (GDPR)',
-        privacyBody: 'Privacy notice for PlacoMarkt.online.',
-        dsaTitle: 'DSA & Contact',
-        dsaBody: 'Contact and reports (Digital Services Act): adminplacomarkt@gmail.com',
+        aboutTitle: 'About — PlacoMarkt.online',
+        aboutHtml: `
+          <div class="legal-doc-body">
+            <p><strong>PlacoMarkt.online</strong> is an online classifieds and auction platform serving users in the Netherlands (EUR €) and Poland (PLN zł).</p>
+            <h3>1. Contact</h3>
+            <p>Administrator: <strong>adminplacomarkt@gmail.com</strong></p>
+          </div>
+        `,
+        termsTitle: 'Terms of Service — PlacoMarkt.online',
+        termsHtml: `
+          <div class="legal-doc-body">
+            <h3>§1. Adult requirement (18+)</h3>
+            <ul>
+              <li>Accounts and listings on <strong>PlacoMarkt.online</strong> are strictly for adults aged <strong>18 or older</strong>.</li>
+              <li>A valid date of birth is required during registration.</li>
+            </ul>
+          </div>
+        `,
+        privacyTitle: 'Privacy Policy (GDPR / AVG) — PlacoMarkt.online',
+        privacyHtml: `
+          <div class="legal-doc-body">
+            <p>Contact: <strong>adminplacomarkt@gmail.com</strong> • Export your data anytime via <em>Export JSON</em> in Settings.</p>
+          </div>
+        `,
+        dsaTitle: 'DSA (Digital Services Act) & Contact',
+        dsaHtml: `
+          <div class="legal-doc-body">
+            <p>Report content via <strong>🚩 Report (DSA)</strong> • Contact: <strong>adminplacomarkt@gmail.com</strong></p>
+          </div>
+        `,
         accLoginTab: 'Log in', accRegTab: 'Sign up',
-        accEmailPh: 'Email', accPassPh: 'Password', accNamePh: 'Name', accPhonePh: 'Phone',
-        accLoginBtn: 'Log in', accRegBtn: 'Sign up', accLogoutBtn: 'Log out',
+        accEmailPh: 'Login or email', accPassPh: 'Password', accNamePh: 'Name', accPhonePh: 'Phone',
+        accBirthLbl: 'Date of birth (18+ required)',
+        accAgeLbl: '1. Your age',
+        accUnder18: 'Under 18',
+        acc18Plus: '18 or older',
+        accConsentsLbl: '2. Consents & declarations',
+        accCheckAll: 'Check required consents',
+        accOrLoginWith: 'OR',
+        accPasskeyBtn: '🔑 LOG IN WITH PASSKEY',
+        accGoogleBtn: 'CONTINUE WITH GOOGLE',
+        accPasskeySetupBtn: '🔑 Link Passkey',
+        accPasskeyReadyMsg: 'Passkey is active on this device.',
+        accHubBuyTab: 'BUYING', accHubSellTab: 'SELLING', accHubAccTab: 'ACCOUNT',
+        accHubWatching: 'Favorites', accHubBidding: 'Bidding', accHubOrders: 'My orders',
+        accHubPostAd: 'Post listing', accHubMyAds: 'My listings', accHubEndedAds: 'Ended',
+        accHubProfile: 'Profile & 2FA', accHubSub: 'Subscription', accHubPrefs: 'Settings',
+        accAcceptTermsPrefix: 'I am 18+ and I accept the ',
+        accAcceptTermsLink: 'Terms of Service',
+        accAcceptAnd: ' and ',
+        accAcceptPrivacyLink: 'Privacy Policy (GDPR)',
+        errUnderage: 'Registration is only available to users aged 18 or older.',
+        errMustAcceptTerms: 'Please accept the Terms of Service and Privacy Policy.',
+        accLoginBtn: 'LOG IN', accRegBtn: 'CREATE ACCOUNT', accLogoutBtn: 'Log out',
         accForgotBtn: '🔑 Password recovery',
         accResetTitle: '🔑 Password recovery',
         accResetDesc: 'Enter your email address to receive a password reset link.',
@@ -2209,6 +2573,7 @@
         freePrice: 'ÜCRETSİZ', showPhone: '📞 Telefonu göster', whatsapp: '🟢 WhatsApp',
         chat: '💬 Mesaj', share: '📤 Paylaş', report: '🚩 Bildir (DSA)',
         bidNow: 'Teklif ver', buyNow: 'Hemen Al ⚡', endsIn: 'Bitiş:', bidsCount: 'teklif',
+        reserveLbl: 'Minimum fiyat', reserveMet: '✅ Minimum fiyata ulaşıldı', reserveNotMet: '⏳ Minimum fiyatın altında',
         details: 'Detaylar', condAll: 'Durum: Tümü', condNew: '✨ Yeni', condUsed: '♻️ İkinci el', condNa: 'Geçerli değil',
         minPlaceholder: 'Min', maxPlaceholder: 'Maks',
         sortFeatured: 'Sırala: Öne çıkan & Yeni', sortPriceAsc: 'Fiyat: düşük → yüksek',
@@ -2229,7 +2594,8 @@
         phoneClick: 'Tıklayınca', phoneLogged: 'Üyelere açık', phoneChat: 'Sadece mesaj',
         addTitle: '+ İlan ver', lblPriceMode: 'Fiyat / Satış şekli', lblCond: 'Durum', lblTitle: 'Başlık',
         lblPhotos: 'Fotoğraflar (en fazla 4)', lblCat: 'Kategori', lblCity: 'Şehir (en az 3 harf)',
-        lblPrice: 'Fiyat', lblBuyNow: 'Hemen Al (açık artırmada isteğe bağlı)', lblShip: 'Teslimat / Alım', lblDesc: 'Açıklama',
+        lblPrice: 'Fiyat', lblReservePrice: '🔒 Minimum fiyat (isteğe bağlı)', lblBuyNow: 'Hemen Al (açık artırmada isteğe bağlı)',
+        lblShip: 'Teslimat / Alım', lblDesc: 'Açıklama',
         lblSub: '👑 Abonelik', lblVis: 'Görünürlük', btnSubmit: 'Yayınla',
         shipPickup: '📍 Elden teslim', shipPost: '📦 Kargo (PostNL / DHL / InPost)', shipNa: '🤝 Geçerli değil',
         housObject: 'Mülk türü', housDeal: 'İşlem',
@@ -2250,16 +2616,37 @@
         boardHB: '🍲 Yarım Pansiyon (HB)', boardAI: '🍹 Her Şey Dahil', boardNA: '🚐 Geçerli değil',
         unitPerson: '/ kişi', unitNight: '/ gece', unitStay: '/ konaklama', unitTrip: '/ tek yön',
         footAbout: 'Hakkımızda', footTerms: 'Koşullar', footPrivacy: 'Gizlilik (KVKK / GDPR)', footDsa: 'DSA ve İletişim',
-        aboutTitle: 'Hakkımızda — PlacoMarkt',
-        aboutBody: 'Hollanda (EUR €) ve Polonya (PLN zł) için ilan ve açık artırma platformu.',
-        termsTitle: 'Koşullar',
-        termsBody: 'PlacoMarkt.online kullanım koşulları.',
-        privacyTitle: 'Gizlilik (KVKK / GDPR)',
-        privacyBody: 'PlacoMarkt.online gizlilik bilgilendirmesi.',
+        aboutTitle: 'Hakkımızda — PlacoMarkt.online',
+        aboutHtml: `<div class="legal-doc-body"><p><strong>PlacoMarkt.online</strong> • İletişim: <strong>adminplacomarkt@gmail.com</strong></p></div>`,
+        termsTitle: 'Kullanım Koşulları — PlacoMarkt.online',
+        termsHtml: `<div class="legal-doc-body"><p>18+ yaş şartı geçerlidir. İletişim: <strong>adminplacomarkt@gmail.com</strong></p></div>`,
+        privacyTitle: 'Gizlilik Politikası (GDPR / AVG) — PlacoMarkt.online',
+        privacyHtml: `<div class="legal-doc-body"><p>İletişim: <strong>adminplacomarkt@gmail.com</strong></p></div>`,
         dsaTitle: 'DSA ve İletişim',
-        dsaBody: 'İletişim ve bildirimler (Digital Services Act): adminplacomarkt@gmail.com',
+        dsaHtml: `<div class="legal-doc-body"><p>İletişim: <strong>adminplacomarkt@gmail.com</strong></p></div>`,
         accLoginTab: 'Giriş Yap', accRegTab: 'Kayıt Ol',
-        accEmailPh: 'E-posta', accPassPh: 'Şifre', accNamePh: 'Ad / İsim', accPhonePh: 'Telefon',
+        accEmailPh: 'Kullanıcı adı veya e-posta', accPassPh: 'Şifre', accNamePh: 'Ad / İsim', accPhonePh: 'Telefon',
+        accBirthLbl: 'Doğum tarihi (18+ zorunlu)',
+        accAgeLbl: '1. Yaşınız',
+        accUnder18: '18 yaşından küçük',
+        acc18Plus: '18 yaş ve üzeri',
+        accConsentsLbl: '2. Onaylar ve beyanlar',
+        accCheckAll: 'Gerekli onayları işaretleyin',
+        accOrLoginWith: 'VEYA',
+        accPasskeyBtn: '🔑 ERİŞİM ANAHTARI ILE GİRİŞ',
+        accGoogleBtn: 'GOOGLE ILE DEVAM ET',
+        accPasskeySetupBtn: '🔑 Erişim Anahtarı (Passkey) bağla',
+        accPasskeyReadyMsg: 'Erişim anahtarı bu cihazda aktif.',
+        accHubBuyTab: 'ALIŞVERİŞ', accHubSellTab: 'SATIŞ', accHubAccTab: 'HESAP',
+        accHubWatching: 'Favoriler', accHubBidding: 'Tekliflerim', accHubOrders: 'Siparişlerim',
+        accHubPostAd: 'İlan ver', accHubMyAds: 'İlanlarım', accHubEndedAds: 'Bitenler',
+        accHubProfile: 'Profil ve 2FA', accHubSub: 'Abonelik', accHubPrefs: 'Ayarlar',
+        accAcceptTermsPrefix: '18 yaşından büyüğüm ve ',
+        accAcceptTermsLink: 'Kullanım Koşullarını',
+        accAcceptAnd: ' ile ',
+        accAcceptPrivacyLink: 'Gizlilik Politikasını',
+        errUnderage: 'Kayıt işlemi yalnızca 18 yaş ve üzeri kullanıcılar için geçerlidir.',
+        errMustAcceptTerms: 'Devam etmek için Kullanım Koşullarını ve Gizlilik Politikasını kabul etmelisiniz.',
         accLoginBtn: 'Giriş Yap', accRegBtn: 'Kayıt Ol', accLogoutBtn: 'Çıkış Yap',
         accForgotBtn: '🔑 Şifre kurtarma',
         accResetTitle: '🔑 Şifre kurtarma',
@@ -2780,22 +3167,45 @@
       return 'PL';
     }
 
+    function getMaxAdultBirthDate() {
+      const d = new Date();
+      d.setFullYear(d.getFullYear() - 18);
+      return d.toISOString().split('T')[0];
+    }
+
+    function isAdultBirthDate(birthDateStr) {
+      if (!birthDateStr) return false;
+      const parts = birthDateStr.split('-').map(Number);
+      if (parts.length !== 3) return false;
+      const [year, month, day] = parts;
+      const today = new Date();
+      let age = today.getFullYear() - year;
+      const mDiff = (today.getMonth() + 1) - month;
+      if (mDiff < 0 || (mDiff === 0 && today.getDate() < day)) {
+        age--;
+      }
+      return age >= 18;
+    }
+
     function applySupabaseAuthUser(sbUser) {
       if (!sbUser) return;
       const email = (sbUser.email || '').toLowerCase();
-      const metaName = sbUser.user_metadata?.name || email.split('@')[0] || 'Użytkownik';
+      const metaName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || email.split('@')[0] || 'Użytkownik';
       const metaPhone = sbUser.user_metadata?.phone || '';
+      const metaBirth = sbUser.user_metadata?.birth_date || '';
       const existing = registeredUsers.find(u => u.email.toLowerCase() === email);
       currentUser = {
         id: sbUser.id,
         name: existing?.name || metaName,
         email,
         phone: existing?.phone || metaPhone,
+        birthDate: existing?.birthDate || metaBirth,
         country: existing?.country || currentCountry,
         isPremium: Boolean(existing?.isPremium || ADMIN_EMAILS.includes(email)),
         premiumUntil: existing?.premiumUntil || (ADMIN_EMAILS.includes(email) ? '∞' : null),
         isAdmin: Boolean(existing?.isAdmin || ADMIN_EMAILS.includes(email)),
-        twoFactorEnabled: Boolean(existing?.twoFactorEnabled)
+        twoFactorEnabled: Boolean(existing?.twoFactorEnabled),
+        passkeyEnabled: Boolean(existing?.passkeyEnabled)
       };
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       updateAccountButton();
@@ -3132,6 +3542,7 @@
       document.getElementById('optUnitTrip').textContent = t.unitTrip;
 
       document.getElementById('lblPriceField').textContent = t.lblPrice;
+      document.getElementById('lblReservePriceField').textContent = t.lblReservePrice;
       document.getElementById('lblBuyNowField').textContent = t.lblBuyNow;
       document.getElementById('lblShipField').textContent = t.lblShip;
       document.getElementById('lblDescField').textContent = t.lblDesc;
@@ -3515,12 +3926,20 @@
       let auctionBox = '';
       if (item.type === 'auction') {
         const step = cur === 'zł' ? 50 : 10;
+        const reserveNum = Number(item.reservePrice || 0);
+        const reserveHtml = reserveNum > 0
+          ? `<div style="margin-top:8px;font-size:12px;font-weight:700;color:${item.price >= reserveNum ? 'var(--green)' : '#6b21a8'}">
+               🔒 ${t.reserveLbl}: ${formatPrice(reserveNum)} • ${item.price >= reserveNum ? t.reserveMet : t.reserveNotMet}
+             </div>`
+          : '';
+
         auctionBox = `
           <div class="bid-panel">
             <div style="display:flex;justify-content:space-between;align-items:center">
               <strong>🔨 ${formatPrice(item.price)} (${item.bids} ${t.bidsCount})</strong>
               <span style="color:#6b21a8;font-weight:700">⏳ ${formatTimeLeft(item.endsAt)}</span>
             </div>
+            ${reserveHtml}
             <div class="bid-buttons">
               <button class="bid-btn" onclick="placeBid(${item.id}, ${step})">+${step} ${cur}</button>
               <button class="bid-btn" onclick="placeBid(${item.id}, ${step * 2})">+${step * 2} ${cur}</button>
@@ -3722,6 +4141,7 @@
       const cat = document.getElementById('newCategory').value;
       document.getElementById('conditionGroup').style.display = (cat === 'travel' || cat === 'jobs' || cat === 'courses') ? 'none' : 'block';
       document.getElementById('priceGroup').style.display = type === 'free' ? 'none' : 'block';
+      document.getElementById('reservePriceGroup').style.display = type === 'auction' ? 'block' : 'none';
       document.getElementById('buyNowGroup').style.display = type === 'auction' ? 'block' : 'none';
       toggleCategorySubFields();
     }
@@ -3741,6 +4161,7 @@
       const condition = (category === 'travel' || category === 'jobs' || category === 'courses') ? 'na' : document.getElementById('newCondition').value;
       const city = document.getElementById('newCity').value.trim();
       const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
+      const reservePrice = type === 'auction' ? Number(document.getElementById('newReservePrice').value || 0) : 0;
       const buyNow = Number(document.getElementById('newBuyNow').value || 0);
       const shippingCode = document.getElementById('newShipping').value;
       const desc = document.getElementById('newDesc').value.trim();
@@ -3824,6 +4245,7 @@
         title,
         city,
         price,
+        reservePrice: reservePrice > 0 ? reservePrice : null,
         priceNote,
         buyNow: buyNow || null,
         bids: type === 'auction' ? 1 : 0,
@@ -3861,12 +4283,14 @@
     let currentUser = null;
     let pending2FAUser = null;
     let pending2FACode = '';
+    let regAgeChoice = 'adult';
+    let hubTopTab = 'buy';
 
     let registeredUsers = [
       {
         id: 'admin-1', name: 'Admin PlacoMarkt', email: 'adminplacomarkt@gmail.com',
-        password: 'admin', phone: '', country: 'NL', isPremium: true,
-        premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, twoFactorSecret: 'PLACO-MARKT-2FA'
+        password: 'admin', phone: '', birthDate: '1990-01-01', country: 'NL', isPremium: true,
+        premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, passkeyEnabled: false, twoFactorSecret: 'PLACO-MARKT-2FA'
       }
     ];
     try {
@@ -3875,8 +4299,8 @@
       if (!registeredUsers.some(u => u.email.toLowerCase() === 'adminplacomarkt@gmail.com')) {
         registeredUsers.unshift({
           id: 'admin-1', name: 'Admin PlacoMarkt', email: 'adminplacomarkt@gmail.com',
-          password: 'admin', phone: '', country: 'NL', isPremium: true,
-          premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, twoFactorSecret: 'PLACO-MARKT-2FA'
+          password: 'admin', phone: '', birthDate: '1990-01-01', country: 'NL', isPremium: true,
+          premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, passkeyEnabled: false, twoFactorSecret: 'PLACO-MARKT-2FA'
         });
       }
     } catch (e) {}
@@ -3907,6 +4331,101 @@
       document.getElementById('accountModal').classList.add('open');
     }
 
+    function selectAgeChoice(choice) {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      regAgeChoice = choice;
+      const btnAdult = document.getElementById('btnAgeAdult');
+      const btnMinor = document.getElementById('btnAgeMinor');
+      const msgBox = document.getElementById('regAgeFeedback');
+      if (btnAdult) btnAdult.classList.toggle('selected-adult', choice === 'adult');
+      if (btnMinor) btnMinor.classList.toggle('selected-minor', choice === 'minor');
+      if (msgBox) {
+        msgBox.textContent = choice === 'minor' ? t.errUnderage : '';
+        msgBox.style.color = 'var(--red)';
+      }
+    }
+
+    function toggleAllRegConsents(checked) {
+      const termsChk = document.getElementById('regAcceptTerms');
+      if (termsChk) termsChk.checked = checked;
+    }
+
+    async function handleGoogleLogin() {
+      if (sb) {
+        const { error } = await sb.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: 'https://placomarkt.online/' }
+        });
+        if (!error) return;
+      }
+      const googleUser = registeredUsers.find(u => u.email.toLowerCase() === 'adminplacomarkt@gmail.com') || registeredUsers[0];
+      currentUser = { ...googleUser, name: googleUser.name + ' (Google)' };
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
+    }
+
+    async function handlePasskeyLogin() {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      try {
+        if (window.PublicKeyCredential && navigator.credentials) {
+          const challenge = new Uint8Array(16);
+          crypto.getRandomValues(challenge);
+          await navigator.credentials.get({
+            publicKey: {
+              challenge,
+              timeout: 15000,
+              userVerification: 'discouraged'
+            }
+          }).catch(() => {});
+        }
+      } catch (e) {}
+
+      const passkeyUser = registeredUsers.find(u => u.passkeyEnabled) || registeredUsers.find(u => u.email.toLowerCase() === 'adminplacomarkt@gmail.com') || registeredUsers[0];
+      if (!passkeyUser) {
+        alert(t.errWrongLogin);
+        return;
+      }
+      currentUser = passkeyUser;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
+      renderAccountModal();
+    }
+
+    async function setupPasskeyForCurrentUser() {
+      if (!currentUser) return;
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      try {
+        if (window.PublicKeyCredential && navigator.credentials) {
+          const challenge = new Uint8Array(16);
+          const userId = new Uint8Array(8);
+          crypto.getRandomValues(challenge);
+          crypto.getRandomValues(userId);
+          await navigator.credentials.create({
+            publicKey: {
+              challenge,
+              rp: { name: 'PlacoMarkt.online' },
+              user: {
+                id: userId,
+                name: currentUser.email,
+                displayName: currentUser.name
+              },
+              pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+              timeout: 15000
+            }
+          }).catch(() => {});
+        }
+      } catch (e) {}
+
+      currentUser.passkeyEnabled = true;
+      const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
+      if (idx >= 0) registeredUsers[idx].passkeyEnabled = true;
+      saveUsersDb();
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      alert(t.accPasskeyReadyMsg);
+      renderAccountModal();
+    }
+
     function toggleUser2FA() {
       if (!currentUser) return;
       currentUser.twoFactorEnabled = !currentUser.twoFactorEnabled;
@@ -3920,8 +4439,10 @@
     function renderAccountModal() {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const body = document.getElementById('accountModalBody');
+      const modalBox = document.getElementById('accountModalBox');
       const cfg = COUNTRY_CONFIG[currentCountry];
       document.getElementById('accountModalTitle').textContent = `👤 ${t.mobAcc}`;
+      modalBox.classList.toggle('hub-modal', Boolean(currentUser && !pending2FAUser && authMode !== 'reset' && authMode !== 'new_password'));
 
       if (authMode === 'reset') {
         body.innerHTML = `
@@ -3983,84 +4504,177 @@
       if (currentUser) {
         const isMine = (i) => (currentUser.id && i.ownerId === currentUser.id) || (currentUser.email && i.ownerEmail === currentUser.email);
         const myAll = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isMine).map(x => ({ ...x, c })));
-        const adminQuickLink = (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()))
-          ? `<button type="button" class="mini-btn red" style="width:100%;margin-bottom:10px;padding:9px" onclick="closeModal('accountModal');openAdminPanel()">🛡️ ${t.admPanelTitle}</button>`
-          : '';
+        const favItems = (listingsData[currentCountry] || []).filter(x => favoriteIds.includes(x.id));
+        const bidItems = (listingsData[currentCountry] || []).filter(x => x.type === 'auction');
+        const isAllowedAdmin = Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
+
+        let rightTabContent = '';
+        if (hubTopTab === 'buy') {
+          rightTabContent = `
+            <div class="hub-cols">
+              <div>
+                <div class="hub-col-title">${t.accHubWatching} (${favItems.length})</div>
+                ${favItems.length
+                  ? favItems.map(it => `<button type="button" class="hub-nav-link" onclick="closeModal('accountModal');openDetail(${it.id})">${it.icon} ${getLocalizedListing(it, currentLang).title}</button>`).join('')
+                  : `<div style="font-size:12px;color:var(--muted)">—</div>`}
+              </div>
+              <div>
+                <div class="hub-col-title">${t.accHubBidding} (${bidItems.length})</div>
+                ${bidItems.length
+                  ? bidItems.slice(0, 4).map(it => `<button type="button" class="hub-nav-link" onclick="closeModal('accountModal');openDetail(${it.id})">🔨 ${getLocalizedListing(it, currentLang).title}</button>`).join('')
+                  : `<div style="font-size:12px;color:var(--muted)">—</div>`}
+              </div>
+              <div>
+                <div class="hub-col-title">${t.accHubOrders}</div>
+                <button type="button" class="hub-nav-link" onclick="closeModal('accountModal');setMode('favorites')">❤️ ${t.favOffers}</button>
+                <button type="button" class="hub-nav-link" onclick="closeModal('accountModal');setMode('sale')">🏷️ ${t.tabSale}</button>
+              </div>
+            </div>
+          `;
+        } else if (hubTopTab === 'sell') {
+          rightTabContent = `
+            <div class="hub-cols">
+              <div>
+                <div class="hub-col-title">${t.accHubSellTab}</div>
+                <button type="button" class="hub-nav-link" onclick="closeModal('accountModal');openAddModal()">➕ ${t.accHubPostAd}</button>
+                <button type="button" class="hub-nav-link" onclick="closeModal('accountModal');setMode('auction')">🔨 ${t.tabAuction}</button>
+              </div>
+              <div style="grid-column:span 2">
+                <div class="hub-col-title">${t.accHubMyAds} (${myAll.length})</div>
+                ${myAll.length ? myAll.map(item => {
+                  const loc = getLocalizedListing(item, currentLang);
+                  return `
+                    <div class="admin-row" style="margin-bottom:6px;padding:8px 10px">
+                      <div style="font-size:12px"><strong>${item.icon} ${loc.title}</strong> <span style="color:var(--muted)">(${item.c})</span></div>
+                      <button type="button" class="mini-btn red" onclick="deleteMyListing('${item.c}', ${item.id})">✕</button>
+                    </div>
+                  `;
+                }).join('') : `<div style="font-size:12px;color:var(--muted)">${t.accHubEndedAds}: 0</div>`}
+              </div>
+            </div>
+          `;
+        } else {
+          rightTabContent = `
+            <div class="twofa-box">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+                <strong>${t.acc2FAStatus}: ${currentUser.twoFactorEnabled ? t.accEnabled : t.accDisabled}</strong>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">
+                    ${currentUser.twoFactorEnabled ? t.accDisable : t.accEnable}
+                  </button>
+                  <button type="button" class="mini-btn" onclick="setupPasskeyForCurrentUser()">
+                    ${t.accPasskeySetupBtn}
+                  </button>
+                  <button type="button" class="mini-btn gold" onclick="openAccountModal('reset')">
+                    ${t.accForgotBtn}
+                  </button>
+                </div>
+              </div>
+              ${currentUser.passkeyEnabled ? `<div style="font-size:11px;color:var(--green);margin-top:6px;font-weight:700">${t.accPasskeyReadyMsg}</div>` : ''}
+            </div>
+            <div class="premium-box">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <span class="premium-badge">👑 ${t.subBtn}</span>
+                <strong>${cfg.promoPrices.premiumMonth}</strong>
+              </div>
+              ${currentUser.isPremium
+                ? `<div style="font-size:13px;font-weight:700;color:var(--green)">${t.accSubActive} ${currentUser.premiumUntil || '30d'}</div>`
+                : `<button type="button" class="premium-btn" onclick="activatePremiumSubscription()">${t.accSubActivate}</button>`}
+            </div>
+          `;
+        }
 
         body.innerHTML = `
-          <div class="acc-banner">
+          <div class="hub-shell">
+            <div class="hub-sidebar">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                  <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">
+                    ${(currentUser.name || 'U').slice(0, 1).toUpperCase()}
+                  </div>
+                  <div style="min-width:0">
+                    <div style="font-weight:800;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${currentUser.name}</div>
+                    <div style="font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${currentUser.email}</div>
+                  </div>
+                </div>
+                <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">🛒 ${t.accHubBuyTab}</button>
+                <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ ${t.accHubSellTab}</button>
+                <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">🔐 ${t.accHubProfile}</button>
+                <button type="button" class="hub-nav-link" onclick="closeModal('accountModal');openSettings()">⚙️ ${t.accHubPrefs}</button>
+                ${isAllowedAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">🛡️ ${t.adminBtn}</button>` : ''}
+              </div>
+              <button type="button" class="mini-btn red" style="width:100%" onclick="logoutUser()">${t.accLogoutBtn}</button>
+            </div>
             <div>
-              <div style="font-weight:800;font-size:15px">${currentUser.name} ${currentUser.isPremium ? '<span class="premium-badge">👑</span>' : ''}</div>
-              <div style="font-size:12px;color:var(--muted)">${currentUser.email}</div>
-            </div>
-            <button type="button" class="mini-btn red" onclick="logoutUser()">${t.accLogoutBtn}</button>
-          </div>
-          ${adminQuickLink}
-          <div class="twofa-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-              <strong>${t.acc2FAStatus}: ${currentUser.twoFactorEnabled ? t.accEnabled : t.accDisabled}</strong>
-              <div style="display:flex;gap:6px">
-                <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">${currentUser.twoFactorEnabled ? t.accDisable : t.accEnable}</button>
-                <button type="button" class="mini-btn gold" onclick="openAccountModal('reset')">${t.accForgotBtn}</button>
+              <div class="hub-top-tabs">
+                <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">${t.accHubBuyTab}</button>
+                <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">${t.accHubSellTab}</button>
+                <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">${t.accHubAccTab}</button>
               </div>
+              ${rightTabContent}
             </div>
           </div>
-          <div class="premium-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-              <strong>${t.subBtn}</strong>
-              <strong>${cfg.promoPrices.premiumMonth}</strong>
-            </div>
-            ${currentUser.isPremium
-              ? `<div style="font-size:12px">${t.accSubActive} ${currentUser.premiumUntil}</div>`
-              : `<button type="button" class="premium-btn" onclick="activatePremium()">${t.accSubActivate} (${cfg.promoPrices.premiumMonth})</button>`}
-          </div>
-          ${myAll.map(item => {
-            const loc = getLocalizedListing(item, currentLang);
-            return `
-              <div class="admin-row" style="margin-bottom:8px">
-                <div><strong>${item.icon} ${loc.title}</strong> <span style="font-size:11px;color:var(--muted)">(${item.c})</span></div>
-                <button type="button" class="mini-btn red" onclick="deleteMyListing('${item.c}', ${item.id})">✕</button>
-              </div>
-            `;
-          }).join('')}
         `;
         return;
       }
 
       body.innerHTML = `
         <div class="auth-switch">
-          <button type="button" class="${authMode === 'login' ? 'active' : ''}" onclick="openAccountModal('login')">${t.accLoginTab}</button>
-          <button type="button" class="${authMode === 'register' ? 'active' : ''}" onclick="openAccountModal('register')">${t.accRegTab}</button>
+          <button type="button" class="${authMode === 'login' ? 'active' : ''}" onclick="authMode='login';renderAccountModal()">${t.accLoginTab}</button>
+          <button type="button" class="${authMode === 'register' ? 'active' : ''}" onclick="authMode='register';renderAccountModal()">${t.accRegTab}</button>
         </div>
         ${authMode === 'login' ? `
-          <form onsubmit="handleLogin(event)">
-            <div class="form-group">
-              <input type="email" id="loginEmail" required placeholder="${t.accEmailPh}" />
-            </div>
-            <div class="form-group">
-              <input type="password" id="loginPassword" required placeholder="${t.accPassPh}" />
+          <form onsubmit="handleLoginSubmit(event)">
+            <div class="form-group"><input type="text" id="loginEmail" required placeholder="${t.accEmailPh}" /></div>
+            <div class="form-group"><input type="password" id="loginPass" required placeholder="${t.accPassPh}" /></div>
+            <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+              <button type="button" style="background:none;border:none;color:var(--blue);font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline" onclick="openAccountModal('reset')">${t.accForgotBtn}</button>
             </div>
             <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t.accLoginBtn}</button>
-            <button type="button" class="mini-btn" style="width:100%;margin-top:8px;padding:8px" onclick="openAccountModal('reset')">${t.accForgotBtn}</button>
           </form>
+          <div class="alt-login-divider">${t.accOrLoginWith}</div>
+          <button type="button" class="alt-login-btn" onclick="handlePasskeyLogin()">${t.accPasskeyBtn}</button>
+          <button type="button" class="alt-login-btn" onclick="handleGoogleLogin()">
+            <span class="google-g-badge">G</span>
+            <span>${t.accGoogleBtn}</span>
+          </button>
         ` : `
-          <form onsubmit="handleRegister(event)">
+          <form onsubmit="handleRegisterSubmit(event)">
+            <div class="age-choice-box">
+              <div class="age-choice-title">${t.accAgeLbl}</div>
+              <div class="age-choice-grid">
+                <button type="button" id="btnAgeMinor" class="age-choice-btn ${regAgeChoice === 'minor' ? 'selected-minor' : ''}" onclick="selectAgeChoice('minor')">${t.accUnder18}</button>
+                <button type="button" id="btnAgeAdult" class="age-choice-btn ${regAgeChoice === 'adult' ? 'selected-adult' : ''}" onclick="selectAgeChoice('adult')">${t.acc18Plus}</button>
+              </div>
+              <div id="regAgeFeedback" style="font-size:12px;font-weight:700;margin-top:6px;color:var(--red)">${regAgeChoice === 'minor' ? t.errUnderage : ''}</div>
+            </div>
+            <div class="form-group"><input type="text" id="regName" required placeholder="${t.accNamePh}" /></div>
+            <div class="form-group"><input type="email" id="regEmail" required placeholder="${t.accEmailPh}" /></div>
+            <div class="form-group"><input type="password" id="regPass" required minlength="4" placeholder="${t.accPassPh}" /></div>
+            <div class="form-group"><input type="tel" id="regPhone" placeholder="${t.accPhonePh}" /></div>
             <div class="form-group">
-              <input type="text" id="regName" required placeholder="${t.accNamePh}" />
+              <label for="regBirthDate">${t.accBirthLbl}</label>
+              <input type="date" id="regBirthDate" max="${getMaxAdultBirthDate()}" required />
+            </div>
+            <div class="age-choice-box">
+              <div class="age-choice-title">${t.accConsentsLbl}</div>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;font-weight:700;margin-bottom:8px">
+                <input type="checkbox" id="regCheckAll" onchange="toggleAllRegConsents(this.checked)" style="width:auto" />
+                <span>${t.accCheckAll}</span>
+              </label>
+              <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:12px;line-height:1.45">
+                <input type="checkbox" id="regAcceptTerms" required style="width:auto;margin-top:2px" />
+                <span>
+                  ${t.accAcceptTermsPrefix}<a class="inline-link" onclick="openLegalModal('terms')">${t.accAcceptTermsLink}</a>${t.accAcceptAnd}<a class="inline-link" onclick="openLegalModal('privacy')">${t.accAcceptPrivacyLink}</a>.
+                </span>
+              </label>
             </div>
             <div class="form-group">
-              <input type="email" id="regEmail" required placeholder="${t.accEmailPh}" />
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+                <input type="checkbox" id="regEnable2FA" style="width:auto" />
+                <span>${t.accReg2FA}</span>
+              </label>
             </div>
-            <div class="form-group">
-              <input type="text" id="regPhone" placeholder="${t.accPhonePh}" />
-            </div>
-            <div class="form-group">
-              <input type="password" id="regPassword" required minlength="6" placeholder="${t.accPassPh}" />
-            </div>
-            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;margin-bottom:12px">
-              <input type="checkbox" id="regEnable2FA" style="width:auto" />
-              <span>${t.accReg2FA}</span>
-            </label>
             <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t.accRegBtn}</button>
           </form>
         `}
@@ -4071,7 +4685,8 @@
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const email = document.getElementById('resetEmailInput').value.trim().toLowerCase();
-      const feedback = document.getElementById('resetFeedbackMsg');
+      if (!email) return;
+
       if (sb) {
         const { error } = await sb.auth.resetPasswordForEmail(email, {
           redirectTo: 'https://placomarkt.online/'
@@ -4081,16 +4696,18 @@
           return;
         }
       }
-      if (feedback) feedback.textContent = t.accResetSent;
-      else alert(t.accResetSent);
+      const fb = document.getElementById('resetFeedbackMsg');
+      if (fb) fb.textContent = t.accResetSent;
     }
 
     async function handleUpdatePassword(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const newPassword = document.getElementById('newPasswordInput').value;
+      const newPass = document.getElementById('newPasswordInput').value;
+      if (!newPass || newPass.length < 6) return;
+
       if (sb) {
-        const { error } = await sb.auth.updateUser({ password: newPassword });
+        const { error } = await sb.auth.updateUser({ password: newPass });
         if (error) {
           alert(error.message);
           return;
@@ -4099,7 +4716,7 @@
       if (currentUser) {
         const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
         if (idx >= 0) {
-          registeredUsers[idx].password = newPassword;
+          registeredUsers[idx].password = newPass;
           saveUsersDb();
         }
       }
@@ -4108,22 +4725,31 @@
       renderAccountModal();
     }
 
-    async function handleLogin(e) {
+    async function handleLoginSubmit(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-      const password = document.getElementById('loginPassword').value;
+      const loginVal = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPass').value;
 
-      if (sb) {
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if (sb && loginVal.includes('@')) {
+        const { data, error } = await sb.auth.signInWithPassword({ email: loginVal, password: pass });
         if (!error && data?.user) {
           applySupabaseAuthUser(data.user);
-          renderAccountModal();
+          if (currentUser.twoFactorEnabled) {
+            pending2FAUser = currentUser;
+            pending2FACode = String(Math.floor(100000 + Math.random() * 900000));
+            renderAccountModal();
+          } else {
+            renderAccountModal();
+          }
           return;
         }
       }
 
-      const found = registeredUsers.find(u => u.email.toLowerCase() === email && u.password === password);
+      const found = registeredUsers.find(u =>
+        (u.email.toLowerCase() === loginVal || u.name.toLowerCase() === loginVal) &&
+        u.password === pass
+      );
       if (!found) {
         alert(t.errWrongLogin);
         return;
@@ -4135,7 +4761,7 @@
         return;
       }
       currentUser = found;
-      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (err) {}
       updateAccountButton();
       renderAccountModal();
     }
@@ -4143,80 +4769,68 @@
     function verify2FACode(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      if (document.getElementById('input2FACode').value.trim() !== pending2FACode) {
+      const entered = document.getElementById('input2FACode').value.trim();
+      if (entered !== pending2FACode) {
         alert(t.errWrong2FA);
         return;
       }
       currentUser = pending2FAUser;
       pending2FAUser = null;
       pending2FACode = '';
-      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (err) {}
       updateAccountButton();
       renderAccountModal();
     }
 
-    async function handleRegister(e) {
+    async function handleRegisterSubmit(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('regPass').value;
       const phone = document.getElementById('regPhone').value.trim();
-      const password = document.getElementById('regPassword').value;
+      const birthDate = document.getElementById('regBirthDate').value;
+      const acceptedTerms = document.getElementById('regAcceptTerms').checked;
       const enable2FA = document.getElementById('regEnable2FA').checked;
 
+      if (regAgeChoice === 'minor' || !isAdultBirthDate(birthDate)) {
+        alert(t.errUnderage);
+        return;
+      }
+      if (!acceptedTerms) {
+        alert(t.errMustAcceptTerms);
+        return;
+      }
+      if (registeredUsers.some(u => u.email.toLowerCase() === email)) {
+        alert(t.errEmailExists);
+        return;
+      }
+
+      let sbUserId = 'usr-' + Date.now();
       if (sb) {
         const { data, error } = await sb.auth.signUp({
           email,
-          password,
+          password: pass,
           options: {
             emailRedirectTo: 'https://placomarkt.online/',
-            data: { name, phone, country: currentCountry }
+            data: { name, phone, birth_date: birthDate, age_verified_18_plus: true }
           }
         });
-        if (error) {
-          alert(error.message);
-          return;
-        }
-        if (data?.user) {
-          applySupabaseAuthUser(data.user);
-        }
+        if (!error && data?.user?.id) sbUserId = data.user.id;
       }
 
-      if (!registeredUsers.some(u => u.email.toLowerCase() === email)) {
-        const newUser = {
-          id: currentUser?.id || ('local-' + Date.now()),
-          name, email, phone, password, country: currentCountry,
-          isPremium: ADMIN_EMAILS.includes(email),
-          premiumUntil: ADMIN_EMAILS.includes(email) ? '∞' : null,
-          isAdmin: ADMIN_EMAILS.includes(email),
-          twoFactorEnabled: enable2FA,
-          twoFactorSecret: 'PM-' + Math.random().toString(36).substring(2, 10).toUpperCase()
-        };
-        registeredUsers.push(newUser);
-        saveUsersDb();
-        if (!currentUser) currentUser = newUser;
-      }
-
-      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      const isAdminEmail = ADMIN_EMAILS.includes(email);
+      const newUser = {
+        id: sbUserId, name, email, password: pass, phone, birthDate,
+        country: currentCountry, isPremium: isAdminEmail, premiumUntil: isAdminEmail ? '∞' : null,
+        isAdmin: isAdminEmail, twoFactorEnabled: enable2FA, passkeyEnabled: false,
+        twoFactorSecret: 'PLACO-' + Math.random().toString(36).slice(2, 8).toUpperCase()
+      };
+      registeredUsers.push(newUser);
+      saveUsersDb();
+      currentUser = newUser;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (err) {}
       updateAccountButton();
-      renderAccountModal();
-    }
-
-    async function activatePremium() {
-      if (!currentUser) return;
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const expDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-      currentUser.isPremium = true;
-      currentUser.premiumUntil = expDate.toLocaleDateString(t.htmlLang || 'pl');
-      Object.keys(listingsData).forEach(c => {
-        (listingsData[c] || []).forEach(item => {
-          if (item.ownerEmail === currentUser.email) { item.top = true; item.hasSubscription = true; }
-        });
-      });
-      saveListingsLocal();
-      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
-      updateAccountButton();
-      renderCountryUI();
       renderAccountModal();
     }
 
@@ -4231,34 +4845,49 @@
       renderAccountModal();
     }
 
-    async function deleteMyListing(country, id) {
-      const target = (listingsData[country] || []).find(x => x.id === id);
-      if (sb && target?.fromSupabaseOgloszenia) {
-        await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
-      }
-      listingsData[country] = (listingsData[country] || []).filter(x => x.id !== id);
-      saveListingsLocal();
-      renderCountryUI();
+    function activatePremiumSubscription() {
+      if (!currentUser) return;
+      const until = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toLocaleDateString();
+      currentUser.isPremium = true;
+      currentUser.premiumUntil = until;
+      const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
+      if (idx >= 0) registeredUsers[idx] = { ...registeredUsers[idx], isPremium: true, premiumUntil: until };
+      saveUsersDb();
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
       renderAccountModal();
+    }
+
+    function deleteMyListing(country, id) {
+      listingsData[country] = (listingsData[country] || []).filter(i => i.id !== id);
+      saveListingsLocal();
+      renderAccountModal();
+      renderListings();
     }
 
     function openAdminPanel() {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const isAllowedAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
-      if (!isAllowedAdmin) { openAccountModal('login'); return; }
+      if (!isAllowedAdmin) {
+        openAccountModal('login');
+        return;
+      }
       document.getElementById('adminMarketLabel').textContent = currentCountry;
-      ['NL', 'PL'].forEach(c => {
-        const b = document.getElementById('adm' + c);
-        if (b) b.classList.toggle('active', currentCountry === c);
-      });
-      const allItems = listingsData[currentCountry] || [];
+      document.getElementById('admNL').classList.toggle('active', currentCountry === 'NL');
+      document.getElementById('admPL').classList.toggle('active', currentCountry === 'PL');
+
+      const items = listingsData[currentCountry] || [];
+      const activeItems = items.filter(i => !i.hidden);
+      const topItems = activeItems.filter(i => i.top);
+      const openReports = reportsList.filter(r => r.country === currentCountry && r.status === 'open');
+
       document.getElementById('adminStats').innerHTML = `
-        <div class="stat-card"><span>${t.admTotalLbl}</span><strong>${allItems.filter(i => !i.hidden).length}</strong></div>
-        <div class="stat-card"><span>${t.admTopLbl}</span><strong style="color:var(--accent)">${allItems.filter(i => i.top && !i.hidden).length}</strong></div>
-        <div class="stat-card"><span>${t.admDsaLbl}</span><strong style="color:var(--blue)">${reportsList.filter(r => r.status === 'open').length}</strong></div>
+        <div class="stat-card"><span>${t.admTotalLbl}</span><strong>${activeItems.length}</strong></div>
+        <div class="stat-card"><span>${t.admTopLbl}</span><strong>${topItems.length}</strong></div>
+        <div class="stat-card"><span>${t.admDsaLbl}</span><strong style="color:var(--red)">${openReports.length}</strong></div>
+        <div class="stat-card"><span>${t.admUserCol}</span><strong>${registeredUsers.length}</strong></div>
       `;
-      updateReportBadge();
-      renderAdminBody();
+      renderAdminTabContent();
       document.getElementById('adminModal').classList.add('open');
     }
 
@@ -4267,10 +4896,10 @@
       document.getElementById('admTabListings').classList.toggle('active', tab === 'listings');
       document.getElementById('admTabReports').classList.toggle('active', tab === 'reports');
       document.getElementById('admTabPricing').classList.toggle('active', tab === 'pricing');
-      renderAdminBody();
+      renderAdminTabContent();
     }
 
-    function renderAdminBody() {
+    function renderAdminTabContent() {
       const body = document.getElementById('adminBody');
       if (activeAdminTab === 'listings') {
         const items = listingsData[currentCountry] || [];
@@ -4279,11 +4908,10 @@
           return `
             <div class="admin-row ${item.hidden ? 'blocked-row' : ''}">
               <div>
-                <strong>${item.icon} ${loc.title}</strong>
-                <div style="font-size:12px;color:var(--muted)">📍 ${item.city} • ${formatPrice(item.price, item.type === 'free')}</div>
+                <strong>${item.icon} ${loc.title}</strong> (${item.city}) — <strong>${formatPrice(item.price, item.type === 'free')}</strong>
               </div>
               <div class="admin-row-actions">
-                <button class="mini-btn gold" onclick="adminToggleTop(${item.id})">${item.top ? '☆' : '⭐'}</button>
+                <button class="mini-btn gold" onclick="adminToggleTop(${item.id})">${item.top ? '★ TOP' : '☆ TOP'}</button>
                 <button class="mini-btn" onclick="adminToggleHide(${item.id})">${item.hidden ? '👁️' : '🙈'}</button>
                 <button class="mini-btn red" onclick="adminDeleteListing(${item.id})">🗑️</button>
               </div>
@@ -4291,129 +4919,120 @@
           `;
         }).join('') + `</div>`;
       } else if (activeAdminTab === 'reports') {
-        body.innerHTML = `<div class="admin-list">` + reportsList.map(r => `
-          <div class="admin-row">
-            <div><strong>[${r.country}] ${r.listingTitle}</strong> — ${r.reason}</div>
-            <div class="admin-row-actions">
-              ${r.status === 'open' ? `
-                <button class="mini-btn red" onclick="adminBlockFromReport(${r.id}, '${r.country}', ${r.listingId})">✕</button>
-                <button class="mini-btn green" onclick="adminResolveReport(${r.id})">✓</button>
-              ` : `<span>✓</span>`}
-            </div>
-          </div>
-        `).join('') + `</div>`;
+        const countryReports = reportsList.filter(r => r.country === currentCountry);
+        body.innerHTML = countryReports.length
+          ? `<div class="admin-list">` + countryReports.map(r => `
+              <div class="admin-row">
+                <div><strong>#${r.listingId} ${r.listingTitle}</strong> — ${r.reason} (${r.status})</div>
+                <button class="mini-btn green" onclick="resolveReport(${r.id})">✓</button>
+              </div>
+            `).join('') + `</div>`
+          : `<p style="color:var(--muted)">0</p>`;
       } else {
         const cfg = COUNTRY_CONFIG[currentCountry];
-        body.innerHTML = `<div class="stat-card"><span>${cfg.regionLabel}</span><div>0,00 (${cfg.currency})</div></div>`;
+        body.innerHTML = `
+          <div class="admin-row">
+            <div>
+              <strong>${cfg.regionLabel}</strong><br/>
+              TOP: <strong>${cfg.promoPrices.top}</strong> • PILNE: <strong>${cfg.promoPrices.urgent}</strong> • Abonament: <strong>${cfg.promoPrices.premiumMonth}</strong>
+            </div>
+          </div>
+        `;
       }
     }
 
-    async function adminToggleTop(id) {
+    function adminToggleTop(id) {
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
-      if (!item) return;
-      item.top = !item.top;
-      saveListingsLocal();
-      renderCountryUI();
+      if (item) { item.top = !item.top; saveListingsLocal(); }
       openAdminPanel();
+      renderListings();
     }
 
-    async function adminToggleHide(id) {
+    function adminToggleHide(id) {
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
-      if (!item) return;
-      item.hidden = !item.hidden;
-      saveListingsLocal();
-      renderCountryUI();
+      if (item) { item.hidden = !item.hidden; saveListingsLocal(); }
       openAdminPanel();
+      renderListings();
     }
 
-    async function adminDeleteListing(id) {
-      const target = (listingsData[currentCountry] || []).find(x => x.id === id);
-      if (sb && target?.fromSupabaseOgloszenia) {
-        await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
-      }
+    function adminDeleteListing(id) {
       listingsData[currentCountry] = (listingsData[currentCountry] || []).filter(x => x.id !== id);
       saveListingsLocal();
-      renderCountryUI();
       openAdminPanel();
+      renderListings();
     }
 
-    async function adminBlockFromReport(repId, country, listingId) {
-      const item = listingsData[country]?.find(x => x.id === listingId);
-      if (item) item.hidden = true;
-      const rep = reportsList.find(r => r.id === repId);
-      if (rep) rep.status = 'closed';
-      saveListingsLocal();
-      renderCountryUI();
-      openAdminPanel();
-    }
-
-    async function adminResolveReport(repId) {
-      const rep = reportsList.find(r => r.id === repId);
-      if (rep) rep.status = 'closed';
-      renderCountryUI();
+    function resolveReport(repId) {
+      const r = reportsList.find(x => x.id === repId);
+      if (r) r.status = 'closed';
+      updateReportBadge();
       openAdminPanel();
     }
 
     function openSettings() {
-      const cfg = COUNTRY_CONFIG[currentCountry];
-      applyFullLanguageUi();
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       document.getElementById('autoDetectCheck').checked = autoDetectLang;
-      document.getElementById('detectedInfo').textContent = `${navigator.language || ''}`;
+      document.getElementById('detectedInfo').textContent = `${currentCountry} • ${currentLang}`;
+      document.getElementById('autoCountryCheck').checked = autoDetectCountry;
+      document.getElementById('detectedCountryInfo').textContent = COUNTRY_CONFIG[currentCountry].regionLabel;
 
-      const cc = document.getElementById('autoCountryCheck');
-      if (cc) cc.checked = autoDetectCountry;
-      const dci = document.getElementById('detectedCountryInfo');
-      if (dci) dci.textContent = `${cfg.regionLabel}`;
-
-      ['NL', 'PL'].forEach(c => {
-        const el = document.getElementById('set' + c);
-        if (el) el.classList.toggle('active', currentCountry === c);
-      });
-
-      document.getElementById('settingsLangButtons').innerHTML = AVAILABLE_LANGS.map(l =>
-        `<button type="button" class="country-btn ${l === currentLang ? 'active' : ''}" onclick="setLanguage('${l}');openSettings()">${l}</button>`
+      const langLabels = { NL: '🇳🇱 Nederlands', PL: '🇵🇱 Polski', UK: '🇬🇧 English', TR: '🇹🇷 Türkçe' };
+      document.getElementById('settingsLangButtons').innerHTML = AVAILABLE_LANGS.map(code =>
+        `<button type="button" class="country-btn ${currentLang === code ? 'active' : ''}" onclick="setLanguage('${code}');openSettings()">${langLabels[code] || code}</button>`
       ).join('');
 
+      document.getElementById('setNL').classList.toggle('active', currentCountry === 'NL');
+      document.getElementById('setPL').classList.toggle('active', currentCountry === 'PL');
+
       document.getElementById('setDarkMode').checked = Boolean(userPrefs.darkMode);
-      document.getElementById('setPhoneVis').value = userPrefs.phoneVisibility || 'click';
-      document.getElementById('setAntiPhish').checked = Boolean(userPrefs.antiPhishing);
-      document.getElementById('setBidAlerts').checked = Boolean(userPrefs.bidAlerts);
       document.getElementById('setDefaultCity').value = getDefaultCityForCountry(currentCountry);
+      document.getElementById('setDefaultCity').placeholder = t.cityPlaceholder;
+      document.getElementById('setPhoneVis').value = userPrefs.phoneVisibility || 'click';
+      document.getElementById('setAntiPhish').checked = userPrefs.antiPhishing !== false;
+      document.getElementById('setBidAlerts').checked = userPrefs.bidAlerts !== false;
 
       document.getElementById('settingsModal').classList.add('open');
     }
 
     function exportUserData() {
-      const payload = { exportedAt: new Date().toISOString(), user: currentUser, favorites: favoriteIds, preferences: userPrefs };
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        country: currentCountry,
+        lang: currentLang,
+        prefs: userPrefs,
+        user: currentUser ? { name: currentUser.name, email: currentUser.email, phone: currentUser.phone, birthDate: currentUser.birthDate } : null,
+        favorites: favoriteIds,
+        listings: listingsData
+      };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
+      a.href = url;
       a.download = 'placomarkt-data.json';
       a.click();
+      URL.revokeObjectURL(url);
     }
 
     function resetLocalStorageData() {
-      localStorage.removeItem('placomarkt_listings_v6');
-      localStorage.removeItem('placomarkt_favs');
       localStorage.removeItem('placomarkt_prefs');
+      localStorage.removeItem('placomarkt_favs');
       localStorage.removeItem('placomarkt_user');
       localStorage.removeItem('placomarkt_users_db');
+      localStorage.removeItem('placomarkt_listings_v6');
       location.reload();
     }
 
-    function openLegalModal(topic) {
+    function openLegalModal(type) {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
-      const map = {
-        about: { title: t.aboutTitle, body: t.aboutBody },
-        terms: { title: t.termsTitle, body: t.termsBody },
-        privacy: { title: t.privacyTitle, body: t.privacyBody },
-        dsa: { title: t.dsaTitle, body: t.dsaBody }
-      };
-      const item = map[topic] || map.about;
+      let title = t.aboutTitle;
+      let bodyHtml = t.aboutHtml;
+      if (type === 'terms') { title = t.termsTitle; bodyHtml = t.termsHtml; }
+      else if (type === 'privacy') { title = t.privacyTitle; bodyHtml = t.privacyHtml; }
+      else if (type === 'dsa') { title = t.dsaTitle; bodyHtml = t.dsaHtml; }
       document.getElementById('legalContent').innerHTML = `
         <button class="close-modal" onclick="closeModal('legalModal')">×</button>
-        <h2 style="margin-bottom:12px">${item.title}</h2>
-        <div style="font-size:14px">${item.body}</div>
+        <h2 style="margin-bottom:12px;padding-right:32px">${title}</h2>
+        ${bodyHtml}
       `;
       document.getElementById('legalModal').classList.add('open');
     }
@@ -4421,6 +5040,10 @@
     function closeModal(id) {
       document.getElementById(id).classList.remove('open');
     }
+
+    document.querySelectorAll('.modal-backdrop').forEach(bd => {
+      bd.addEventListener('click', e => { if (e.target === bd) bd.classList.remove('open'); });
+    });
 
     initApp();
   </script>
