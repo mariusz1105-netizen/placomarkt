@@ -664,17 +664,30 @@
     .seller-mini-tag {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       font-size: 11px;
       font-weight: 700;
       color: #0369a1;
       background: #e0f2fe;
-      padding: 2px 7px;
+      padding: 3px 8px;
       border-radius: 5px;
       margin-bottom: 6px;
       width: fit-content;
+      flex-wrap: wrap;
     }
     body.dark-mode .seller-mini-tag { background: #0c4a6e; color: #7dd3fc; }
+    .trust-pct-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .trust-high { background: #dcfce7; color: #15803d; }
+    .trust-mid { background: #fef3c7; color: #b45309; }
+    .trust-low { background: #fee2e2; color: #b91c1c; }
     .shipping-tag {
       display: inline-block;
       background: var(--soft-bg);
@@ -1323,7 +1336,6 @@
             <option value="all" id="optDestAll">🌍 Wszystkie kierunki</option>
             <option value="PL" id="optDestPL">🇵🇱 Polska</option>
             <option value="NL" id="optDestNL">🇳🇱 Holandia</option>
-            <option value="BE" id="optDestBE">🇧🇪 Belgia / Luksemburg</option>
             <option value="TR" id="optDestTR">🇹🇷 Turcja</option>
             <option value="HR" id="optDestHR">🇭🇷 Chorwacja</option>
             <option value="ES" id="optDestES">🇪🇸 Hiszpania</option>
@@ -1542,7 +1554,7 @@
           </div>
         </div>
 
-        <!-- POLA: WAKACJE (otwierane po wyborze kategorii Wakacje i podróże) -->
+        <!-- POLA: WAKACJE -->
         <div class="travel-form-box" id="travelFieldsBox" style="display:none">
           <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px" id="lblTravelBoxTitle">✈️ Wczasy i Podróże</div>
           <div class="form-row-2">
@@ -1551,7 +1563,6 @@
               <select id="newTravelDest">
                 <option value="PL" id="optAddDestPL">🇵🇱 Polska</option>
                 <option value="NL" id="optAddDestNL">🇳🇱 Holandia</option>
-                <option value="BE" id="optAddDestBE">🇧🇪 Belgia / Luksemburg</option>
                 <option value="TR" id="optAddDestTR">🇹🇷 Turcja</option>
                 <option value="HR" id="optAddDestHR">🇭🇷 Chorwacja</option>
                 <option value="ES" id="optAddDestES">🇪🇸 Hiszpania</option>
@@ -1715,7 +1726,7 @@
       </div>
 
       <div class="set-section">
-        <h4 id="setSecTitle">🔒 Prywatność i 2FA</h4>
+        <h4 id="setSecTitle">🔒 Prywatność, 2FA i Hasło</h4>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:8px">
           <span id="lblPhoneVis">Telefon:</span>
           <select id="setPhoneVis" onchange="toggleSettingPref('phoneVisibility', this.value)" style="padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px">
@@ -1732,9 +1743,14 @@
           <input type="checkbox" id="setBidAlerts" checked onchange="toggleSettingPref('bidAlerts', this.checked)" style="width:auto" />
           <span id="lblBidAlerts">🔔 Powiadomienia o licytacjach</span>
         </label>
-        <button type="button" class="mini-btn green" style="width:100%" onclick="closeModal('settingsModal');openAccountModal()">
-          🔐 2FA
-        </button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="mini-btn green" style="flex:1" onclick="closeModal('settingsModal');openAccountModal()">
+            🔐 2FA
+          </button>
+          <button type="button" class="mini-btn gold" style="flex:1" id="btnSettingsResetPass" onclick="closeModal('settingsModal');openAccountModal('reset')">
+            🔑 Odzyskiwanie hasła
+          </button>
+        </div>
       </div>
 
       <div class="set-section" style="margin-bottom:0">
@@ -1758,10 +1774,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://dotadrdquekzdqoxvtkk.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'WKLEJ_TUTAJ_SWOJ_KLUCZ_PUBLISHABLE';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_IkdITk0oV5NKdAJ-NMyeTg_s_KY3...';
     const SUPABASE_TABLE_OGLOSZENIA = 'ogloszenia';
     const SUPABASE_BUCKET_OGLOSZENIA = 'ogloszenia';
-    const ADMIN_EMAILS = ['admin@placomarkt.nl', 'kontakt@placomarkt.nl', 'admin@placomarkt.online'];
+    const ADMIN_EMAILS = ['adminplacomarkt@gmail.com', 'admin@placomarkt.nl', 'kontakt@placomarkt.nl', 'admin@placomarkt.online'];
 
     const isSupabaseConfigured =
       SUPABASE_URL.startsWith('https://') &&
@@ -1840,7 +1856,7 @@
       { id: 'other', icon: '📦', key: 'catOther' }
     ];
 
-    const AVAILABLE_LANGS = ['NL', 'PL', 'DE', 'UK', 'BE', 'TR'];
+    const AVAILABLE_LANGS = ['NL', 'PL', 'UK', 'TR'];
 
     const COUNTRY_CONFIG = {
       NL: {
@@ -1905,12 +1921,12 @@
         setHeader: 'Instellingen', setMarketTitle: '🌍 Land, Taal & Valuta',
         setAutoLang: 'Automatische taaldetectie', setAutoCountry: 'Automatische landdetectie',
         setAppearTitle: '🎨 Weergave', setDarkMode: '🌙 Donkere modus', setCityLabel: 'Plaats:',
-        setSecTitle: '🔒 Privacy & 2FA', setPhoneLabel: 'Telefoon:', setAntiPhish: '🛡️ Anti-phishing',
+        setSecTitle: '🔒 Privacy, 2FA & Wachtwoord', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-phishing',
         setBidAlerts: '🔔 Bodmeldingen', setDataTitle: '📱 Gegevens',
         phoneClick: 'Na klikken', phoneLogged: 'Ingelogd', phoneChat: 'Alleen chat',
         addTitle: '+ Plaatsen', lblPriceMode: 'Prijs / Verkoopvorm', lblCond: 'Staat', lblTitle: 'Titel',
         lblPhotos: "Foto's (max. 4)", lblCat: 'Categorie', lblCity: 'Plaats (vanaf 3 letters)',
-        lblPrice: 'Prijs', lblBuyNow: 'Koop nu (optioneel bij veiling)', lblShip: 'Levering / Ophalen', lblDesc: 'Omschrijving',
+        lblPrice: 'Prijs', lblBuyNow: 'Koop nu (optioneel bij veiling)', lblShip: 'Levering / Odbiór', lblDesc: 'Omschrijving',
         lblSub: '👑 Abonnement', lblVis: 'Zichtbaarheid', btnSubmit: 'Plaatsen',
         shipPickup: '📍 Ophalen', shipPost: '📦 Verzending (PostNL / InPost / DHL)', shipNa: '🤝 N.v.t.',
         housObject: 'Object', housDeal: 'Transactie',
@@ -1923,7 +1939,7 @@
         vehBrandPlaceholder: 'Merk (vanaf 2 letters)...',
         travDest: 'Bestemming', travKind: 'Type verblijf', travDate: 'Periode', travGuests: 'Personen',
         travBoard: 'Verzorging', travUnit: 'Prijs per',
-        destAll: '🌍 Alle bestemmingen', destPL: '🇵🇱 Polen', destNL: '🇳🇱 Nederland', destBE: '🇧🇪 België / Luxemburg',
+        destAll: '🌍 Alle bestemmingen', destPL: '🇵🇱 Polen', destNL: '🇳🇱 Nederland',
         destTR: '🇹🇷 Turkije', destHR: '🇭🇷 Kroatië', destES: '🇪🇸 Spanje', destHU: '🇭🇺 Hongarije / Slowakije', destBUS: '🚐 PL ↔ NL',
         kindAll: '🏕️ Alle verblijven', kindHouse: '🏠 Vakantiehuis / Appartement', kindTour: '🚌 Groepsreis',
         kindAllInc: '☀️ Last Minute / All Inclusive', kindBus: '🚐 Bus / Vervoer',
@@ -1938,10 +1954,21 @@
         privacyTitle: 'Privacy (AVG)',
         privacyBody: 'Informatie over gegevensverwerking op PlacoMarkt.online.',
         dsaTitle: 'DSA & Contact',
-        dsaBody: 'Contact en meldingen (Digital Services Act): admin@placomarkt.nl',
+        dsaBody: 'Contact en meldingen (Digital Services Act): adminplacomarkt@gmail.com',
         accLoginTab: 'Inloggen', accRegTab: 'Registreren',
         accEmailPh: 'E-mail', accPassPh: 'Wachtwoord', accNamePh: 'Naam', accPhonePh: 'Telefoon',
         accLoginBtn: 'Inloggen', accRegBtn: 'Registreren', accLogoutBtn: 'Uitloggen',
+        accForgotBtn: '🔑 Wachtwoord vergeten / herstellen',
+        accResetTitle: '🔑 Wachtwoord herstellen',
+        accResetDesc: 'Voer je e-mailadres in om een herstellink te ontvangen op placomarkt.online.',
+        accResetSendBtn: 'Verstuur herstellink',
+        accResetSent: 'Herstellink verzonden naar je e-mailadres! Controleer je inbox (en spam).',
+        accNewPassTitle: '🔐 Stel een nieuw wachtwoord in',
+        accNewPassPh: 'Nieuw wachtwoord (min. 6 tekens)',
+        accSavePassBtn: 'Nieuw wachtwoord opslaan',
+        accPassUpdated: 'Je wachtwoord is bijgewerkt.',
+        trustLabel: 'betrouwbaarheid',
+        rateSellerBtn: '⭐ Beoordeel',
         acc2FATitle: '🔐 2FA-verificatiecode', acc2FACodeLbl: '2FA-code:', acc2FAConfirm: 'Bevestigen', accBack: '← Terug',
         acc2FAStatus: '🔐 2FA', accEnabled: 'Aan', accDisabled: 'Uit', accEnable: 'Aanzetten', accDisable: 'Uitzetten',
         accReg2FA: '🔐 2FA-beveiliging inschakelen',
@@ -1954,7 +1981,7 @@
         errLoginPhone: 'Log in om het telefoonnummer te bekijken.',
         msgBoughtNow: 'Koop nu geselecteerd.',
         msgReported: 'Melding verzonden.',
-        promptMsg: 'Bericht voor:', promptReason: 'Reden van melding (DSA)', promptRate: 'Beoordeling (1 - 5)',
+        promptMsg: 'Bericht voor:', promptReason: 'Reden van melding (DSA)', promptRate: 'Beoordeling verkoper (1 - 5)',
         admPanelTitle: 'Admin — PlacoMarkt', admListingsTab: '📋 Advertenties', admReportsTab: '🚩 DSA', admPricingTab: '💳 Prijzen',
         admTotalLbl: 'Actief', admTopLbl: '⭐ TOP', admDsaLbl: '🚩 DSA', admUserCol: 'Gebruiker'
       },
@@ -1995,7 +2022,7 @@
         setHeader: 'Ustawienia', setMarketTitle: '🌍 Kraj, Język i Waluta',
         setAutoLang: 'Automatyczne wykrywanie języka', setAutoCountry: 'Automatyczne wykrywanie kraju',
         setAppearTitle: '🎨 Wygląd', setDarkMode: '🌙 Tryb ciemny', setCityLabel: 'Miejscowość:',
-        setSecTitle: '🔒 Prywatność i 2FA', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Blokada linków',
+        setSecTitle: '🔒 Prywatność, 2FA i Hasło', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Blokada linków',
         setBidAlerts: '🔔 Powiadomienia o licytacjach', setDataTitle: '📱 Dane',
         phoneClick: 'Po kliknięciu', phoneLogged: 'Dla zalogowanych', phoneChat: 'Tylko czat',
         addTitle: '+ Dodaj ogłoszenie', lblPriceMode: 'Cena / Forma sprzedaży', lblCond: 'Stan', lblTitle: 'Tytuł',
@@ -2003,7 +2030,7 @@
         lblPrice: 'Cena', lblBuyNow: 'Kup teraz (opcjonalnie przy licytacji)', lblShip: 'Dostawa / Odbiór', lblDesc: 'Opis',
         lblSub: '👑 Abonament', lblVis: 'Widoczność', btnSubmit: 'Dodaj ogłoszenie',
         shipPickup: '📍 Odbiór osobisty', shipPost: '📦 Wysyłka (InPost / DPD / PostNL)', shipNa: '🤝 Nie dotyczy',
-        housObject: 'Rodzaj obiektu', housDeal: 'Transactia',
+        housObject: 'Rodzaj obiektu', housDeal: 'Transakcja',
         housAll: '🏠 Wszystkie obiekty', housGarden: '🏡 Ogródek działkowy / Volkstuin',
         housFlat: '🏢 Mieszkanie / Dom', housRoom: '🛏️ Pokój / Stancja', housGarage: '🚗 Garaż / Magazyn',
         dealAll: '🤝 Wszystkie transakcje', dealSell: '🏷️ Sprzedam / Odstąpię',
@@ -2013,7 +2040,7 @@
         vehBrandPlaceholder: 'Marka (od 2 liter)...',
         travDest: 'Kierunek', travKind: 'Rodzaj wyjazdu', travDate: 'Termin', travGuests: 'Liczba osób',
         travBoard: 'Wyżywienie', travUnit: 'Cena za',
-        destAll: '🌍 Wszystkie kierunki', destPL: '🇵🇱 Polska', destNL: '🇳🇱 Holandia', destBE: '🇧🇪 Belgia / Luksemburg',
+        destAll: '🌍 Wszystkie kierunki', destPL: '🇵🇱 Polska', destNL: '🇳🇱 Holandia',
         destTR: '🇹🇷 Turcja', destHR: '🇭🇷 Chorwacja', destES: '🇪🇸 Hiszpania', destHU: '🇭🇺 Węgry / Słowacja', destBUS: '🚐 Trasa PL ↔ NL',
         kindAll: '🏕️ Wszystkie formy', kindHouse: '🏠 Domek / Apartament', kindTour: '🚌 Wycieczka zorganizowana',
         kindAllInc: '☀️ Last Minute / All Inclusive', kindBus: '🚐 Przejazd / Bus PL ↔ NL',
@@ -2028,10 +2055,21 @@
         privacyTitle: 'Prywatność (RODO)',
         privacyBody: 'Informacja o przetwarzaniu danych w serwisie PlacoMarkt.online.',
         dsaTitle: 'DSA i Kontakt',
-        dsaBody: 'Kontakt i zgłoszenia (Digital Services Act): admin@placomarkt.nl',
+        dsaBody: 'Kontakt i zgłoszenia (Digital Services Act): adminplacomarkt@gmail.com',
         accLoginTab: 'Logowanie', accRegTab: 'Rejestracja',
         accEmailPh: 'E-mail', accPassPh: 'Hasło', accNamePh: 'Imię / Nazwa', accPhonePh: 'Telefon',
         accLoginBtn: 'Zaloguj się', accRegBtn: 'Zarejestruj', accLogoutBtn: 'Wyloguj',
+        accForgotBtn: '🔑 Odzyskiwanie hasła',
+        accResetTitle: '🔑 Odzyskiwanie hasła',
+        accResetDesc: 'Podaj adres e-mail powiązany z kontem, aby otrzymać link do ustawienia nowego hasła.',
+        accResetSendBtn: 'Wyślij link resetujący na e-mail',
+        accResetSent: 'Link do resetu hasła został wysłany na podany adres e-mail! Sprawdź skrzynkę odbiorczą (oraz folder Spam).',
+        accNewPassTitle: '🔐 Ustaw nowe hasło',
+        accNewPassPh: 'Nowe hasło (min. 6 znaków)',
+        accSavePassBtn: 'Zapisz nowe hasło',
+        accPassUpdated: 'Nowe hasło zostało zapisane.',
+        trustLabel: 'wiarygodności',
+        rateSellerBtn: '⭐ Oceń',
         acc2FATitle: '🔐 Kod weryfikacyjny 2FA', acc2FACodeLbl: 'Kod 2FA:', acc2FAConfirm: 'Potwierdź', accBack: '← Wróć',
         acc2FAStatus: '🔐 2FA', accEnabled: 'Włączone', accDisabled: 'Wyłączone', accEnable: 'Włącz', accDisable: 'Wyłącz',
         accReg2FA: '🔐 Włącz weryfikację 2FA',
@@ -2044,99 +2082,9 @@
         errLoginPhone: 'Zaloguj się, aby zobaczyć numer telefonu.',
         msgBoughtNow: 'Wybrano opcję Kup teraz.',
         msgReported: 'Zgłoszenie zostało wysłane.',
-        promptMsg: 'Wiadomość —', promptReason: 'Powód zgłoszenia (DSA)', promptRate: 'Ocena (1 - 5)',
+        promptMsg: 'Wiadomość —', promptReason: 'Powód zgłoszenia (DSA)', promptRate: 'Ocena wiarygodności sprzedającego (1 - 5)',
         admPanelTitle: 'Admin — PlacoMarkt', admListingsTab: '📋 Ogłoszenia', admReportsTab: '🚩 DSA', admPricingTab: '💳 Cennik',
         admTotalLbl: 'Aktywne', admTopLbl: '⭐ TOP', admDsaLbl: '🚩 DSA', admUserCol: 'Użytkownik'
-      },
-      DE: {
-        htmlLang: 'de',
-        allAreaNL: 'Ganz Niederlande', allAreaPL: 'Ganz Polen',
-        settings: 'Einstellungen', add: 'Inserieren', adminBtn: 'Admin',
-        heroNL: 'Anzeigen, Auktionen & Einkaufen (NL)',
-        heroPL: 'Anzeigen, Auktionen & Einkaufen (PL)',
-        subGeneric: 'Autos, Motorräder, Roller, Angeln, Kosmetik, Immobilien, Kleingärten, Reisen & Jobs',
-        searchPlaceholder: 'Was suchst du...',
-        cityPlaceholder: 'Ort (ab 3 Buchstaben)...',
-        searchBtn: 'Suchen', searchDesc: 'Schnellsuche in Anzeigen',
-        popularTag: 'Beliebt:', allCats: 'Alle Kategorien',
-        foundOffers: 'Gefundene Anzeigen', favOffers: 'Favoriten',
-        tabAll: 'Alle', tabSale: 'Sofortkauf', tabAuction: '🔨 Auktion', tabFree: '🎁 Kostenlos', tabFav: '❤️ Favoriten',
-        catKids: 'Kinder & Spielzeug', catHome: 'Haus & Garten', catElectronics: 'Elektronik & Audio',
-        catCosmetics: 'Kosmetik & Parfum', catCourses: 'Kurse & Schulungen', catHousing: 'Immobilien & Kleingärten',
-        catAuto: 'Autos, Motorräder & Roller', catFashion: 'Mode & Schuhe',
-        catSport: 'Sport & Hobby', catServices: 'Dienstleistungen', catTravel: 'Reisen & Urlaub',
-        catFishing: 'Angeln', catJobs: 'Jobs & Stellen', catOther: 'Sonstiges',
-        qtGarden: 'Kleingarten',
-        freePrice: 'KOSTENLOS', showPhone: '📞 Nummer zeigen', whatsapp: '🟢 WhatsApp',
-        chat: '💬 Nachricht', share: '📤 Teilen', report: '🚩 Melden (DSA)',
-        bidNow: 'Bieten', buyNow: 'Sofort kaufen ⚡', endsIn: 'Endet:', bidsCount: 'Gebote',
-        details: 'Details', condAll: 'Zustand: Alle', condNew: '✨ Neu', condUsed: '♻️ Gebraucht', condNa: 'Entfällt',
-        minPlaceholder: 'Min', maxPlaceholder: 'Max',
-        sortFeatured: 'Sortieren: Top & Neu', sortPriceAsc: 'Preis: aufsteigend',
-        sortPriceDesc: 'Preis: absteigend', sortViewsDesc: 'Beliebteste', sortAuctionEnd: 'Auktionen: enden bald',
-        badgeTop: '⭐ TOP', badgeSub: '👑 ABO', badgeUrgent: '⚡ DRINGEND', badgeHot: '🔥 BELIEBT',
-        badgeNew: '✨ NEU', badgeUsed: '♻️ GEBRAUCHT',
-        bfTitle: 'Black Friday bei PlacoMarkt', bfDesc: 'Angebote & Top-Anzeigen.', bfBtn: '🎣 Angeln',
-        adTag: 'Partner', adTitle: 'Werbefläche', adDesc: 'Partner- oder Aktionsplatz.',
-        subTitle: '👑 Abo — Ausgewählte Konten',
-        subDesc: 'Anzeigen von Konten mit aktivem Abo unten auf der Seite.',
-        subBtn: '👑 Abo',
-        mobSale: 'Kauf', mobAdd: 'Inserat', mobFav: 'Favoriten', mobAcc: 'Konto', mobSet: 'Optionen',
-        setHeader: 'Einstellungen', setMarketTitle: '🌍 Land, Sprache & Währung',
-        setAutoLang: 'Automatische Spracherkennung', setAutoCountry: 'Automatische Ländererkennung',
-        setAppearTitle: '🎨 Darstellung', setDarkMode: '🌙 Dunkler Modus', setCityLabel: 'Ort:',
-        setSecTitle: '🔒 Datenschutz & 2FA', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-Phishing',
-        setBidAlerts: '🔔 Gebotsbenachrichtigungen', setDataTitle: '📱 Daten',
-        phoneClick: 'Nach Klick', phoneLogged: 'Eingeloggt', phoneChat: 'Nur Chat',
-        addTitle: '+ Inserat aufgeben', lblPriceMode: 'Preis / Verkaufsform', lblCond: 'Zustand', lblTitle: 'Titel',
-        lblPhotos: 'Fotos (max. 4)', lblCat: 'Kategorie', lblCity: 'Ort (ab 3 Buchstaben)',
-        lblPrice: 'Preis', lblBuyNow: 'Sofort kaufen (optional bei Auktion)', lblShip: 'Versand / Abholung', lblDesc: 'Beschreibung',
-        lblSub: '👑 Abo', lblVis: 'Sichtbarkeit', btnSubmit: 'Inserieren',
-        shipPickup: '📍 Abholung', shipPost: '📦 Versand (DHL / PostNL / InPost)', shipNa: '🤝 Entfällt',
-        housObject: 'Objekt', housDeal: 'Transaktion',
-        housAll: '🏠 Alle Objekte', housGarden: '🏡 Kleingarten',
-        housFlat: '🏢 Wohnung / Haus', housRoom: '🛏️ Zimmer', housGarage: '🚗 Garage / Lager',
-        dealAll: '🤝 Alle Transaktionen', dealSell: '🏷️ Verkauf / Übernahme',
-        dealBuy: '🔎 Gesucht / Kauf', dealRent: '🔑 Vermietung / Pacht',
-        vehAll: '🚘 Alle Fahrzeuge', vehCar: '🚗 PKW', vehMoto: '🏍️ Motorrad', vehScooter: '🛵 Roller',
-        vehVan: '🚐 Transporter / Bus', vehQuad: '🏎️ Quad / ATV', vehParts: '⚙️ Teile & Zubehör',
-        vehBrandPlaceholder: 'Marke (ab 2 Buchstaben)...',
-        travDest: 'Reiseziel', travKind: 'Reiseart', travDate: 'Zeitraum', travGuests: 'Personen',
-        travBoard: 'Verpflegung', travUnit: 'Preis pro',
-        destAll: '🌍 Alle Ziele', destPL: '🇵🇱 Polen', destNL: '🇳🇱 Niederlande', destBE: '🇧🇪 Belgien / Luxemburg',
-        destTR: '🇹🇷 Türkei', destHR: '🇭🇷 Kroatien', destES: '🇪🇸 Spanien', destHU: '🇭🇺 Ungarn / Slowakei', destBUS: '🚐 PL ↔ NL',
-        kindAll: '🏕️ Alle Unterkünfte', kindHouse: '🏠 Ferienhaus / Apartment', kindTour: '🚌 Gruppenreise',
-        kindAllInc: '☀️ Last Minute / All Inclusive', kindBus: '🚐 Bus / Transfer',
-        boardAll: '🍽️ Verpflegung', boardSelf: '🍳 Selbstverpflegung', boardBB: '🥐 Frühstück (BB)',
-        boardHB: '🍲 Halbpension (HB)', boardAI: '🍹 All Inclusive', boardNA: '🚐 Entfällt',
-        unitPerson: '/ Person', unitNight: '/ Nacht', unitStay: '/ Aufenthalt', unitTrip: '/ einfache Fahrt',
-        footAbout: 'Über uns', footTerms: 'Bedingungen', footPrivacy: 'Datenschutz (DSGVO)', footDsa: 'DSA & Kontakt',
-        aboutTitle: 'Über uns — PlacoMarkt',
-        aboutBody: 'Anzeigen- und Auktionsplattform für die Niederlande (EUR €) und Polen (PLN zł).',
-        termsTitle: 'Bedingungen',
-        termsBody: 'Nutzungsbedingungen von PlacoMarkt.online.',
-        privacyTitle: 'Datenschutz (DSGVO)',
-        privacyBody: 'Datenschutzhinweise für PlacoMarkt.online.',
-        dsaTitle: 'DSA & Kontakt',
-        dsaBody: 'Kontakt und Meldungen (Digital Services Act): admin@placomarkt.nl',
-        accLoginTab: 'Anmelden', accRegTab: 'Registrieren',
-        accEmailPh: 'E-Mail', accPassPh: 'Passwort', accNamePh: 'Name', accPhonePh: 'Telefon',
-        accLoginBtn: 'Anmelden', accRegBtn: 'Registrieren', accLogoutBtn: 'Abmelden',
-        acc2FATitle: '🔐 2FA-Bestätigungscode', acc2FACodeLbl: '2FA-Code:', acc2FAConfirm: 'Bestätigen', accBack: '← Zurück',
-        acc2FAStatus: '🔐 2FA', accEnabled: 'Aktiv', accDisabled: 'Aus', accEnable: 'Aktivieren', accDisable: 'Deaktivieren',
-        accReg2FA: '🔐 2FA-Sicherheit aktivieren',
-        accSubActive: '✅ Aktiv bis:', accSubActivate: '👑 30 Tage aktivieren',
-        errWrongLogin: 'E-Mail oder Passwort ist falsch.',
-        errEmailExists: 'Diese E-Mail-Adresse ist bereits registriert.',
-        errWrong2FA: 'Ungültiger 2FA-Code.',
-        errLinkBlocked: 'Links wurden durch den Anti-Phishing-Filter blockiert.',
-        errChatOnly: 'Verkäufer wünscht Kontakt nur per Nachricht.',
-        errLoginPhone: 'Bitte anmelden, um die Nummer zu sehen.',
-        msgBoughtNow: 'Sofortkauf gewählt.',
-        msgReported: 'Meldung gesendet.',
-        promptMsg: 'Nachricht an:', promptReason: 'Grund der Meldung (DSA)', promptRate: 'Bewertung (1 - 5)',
-        admPanelTitle: 'Admin — PlacoMarkt', admListingsTab: '📋 Anzeigen', admReportsTab: '🚩 DSA', admPricingTab: '💳 Preise',
-        admTotalLbl: 'Aktiv', admTopLbl: '⭐ TOP', admDsaLbl: '🚩 DSA', admUserCol: 'Nutzer'
       },
       UK: {
         htmlLang: 'en',
@@ -2175,7 +2123,7 @@
         setHeader: 'Settings', setMarketTitle: '🌍 Country, Language & Currency',
         setAutoLang: 'Auto-detect language', setAutoCountry: 'Auto-detect country',
         setAppearTitle: '🎨 Appearance', setDarkMode: '🌙 Dark mode', setCityLabel: 'City:',
-        setSecTitle: '🔒 Privacy & 2FA', setPhoneLabel: 'Phone:', setAntiPhish: '🛡️ Anti-phishing',
+        setSecTitle: '🔒 Privacy, 2FA & Password', setPhoneLabel: 'Phone:', setAntiPhish: '🛡️ Anti-phishing',
         setBidAlerts: '🔔 Bid alerts', setDataTitle: '📱 Data',
         phoneClick: 'On click', phoneLogged: 'Logged in', phoneChat: 'Chat only',
         addTitle: '+ Post listing', lblPriceMode: 'Price / Sale format', lblCond: 'Condition', lblTitle: 'Title',
@@ -2193,7 +2141,7 @@
         vehBrandPlaceholder: 'Brand (2+ letters)...',
         travDest: 'Destination', travKind: 'Stay type', travDate: 'Dates', travGuests: 'Guests',
         travBoard: 'Board', travUnit: 'Price per',
-        destAll: '🌍 All destinations', destPL: '🇵🇱 Poland', destNL: '🇳🇱 Netherlands', destBE: '🇧🇪 Belgium / Luxembourg',
+        destAll: '🌍 All destinations', destPL: '🇵🇱 Poland', destNL: '🇳🇱 Netherlands',
         destTR: '🇹🇷 Turkey', destHR: '🇭🇷 Croatia', destES: '🇪🇸 Spain', destHU: '🇭🇺 Hungary / Slovakia', destBUS: '🚐 PL ↔ NL',
         kindAll: '🏕️ All stays', kindHouse: '🏠 Holiday Home / Apartment', kindTour: '🚌 Organized Tour',
         kindAllInc: '☀️ Last Minute / All Inclusive', kindBus: '🚐 Bus / Transfer',
@@ -2208,10 +2156,21 @@
         privacyTitle: 'Privacy (GDPR)',
         privacyBody: 'Privacy notice for PlacoMarkt.online.',
         dsaTitle: 'DSA & Contact',
-        dsaBody: 'Contact and reports (Digital Services Act): admin@placomarkt.nl',
+        dsaBody: 'Contact and reports (Digital Services Act): adminplacomarkt@gmail.com',
         accLoginTab: 'Log in', accRegTab: 'Sign up',
         accEmailPh: 'Email', accPassPh: 'Password', accNamePh: 'Name', accPhonePh: 'Phone',
         accLoginBtn: 'Log in', accRegBtn: 'Sign up', accLogoutBtn: 'Log out',
+        accForgotBtn: '🔑 Password recovery',
+        accResetTitle: '🔑 Password recovery',
+        accResetDesc: 'Enter your email address to receive a password reset link.',
+        accResetSendBtn: 'Send reset link',
+        accResetSent: 'Reset link sent to your email! Please check your inbox (and spam).',
+        accNewPassTitle: '🔐 Set a new password',
+        accNewPassPh: 'New password (min. 6 characters)',
+        accSavePassBtn: 'Save new password',
+        accPassUpdated: 'Your password has been updated.',
+        trustLabel: 'trust',
+        rateSellerBtn: '⭐ Rate',
         acc2FATitle: '🔐 2FA Verification Code', acc2FACodeLbl: '2FA code:', acc2FAConfirm: 'Confirm', accBack: '← Back',
         acc2FAStatus: '🔐 2FA', accEnabled: 'Enabled', accDisabled: 'Disabled', accEnable: 'Enable', accDisable: 'Disable',
         accReg2FA: '🔐 Enable 2FA verification',
@@ -2224,99 +2183,9 @@
         errLoginPhone: 'Log in to view the phone number.',
         msgBoughtNow: 'Buy Now selected.',
         msgReported: 'Report submitted.',
-        promptMsg: 'Message to:', promptReason: 'Report reason (DSA)', promptRate: 'Rating (1 - 5)',
+        promptMsg: 'Message to:', promptReason: 'Report reason (DSA)', promptRate: 'Seller rating (1 - 5)',
         admPanelTitle: 'Admin — PlacoMarkt', admListingsTab: '📋 Listings', admReportsTab: '🚩 DSA', admPricingTab: '💳 Pricing',
         admTotalLbl: 'Active', admTopLbl: '⭐ TOP', admDsaLbl: '🚩 DSA', admUserCol: 'User'
-      },
-      BE: {
-        htmlLang: 'fr',
-        allAreaNL: 'Tous les Pays-Bas', allAreaPL: 'Toute la Pologne',
-        settings: 'Paramètres', add: 'Publier', adminBtn: 'Admin',
-        heroNL: 'Annonces, Enchères & Achats (NL)',
-        heroPL: 'Annonces, Enchères & Achats (PL)',
-        subGeneric: 'Autos, Motos, Scooters, Pêche, Cosmétiques, Immobilier, Jardins, Vacances & Emploi',
-        searchPlaceholder: 'Que recherchez-vous...',
-        cityPlaceholder: 'Ville (dès 3 lettres)...',
-        searchBtn: 'Rechercher', searchDesc: 'Recherche rapide dans les annonces',
-        popularTag: 'Populaire :', allCats: 'Toutes les catégories',
-        foundOffers: 'Annonces trouvées', favOffers: 'Favoris',
-        tabAll: 'Tout', tabSale: 'Achat direct', tabAuction: '🔨 Enchère', tabFree: '🎁 Gratuit', tabFav: '❤️ Favoris',
-        catKids: 'Enfants & Jouets', catHome: 'Maison & Jardin', catElectronics: 'Électronique & Audio',
-        catCosmetics: 'Cosmétiques & Parfum', catCourses: 'Formations', catHousing: 'Immobilier & Jardins potagers',
-        catAuto: 'Autos, Motos & Scooters', catFashion: 'Mode & Chaussures',
-        catSport: 'Sport & Loisirs', catServices: 'Services', catTravel: 'Vacances & Voyages',
-        catFishing: 'Pêche', catJobs: 'Emploi', catOther: 'Autre',
-        qtGarden: 'Jardin potager',
-        freePrice: 'GRATUIT', showPhone: '📞 Voir le numéro', whatsapp: '🟢 WhatsApp',
-        chat: '💬 Message', share: '📤 Partager', report: '🚩 Signaler (DSA)',
-        bidNow: 'Enchérir', buyNow: 'Acheter ⚡', endsIn: 'Fin :', bidsCount: 'offres',
-        details: 'Détails', condAll: 'État : Tous', condNew: '✨ Neuf', condUsed: '♻️ Occasion', condNa: 'N/A',
-        minPlaceholder: 'Min', maxPlaceholder: 'Max',
-        sortFeatured: 'Tri : Mis en avant & Récents', sortPriceAsc: 'Prix : croissant',
-        sortPriceDesc: 'Prix : décroissant', sortViewsDesc: 'Plus consultés', sortAuctionEnd: 'Enchères : fin proche',
-        badgeTop: '⭐ TOP', badgeSub: '👑 ABONNEMENT', badgeUrgent: '⚡ URGENT', badgeHot: '🔥 POPULAIRE',
-        badgeNew: '✨ NEUF', badgeUsed: '♻️ OCCASION',
-        bfTitle: 'Black Friday sur PlacoMarkt', bfDesc: 'Bons plans et offres mises en avant.', bfBtn: '🎣 Pêche',
-        adTag: 'Partenaire', adTitle: 'Espace publicitaire', adDesc: 'Emplacement partenaire.',
-        subTitle: '👑 Abonnement — Comptes mis en avant',
-        subDesc: 'Annonces des comptes avec abonnement actif en bas de page.',
-        subBtn: '👑 Abonnement',
-        mobSale: 'Acheter', mobAdd: 'Publier', mobFav: 'Favoris', mobAcc: 'Compte', mobSet: 'Options',
-        setHeader: 'Paramètres', setMarketTitle: '🌍 Pays, Langue & Devise',
-        setAutoLang: 'Détection auto de la langue', setAutoCountry: 'Détection auto du pays',
-        setAppearTitle: '🎨 Affichage', setDarkMode: '🌙 Mode sombre', setCityLabel: 'Ville :',
-        setSecTitle: '🔒 Confidentialité & 2FA', setPhoneLabel: 'Téléphone :', setAntiPhish: '🛡️ Anti-phishing',
-        setBidAlerts: '🔔 Alertes enchères', setDataTitle: '📱 Données',
-        phoneClick: 'Au clic', phoneLogged: 'Connecté', phoneChat: 'Chat uniquement',
-        addTitle: '+ Publier une annonce', lblPriceMode: 'Prix / Mode de vente', lblCond: 'État', lblTitle: 'Titre',
-        lblPhotos: 'Photos (max. 4)', lblCat: 'Catégorie', lblCity: 'Ville (dès 3 lettres)',
-        lblPrice: 'Prix', lblBuyNow: 'Achat immédiat (optionnel sur enchère)', lblShip: 'Livraison / Retrait', lblDesc: 'Description',
-        lblSub: '👑 Abonnement', lblVis: 'Visibilité', btnSubmit: 'Publier',
-        shipPickup: '📍 Retrait sur place', shipPost: '📦 Livraison (PostNL / bpost / InPost)', shipNa: '🤝 N/A',
-        housObject: 'Type de bien', housDeal: 'Transaction',
-        housAll: '🏠 Tous les biens', housGarden: '🏡 Jardin potager',
-        housFlat: '🏢 Appartement / Maison', housRoom: '🛏️ Chambre', housGarage: '🚗 Garage / Entrepôt',
-        dealAll: '🤝 Toutes transactions', dealSell: '🏷️ À vendre / Reprise',
-        dealBuy: '🔎 Recherche / Achat', dealRent: '🔑 À louer / Bail',
-        vehAll: '🚘 Tous véhicules', vehCar: '🚗 Voiture', vehMoto: '🏍️ Moto', vehScooter: '🛵 Scooter',
-        vehVan: '🚐 Utilitaire / Bus', vehQuad: '🏎️ Quad / ATV', vehParts: '⚙️ Pièces & Accessoires',
-        vehBrandPlaceholder: 'Marque (dès 2 lettres)...',
-        travDest: 'Destination', travKind: 'Type de séjour', travDate: 'Période', travGuests: 'Personnes',
-        travBoard: 'Formule', travUnit: 'Prix par',
-        destAll: '🌍 Toutes destinations', destPL: '🇵🇱 Pologne', destNL: '🇳🇱 Pays-Bas', destBE: '🇧🇪 Belgique / Luxembourg',
-        destTR: '🇹🇷 Turquie', destHR: '🇭🇷 Croatie', destES: '🇪🇸 Espagne', destHU: '🇭🇺 Hongrie / Slovaquie', destBUS: '🚐 PL ↔ NL',
-        kindAll: '🏕️ Tous séjours', kindHouse: '🏠 Maison / Appartement', kindTour: '🚌 Circuit organisé',
-        kindAllInc: '☀️ Last Minute / All Inclusive', kindBus: '🚐 Bus / Transport',
-        boardAll: '🍽️ Formule', boardSelf: '🍳 Sans pension', boardBB: '🥐 Petit-déjeuner (BB)',
-        boardHB: '🍲 Demi-pension (HB)', boardAI: '🍹 All Inclusive', boardNA: '🚐 N/A',
-        unitPerson: '/ personne', unitNight: '/ nuit', unitStay: '/ séjour', unitTrip: '/ aller simple',
-        footAbout: 'À propos', footTerms: 'Conditions', footPrivacy: 'Confidentialité (RGPD)', footDsa: 'DSA & Contact',
-        aboutTitle: 'À propos — PlacoMarkt',
-        aboutBody: 'Plateforme d’annonces et d’enchères pour les Pays-Bas (EUR €) et la Pologne (PLN zł).',
-        termsTitle: 'Conditions',
-        termsBody: 'Conditions d’utilisation de PlacoMarkt.online.',
-        privacyTitle: 'Confidentialité (RGPD)',
-        privacyBody: 'Politique de confidentialité de PlacoMarkt.online.',
-        dsaTitle: 'DSA & Contact',
-        dsaBody: 'Contact et signalements (Digital Services Act) : admin@placomarkt.nl',
-        accLoginTab: 'Connexion', accRegTab: 'Inscription',
-        accEmailPh: 'E-mail', accPassPh: 'Mot de passe', accNamePh: 'Nom', accPhonePh: 'Téléphone',
-        accLoginBtn: 'Se connecter', accRegBtn: 'S’inscrire', accLogoutBtn: 'Déconnexion',
-        acc2FATitle: '🔐 Code de vérification 2FA', acc2FACodeLbl: 'Code 2FA :', acc2FAConfirm: 'Confirmer', accBack: '← Retour',
-        acc2FAStatus: '🔐 2FA', accEnabled: 'Activée', accDisabled: 'Désactivée', accEnable: 'Activer', accDisable: 'Désactiver',
-        accReg2FA: '🔐 Activer la double authentification 2FA',
-        accSubActive: '✅ Actif jusqu’au :', accSubActivate: '👑 Activer 30 jours',
-        errWrongLogin: 'E-mail ou mot de passe incorrect.',
-        errEmailExists: 'Cet e-mail est déjà utilisé.',
-        errWrong2FA: 'Code 2FA invalide.',
-        errLinkBlocked: 'Les liens sont bloqués par la protection anti-phishing.',
-        errChatOnly: 'Le vendeur préfère uniquement les messages.',
-        errLoginPhone: 'Connectez-vous pour voir le numéro.',
-        msgBoughtNow: 'Achat immédiat sélectionné.',
-        msgReported: 'Signalement envoyé.',
-        promptMsg: 'Message à :', promptReason: 'Motif du signalement (DSA)', promptRate: 'Note (1 - 5)',
-        admPanelTitle: 'Admin — PlacoMarkt', admListingsTab: '📋 Annonces', admReportsTab: '🚩 DSA', admPricingTab: '💳 Tarifs',
-        admTotalLbl: 'Actives', admTopLbl: '⭐ TOP', admDsaLbl: '🚩 DSA', admUserCol: 'Utilisateur'
       },
       TR: {
         htmlLang: 'tr',
@@ -2355,7 +2224,7 @@
         setHeader: 'Ayarlar', setMarketTitle: '🌍 Ülke, Dil ve Para Birimi',
         setAutoLang: 'Otomatik dil algılama', setAutoCountry: 'Otomatik ülke algılama',
         setAppearTitle: '🎨 Görünüm', setDarkMode: '🌙 Karanlık mod', setCityLabel: 'Şehir:',
-        setSecTitle: '🔒 Gizlilik ve 2FA', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-phishing',
+        setSecTitle: '🔒 Gizlilik, 2FA ve Şifre', setPhoneLabel: 'Telefon:', setAntiPhish: '🛡️ Anti-phishing',
         setBidAlerts: '🔔 Teklif bildirimleri', setDataTitle: '📱 Veriler',
         phoneClick: 'Tıklayınca', phoneLogged: 'Üyelere açık', phoneChat: 'Sadece mesaj',
         addTitle: '+ İlan ver', lblPriceMode: 'Fiyat / Satış şekli', lblCond: 'Durum', lblTitle: 'Başlık',
@@ -2373,7 +2242,7 @@
         vehBrandPlaceholder: 'Marka (en az 2 harf)...',
         travDest: 'Bölge', travKind: 'Konaklama türü', travDate: 'Tarih', travGuests: 'Kişi sayısı',
         travBoard: 'Pansiyon', travUnit: 'Fiyat birimi',
-        destAll: '🌍 Tüm bölgeler', destPL: '🇵🇱 Polonya', destNL: '🇳🇱 Hollanda', destBE: '🇧🇪 Belçika / Lüksemburg',
+        destAll: '🌍 Tüm bölgeler', destPL: '🇵🇱 Polonya', destNL: '🇳🇱 Hollanda',
         destTR: '🇹🇷 Türkiye', destHR: '🇭🇷 Hırvatistan', destES: '🇪🇸 İspanya', destHU: '🇭🇺 Macaristan / Slovakya', destBUS: '🚐 PL ↔ NL',
         kindAll: '🏕️ Tüm konaklamalar', kindHouse: '🏠 Tatil Evi / Daire', kindTour: '🚌 Organize Tur',
         kindAllInc: '☀️ Son Dakika / Her Şey Dahil', kindBus: '🚐 Otobüs / Transfer',
@@ -2388,10 +2257,21 @@
         privacyTitle: 'Gizlilik (KVKK / GDPR)',
         privacyBody: 'PlacoMarkt.online gizlilik bilgilendirmesi.',
         dsaTitle: 'DSA ve İletişim',
-        dsaBody: 'İletişim ve bildirimler (Digital Services Act): admin@placomarkt.nl',
+        dsaBody: 'İletişim ve bildirimler (Digital Services Act): adminplacomarkt@gmail.com',
         accLoginTab: 'Giriş Yap', accRegTab: 'Kayıt Ol',
         accEmailPh: 'E-posta', accPassPh: 'Şifre', accNamePh: 'Ad / İsim', accPhonePh: 'Telefon',
         accLoginBtn: 'Giriş Yap', accRegBtn: 'Kayıt Ol', accLogoutBtn: 'Çıkış Yap',
+        accForgotBtn: '🔑 Şifre kurtarma',
+        accResetTitle: '🔑 Şifre kurtarma',
+        accResetDesc: 'Şifre sıfırlama bağlantısı almak için e-posta adresinizi girin.',
+        accResetSendBtn: 'Sıfırlama bağlantısı gönder',
+        accResetSent: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi! Gelen kutunuzu (ve spam klasörünü) kontrol edin.',
+        accNewPassTitle: '🔐 Yeni şifre belirle',
+        accNewPassPh: 'Yeni şifre (en az 6 karakter)',
+        accSavePassBtn: 'Yeni şifreyi kaydet',
+        accPassUpdated: 'Şifreniz güncellendi.',
+        trustLabel: 'güvenilirlik',
+        rateSellerBtn: '⭐ Puan ver',
         acc2FATitle: '🔐 2FA Doğrulama Kodu', acc2FACodeLbl: '2FA kodu:', acc2FAConfirm: 'Onayla', accBack: '← Geri',
         acc2FAStatus: '🔐 2FA', accEnabled: 'Açık', accDisabled: 'Kapalı', accEnable: 'Aç', accDisable: 'Kapat',
         accReg2FA: '🔐 2FA doğrulamayı etkinleştir',
@@ -2404,7 +2284,7 @@
         errLoginPhone: 'Numarayı görmek için giriş yapın.',
         msgBoughtNow: 'Hemen Al seçildi.',
         msgReported: 'Bildirim gönderildi.',
-        promptMsg: 'Mesaj —', promptReason: 'Bildirim nedeni (DSA)', promptRate: 'Puan (1 - 5)',
+        promptMsg: 'Mesaj —', promptReason: 'Bildirim nedeni (DSA)', promptRate: 'Satıcı puanı (1 - 5)',
         admPanelTitle: 'Admin — PlacoMarkt', admListingsTab: '📋 İlanlar', admReportsTab: '🚩 DSA', admPricingTab: '💳 Fiyatlar',
         admTotalLbl: 'Aktif', admTopLbl: '⭐ TOP', admDsaLbl: '🚩 DSA', admUserCol: 'Kullanıcı'
       }
@@ -2418,14 +2298,12 @@
           i18n: {
             NL: { title: 'Volkstuin met tuinhuisje — Rotterdam Zuid', desc: 'Volkstuin met houten huisje, kas en gereedschap in Rotterdam Zuid.', note: 'overname' },
             PL: { title: 'Ogródek działkowy z altaną — Rotterdam Zuid', desc: 'Ogródek działkowy z drewnianą altaną, szklarnią i narzędziami w Rotterdam Zuid.', note: 'odstępne' },
-            DE: { title: 'Kleingarten mit Laube — Rotterdam Zuid', desc: 'Kleingarten mit Holzlaube, Gewächshaus und Werkzeug in Rotterdam Zuid.', note: 'Ablöse' },
             UK: { title: 'Allotment with shed — Rotterdam Zuid', desc: 'Allotment with wooden shed, greenhouse and tools in Rotterdam Zuid.', note: 'takeover' },
-            BE: { title: 'Jardin potager avec abri — Rotterdam Zuid', desc: 'Jardin potager avec abri en bois, serre et outils à Rotterdam Zuid.', note: 'reprise' },
             TR: { title: 'Kulübeli hobi bahçesi — Rotterdam Zuid', desc: 'Rotterdam Zuid bölgesinde ahşap kulübeli, seralı ve aletli hobi bahçesi.', note: 'devir' }
           },
           city: 'Rotterdam', price: 3200, shippingCode: 'pickup',
           icon: '🏡', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 290,
-          sellerName: 'TuinRTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'TuinRTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Klaas', stars: 5 }, { author: 'Marek', stars: 5 }],
           phone: '+31 6 11 22 33 44'
         },
         {
@@ -2434,14 +2312,12 @@
           i18n: {
             NL: { title: 'La Souris retro scooter — NL kenteken', desc: 'La Souris retro scooter in Rotterdam.', note: 'NL' },
             PL: { title: 'Skuter retro La Souris — rejestracja NL', desc: 'Skuter retro La Souris w Rotterdamie.', note: 'NL' },
-            DE: { title: 'La Souris Retro-Roller — NL Zulassung', desc: 'La Souris Retro-Roller in Rotterdam.', note: 'NL' },
             UK: { title: 'La Souris retro scooter — NL plate', desc: 'La Souris retro scooter in Rotterdam.', note: 'NL' },
-            BE: { title: 'Scooter rétro La Souris — plaque NL', desc: 'Scooter rétro La Souris à Rotterdam.', note: 'NL' },
             TR: { title: 'La Souris retro scooter — NL plaka', desc: 'Rotterdam’da La Souris retro scooter.', note: 'NL' }
           },
           city: 'Rotterdam', price: 890, shippingCode: 'pickup',
           icon: '🛵', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 264,
-          sellerName: 'ScooterNL_RTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'ScooterNL_RTM', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Jeroen', stars: 5 }],
           phone: '+31 6 50 12 34 56'
         },
         {
@@ -2449,14 +2325,12 @@
           i18n: {
             NL: { title: 'Spinhengel 2.40 m + molen & kunstaas set', desc: 'Spinhengel en kunstaas set.', note: 'set' },
             PL: { title: 'Wędka spinningowa 2,40 m + kołowrotek i przynęty', desc: 'Zestaw spinningowy z kołowrotkiem i przynętami.', note: 'zestaw' },
-            DE: { title: 'Spinnrute 2,40 m + Rolle & Köder-Set', desc: 'Spinnrute mit Rolle und Kunstköder-Set.', note: 'Set' },
             UK: { title: 'Spinning rod 2.40 m + reel & lures set', desc: 'Spinning rod with reel and lures set.', note: 'set' },
-            BE: { title: 'Canne spinning 2,40 m + moulinet & leurres', desc: 'Canne spinning avec moulinet et leurres.', note: 'lot' },
             TR: { title: '2,40 m spin olta + makine ve sahte yem seti', desc: 'Makine ve sahte yemlerden oluşan spin seti.', note: 'set' }
           },
           city: 'Rotterdam', price: 85, shippingCode: 'pickup',
           icon: '🎣', photos: [], top: true, hasSubscription: true, urgent: true, hidden: false, views: 205,
-          sellerName: 'VisSport_NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'VisSport_NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Piotr', stars: 5 }],
           phone: '+31 6 55 44 33 22'
         },
         {
@@ -2464,14 +2338,12 @@
           i18n: {
             NL: { title: 'Eau de parfum 100 ml — cadeauset', desc: 'Eau de parfum 100 ml.', note: 'nieuw' },
             PL: { title: 'Woda perfumowana 100 ml — zestaw prezentowy', desc: 'Woda perfumowana 100 ml w zestawie prezentowym.', note: 'nowy' },
-            DE: { title: 'Eau de Parfum 100 ml — Geschenkset', desc: 'Eau de Parfum 100 ml als Geschenkset.', note: 'neu' },
             UK: { title: 'Eau de parfum 100 ml — gift set', desc: 'Eau de parfum 100 ml gift set.', note: 'new' },
-            BE: { title: 'Eau de parfum 100 ml — coffret cadeau', desc: 'Eau de parfum 100 ml en coffret cadeau.', note: 'neuf' },
             TR: { title: 'Eau de parfum 100 ml — hediye seti', desc: '100 ml eau de parfum hediye seti.', note: 'yeni' }
           },
           city: 'Rotterdam', price: 49, shippingCode: 'post',
           icon: '💄', photos: [], top: true, hasSubscription: false, urgent: false, hidden: false, views: 238,
-          sellerName: 'BeautyNL_Shop', sellerVerified: true, sellerRating: 4.9, sellerReviews: [],
+          sellerName: 'BeautyNL_Shop', sellerVerified: true, sellerRating: 4.9, sellerReviews: [{ author: 'Anna', stars: 5 }, { author: 'Lisa', stars: 5 }],
           phone: '+31 6 44 11 22 33'
         },
         {
@@ -2479,14 +2351,12 @@
           i18n: {
             NL: { title: 'Alanya — Hotel 4★ aan zee', desc: 'Alanya hotel aan zee.', note: 'person' },
             PL: { title: 'Alanya — Hotel 4★ przy plaży', desc: 'Wczasy w hotelu 4★ tuż przy plaży w Alanyi.', note: 'person' },
-            DE: { title: 'Alanya — 4★ Hotel am Meer', desc: 'Urlaub im 4★ Hotel direkt am Meer in Alanya.', note: 'person' },
             UK: { title: 'Alanya — 4★ beachfront hotel', desc: 'Holiday at a 4★ hotel right by the beach in Alanya.', note: 'person' },
-            BE: { title: 'Alanya — Hôtel 4★ en bord de mer', desc: 'Séjour à l’hôtel 4★ en bord de mer à Alanya.', note: 'person' },
             TR: { title: 'Alanya — Denize sıfır 4★ otel', desc: 'Alanya’da sahile sıfır 4★ otelde tatil.', note: 'person' }
           },
           city: 'Eindhoven', price: 549, shippingCode: 'na',
           icon: '🏖️', photos: [], top: true, hasSubscription: true, urgent: true, hidden: false, views: 348,
-          sellerName: 'SunTravel NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'SunTravel NL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Mehmet', stars: 5 }],
           phone: '+31 6 33 77 88 99',
           travelDetails: { dest: 'TR', kind: 'allinc', date: '14–21.06', guests: '2', board: 'ai' }
         }
@@ -2498,14 +2368,12 @@
           i18n: {
             PL: { title: 'Ogródek działkowy ROD z murowaną altaną — Katowice', desc: 'Zadbany ogródek działkowy ROD z altaną, prądem i wodą.', note: 'odstępne' },
             NL: { title: 'Volkstuin met stenen huisje — Katowice', desc: 'Verzorgde volkstuin met stenen huisje, stroom en water.', note: 'overname' },
-            DE: { title: 'Kleingarten mit massiver Laube — Katowice', desc: 'Gepflegter Kleingarten mit Massivlaube, Strom und Wasser.', note: 'Ablöse' },
             UK: { title: 'Allotment with brick shed — Katowice', desc: 'Well-kept allotment with brick shed, electricity and water.', note: 'takeover' },
-            BE: { title: 'Jardin potager avec chalet — Katowice', desc: 'Jardin potager entretenu avec chalet, électricité et eau.', note: 'reprise' },
             TR: { title: 'Kagir kulübeli hobi bahçesi — Katowice', desc: 'Elektrikli ve sulu, bakımlı hobi bahçesi.', note: 'devir' }
           },
           city: 'Katowice', price: 24500, shippingCode: 'pickup',
           icon: '🏡', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 312,
-          sellerName: 'Działkowiec_PL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'Działkowiec_PL', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Tomasz', stars: 5 }],
           phone: '+48 501 222 333'
         },
         {
@@ -2514,14 +2382,12 @@
           i18n: {
             PL: { title: 'Yamaha MT-07', desc: 'Yamaha MT-07 w bardzo dobrym stanie.', note: 'PL' },
             NL: { title: 'Yamaha MT-07', desc: 'Yamaha MT-07 in zeer goede staat.', note: 'PL' },
-            DE: { title: 'Yamaha MT-07', desc: 'Yamaha MT-07 in sehr gutem Zustand.', note: 'PL' },
             UK: { title: 'Yamaha MT-07', desc: 'Yamaha MT-07 in very good condition.', note: 'PL' },
-            BE: { title: 'Yamaha MT-07', desc: 'Yamaha MT-07 en très bon état.', note: 'PL' },
             TR: { title: 'Yamaha MT-07', desc: 'Çok iyi durumda Yamaha MT-07.', note: 'PL' }
           },
           city: 'Katowice', price: 23900, shippingCode: 'pickup',
           icon: '🏍️', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 245,
-          sellerName: 'MotoŚląsk', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'MotoŚląsk', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Kamil', stars: 5 }],
           phone: '+48 505 666 777'
         },
         {
@@ -2529,18 +2395,29 @@
           i18n: {
             PL: { title: 'Wędka spinningowa + przynęty', desc: 'Zestaw spinningowy.', note: 'nowy' },
             NL: { title: 'Spinhengel + kunstaas', desc: 'Spinhengel en kunstaasset.', note: 'nieuw' },
-            DE: { title: 'Spinnrute + Kunstköder', desc: 'Spinnrute und Köderset.', note: 'neu' },
             UK: { title: 'Spinning rod + lures', desc: 'Spinning rod and lures set.', note: 'new' },
-            BE: { title: 'Canne spinning + leurres', desc: 'Canne spinning et coffret de leurres.', note: 'neuf' },
             TR: { title: 'Spin olta + sahte yemler', desc: 'Spin olta ve sahte yem seti.', note: 'yeni' }
           },
           city: 'Katowice', price: 290, shippingCode: 'post',
           icon: '🎣', photos: [], top: true, hasSubscription: true, urgent: false, hidden: false, views: 192,
-          sellerName: 'Wędkarz_Śląsk', sellerVerified: true, sellerRating: 5.0, sellerReviews: [],
+          sellerName: 'Wędkarz_Śląsk', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Adam', stars: 5 }],
           phone: '+48 502 333 444'
         }
       ]
     };
+
+    function getSellerTrustPercent(item) {
+      const rating = Number(item.sellerRating || 5.0);
+      const reviewsCount = Array.isArray(item.sellerReviews) ? item.sellerReviews.length : 0;
+      const basePct = Math.round((rating / 5) * 100);
+      if (reviewsCount === 0 && !item.sellerVerified) return Math.min(85, basePct);
+      return Math.min(100, Math.max(0, basePct));
+    }
+
+    function getTrustBadgeHtml(pct, t) {
+      const cls = pct >= 85 ? 'trust-high' : (pct >= 60 ? 'trust-mid' : 'trust-low');
+      return `<span class="trust-pct-pill ${cls}">🛡️ ${pct}% ${t.trustLabel}</span>`;
+    }
 
     function getLocalizedListing(item, lang = currentLang) {
       if (item.i18n) {
@@ -2897,10 +2774,31 @@
 
     function detectDeviceLanguage() {
       const raw = (navigator.language || navigator.userLanguage || '').slice(0, 2).toUpperCase();
-      const map = { NL: 'NL', PL: 'PL', DE: 'DE', EN: 'UK', FR: 'BE', TR: 'TR' };
+      const map = { NL: 'NL', PL: 'PL', EN: 'UK', TR: 'TR' };
       const code = map[raw];
       if (code && AVAILABLE_LANGS.includes(code)) return code;
       return 'PL';
+    }
+
+    function applySupabaseAuthUser(sbUser) {
+      if (!sbUser) return;
+      const email = (sbUser.email || '').toLowerCase();
+      const metaName = sbUser.user_metadata?.name || email.split('@')[0] || 'Użytkownik';
+      const metaPhone = sbUser.user_metadata?.phone || '';
+      const existing = registeredUsers.find(u => u.email.toLowerCase() === email);
+      currentUser = {
+        id: sbUser.id,
+        name: existing?.name || metaName,
+        email,
+        phone: existing?.phone || metaPhone,
+        country: existing?.country || currentCountry,
+        isPremium: Boolean(existing?.isPremium || ADMIN_EMAILS.includes(email)),
+        premiumUntil: existing?.premiumUntil || (ADMIN_EMAILS.includes(email) ? '∞' : null),
+        isAdmin: Boolean(existing?.isAdmin || ADMIN_EMAILS.includes(email)),
+        twoFactorEnabled: Boolean(existing?.twoFactorEnabled)
+      };
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      updateAccountButton();
     }
 
     async function initApp() {
@@ -2908,6 +2806,26 @@
         const savedUser = JSON.parse(localStorage.getItem('placomarkt_user') || 'null');
         if (savedUser) currentUser = savedUser;
       } catch (e) {}
+
+      if (sb) {
+        try {
+          const { data: { session } } = await sb.auth.getSession();
+          if (session?.user) applySupabaseAuthUser(session.user);
+        } catch (e) {}
+
+        sb.auth.onAuthStateChange((event, session) => {
+          if (event === 'PASSWORD_RECOVERY') {
+            if (session?.user) applySupabaseAuthUser(session.user);
+            openAccountModal('new_password');
+          } else if (session?.user) {
+            applySupabaseAuthUser(session.user);
+          } else if (event === 'SIGNED_OUT') {
+            currentUser = null;
+            try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
+            updateAccountButton();
+          }
+        });
+      }
 
       applyThemeFromPrefs();
       if (autoDetectCountry) currentCountry = detectDeviceCountry();
@@ -3013,7 +2931,7 @@
     }
 
     function getTravelDestLabel(code, t) {
-      const map = { PL: t.destPL, NL: t.destNL, BE: t.destBE, TR: t.destTR, HR: t.destHR, ES: t.destES, HU: t.destHU, BUS: t.destBUS };
+      const map = { PL: t.destPL, NL: t.destNL, TR: t.destTR, HR: t.destHR, ES: t.destES, HU: t.destHU, BUS: t.destBUS };
       return map[code] || code || '';
     }
 
@@ -3089,7 +3007,6 @@
       document.getElementById('optDestAll').textContent = t.destAll;
       document.getElementById('optDestPL').textContent = t.destPL;
       document.getElementById('optDestNL').textContent = t.destNL;
-      document.getElementById('optDestBE').textContent = t.destBE;
       document.getElementById('optDestTR').textContent = t.destTR;
       document.getElementById('optDestHR').textContent = t.destHR;
       document.getElementById('optDestES').textContent = t.destES;
@@ -3146,6 +3063,7 @@
       document.getElementById('optPhoneChat').textContent = t.phoneChat;
       document.getElementById('lblAntiPhish').textContent = t.setAntiPhish;
       document.getElementById('lblBidAlerts').textContent = t.setBidAlerts;
+      document.getElementById('btnSettingsResetPass').textContent = t.accForgotBtn;
       document.getElementById('setDataTitle').textContent = t.setDataTitle;
 
       document.getElementById('addModalTitle').textContent = t.addTitle;
@@ -3189,7 +3107,6 @@
       document.getElementById('lblTravelDest').textContent = t.travDest;
       document.getElementById('optAddDestPL').textContent = t.destPL;
       document.getElementById('optAddDestNL').textContent = t.destNL;
-      document.getElementById('optAddDestBE').textContent = t.destBE;
       document.getElementById('optAddDestTR').textContent = t.destTR;
       document.getElementById('optAddDestHR').textContent = t.destHR;
       document.getElementById('optAddDestES').textContent = t.destES;
@@ -3375,6 +3292,7 @@
     function buildListingCardHtml(item, isSubscriberCard = false) {
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const loc = getLocalizedListing(item, currentLang);
+      const trustPct = getSellerTrustPercent(item);
 
       let typeBadge = '';
       if (item.type === 'auction') typeBadge = `<span class="badge badge-auction">${t.tabAuction}</span>`;
@@ -3445,7 +3363,8 @@
                 <span>👁️ ${item.views || 1}</span>
               </div>
               <div class="seller-mini-tag">
-                ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'PlacoMarkt'} • ⭐ ${(item.sellerRating || 5.0).toFixed(1)}
+                <span>${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'PlacoMarkt'}</span>
+                ${getTrustBadgeHtml(trustPct, t)}
               </div>
               ${housingPillsHtml}
               ${autoPillsHtml}
@@ -3579,6 +3498,8 @@
       if (!item) return;
 
       const loc = getLocalizedListing(item, currentLang);
+      const trustPct = getSellerTrustPercent(item);
+      const reviewsCount = Array.isArray(item.sellerReviews) ? item.sellerReviews.length : 0;
       item.views = (item.views || 0) + 1;
       saveListingsLocal();
 
@@ -3631,14 +3552,15 @@
 
         <div class="seller-card-box">
           <div>
-            <div style="font-weight:800;font-size:14px">
-              ${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'PlacoMarkt'}
+            <div style="font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span>${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'PlacoMarkt'}</span>
+              ${getTrustBadgeHtml(trustPct, t)}
             </div>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px">
-              ⭐ ${(item.sellerRating || 5.0).toFixed(1)} / 5.0
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">
+              ⭐ ${(item.sellerRating || 5.0).toFixed(1)} / 5.0 (${reviewsCount})
             </div>
           </div>
-          <button type="button" class="mini-btn gold" onclick="rateSeller(${item.id})">⭐ 5</button>
+          <button type="button" class="mini-btn gold" onclick="rateSeller(${item.id})">${t.rateSellerBtn}</button>
         </div>
 
         <div class="detail-actions">
@@ -3916,7 +3838,7 @@
         hidden: false,
         views: 1,
         sellerName,
-        sellerVerified: Boolean(phoneVal),
+        sellerVerified: Boolean(phoneVal || currentUser),
         sellerRating: 5.0,
         sellerReviews: [],
         ownerEmail: currentUser?.email || null,
@@ -3942,14 +3864,21 @@
 
     let registeredUsers = [
       {
-        id: 'admin-1', name: 'Admin PlacoMarkt', email: 'admin@placomarkt.nl',
+        id: 'admin-1', name: 'Admin PlacoMarkt', email: 'adminplacomarkt@gmail.com',
         password: 'admin', phone: '', country: 'NL', isPremium: true,
-        premiumUntil: '∞', isAdmin: true, twoFactorEnabled: true, twoFactorSecret: 'PLACO-MARKT-2FA'
+        premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, twoFactorSecret: 'PLACO-MARKT-2FA'
       }
     ];
     try {
       const savedRegUsers = JSON.parse(localStorage.getItem('placomarkt_users_db') || 'null');
       if (savedRegUsers && Array.isArray(savedRegUsers) && savedRegUsers.length) registeredUsers = savedRegUsers;
+      if (!registeredUsers.some(u => u.email.toLowerCase() === 'adminplacomarkt@gmail.com')) {
+        registeredUsers.unshift({
+          id: 'admin-1', name: 'Admin PlacoMarkt', email: 'adminplacomarkt@gmail.com',
+          password: 'admin', phone: '', country: 'NL', isPremium: true,
+          premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, twoFactorSecret: 'PLACO-MARKT-2FA'
+        });
+      }
     } catch (e) {}
 
     function saveUsersDb() {
@@ -3981,7 +3910,7 @@
     function toggleUser2FA() {
       if (!currentUser) return;
       currentUser.twoFactorEnabled = !currentUser.twoFactorEnabled;
-      const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
+      const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
       if (idx >= 0) registeredUsers[idx] = { ...registeredUsers[idx], ...currentUser };
       saveUsersDb();
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
@@ -3993,6 +3922,41 @@
       const body = document.getElementById('accountModalBody');
       const cfg = COUNTRY_CONFIG[currentCountry];
       document.getElementById('accountModalTitle').textContent = `👤 ${t.mobAcc}`;
+
+      if (authMode === 'reset') {
+        body.innerHTML = `
+          <div class="set-section" style="margin-bottom:12px">
+            <h4 style="margin-bottom:6px">${t.accResetTitle}</h4>
+            <p style="font-size:12px;color:var(--muted)">${t.accResetDesc}</p>
+          </div>
+          <form onsubmit="handlePasswordResetRequest(event)">
+            <div class="form-group">
+              <input type="email" id="resetEmailInput" required value="${currentUser ? currentUser.email : ''}" placeholder="${t.accEmailPh}" />
+            </div>
+            <div id="resetFeedbackMsg" style="font-size:12px;color:var(--green);font-weight:700;margin-bottom:10px"></div>
+            <div style="display:flex;gap:8px">
+              <button type="button" class="mini-btn" style="flex:1" onclick="openAccountModal('login')">${t.accBack}</button>
+              <button type="submit" class="add-btn" style="flex:2;justify-content:center;padding:11px">${t.accResetSendBtn}</button>
+            </div>
+          </form>
+        `;
+        return;
+      }
+
+      if (authMode === 'new_password') {
+        body.innerHTML = `
+          <div class="twofa-box">
+            <div style="font-weight:800;font-size:14px;color:var(--green)">${t.accNewPassTitle}</div>
+          </div>
+          <form onsubmit="handleUpdatePassword(event)">
+            <div class="form-group">
+              <input type="password" id="newPasswordInput" required minlength="6" placeholder="${t.accNewPassPh}" />
+            </div>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t.accSavePassBtn}</button>
+          </form>
+        `;
+        return;
+      }
 
       if (pending2FAUser) {
         body.innerHTML = `
@@ -4033,9 +3997,12 @@
           </div>
           ${adminQuickLink}
           <div class="twofa-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
               <strong>${t.acc2FAStatus}: ${currentUser.twoFactorEnabled ? t.accEnabled : t.accDisabled}</strong>
-              <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">${currentUser.twoFactorEnabled ? t.accDisable : t.accEnable}</button>
+              <div style="display:flex;gap:6px">
+                <button type="button" class="mini-btn ${currentUser.twoFactorEnabled ? 'red' : 'green'}" onclick="toggleUser2FA()">${currentUser.twoFactorEnabled ? t.accDisable : t.accEnable}</button>
+                <button type="button" class="mini-btn gold" onclick="openAccountModal('reset')">${t.accForgotBtn}</button>
+              </div>
             </div>
           </div>
           <div class="premium-box">
@@ -4074,6 +4041,7 @@
               <input type="password" id="loginPassword" required placeholder="${t.accPassPh}" />
             </div>
             <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t.accLoginBtn}</button>
+            <button type="button" class="mini-btn" style="width:100%;margin-top:8px;padding:8px" onclick="openAccountModal('reset')">${t.accForgotBtn}</button>
           </form>
         ` : `
           <form onsubmit="handleRegister(event)">
@@ -4087,10 +4055,10 @@
               <input type="text" id="regPhone" placeholder="${t.accPhonePh}" />
             </div>
             <div class="form-group">
-              <input type="password" id="regPassword" required minlength="5" placeholder="${t.accPassPh}" />
+              <input type="password" id="regPassword" required minlength="6" placeholder="${t.accPassPh}" />
             </div>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;margin-bottom:12px">
-              <input type="checkbox" id="regEnable2FA" checked style="width:auto" />
+              <input type="checkbox" id="regEnable2FA" style="width:auto" />
               <span>${t.accReg2FA}</span>
             </label>
             <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t.accRegBtn}</button>
@@ -4099,11 +4067,62 @@
       `;
     }
 
+    async function handlePasswordResetRequest(e) {
+      e.preventDefault();
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      const email = document.getElementById('resetEmailInput').value.trim().toLowerCase();
+      const feedback = document.getElementById('resetFeedbackMsg');
+      if (sb) {
+        const { error } = await sb.auth.resetPasswordForEmail(email, {
+          redirectTo: 'https://placomarkt.online/'
+        });
+        if (error) {
+          alert(error.message);
+          return;
+        }
+      }
+      if (feedback) feedback.textContent = t.accResetSent;
+      else alert(t.accResetSent);
+    }
+
+    async function handleUpdatePassword(e) {
+      e.preventDefault();
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
+      const newPassword = document.getElementById('newPasswordInput').value;
+      if (sb) {
+        const { error } = await sb.auth.updateUser({ password: newPassword });
+        if (error) {
+          alert(error.message);
+          return;
+        }
+      }
+      if (currentUser) {
+        const idx = registeredUsers.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
+        if (idx >= 0) {
+          registeredUsers[idx].password = newPassword;
+          saveUsersDb();
+        }
+      }
+      alert(t.accPassUpdated);
+      authMode = 'login';
+      renderAccountModal();
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const t = TRANSLATIONS[currentLang] || TRANSLATIONS.PL;
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const password = document.getElementById('loginPassword').value;
+
+      if (sb) {
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (!error && data?.user) {
+          applySupabaseAuthUser(data.user);
+          renderAccountModal();
+          return;
+        }
+      }
+
       const found = registeredUsers.find(u => u.email.toLowerCase() === email && u.password === password);
       if (!found) {
         alert(t.errWrongLogin);
@@ -4144,18 +4163,40 @@
       const phone = document.getElementById('regPhone').value.trim();
       const password = document.getElementById('regPassword').value;
       const enable2FA = document.getElementById('regEnable2FA').checked;
-      if (registeredUsers.some(u => u.email.toLowerCase() === email)) {
-        alert(t.errEmailExists);
-        return;
+
+      if (sb) {
+        const { data, error } = await sb.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: 'https://placomarkt.online/',
+            data: { name, phone, country: currentCountry }
+          }
+        });
+        if (error) {
+          alert(error.message);
+          return;
+        }
+        if (data?.user) {
+          applySupabaseAuthUser(data.user);
+        }
       }
-      const newUser = {
-        id: 'local-' + Date.now(), name, email, phone, password, country: currentCountry,
-        isPremium: false, premiumUntil: null, isAdmin: ADMIN_EMAILS.includes(email),
-        twoFactorEnabled: enable2FA, twoFactorSecret: 'PM-' + Math.random().toString(36).substring(2, 10).toUpperCase()
-      };
-      registeredUsers.push(newUser);
-      saveUsersDb();
-      currentUser = newUser;
+
+      if (!registeredUsers.some(u => u.email.toLowerCase() === email)) {
+        const newUser = {
+          id: currentUser?.id || ('local-' + Date.now()),
+          name, email, phone, password, country: currentCountry,
+          isPremium: ADMIN_EMAILS.includes(email),
+          premiumUntil: ADMIN_EMAILS.includes(email) ? '∞' : null,
+          isAdmin: ADMIN_EMAILS.includes(email),
+          twoFactorEnabled: enable2FA,
+          twoFactorSecret: 'PM-' + Math.random().toString(36).substring(2, 10).toUpperCase()
+        };
+        registeredUsers.push(newUser);
+        saveUsersDb();
+        if (!currentUser) currentUser = newUser;
+      }
+
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       updateAccountButton();
       renderAccountModal();
@@ -4180,6 +4221,9 @@
     }
 
     async function logoutUser() {
+      if (sb) {
+        try { await sb.auth.signOut(); } catch (e) {}
+      }
       currentUser = null;
       pending2FAUser = null;
       try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
