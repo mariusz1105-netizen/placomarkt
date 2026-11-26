@@ -577,6 +577,15 @@
       border-radius: 50%; background: #ffffff; color: #ea4335; font-weight: 900; font-size: 13px; border: 1px solid #cbd5e1;
     }
 
+    .auth-switch-tabs {
+      display: flex; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+    .auth-switch-btn {
+      flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--soft-bg); color: var(--text); font-weight: 700; font-size: 13px; cursor: pointer;
+    }
+    .auth-switch-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
     .hub-shell { display: grid; grid-template-columns: 280px 1fr; gap: 20px; margin-top: 8px; }
     @media (max-width: 720px) { .hub-shell { grid-template-columns: 1fr; } }
     .hub-sidebar {
@@ -1013,7 +1022,7 @@
 
     function maskEmailForConfirmation(email) {
       const str = String(email || '').trim();
-      if (!str.includes('@')) return str || 'odbiorcy';
+      if (!str.includes('@')) return str || 'skrzynki na stronie';
       const [userPart, domain] = str.split('@');
       if (userPart.length <= 2) return `${userPart[0] || '*'}***@${domain}`;
       return `${userPart.slice(0, 2)}***@${domain}`;
@@ -1099,15 +1108,17 @@
     }
 
     function hasBuyerSellerContact(listingId, buyerEmail, sellerEmail) {
-      if (!buyerEmail || !sellerEmail) return false;
+      if (!buyerEmail) return false;
       const b = buyerEmail.toLowerCase();
-      const s = sellerEmail.toLowerCase();
-      if (b === s) return false;
+      const s = (sellerEmail || '').toLowerCase();
+      if (s && b === s) return false;
       return userMessagesDb.some(m => {
         const sameListing = String(m.listing_id) === String(listingId);
         const mSender = (m.sender_email || '').toLowerCase();
         const mRecip = (m.recipient_email || '').toLowerCase();
-        return sameListing && ((mSender === b && mRecip === s) || (mSender === s && mRecip === b));
+        if (!sameListing) return false;
+        if (!s) return mSender === b;
+        return (mSender === b && mRecip === s) || (mSender === s && mRecip === b);
       });
     }
 
@@ -1345,6 +1356,7 @@
     let uploadedAdPhotoDataUrl = '';
     let currentUser = null;
     let hubTopTab = 'sell';
+    let authModalTab = 'login';
 
     let registeredUsers = [
       {
@@ -1444,7 +1456,7 @@
         pirateFlag: false,
         hidden: false,
         views: 1,
-        sellerName: row.seller_name || (isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : getFirstNameOrNick('', rowOwnerEmail || 'Użytkownik')),
+        sellerName: row.seller_name || (isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : getFirstNameOrNick('', rowOwnerEmail || 'Sprzedawca')),
         sellerVerified: true,
         phone: '',
         sharePhone: false,
@@ -1591,7 +1603,15 @@
     function getUnreadOrInboxCountForCurrentUser() {
       if (!currentUser || !currentUser.email) return 0;
       const me = currentUser.email.toLowerCase();
-      return userMessagesDb.filter(m => (m.recipient_email || '').toLowerCase() === me).length;
+      return userMessagesDb.filter(m => {
+        const recip = (m.recipient_email || '').toLowerCase();
+        if (recip && recip === me) return true;
+        if (!recip && m.listing_id) {
+          const item = Object.values(listingsData).flat().find(x => String(x.id) === String(m.listing_id));
+          return item && isListingOwnedByMe(item);
+        }
+        return false;
+      }).length;
     }
 
     function updateAccountButton() {
@@ -1878,7 +1898,7 @@
 
       const buyerEmail = currentUser?.email || '';
       const sellerEmail = item.ownerEmail || '';
-      const canRate = Boolean(buyerEmail && sellerEmail && hasBuyerSellerContact(item.id, buyerEmail, sellerEmail));
+      const canRate = Boolean(buyerEmail && hasBuyerSellerContact(item.id, buyerEmail, sellerEmail));
 
       const thumbsHtml = photos.length > 1
         ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">` +
@@ -1923,23 +1943,25 @@
       if (!item) return;
 
       if (!currentUser || !currentUser.email) {
-        alert('Zaloguj się w zakładce Konto, aby wysłać wiadomość do sprzedawcy i otrzymać potwierdzenie e-mail.');
+        alert('Zaloguj się lub załóż darmowe konto z adresem e-mail, aby wysłać wiadomość do sprzedawcy.');
         openAccountModal();
         return;
       }
 
-      const recipientEmail = (item.ownerEmail || '').trim().toLowerCase();
-      if (!recipientEmail) {
-        alert('To ogłoszenie nie ma przypisanego adresu e-mail sprzedawcy.');
-        return;
+      let recipientEmail = (item.ownerEmail || '').trim().toLowerCase();
+      if (!recipientEmail && item.sellerName) {
+        const matchedUser = registeredUsers.find(u =>
+          (u.name || '').toLowerCase() === item.sellerName.toLowerCase() && u.email
+        );
+        if (matchedUser) recipientEmail = matchedUser.email.toLowerCase();
       }
 
-      if (recipientEmail === currentUser.email.toLowerCase()) {
+      if (recipientEmail && recipientEmail === currentUser.email.toLowerCase()) {
         alert('To Twoje własne ogłoszenie.');
         return;
       }
 
-      const displayNick = getFirstNameOrNick(item.sellerName, recipientEmail);
+      const displayNick = getFirstNameOrNick(item.sellerName, recipientEmail || 'Sprzedawca');
       const txt = prompt(`Wiadomość do użytkownika ${displayNick} (dot. oferty: ${item.title}):`);
       if (!txt || !txt.trim()) return;
 
@@ -1949,9 +1971,9 @@
         listing_title: item.title,
         sender_email: currentUser.email.toLowerCase(),
         sender_name: senderNick,
-        recipient_email: recipientEmail,
+        recipient_email: recipientEmail || null,
         tresc: txt.trim(),
-        seller_notified: true,
+        seller_notified: Boolean(recipientEmail),
         sender_confirmed: true
       };
 
@@ -1968,8 +1990,12 @@
       updateAccountButton();
       openDetail(listingId);
 
-      const maskedRecipient = maskEmailForConfirmation(recipientEmail);
-      alert(`Wiadomość została wysłana do ${displayNick} (${maskedRecipient}).\nSprzedający otrzymał powiadomienie na e-mail o zainteresowaniu przedmiotem, a potwierdzenie wysłano na Twój adres (${currentUser.email}).`);
+      if (recipientEmail) {
+        const maskedRecipient = maskEmailForConfirmation(recipientEmail);
+        alert(`Wiadomość została zapisana na stronie oraz wysłana do ${displayNick} (${maskedRecipient}).\nSprzedający otrzyma powiadomienie e-mail, a potwierdzenie dostarczenia wysłano na Twój e-mail (${currentUser.email}).`);
+      } else {
+        alert(`Wiadomość została dostarczona do skrzynki sprzedawcy ${displayNick} na stronie (w zakładce Konto → Wiadomości).\nPotwierdzenie zapisano dla Twojego adresu (${currentUser.email}).`);
+      }
     }
 
     function shareOfferLink(id, title) {
@@ -2001,7 +2027,7 @@
 
       const ratingPayload = {
         listing_id: String(item.id),
-        seller_email: sellerEmail,
+        seller_email: sellerEmail || 'seller@placomarkt.online',
         reviewer_email: buyerEmail,
         stars
       };
@@ -2063,6 +2089,12 @@
     }
 
     function openAddModal(editCountry = null, editId = null) {
+      if (!currentUser || !currentUser.email) {
+        alert('Zaloguj się lub utwórz darmowe konto z e-mailem, aby dodać ogłoszenie i odbierać pytania od kupujących.');
+        openAccountModal();
+        return;
+      }
+
       editingListingCountry = editCountry;
       editingListingId = editId;
       uploadedPhotosTemp = [];
@@ -2205,7 +2237,7 @@
         return;
       }
 
-      const ownerMail = currentUser?.email || ADMIN_EMAIL;
+      const ownerMail = (currentUser?.email || ADMIN_EMAIL).toLowerCase();
       const ownerUuid = currentUser?.id || null;
 
       let insertedRow = null;
@@ -2296,7 +2328,7 @@
       setOfferProgress(25, 'Ponowne ładowanie oferty...');
       const nickName = existing.sellerName || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik');
       const photosArr = Array.isArray(existing.photos) ? existing.photos.slice(0, MAX_PHOTOS_PER_OFFER) : [];
-      const ownerMail = currentUser?.email || existing.ownerEmail || ADMIN_EMAIL;
+      const ownerMail = (currentUser?.email || existing.ownerEmail || ADMIN_EMAIL).toLowerCase();
       const ownerUuid = currentUser?.id || existing.ownerId || null;
 
       let insertedRow = null;
@@ -2359,9 +2391,9 @@
           if (parsed) savedCreds = parsed;
         } catch (e) {}
 
-        body.innerHTML = `
+        const loginTabHtml = `
           <form onsubmit="handleLoginSubmit(event)">
-            <div class="form-group"><input type="text" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="E-mail (np. ${ADMIN_EMAIL})" /></div>
+            <div class="form-group"><input type="email" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="Adres e-mail (wymagany)" /></div>
             <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Hasło" /></div>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:12px">
               <input type="checkbox" id="rememberLoginCheck" style="width:auto" ${savedCreds.remember ? 'checked' : ''} />
@@ -2369,6 +2401,23 @@
             </label>
             <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się</button>
           </form>
+        `;
+
+        const registerTabHtml = `
+          <form onsubmit="handleRegisterSubmit(event)">
+            <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="Twoja ksywka / inicjały (np. Mario, M.K.)" /></div>
+            <div class="form-group"><input type="email" id="regEmail" required placeholder="Twój adres e-mail (wymagany do powiadomień)" /></div>
+            <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="Hasło (min. 6 znaków)" /></div>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Załóż darmowe konto</button>
+          </form>
+        `;
+
+        body.innerHTML = `
+          <div class="auth-switch-tabs">
+            <button type="button" class="auth-switch-btn ${authModalTab === 'login' ? 'active' : ''}" onclick="authModalTab='login';renderAccountModal()">Logowanie</button>
+            <button type="button" class="auth-switch-btn ${authModalTab === 'register' ? 'active' : ''}" onclick="authModalTab='register';renderAccountModal()">Rejestracja (e-mail)</button>
+          </div>
+          ${authModalTab === 'login' ? loginTabHtml : registerTabHtml}
           <div class="alt-login-divider">LUB</div>
           <button type="button" class="alt-login-btn" onclick="handleGoogleLogin()">
             <span class="google-g-badge">G</span><span>Kontynuuj z Google</span>
@@ -2382,7 +2431,15 @@
       const myAds = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isListingOwnedByMe).map(x => ({ ...x, c })));
 
       const meLower = (currentUser.email || '').toLowerCase();
-      const myInbox = userMessagesDb.filter(m => (m.recipient_email || '').toLowerCase() === meLower);
+      const myInbox = userMessagesDb.filter(m => {
+        const recip = (m.recipient_email || '').toLowerCase();
+        if (recip && recip === meLower) return true;
+        if (!recip && m.listing_id) {
+          const item = Object.values(listingsData).flat().find(x => String(x.id) === String(m.listing_id));
+          return item && isListingOwnedByMe(item);
+        }
+        return false;
+      });
       const mySent = userMessagesDb.filter(m => (m.sender_email || '').toLowerCase() === meLower);
 
       let rightHtml = '';
@@ -2414,7 +2471,7 @@
             ${mySent.length ? mySent.map(m => `
               <div class="admin-row">
                 <div>
-                  <strong>Do: ${maskEmailForConfirmation(m.recipient_email)} • ${m.listing_title || ''}</strong>
+                  <strong>Do: ${m.recipient_email ? maskEmailForConfirmation(m.recipient_email) : 'Skrzynka na stronie'} • ${m.listing_title || ''}</strong>
                   <div style="font-size:12px;margin-top:4px">${m.tresc}</div>
                 </div>
                 <span style="font-size:11px;color:var(--green);font-weight:700">✓ Dostarczono</span>
@@ -2533,7 +2590,7 @@
       userMessagesDb.unshift(savedMsg);
       saveUserMessagesLocal();
       renderAccountModal();
-      alert(`Odpowiedź dostarczona do ${maskEmailForConfirmation(buyerEmail)}.`);
+      alert(`Odpowiedź dostarczona na stronę oraz do ${maskEmailForConfirmation(buyerEmail)}.`);
     }
 
     function saveNickName() {
@@ -2608,11 +2665,58 @@
       document.getElementById('directNewPass').value = '';
     }
 
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const password = document.getElementById('regPass').value;
+
+      if (!email || !email.includes('@')) {
+        alert('Podaj poprawny adres e-mail — jest wymagany do rejestracji i powiadomień.');
+        return;
+      }
+
+      if (sb) {
+        const { data, error } = await sb.auth.signUp({
+          email,
+          password,
+          options: { data: { name } }
+        });
+        if (!error && data?.user) {
+          applySupabaseAuthUser(data.user);
+          renderAccountModal();
+          alert('Konto utworzone. Twój adres e-mail jest przypisany do ogłoszeń i powiadomień.');
+          return;
+        }
+      }
+
+      const newUser = {
+        id: 'user-' + Date.now(),
+        name: getFirstNameOrNick(name, email),
+        email,
+        password,
+        country: currentCountry,
+        isAdmin: ADMIN_EMAILS.includes(email),
+        bannedUntil: null
+      };
+      registeredUsers.push(newUser);
+      saveUsersDb();
+      currentUser = newUser;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (err) {}
+      updateAccountButton();
+      renderAccountModal();
+    }
+
     async function handleLoginSubmit(e) {
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const pass = document.getElementById('loginPass').value;
       const remember = Boolean(document.getElementById('rememberLoginCheck')?.checked);
+
+      if (!email || !email.includes('@')) {
+        alert('Podaj poprawny adres e-mail.');
+        return;
+      }
 
       try {
         if (remember) {
@@ -2627,7 +2731,7 @@
         alert(`Konto zablokowane do: ${new Date(ban.bannedUntil).toLocaleString('pl-PL')}`);
         return;
       }
-      if (sb && email.includes('@')) {
+      if (sb) {
         const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
         if (!error && data?.user) {
           applySupabaseAuthUser(data.user);
@@ -2644,7 +2748,7 @@
         updateAccountButton();
         renderAccountModal();
       } else {
-        alert('Nieprawidłowy login lub hasło.');
+        alert('Nieprawidłowy e-mail lub hasło. Jeśli nie masz konta, kliknij zakładkę Rejestracja.');
       }
     }
 
