@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="description" content="PlacoMarkt.online — ogłoszenia, licytacje, zakupy, wczasy, nieruchomości i ogródki działkowe (NL & PL)." />
   <link rel="canonical" href="https://placomarkt.online/" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23f97316'/></svg>" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://placomarkt.online/" />
   <meta property="og:title" content="PlacoMarkt — Platforma Ogłoszeń, Licytacji, Zakupów i Wczasów" />
@@ -449,6 +450,7 @@
     .trust-high { background: #dcfce7; color: #15803d; }
     .trust-mid { background: #fef3c7; color: #b45309; }
     .trust-low { background: #fee2e2; color: #b91c1c; }
+    .trust-none { background: #e2e8f0; color: #475569; }
     .honesty-icon-badge {
       display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px;
       border-radius: 999px; font-size: 10px; font-weight: 800;
@@ -768,7 +770,7 @@
         <button type="button" class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">📋 Ogłoszenia i ryzyko</button>
         <button type="button" class="admin-tab" id="admTabUsers" onclick="setAdminTab('users')">👥 Użytkownicy i bany</button>
         <button type="button" class="admin-tab" id="admTabAds" onclick="setAdminTab('ads')">📢 Reklamy</button>
-        <button type="button" class="admin-tab" id="admTabHelp" onclick="setAdminTab('help')">✉️ Pomoc / Wiadomości (<span id="repCountTab">0</span>)</button>
+        <button type="button" class="admin-tab" id="admTabHelp" onclick="setAdminTab('help')">✉️ Pomoc / Zgłoszenia (<span id="repCountTab">0</span>)</button>
       </div>
 
       <div id="adminBody"></div>
@@ -798,12 +800,18 @@
             </select>
           </div>
         </div>
-        <div class="form-group">
-          <label>Tytuł</label>
-          <input type="text" id="newTitle" required />
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Tytuł</label>
+            <input type="text" id="newTitle" required />
+          </div>
+          <div class="form-group">
+            <label>Twoja ksywka / inicjały w ogłoszeniu</label>
+            <input type="text" id="newSellerAlias" maxlength="24" placeholder="np. Mario, M.R., DJ Mario..." />
+          </div>
         </div>
         <div class="form-group">
-          <label>Zdjęcia (maks. 4 — podgląd przed dodaniem)</label>
+          <label>Zdjęcia (maks. 6 — podgląd przed dodaniem)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
@@ -863,15 +871,15 @@
           <label>Widoczność</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
-              <strong style="color:var(--green)">0,00 €</strong>
+              <strong style="color:var(--green)" id="promoPriceStd">0,00 €</strong>
               <div style="font-size:11px;color:var(--muted)">30 dni</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
-              <strong style="color:var(--red)">0,00 €</strong>
+              <strong style="color:var(--red)" id="promoPriceUrgent">0,00 €</strong>
               <div style="font-size:11px;color:var(--muted)">⚡ PILNE</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
-              <strong style="color:var(--accent)">0,00 €</strong>
+              <strong style="color:var(--accent)" id="promoPriceTop">0,00 €</strong>
               <div style="font-size:11px;color:var(--muted)">⭐ TOP</div>
             </div>
           </div>
@@ -937,9 +945,12 @@
     const SUPABASE_URL = 'https://dotadrdquekzdqoxvtkk.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvdGFkcmRxdWVremRxb3h2dGtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1NjIxNjEsImV4cCI6MjExMTEzODE2MX0.8_BWwZHq71Kdypx955_AL_0wrOh61rWuC4iP34KjPVw';
     const SUPABASE_TABLE_OGLOSZENIA = 'ogloszenia';
+    const SUPABASE_TABLE_WIADOMOSCI = 'wiadomosci';
+    const SUPABASE_TABLE_OCENY = 'oceny_sprzedawcow';
     const SUPABASE_BUCKET_OGLOSZENIA = 'ogloszenia';
     const ADMIN_EMAIL = 'adminplacomarkt@gmail.com';
     const ADMIN_EMAILS = ['adminplacomarkt@gmail.com', 'admin@placomarkt.nl', 'kontakt@placomarkt.nl', 'admin@placomarkt.online'];
+    const MAX_PHOTOS_PER_OFFER = 6;
 
     const sb = (window.supabase && SUPABASE_URL.startsWith('https://') && SUPABASE_PUBLISHABLE_KEY.length > 20)
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
@@ -995,9 +1006,17 @@
 
     function getFirstNameOrNick(rawName, email) {
       const cleaned = String(rawName || '').trim();
-      if (cleaned) return cleaned.split(/\s+/)[0];
+      if (cleaned) return cleaned;
       if (email && email.includes('@')) return email.split('@')[0];
       return 'Konto';
+    }
+
+    function maskEmailForConfirmation(email) {
+      const str = String(email || '').trim();
+      if (!str.includes('@')) return str || 'odbiorcy';
+      const [userPart, domain] = str.split('@');
+      if (userPart.length <= 2) return `${userPart[0] || '*'}***@${domain}`;
+      return `${userPart.slice(0, 2)}***@${domain}`;
     }
 
     function toggleSharePhoneCheckbox() {
@@ -1059,6 +1078,67 @@
       try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
     }
 
+    let userMessagesDb = [];
+    try {
+      const savedUserMsgs = JSON.parse(localStorage.getItem('placomarkt_user_messages') || '[]');
+      if (Array.isArray(savedUserMsgs)) userMessagesDb = savedUserMsgs;
+    } catch (e) {}
+
+    function saveUserMessagesLocal() {
+      try { localStorage.setItem('placomarkt_user_messages', JSON.stringify(userMessagesDb)); } catch (e) {}
+    }
+
+    let sellerRatingsDb = [];
+    try {
+      const savedRatings = JSON.parse(localStorage.getItem('placomarkt_seller_ratings') || '[]');
+      if (Array.isArray(savedRatings)) sellerRatingsDb = savedRatings;
+    } catch (e) {}
+
+    function saveSellerRatingsLocal() {
+      try { localStorage.setItem('placomarkt_seller_ratings', JSON.stringify(sellerRatingsDb)); } catch (e) {}
+    }
+
+    function hasBuyerSellerContact(listingId, buyerEmail, sellerEmail) {
+      if (!buyerEmail || !sellerEmail) return false;
+      const b = buyerEmail.toLowerCase();
+      const s = sellerEmail.toLowerCase();
+      if (b === s) return false;
+      return userMessagesDb.some(m => {
+        const sameListing = String(m.listing_id) === String(listingId);
+        const mSender = (m.sender_email || '').toLowerCase();
+        const mRecip = (m.recipient_email || '').toLowerCase();
+        return sameListing && ((mSender === b && mRecip === s) || (mSender === s && mRecip === b));
+      });
+    }
+
+    function getSellerRatingStats(item) {
+      const sellerMail = (item.ownerEmail || '').toLowerCase();
+      const matched = sellerRatingsDb.filter(r =>
+        (sellerMail && (r.seller_email || '').toLowerCase() === sellerMail) ||
+        String(r.listing_id) === String(item.id)
+      );
+      if (!matched.length) {
+        if (item.isPlaceholder && item.sellerRating) {
+          return { count: 1, pct: Math.round((Number(item.sellerRating) / 5) * 100) };
+        }
+        return { count: 0, pct: null };
+      }
+      const avg = matched.reduce((acc, r) => acc + Number(r.stars || 0), 0) / matched.length;
+      return { count: matched.length, pct: Math.min(100, Math.max(0, Math.round((avg / 5) * 100))) };
+    }
+
+    function getHonestyBadgeHtml(stats, pirateFlag) {
+      if (pirateFlag) return `<span class="badge badge-pirate">🏴‍☠️ FLAGA PIRATA</span>`;
+      if (!stats || stats.pct === null || stats.count === 0) {
+        return `<span class="trust-pct-pill trust-none">🆕 Brak ocen (po kontakcie)</span>`;
+      }
+      const pct = stats.pct;
+      if (pct >= 95) return `<span class="honesty-icon-badge">🛡️⭐ Super Uczciwy (${pct}% • ${stats.count})</span>`;
+      if (pct >= 85) return `<span class="trust-pct-pill trust-high">✅ Rzetelny (${pct}% • ${stats.count})</span>`;
+      if (pct >= 70) return `<span class="trust-pct-pill trust-mid">⭐ ${pct}% (${stats.count})</span>`;
+      return `<span class="trust-pct-pill trust-low">⚠️ ${pct}% (${stats.count})</span>`;
+    }
+
     const PLACEHOLDER_OFFERS = {
       NL: [
         {
@@ -1068,7 +1148,7 @@
           city: 'Rotterdam', price: 3200,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142,
-          sellerName: 'StrefaOgrodow', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
+          sellerName: 'StrefaOgrodow', ownerEmail: 'kontakt@strefaogrodow.nl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         },
         {
           id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
@@ -1077,7 +1157,7 @@
           city: 'Rotterdam', price: 890,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118,
-          sellerName: 'MotoRotterdam', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+          sellerName: 'MotoRotterdam', ownerEmail: 'biuro@motorotterdam.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         },
         {
           id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
@@ -1086,7 +1166,7 @@
           city: 'Den Haag', price: 165,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
           icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 96,
-          sellerName: 'AudioBoxNL', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+          sellerName: 'AudioBoxNL', ownerEmail: 'info@audioboxnl.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         },
         {
           id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
@@ -1095,7 +1175,7 @@
           city: 'Dordrecht', price: 640,
           photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
           icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84,
-          sellerName: 'VisShopNL', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+          sellerName: 'VisShopNL', ownerEmail: 'sklep@visshopnl.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
         },
         {
           id: 9005, isPlaceholder: true, type: 'sale', category: 'travel', condition: 'new',
@@ -1104,7 +1184,7 @@
           city: 'Utrecht', price: 299,
           photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75'],
           icon: '✈️', top: false, hasSubscription: false, urgent: false, hidden: false, views: 71,
-          sellerName: 'WakacjePlus', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+          sellerName: 'WakacjePlus', ownerEmail: 'rezerwacje@wakacjeplus.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
         },
         {
           id: 9006, isPlaceholder: true, type: 'free', category: 'home', condition: 'used',
@@ -1113,7 +1193,7 @@
           city: 'Rotterdam', price: 0,
           photos: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🎁', top: false, hasSubscription: false, urgent: false, hidden: false, views: 154,
-          sellerName: 'DomZamożny', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
+          sellerName: 'DomZamozny', ownerEmail: 'oddam@domzamozny.nl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         }
       ],
       PL: [
@@ -1124,7 +1204,7 @@
           city: 'Katowice', price: 24500,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135,
-          sellerName: 'OgrodSlask', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
+          sellerName: 'OgrodSlask', ownerEmail: 'kontakt@ogrodslask.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         },
         {
           id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
@@ -1133,7 +1213,7 @@
           city: 'Czeladź', price: 420,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
           icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109,
-          sellerName: 'AudioSlask', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+          sellerName: 'AudioSlask', ownerEmail: 'sklep@audioslask.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         },
         {
           id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
@@ -1142,7 +1222,7 @@
           city: 'Będzin', price: 1150,
           photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
           icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88,
-          sellerName: 'WedkarzPL', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+          sellerName: 'WedkarzPL', ownerEmail: 'biuro@wedkarzpl.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         },
         {
           id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
@@ -1151,7 +1231,7 @@
           city: 'Sosnowiec', price: 3400,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92,
-          sellerName: 'MotoCentrum', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+          sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
         },
         {
           id: 9105, isPlaceholder: true, type: 'sale', category: 'travel', condition: 'new',
@@ -1160,7 +1240,7 @@
           city: 'Kraków', price: 590,
           photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75'],
           icon: '✈️', top: false, hasSubscription: false, urgent: false, hidden: false, views: 67,
-          sellerName: 'UrlopPL', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+          sellerName: 'UrlopPL', ownerEmail: 'rezerwacje@urloppl.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
         },
         {
           id: 9106, isPlaceholder: true, type: 'free', category: 'home', condition: 'used',
@@ -1169,7 +1249,7 @@
           city: 'Czeladź', price: 0,
           photos: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🎁', top: false, hasSubscription: false, urgent: false, hidden: false, views: 121,
-          sellerName: 'OddamDarmo', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
+          sellerName: 'OddamDarmo', ownerEmail: 'oddam@oddampolska.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         }
       ]
     };
@@ -1268,7 +1348,7 @@
 
     let registeredUsers = [
       {
-        id: 'admin-1', name: 'Admin', email: ADMIN_EMAIL,
+        id: 'admin-1', name: 'Mario', email: ADMIN_EMAIL,
         password: 'admin', phone: '', country: 'NL', isPremium: true,
         isAdmin: true, bannedUntil: null, banReason: ''
       }
@@ -1310,19 +1390,6 @@
       return reasons;
     }
 
-    function getSellerTrustPercent(item) {
-      const rating = Number(item.sellerRating || 5.0);
-      return Math.min(100, Math.max(0, Math.round((rating / 5) * 100)));
-    }
-
-    function getHonestyBadgeHtml(pct, pirateFlag) {
-      if (pirateFlag) return `<span class="badge badge-pirate">🏴‍☠️ FLAGA PIRATA</span>`;
-      if (pct >= 95) return `<span class="honesty-icon-badge">🛡️⭐ Super Uczciwy (${pct}%)</span>`;
-      if (pct >= 85) return `<span class="trust-pct-pill trust-high">✅ Rzetelny (${pct}%)</span>`;
-      if (pct >= 70) return `<span class="trust-pct-pill trust-mid">⭐ ${pct}%</span>`;
-      return `<span class="trust-pct-pill trust-low">⚠️ ${pct}%</span>`;
-    }
-
     function parsePriceNumber(val) {
       if (typeof val === 'number') return Number.isFinite(val) ? val : 0;
       if (!val) return 0;
@@ -1342,17 +1409,27 @@
       );
       const catId = matchedCat ? matchedCat.id : 'other';
       const numericPrice = parsePriceNumber(row.cena);
-      const photos = row.zdjecie_url ? [row.zdjecie_url] : [];
+      let photos = [];
+      if (Array.isArray(row.zdjecia) && row.zdjecia.length) {
+        photos = row.zdjecia.filter(Boolean).slice(0, MAX_PHOTOS_PER_OFFER);
+      } else if (row.zdjecie_url) {
+        photos = [row.zdjecie_url];
+      }
       const rowCountry = (row.kraj === 'PL' || row.kraj === 'NL') ? row.kraj : currentCountry;
-      const isOwnedByCurrent = myListingIds.includes(String(row.id));
+      const rowOwnerEmail = row.owner_email || (myListingIds.includes(String(row.id)) && currentUser ? currentUser.email : null);
+      const isOwnedByCurrent = Boolean(
+        myListingIds.includes(String(row.id)) ||
+        (currentUser && rowOwnerEmail && rowOwnerEmail.toLowerCase() === (currentUser.email || '').toLowerCase()) ||
+        (currentUser && row.owner_id && row.owner_id === currentUser.id)
+      );
 
       return {
         id: row.id,
         country: rowCountry,
         fromSupabaseOgloszenia: true,
         isPlaceholder: false,
-        ownerEmail: isOwnedByCurrent && currentUser ? currentUser.email : null,
-        ownerId: isOwnedByCurrent && currentUser ? currentUser.id : null,
+        ownerEmail: rowOwnerEmail,
+        ownerId: row.owner_id || (isOwnedByCurrent && currentUser ? currentUser.id : null),
         type: numericPrice === 0 ? 'free' : 'sale',
         category: catId,
         condition: 'na',
@@ -1367,9 +1444,8 @@
         pirateFlag: false,
         hidden: false,
         views: 1,
-        sellerName: isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik',
+        sellerName: row.seller_name || (isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : getFirstNameOrNick('', rowOwnerEmail || 'Użytkownik')),
         sellerVerified: true,
-        sellerRating: 5.0,
         phone: '',
         sharePhone: false,
         desc: row.opis || ''
@@ -1379,7 +1455,7 @@
     async function uploadFileToBucket(file, folder = '') {
       if (!sb || !file) return null;
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-      const filePath = `${folder}${Date.now()}_${safeName}`;
+      const filePath = `${folder}${Date.now()}_${Math.random().toString(36).slice(2, 6)}_${safeName}`;
       const { error } = await sb.storage.from(SUPABASE_BUCKET_OGLOSZENIA).upload(filePath, file, { upsert: false });
       if (error) return null;
       const { data } = sb.storage.from(SUPABASE_BUCKET_OGLOSZENIA).getPublicUrl(filePath);
@@ -1396,9 +1472,9 @@
           const prev = combinedMap.get(key);
           combinedMap.set(key, {
             ...item,
-            ownerEmail: prev.ownerEmail || item.ownerEmail,
-            ownerId: prev.ownerId || item.ownerId,
-            sellerName: prev.sellerName || item.sellerName,
+            ownerEmail: item.ownerEmail || prev.ownerEmail,
+            ownerId: item.ownerId || prev.ownerId,
+            sellerName: item.sellerName || prev.sellerName,
             photos: (item.photos && item.photos.length) ? item.photos : (prev.photos || [])
           });
         } else {
@@ -1455,6 +1531,18 @@
           saveUsersDb();
         }
 
+        const { data: userMsgs } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).select('*').order('created_at', { ascending: false });
+        if (Array.isArray(userMsgs)) {
+          userMessagesDb = userMsgs;
+          saveUserMessagesLocal();
+        }
+
+        const { data: ratingsRows } = await sb.from(SUPABASE_TABLE_OCENY).select('*').order('created_at', { ascending: false });
+        if (Array.isArray(ratingsRows)) {
+          sellerRatingsDb = ratingsRows;
+          saveSellerRatingsLocal();
+        }
+
         const { data: msgs } = await sb.from('wiadomosci_admin').select('*').order('created_at', { ascending: false });
         if (Array.isArray(msgs)) {
           adminMessages = msgs;
@@ -1500,11 +1588,21 @@
       updateAccountButton();
     }
 
+    function getUnreadOrInboxCountForCurrentUser() {
+      if (!currentUser || !currentUser.email) return 0;
+      const me = currentUser.email.toLowerCase();
+      return userMessagesDb.filter(m => (m.recipient_email || '').toLowerCase() === me).length;
+    }
+
     function updateAccountButton() {
       const lbl = document.getElementById('navAccountLabel');
       const admBtn = document.getElementById('navAdminBtn');
       const isAdmin = hasAdminPermission();
-      if (lbl) lbl.textContent = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Konto';
+      const inboxCount = getUnreadOrInboxCountForCurrentUser();
+      if (lbl) {
+        const baseName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Konto';
+        lbl.textContent = inboxCount > 0 ? `${baseName} (${inboxCount})` : baseName;
+      }
       if (admBtn) admBtn.style.display = isAdmin ? 'inline-flex' : 'none';
       const dot = document.getElementById('adminReportBadge');
       if (dot) {
@@ -1584,6 +1682,12 @@
       document.getElementById('heroSub').textContent = `Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca (${cfg.currency})`;
       document.getElementById('autoLangNote').textContent = `${currentCountry} • ${currentLang}`;
 
+      const zeroCurrency = cfg.currency === 'zł' ? '0,00 zł' : '0,00 €';
+      ['promoPriceStd', 'promoPriceUrgent', 'promoPriceTop'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = zeroCurrency;
+      });
+
       renderPromoAdSlot();
 
       document.getElementById('searchCatSelect').innerHTML =
@@ -1642,8 +1746,17 @@
       return cur === 'zł' ? `${num} zł` : `${num} €`;
     }
 
+    function isListingOwnedByMe(item) {
+      if (!item || item.isPlaceholder) return false;
+      if (myListingIds.includes(String(item.id))) return true;
+      if (!currentUser) return false;
+      if (currentUser.id && item.ownerId && item.ownerId === currentUser.id) return true;
+      if (currentUser.email && item.ownerEmail && item.ownerEmail.toLowerCase() === currentUser.email.toLowerCase()) return true;
+      return false;
+    }
+
     function buildListingCardHtml(item, isSubCard = false) {
-      const pct = getSellerTrustPercent(item);
+      const ratingStats = getSellerRatingStats(item);
       const isFav = favoriteIds.includes(item.id);
       const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
       const hasPhoto = photos.length > 0;
@@ -1674,7 +1787,7 @@
               <div class="card-meta"><span>📍 ${item.city}</span><span>👁️ ${item.views || 1}</span>${photos.length > 1 ? `<span>📷 ${photos.length}</span>` : ''}</div>
               <div class="seller-mini-tag">
                 <span>👤 ${displayNick}</span>
-                ${getHonestyBadgeHtml(pct, Boolean(item.pirateFlag))}
+                ${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}
               </div>
               ${item.pirateFlag ? `<div class="pirate-warning-box">🏴‍☠️ Flaga Pirata — uwaga na ryzyko nieoryginalnego przedmiotu</div>` : ''}
             </div>
@@ -1754,12 +1867,18 @@
       const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
       if (!item) return;
       item.views = (item.views || 0) + 1;
-      const pct = getSellerTrustPercent(item);
+      const ratingStats = getSellerRatingStats(item);
       const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
       const hasPhoto = photos.length > 0;
       const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
       const hasSharedPhone = Boolean(item.sharePhone && item.phone && String(item.phone).trim().length > 0);
-      const canDeleteHere = !item.isPlaceholder && (hasAdminPermission() || myListingIds.includes(String(item.id)));
+      const isMine = isListingOwnedByMe(item);
+      const canDeleteHere = !item.isPlaceholder && (isMine || hasAdminPermission());
+      const deleteLabel = isMine ? '🗑️ Usuń moje ogłoszenie' : '🗑️ Usuń (Admin)';
+
+      const buyerEmail = currentUser?.email || '';
+      const sellerEmail = item.ownerEmail || '';
+      const canRate = Boolean(buyerEmail && sellerEmail && hasBuyerSellerContact(item.id, buyerEmail, sellerEmail));
 
       const thumbsHtml = photos.length > 1
         ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">` +
@@ -1778,39 +1897,79 @@
         <div class="seller-card-box">
           <div>
             <strong>👤 ${displayNick}</strong>
-            <div style="margin-top:4px">${getHonestyBadgeHtml(pct, Boolean(item.pirateFlag))}</div>
+            <div style="margin-top:4px">${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}</div>
           </div>
-          <button type="button" class="mini-btn gold" onclick="rateSeller('${item.id}')">⭐ Oceń</button>
+          ${canRate
+            ? `<button type="button" class="mini-btn gold" onclick="rateSeller('${item.id}')">⭐ Oceń po kontakcie</button>`
+            : `<span style="font-size:11px;color:var(--muted)">Ocena dostępna po kontakcie kup–sprzedaj</span>`}
         </div>
         <div class="detail-actions">
           ${hasSharedPhone
             ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='📞 ${String(item.phone).replace(/'/g, '')}'">📞 Pokaż numer</button>`
             : ``}
-          <button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${displayNick}', '${String(item.title).replace(/'/g, '')}')">💬 Wiadomość</button>
+          ${!isMine
+            ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">💬 Wiadomość do sprzedawcy</button>`
+            : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">✏️ Edytuj ogłoszenie</button>`}
           <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">🔗 Udostępnij</button>
-          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');adminDelete('${item.id}')">🗑️ Usuń (Admin)</button>` : ``}
+          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">${deleteLabel}</button>` : ``}
         </div>
       `;
       document.getElementById('detailModal').classList.add('open');
       renderListings();
     }
 
-    function openDirectMessagePrompt(nick, title) {
-      const txt = prompt(`Wiadomość do użytkownika ${nick} (dot. oferty: ${title}):`);
+    async function openDirectMessagePrompt(listingId) {
+      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(listingId));
+      if (!item) return;
+
+      if (!currentUser || !currentUser.email) {
+        alert('Zaloguj się w zakładce Konto, aby wysłać wiadomość do sprzedawcy i otrzymać potwierdzenie e-mail.');
+        openAccountModal();
+        return;
+      }
+
+      const recipientEmail = (item.ownerEmail || '').trim().toLowerCase();
+      if (!recipientEmail) {
+        alert('To ogłoszenie nie ma przypisanego adresu e-mail sprzedawcy.');
+        return;
+      }
+
+      if (recipientEmail === currentUser.email.toLowerCase()) {
+        alert('To Twoje własne ogłoszenie.');
+        return;
+      }
+
+      const displayNick = getFirstNameOrNick(item.sellerName, recipientEmail);
+      const txt = prompt(`Wiadomość do użytkownika ${displayNick} (dot. oferty: ${item.title}):`);
       if (!txt || !txt.trim()) return;
-      const msg = {
-        id: Date.now(),
-        od_email: currentUser?.email || 'użytkownik',
-        od_nazwa: getFirstNameOrNick(currentUser?.name, currentUser?.email),
-        typ: 'wiadomosc',
-        temat: `Wiadomość dot. "${title}" (do: ${nick})`,
+
+      const senderNick = getFirstNameOrNick(currentUser.name, currentUser.email);
+      const msgRow = {
+        listing_id: String(item.id),
+        listing_title: item.title,
+        sender_email: currentUser.email.toLowerCase(),
+        sender_name: senderNick,
+        recipient_email: recipientEmail,
         tresc: txt.trim(),
-        created_at: new Date().toISOString()
+        seller_notified: true,
+        sender_confirmed: true
       };
-      adminMessages.unshift(msg);
-      if (sb) sb.from('wiadomosci_admin').insert([msg]).then(() => {}).catch(() => {});
+
+      let savedMsg = { id: Date.now(), ...msgRow, created_at: new Date().toISOString() };
+      if (sb) {
+        const { data, error } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]).select();
+        if (!error && Array.isArray(data) && data[0]) {
+          savedMsg = data[0];
+        }
+      }
+
+      userMessagesDb.unshift(savedMsg);
+      saveUserMessagesLocal();
       updateAccountButton();
-      alert('Wiadomość została wysłana.');
+      openDetail(listingId);
+
+      const maskedRecipient = maskEmailForConfirmation(recipientEmail);
+      alert(`Wiadomość została wysłana do ${displayNick} (${maskedRecipient}).\nSprzedający otrzymał powiadomienie na e-mail o zainteresowaniu przedmiotem, a potwierdzenie wysłano na Twój adres (${currentUser.email}).`);
     }
 
     function shareOfferLink(id, title) {
@@ -1825,13 +1984,42 @@
       }
     }
 
-    function rateSeller(id) {
+    async function rateSeller(id) {
       const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
-      if (!item) return;
-      const val = prompt('Ocena (1 - 5):', '5');
+      if (!item || !currentUser || !currentUser.email) return;
+
+      const buyerEmail = currentUser.email.toLowerCase();
+      const sellerEmail = (item.ownerEmail || '').toLowerCase();
+      if (!hasBuyerSellerContact(item.id, buyerEmail, sellerEmail)) {
+        alert('Ocenę mogą wystawić tylko osoby, które miały ze sobą kontakt kup–sprzedaj w tej ofercie.');
+        return;
+      }
+
+      const val = prompt('Ocena po kontakcie kup–sprzedaj (1 - 5 gwiazdek):', '5');
       if (!val) return;
-      const stars = Math.min(5, Math.max(1, Number(val) || 5));
-      item.sellerRating = stars;
+      const stars = Math.min(5, Math.max(1, Math.round(Number(val) || 5)));
+
+      const ratingPayload = {
+        listing_id: String(item.id),
+        seller_email: sellerEmail,
+        reviewer_email: buyerEmail,
+        stars
+      };
+
+      const existingIdx = sellerRatingsDb.findIndex(r =>
+        String(r.listing_id) === String(item.id) &&
+        (r.reviewer_email || '').toLowerCase() === buyerEmail
+      );
+      if (existingIdx >= 0) sellerRatingsDb[existingIdx] = { ...sellerRatingsDb[existingIdx], ...ratingPayload };
+      else sellerRatingsDb.unshift({ id: Date.now(), ...ratingPayload, created_at: new Date().toISOString() });
+      saveSellerRatingsLocal();
+
+      if (sb) {
+        try {
+          await sb.from(SUPABASE_TABLE_OCENY).upsert([ratingPayload], { onConflict: 'listing_id,reviewer_email' });
+        } catch (e) {}
+      }
+
       openDetail(id);
     }
 
@@ -1853,13 +2041,13 @@
     }
 
     function handlePhotoUpload(ev) {
-      const files = Array.from(ev.target.files || []).slice(0, 4);
+      const files = Array.from(ev.target.files || []).slice(0, MAX_PHOTOS_PER_OFFER);
       uploadedPhotosTemp = [];
       uploadedPhotoFilesTemp = files;
       const strip = document.getElementById('photoPreviewStrip');
       strip.innerHTML = '';
       if (!files.length) return;
-      setOfferProgress(25, `Wczytywanie podglądu zdjęć (${files.length})...`);
+      setOfferProgress(25, `Wczytywanie podglądu zdjęć (${files.length}/${MAX_PHOTOS_PER_OFFER})...`);
       let loadedCount = 0;
       files.forEach((file, idx) => {
         const reader = new FileReader();
@@ -1882,12 +2070,15 @@
       document.getElementById('newPhotos').value = '';
       document.getElementById('photoPreviewStrip').innerHTML = '';
 
+      const defaultAlias = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : '';
+
       if (editCountry && editId !== null) {
         const existing = (listingsData[editCountry] || []).find(x => String(x.id) === String(editId));
         if (existing) {
           document.getElementById('addModalTitle').textContent = '✏️ Edytuj swoje ogłoszenie';
           document.getElementById('submitOfferBtn').textContent = 'Zapisz zmiany';
           document.getElementById('newTitle').value = existing.title || '';
+          document.getElementById('newSellerAlias').value = existing.sellerName || defaultAlias;
           document.getElementById('newCategory').value = existing.category || 'other';
           document.getElementById('newCity').value = existing.city || '';
           document.getElementById('newPrice').value = existing.price || 0;
@@ -1905,6 +2096,7 @@
 
       document.getElementById('addModalTitle').textContent = '+ Dodaj ogłoszenie';
       document.getElementById('submitOfferBtn').textContent = 'Dodaj ogłoszenie';
+      document.getElementById('newSellerAlias').value = defaultAlias;
       document.getElementById('newPhone').value = '';
       document.getElementById('newSharePhone').checked = false;
       toggleSharePhoneCheckbox();
@@ -1943,6 +2135,7 @@
 
       const type = document.getElementById('newType').value;
       const title = document.getElementById('newTitle').value.trim();
+      const customAlias = document.getElementById('newSellerAlias').value.trim();
       const category = document.getElementById('newCategory').value;
       const city = document.getElementById('newCity').value.trim();
       const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
@@ -1950,12 +2143,12 @@
       const hasSubscription = document.getElementById('newHasSubscription').checked;
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
       const sharePhoneVal = Boolean(phoneVal && document.getElementById('newSharePhone')?.checked);
-      const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik';
+      const nickName = customAlias || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik');
 
-      const photosFinal = [...uploadedPhotosTemp].filter(Boolean).slice(0, 4);
+      const photosFinal = [...uploadedPhotosTemp].filter(Boolean).slice(0, MAX_PHOTOS_PER_OFFER);
       if (sb && uploadedPhotoFilesTemp.length > 0) {
         setOfferProgress(45, `Wysyłanie zdjęć (${uploadedPhotoFilesTemp.length})...`);
-        for (let i = 0; i < Math.min(4, uploadedPhotoFilesTemp.length); i++) {
+        for (let i = 0; i < Math.min(MAX_PHOTOS_PER_OFFER, uploadedPhotoFilesTemp.length); i++) {
           const url = await uploadFileToBucket(uploadedPhotoFilesTemp[i]);
           if (url) photosFinal[i] = url;
         }
@@ -1969,8 +2162,7 @@
           id: editingListingId,
           country: editingListingCountry,
           isPlaceholder: false,
-          views: 1,
-          sellerRating: 5.0
+          views: 1
         };
         updatedItem.title = title;
         updatedItem.category = category;
@@ -1996,7 +2188,11 @@
               kategoria: category,
               miejscowosc: city,
               opis: desc,
-              zdjecie_url: updatedItem.photos?.[0] || null
+              zdjecie_url: updatedItem.photos?.[0] || null,
+              zdjecia: updatedItem.photos || [],
+              seller_name: nickName,
+              owner_email: updatedItem.ownerEmail,
+              owner_id: updatedItem.ownerId
             }).eq('id', editingListingId);
           } catch (e) {}
         }
@@ -2009,6 +2205,9 @@
         return;
       }
 
+      const ownerMail = currentUser?.email || ADMIN_EMAIL;
+      const ownerUuid = currentUser?.id || null;
+
       let insertedRow = null;
       if (sb) {
         const { data, error } = await sb.from(SUPABASE_TABLE_OGLOSZENIA).insert([{
@@ -2018,7 +2217,11 @@
           kraj: currentCountry,
           miejscowosc: city,
           opis: desc,
-          zdjecie_url: photosFinal[0] || null
+          zdjecie_url: photosFinal[0] || null,
+          zdjecia: photosFinal,
+          seller_name: nickName,
+          owner_email: ownerMail,
+          owner_id: ownerUuid
         }]).select();
         if (error) {
           setDbStatus(`Baza Supabase zwróciła uwagę (${error.message}) — oferta zapisana lokalnie.`);
@@ -2036,8 +2239,8 @@
         fromSupabaseOgloszenia: Boolean(insertedRow),
         isPlaceholder: false,
         createdInSession: true,
-        ownerId: currentUser?.id || null,
-        ownerEmail: currentUser?.email || ADMIN_EMAIL,
+        ownerId: ownerUuid,
+        ownerEmail: ownerMail,
         type,
         category,
         title,
@@ -2053,7 +2256,6 @@
         views: 1,
         sellerName: nickName,
         sellerVerified: true,
-        sellerRating: 5.0,
         phone: phoneVal,
         sharePhone: sharePhoneVal,
         desc
@@ -2066,7 +2268,7 @@
       if (harmReasons.length > 0) {
         const alertMsg = {
           id: Date.now() + 1,
-          od_email: currentUser?.email || 'gość',
+          od_email: ownerMail,
           od_nazwa: nickName,
           typ: 'szkodliwosc',
           temat: `Powiadomienie o możliwej szkodliwości: ${newItem.title}`,
@@ -2092,8 +2294,10 @@
       const existing = (listingsData[country] || []).find(x => String(x.id) === String(id));
       if (!existing) return;
       setOfferProgress(25, 'Ponowne ładowanie oferty...');
-      const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : (existing.sellerName || 'Użytkownik');
-      const photoUrl = existing.photos?.[0] || null;
+      const nickName = existing.sellerName || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik');
+      const photosArr = Array.isArray(existing.photos) ? existing.photos.slice(0, MAX_PHOTOS_PER_OFFER) : [];
+      const ownerMail = currentUser?.email || existing.ownerEmail || ADMIN_EMAIL;
+      const ownerUuid = currentUser?.id || existing.ownerId || null;
 
       let insertedRow = null;
       if (sb) {
@@ -2104,7 +2308,11 @@
           kraj: country,
           miejscowosc: existing.city || COUNTRY_CONFIG[country].areaLabel,
           opis: existing.desc || '',
-          zdjecie_url: photoUrl
+          zdjecie_url: photosArr[0] || null,
+          zdjecia: photosArr,
+          seller_name: nickName,
+          owner_email: ownerMail,
+          owner_id: ownerUuid
         }]).select();
         if (!error && Array.isArray(data) && data[0]) {
           insertedRow = data[0];
@@ -2120,9 +2328,10 @@
         isPlaceholder: false,
         createdInSession: true,
         fromSupabaseOgloszenia: Boolean(insertedRow),
-        ownerId: currentUser?.id || existing.ownerId || null,
-        ownerEmail: currentUser?.email || existing.ownerEmail || ADMIN_EMAIL,
+        ownerId: ownerUuid,
+        ownerEmail: ownerMail,
         sellerName: nickName,
+        photos: photosArr,
         views: 1
       };
 
@@ -2144,10 +2353,20 @@
       box.classList.toggle('hub-modal', Boolean(currentUser));
 
       if (!currentUser) {
+        let savedCreds = { email: '', pass: '', remember: false };
+        try {
+          const parsed = JSON.parse(localStorage.getItem('placomarkt_remembered_login') || 'null');
+          if (parsed) savedCreds = parsed;
+        } catch (e) {}
+
         body.innerHTML = `
           <form onsubmit="handleLoginSubmit(event)">
-            <div class="form-group"><input type="text" id="loginEmail" required placeholder="E-mail (np. ${ADMIN_EMAIL})" /></div>
-            <div class="form-group"><input type="password" id="loginPass" required placeholder="Hasło" /></div>
+            <div class="form-group"><input type="text" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="E-mail (np. ${ADMIN_EMAIL})" /></div>
+            <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Hasło" /></div>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:12px">
+              <input type="checkbox" id="rememberLoginCheck" style="width:auto" ${savedCreds.remember ? 'checked' : ''} />
+              <span>Zapamiętaj hasło w pamięci przeglądarki</span>
+            </label>
             <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się</button>
           </form>
           <div class="alt-login-divider">LUB</div>
@@ -2160,15 +2379,11 @@
 
       const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
       const isAdmin = hasAdminPermission();
-      const isMine = i => {
-        if (i.isPlaceholder) return false;
-        if (myListingIds.includes(String(i.id))) return true;
-        if (i.createdInSession) return true;
-        if (currentUser.id && i.ownerId === currentUser.id) return true;
-        if (currentUser.email && i.ownerEmail === currentUser.email) return true;
-        return false;
-      };
-      const myAds = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isMine).map(x => ({ ...x, c })));
+      const myAds = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isListingOwnedByMe).map(x => ({ ...x, c })));
+
+      const meLower = (currentUser.email || '').toLowerCase();
+      const myInbox = userMessagesDb.filter(m => (m.recipient_email || '').toLowerCase() === meLower);
+      const mySent = userMessagesDb.filter(m => (m.sender_email || '').toLowerCase() === meLower);
 
       let rightHtml = '';
       if (hubTopTab === 'buy') {
@@ -2176,6 +2391,36 @@
         rightHtml = `
           <h3>❤️ Ulubione (${favs.length})</h3>
           <div style="margin-top:8px">${favs.length ? favs.map(i => `<div class="admin-row"><div><strong>${i.icon} ${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${i.id}')">Podgląd</button></div>`).join('') : '<p style="color:var(--muted);font-size:13px">Brak ulubionych ofert.</p>'}</div>
+        `;
+      } else if (hubTopTab === 'messages') {
+        rightHtml = `
+          <h3 style="margin-bottom:10px">💬 Wiadomości od zainteresowanych (${myInbox.length})</h3>
+          <div class="admin-list" style="margin-bottom:18px">
+            ${myInbox.length ? myInbox.map(m => `
+              <div class="admin-row">
+                <div>
+                  <strong>Oferta: ${m.listing_title || m.listing_id}</strong>
+                  <div style="font-size:12px;color:var(--muted)">Od: ${m.sender_name || m.sender_email} (${m.sender_email})</div>
+                  <div style="font-size:13px;margin-top:5px">${m.tresc}</div>
+                </div>
+                <div class="admin-row-actions">
+                  <button type="button" class="mini-btn green" onclick="replyToBuyerMessage('${m.listing_id}', '${String(m.listing_title || '').replace(/'/g, '')}', '${m.sender_email}')">↩️ Odpowiedz</button>
+                </div>
+              </div>
+            `).join('') : '<p style="color:var(--muted);font-size:13px">Brak nowych wiadomości od kupujących.</p>'}
+          </div>
+          <h4 style="margin-bottom:8px">📤 Wysłane pytania (${mySent.length})</h4>
+          <div class="admin-list">
+            ${mySent.length ? mySent.map(m => `
+              <div class="admin-row">
+                <div>
+                  <strong>Do: ${maskEmailForConfirmation(m.recipient_email)} • ${m.listing_title || ''}</strong>
+                  <div style="font-size:12px;margin-top:4px">${m.tresc}</div>
+                </div>
+                <span style="font-size:11px;color:var(--green);font-weight:700">✓ Dostarczono</span>
+              </div>
+            `).join('') : '<p style="color:var(--muted);font-size:13px">Brak wysłanych wiadomości.</p>'}
+          </div>
         `;
       } else if (hubTopTab === 'sell') {
         rightHtml = `
@@ -2188,13 +2433,13 @@
               <div class="admin-row">
                 <div>
                   <strong>${item.icon} ${item.title}</strong>
-                  <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')}</div>
+                  <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')} • Wystawiający: ${item.sellerName || displayNick}</div>
                 </div>
                 <div class="admin-row-actions">
                   <button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${item.id}')">👁️ Podgląd</button>
                   <button type="button" class="mini-btn green" onclick="relistMyListing('${item.c}', '${item.id}')">🔄 Wystaw ponownie</button>
                   <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">✏️ Edytuj</button>
-                  <button type="button" class="mini-btn red" onclick="deleteMyListing('${item.c}', '${item.id}')">🗑️ Usuń</button>
+                  <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">🗑️ Usuń</button>
                 </div>
               </div>
             `).join('') : '<p style="color:var(--muted);font-size:13px">Nie masz jeszcze żadnych wystawionych ogłoszeń.</p>'}
@@ -2203,10 +2448,10 @@
       } else {
         rightHtml = `
           <div class="set-section">
-            <h4>👤 Imię lub ksywka (bez nazwiska)</h4>
+            <h4>👤 Twoje inicjały / ksywka (także do zakupów i ogłoszeń)</h4>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <input type="text" id="nickInputField" value="${displayNick}" placeholder="Wpisz imię lub ksywkę..." style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
-              <button type="button" class="mini-btn green" onclick="saveNickName()">💾 Zapisz ksywkę</button>
+              <input type="text" id="nickInputField" value="${displayNick}" placeholder="Wpisz inicjały lub ksywkę (np. M.R., Mario)..." style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
+              <button type="button" class="mini-btn green" onclick="saveNickName()">💾 Zapisz inicjały</button>
             </div>
           </div>
 
@@ -2246,8 +2491,9 @@
               <div style="font-weight:800;font-size:14px">👤 ${displayNick}</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">🛒 ZAKUPY</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ SPRZEDAŻ (Wystaw ponownie / Edytuj)</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 KONTO (Ksywka / Hasło / Pomoc)</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">💬 WIADOMOŚCI (${myInbox.length})</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ SPRZEDAŻ (Edytuj / Usuń)</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 KONTO (Inicjały / Hasło / Pomoc)</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Panel Admin</button>` : ''}
             </div>
             <button type="button" class="mini-btn red" style="width:100%" onclick="logoutUser()">Wyloguj się</button>
@@ -2255,6 +2501,7 @@
           <div>
             <div class="hub-top-tabs">
               <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">ZAKUPY</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">WIADOMOŚCI (${myInbox.length})</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">SPRZEDAŻ</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">KONTO</button>
             </div>
@@ -2262,6 +2509,31 @@
           </div>
         </div>
       `;
+    }
+
+    async function replyToBuyerMessage(listingId, listingTitle, buyerEmail) {
+      if (!currentUser || !currentUser.email) return;
+      const txt = prompt(`Odpowiedź do ${maskEmailForConfirmation(buyerEmail)} (dot. ${listingTitle}):`);
+      if (!txt || !txt.trim()) return;
+      const msgRow = {
+        listing_id: String(listingId),
+        listing_title: listingTitle,
+        sender_email: currentUser.email.toLowerCase(),
+        sender_name: getFirstNameOrNick(currentUser.name, currentUser.email),
+        recipient_email: buyerEmail.toLowerCase(),
+        tresc: txt.trim(),
+        seller_notified: true,
+        sender_confirmed: true
+      };
+      let savedMsg = { id: Date.now(), ...msgRow, created_at: new Date().toISOString() };
+      if (sb) {
+        const { data, error } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]).select();
+        if (!error && Array.isArray(data) && data[0]) savedMsg = data[0];
+      }
+      userMessagesDb.unshift(savedMsg);
+      saveUserMessagesLocal();
+      renderAccountModal();
+      alert(`Odpowiedź dostarczona do ${maskEmailForConfirmation(buyerEmail)}.`);
     }
 
     function saveNickName() {
@@ -2274,7 +2546,7 @@
       }
       updateAccountButton();
       renderAccountModal();
-      alert('Zapisano imię / ksywkę: ' + val);
+      alert('Zapisano inicjały / ksywkę: ' + val);
     }
 
     function handleAdPhotoPick(ev) {
@@ -2340,6 +2612,16 @@
       e.preventDefault();
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const pass = document.getElementById('loginPass').value;
+      const remember = Boolean(document.getElementById('rememberLoginCheck')?.checked);
+
+      try {
+        if (remember) {
+          localStorage.setItem('placomarkt_remembered_login', JSON.stringify({ email, pass, remember: true }));
+        } else {
+          localStorage.removeItem('placomarkt_remembered_login');
+        }
+      } catch (err) {}
+
       const ban = isUserBanned(email);
       if (ban) {
         alert(`Konto zablokowane do: ${new Date(ban.bannedUntil).toLocaleString('pl-PL')}`);
@@ -2390,7 +2672,13 @@
       renderAccountModal();
     }
 
-    async function deleteMyListing(country, id) {
+    async function deleteListingByAuthorOrAdmin(country, id) {
+      const item = (listingsData[country] || []).find(x => String(x.id) === String(id));
+      if (!item) return;
+      if (!isListingOwnedByMe(item) && !hasAdminPermission()) {
+        alert('Możesz usunąć tylko własne ogłoszenie.');
+        return;
+      }
       const targetStr = String(id);
       const targetNum = Number(id);
       removeLocalListing(country, id);
@@ -2400,12 +2688,18 @@
         );
       }
       renderAccountModal();
+      renderAdminPanelIfOpen();
       renderCountryUI();
       if (sb) {
         try {
           await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
         } catch (e) {}
       }
+    }
+
+    function renderAdminPanelIfOpen() {
+      const modal = document.getElementById('adminModal');
+      if (modal && modal.classList.contains('open')) renderAdminPanel();
     }
 
     function openAdminPanel() {
@@ -2439,7 +2733,7 @@
       document.getElementById('adminStats').innerHTML = `
         <div class="stat-card"><span>Zarejestrowane konta</span><strong>${usersCount}</strong></div>
         <div class="stat-card"><span>Ogłoszenia (${currentCountry})</span><strong>${items.length}</strong></div>
-        <div class="stat-card"><span>Wiadomości / Alerty</span><strong>${adminMessages.length}</strong></div>
+        <div class="stat-card"><span>Zgłoszenia / Alerty</span><strong>${adminMessages.length}</strong></div>
         <div class="stat-card"><span>Zgłoszenia reklam</span><strong>${adSubmissions.length}</strong></div>
       `;
 
@@ -2536,7 +2830,7 @@
                 </div>
                 <button type="button" class="mini-btn red" onclick="adminDeleteMessage('${m.id}')">🗑️ Usuń</button>
               </div>
-            `).join('') : '<p style="color:var(--muted)">Brak wiadomości do admina.</p>'}
+            `).join('') : '<p style="color:var(--muted)">Brak zgłoszeń / wiadomości do admina.</p>'}
           </div>
         `;
       }
@@ -2568,32 +2862,7 @@
     }
 
     async function adminDelete(id) {
-      const targetStr = String(id);
-      const targetNum = Number(id);
-      ['NL', 'PL'].forEach(c => {
-        if (Array.isArray(localSavedListings[c])) {
-          localSavedListings[c] = localSavedListings[c].filter(
-            x => String(x.id) !== targetStr && Number(x.id) !== targetNum
-          );
-        }
-        if (Array.isArray(listingsData[c])) {
-          listingsData[c] = listingsData[c].filter(
-            x => String(x.id) !== targetStr && Number(x.id) !== targetNum
-          );
-        }
-      });
-      myListingIds = myListingIds.filter(x => String(x) !== targetStr);
-      persistLocalListings();
-      try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
-
-      renderAdminPanel();
-      renderCountryUI();
-
-      if (sb) {
-        try {
-          await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
-        } catch (e) {}
-      }
+      await deleteListingByAuthorOrAdmin(currentCountry, id);
     }
 
     async function adminBanUser(email, hours) {
