@@ -424,7 +424,7 @@
     .badge-urgent { background: var(--red); color: #fff; }
     .badge-free { background: var(--green); color: #fff; }
     .badge-pirate { background: #111827; color: #facc15; border: 1px solid #ef4444; }
-    .badge-demo { background: rgba(15,23,42,0.75); color: #f8fafc; }
+    .badge-demo { background: rgba(15,23,42,0.8); color: #f8fafc; }
 
     .fav-heart-btn {
       position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.94);
@@ -499,7 +499,7 @@
     }
 
     .detail-hero {
-      height: 230px; background: #e2e8f0; border-radius: 10px; display: flex;
+      height: 240px; background: #e2e8f0; border-radius: 10px; display: flex;
       align-items: center; justify-content: center; font-size: 72px; margin-bottom: 10px; overflow: hidden;
     }
     .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
@@ -652,11 +652,10 @@
     <div class="quick-tags" id="quickTagsBar">
       <span style="color:#fff7ed">Popularne:</span>
       <span class="quick-tag" onclick="quickSearch('głośniki')">🔊 Głośniki</span>
-      <span class="quick-tag" onclick="quickSearch('hengel')">🎣 Wędkarstwo</span>
-      <span class="quick-tag" onclick="quickSearch('scooter')">🛵 Auta, Motory i Skutery</span>
-      <span class="quick-tag" onclick="quickSearch('volkstuin')">🏡 Ogródek działkowy / Volkstuin</span>
-      <span class="quick-tag" onclick="quickSearch('parfum')">💄 Kosmetyki i Perfumy</span>
-      <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ Wczasy i Podróże</span>
+      <span class="quick-tag" onclick="quickSearch('łódka')">🎣 Wędkarstwo</span>
+      <span class="quick-tag" onclick="quickSearch('skuter')">🛵 Auta, Motory i Skutery</span>
+      <span class="quick-tag" onclick="quickSearch('ogródek')">🏡 Ogródek działkowy / Volkstuin</span>
+      <span class="quick-tag" onclick="quickSearch('wczasy')">✈️ Wczasy i Podróże</span>
     </div>
   </section>
 
@@ -1065,49 +1064,112 @@
         {
           id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
           title: 'Ogródek działkowy z altaną — Rotterdam Zuid',
-          desc: 'Oferta startowa — ogródek działkowy z altaną i nasadzeniami w Rotterdam Zuid.',
+          desc: 'Oferta reklamowa — zadbany ogródek działkowy z drewnianą altaną i nasadzeniami w Rotterdam Zuid.',
           city: 'Rotterdam', price: 3200,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
-          icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 120,
-          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
+          icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142,
+          sellerName: 'StrefaOgrodow', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         },
         {
           id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
-          title: 'Skuter miejski — dojazdy po mieście',
-          desc: 'Oferta startowa — skuter miejski do codziennych dojazdów.',
+          title: 'Skuter miejski 45 km/h — dojazdy po mieście',
+          desc: 'Oferta reklamowa — ekonomiczny skuter miejski do codziennych dojazdów do pracy i na zakupy.',
           city: 'Rotterdam', price: 890,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
-          icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 98,
-          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+          icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118,
+          sellerName: 'MotoRotterdam', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         },
         {
           id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
-          title: 'Głośniki przenośne i sprzęt audio',
-          desc: 'Oferta startowa — głośniki, wzmacniacze i sprzęt audio do domu i w plener.',
-          city: 'Rotterdam', price: 145,
+          title: 'Głośniki przenośne i zestaw nagłośnieniowy',
+          desc: 'Oferta reklamowa — głośniki oraz sprzęt audio do domu, garażu i na imprezy plenerowe.',
+          city: 'Den Haag', price: 165,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
-          icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 76,
-          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+          icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 96,
+          sellerName: 'AudioBoxNL', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+        },
+        {
+          id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
+          title: 'Łódka zanętowa i sprzęt wędkarski nad wodę',
+          desc: 'Oferta reklamowa — kompletny zestaw wędkarski do połowów na rzekach i kanałach w NL.',
+          city: 'Dordrecht', price: 640,
+          photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
+          icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84,
+          sellerName: 'VisShopNL', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+        },
+        {
+          id: 9005, isPlaceholder: true, type: 'sale', category: 'travel', condition: 'new',
+          title: 'Wczasy i wyjazdy weekendowe — pakiety NL / PL',
+          desc: 'Oferta reklamowa — elastyczne wyjazdy wypoczynkowe i pakiety weekendowe w atrakcyjnych cenach.',
+          city: 'Utrecht', price: 299,
+          photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75'],
+          icon: '✈️', top: false, hasSubscription: false, urgent: false, hidden: false, views: 71,
+          sellerName: 'WakacjePlus', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+        },
+        {
+          id: 9006, isPlaceholder: true, type: 'free', category: 'home', condition: 'used',
+          title: 'Oddam meble i wyposażenie domowe — odbiór osobisty',
+          desc: 'Oferta reklamowa — oddam za darmo sprawny sprzęt i wyposażenie domu przy odbiorze osobistym.',
+          city: 'Rotterdam', price: 0,
+          photos: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=75'],
+          icon: '🎁', top: false, hasSubscription: false, urgent: false, hidden: false, views: 154,
+          sellerName: 'DomZamożny', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         }
       ],
       PL: [
         {
           id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
-          title: 'Ogródek działkowy ROD z altaną — Katowice',
-          desc: 'Oferta startowa — ogródek działkowy ROD z altaną i terenem zielonym.',
+          title: 'Ogródek działkowy ROD z altaną — Katowice / Śląsk',
+          desc: 'Oferta reklamowa — zadbany ogródek działkowy ROD z altaną i nasadzeniami.',
           city: 'Katowice', price: 24500,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
-          icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 110,
-          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
+          icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135,
+          sellerName: 'OgrodSlask', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         },
         {
           id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
-          title: 'Głośniki i sprzęt audio — Czeladź / Śląsk',
-          desc: 'Oferta startowa — głośniki oraz sprzęt audio.',
+          title: 'Głośniki aktywne i sprzęt audio — Czeladź',
+          desc: 'Oferta reklamowa — głośniki, wzmacniacze i akcesoria audio do domu i na eventy.',
           city: 'Czeladź', price: 420,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
-          icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 88,
-          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+          icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109,
+          sellerName: 'AudioSlask', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+        },
+        {
+          id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
+          title: 'Łódka zanętowa i akcesoria wędkarskie',
+          desc: 'Oferta reklamowa — sprzęt wędkarski i akcesoria nad jeziora oraz rzeki.',
+          city: 'Będzin', price: 1150,
+          photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
+          icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88,
+          sellerName: 'WedkarzPL', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
+        },
+        {
+          id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
+          title: 'Skuter / motocykl miejski — stan bardzo dobry',
+          desc: 'Oferta reklamowa — zwrotny jednoślad do jazdy po mieście i okolicach.',
+          city: 'Sosnowiec', price: 3400,
+          photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
+          icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92,
+          sellerName: 'MotoCentrum', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+        },
+        {
+          id: 9105, isPlaceholder: true, type: 'sale', category: 'travel', condition: 'new',
+          title: 'Wczasy i noclegi wypoczynkowe — oferta promocyjna',
+          desc: 'Oferta reklamowa — pobyty wypoczynkowe i wyjazdy na weekend.',
+          city: 'Kraków', price: 590,
+          photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75'],
+          icon: '✈️', top: false, hasSubscription: false, urgent: false, hidden: false, views: 67,
+          sellerName: 'UrlopPL', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
+        },
+        {
+          id: 9106, isPlaceholder: true, type: 'free', category: 'home', condition: 'used',
+          title: 'Oddam za darmo — wyposażenie i dodatki do domu',
+          desc: 'Oferta reklamowa — oddam za darmo przy odbiorze osobistym.',
+          city: 'Czeladź', price: 0,
+          photos: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=75'],
+          icon: '🎁', top: false, hasSubscription: false, urgent: false, hidden: false, views: 121,
+          sellerName: 'OddamDarmo', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         }
       ]
     };
@@ -1119,7 +1181,7 @@
     } catch (e) {}
 
     let activePromoAds = [
-      { id: 1, tag: 'Reklama startowa', title: 'Wystaw swoje ogłoszenie za darmo', desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.' }
+      { id: 1, tag: 'Reklama startowa', title: 'Wystaw swoje ogłoszenie na PlacoMarkt', desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.' }
     ];
     try {
       const savedAds = JSON.parse(localStorage.getItem('placomarkt_active_ads') || 'null');
@@ -1344,7 +1406,7 @@
         }
       });
       const realItems = Array.from(combinedMap.values());
-      const placeholders = (showPlaceholderOffers && realItems.length === 0) ? (PLACEHOLDER_OFFERS[c] || []) : [];
+      const placeholders = showPlaceholderOffers ? (PLACEHOLDER_OFFERS[c] || []) : [];
       listingsData[c] = [...realItems, ...placeholders];
     }
 
@@ -1583,8 +1645,9 @@
     function buildListingCardHtml(item, isSubCard = false) {
       const pct = getSellerTrustPercent(item);
       const isFav = favoriteIds.includes(item.id);
-      const hasPhoto = item.photos && item.photos.length > 0;
-      const mediaHtml = hasPhoto ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon;
+      const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
+      const hasPhoto = photos.length > 0;
+      const mediaHtml = hasPhoto ? `<img src="${photos[0]}" alt="${item.title}" />` : item.icon;
       const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
 
       return `
@@ -1593,7 +1656,7 @@
             ${mediaHtml}
             <div class="badges">
               <div class="badges-col">
-                ${item.isPlaceholder ? `<span class="badge badge-demo">START</span>` : ''}
+                ${item.isPlaceholder ? `<span class="badge badge-demo">REKLAMA</span>` : ''}
                 ${item.pirateFlag ? `<span class="badge badge-pirate">🏴‍☠️ PIRAT</span>` : ''}
                 ${isSubCard || item.hasSubscription ? `<span class="badge badge-sub">👑 ABONAMENT</span>` : ''}
                 ${item.top ? `<span class="badge badge-top">⭐ TOP</span>` : ''}
@@ -1608,7 +1671,7 @@
           <div class="card-body">
             <div>
               <div class="card-title">${item.title}</div>
-              <div class="card-meta"><span>📍 ${item.city}</span><span>👁️ ${item.views || 1}</span></div>
+              <div class="card-meta"><span>📍 ${item.city}</span><span>👁️ ${item.views || 1}</span>${photos.length > 1 ? `<span>📷 ${photos.length}</span>` : ''}</div>
               <div class="seller-mini-tag">
                 <span>👤 ${displayNick}</span>
                 ${getHonestyBadgeHtml(pct, Boolean(item.pirateFlag))}
@@ -1677,19 +1740,37 @@
       document.getElementById('subscribersGrid').innerHTML = subItems.map(i => buildListingCardHtml(i, true)).join('');
     }
 
+    function selectDetailPhoto(idx, id) {
+      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
+      if (!item || !item.photos || !item.photos[idx]) return;
+      const heroImg = document.getElementById('detailMainPhoto');
+      if (heroImg) heroImg.src = item.photos[idx];
+      document.querySelectorAll('.detail-thumb-img').forEach((el, i) => {
+        el.style.outline = i === idx ? '3px solid var(--accent)' : '1px solid var(--border)';
+      });
+    }
+
     function openDetail(id) {
       const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
       if (!item) return;
       item.views = (item.views || 0) + 1;
       const pct = getSellerTrustPercent(item);
-      const hasPhoto = item.photos && item.photos.length > 0;
+      const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
+      const hasPhoto = photos.length > 0;
       const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
       const hasSharedPhone = Boolean(item.sharePhone && item.phone && String(item.phone).trim().length > 0);
-      const canDeleteHere = hasAdminPermission() || myListingIds.includes(String(item.id));
+      const canDeleteHere = !item.isPlaceholder && (hasAdminPermission() || myListingIds.includes(String(item.id)));
+
+      const thumbsHtml = photos.length > 1
+        ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">` +
+          photos.map((src, i) => `<img src="${src}" class="detail-thumb-img" onclick="selectDetailPhoto(${i}, '${item.id}')" style="width:74px;height:56px;object-fit:cover;border-radius:7px;cursor:pointer;outline:${i === 0 ? '3px solid var(--accent)' : '1px solid var(--border)'}" />`).join('') +
+          `</div>`
+        : '';
 
       document.getElementById('detailContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('detailModal')">×</button>
-        <div class="detail-hero">${hasPhoto ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon}</div>
+        <div class="detail-hero">${hasPhoto ? `<img id="detailMainPhoto" src="${photos[0]}" alt="${item.title}" />` : item.icon}</div>
+        ${thumbsHtml}
         ${item.pirateFlag ? `<div class="pirate-warning-box">🏴‍☠️ Flaga Pirata — uwaga na ryzyko nieoryginalnego przedmiotu</div>` : ''}
         <h2>${item.title}</h2>
         <div class="price ${item.type === 'free' ? 'free-price' : ''}" style="font-size:22px;margin:8px 0">${formatPrice(item.price, item.type === 'free')}</div>
@@ -1780,10 +1861,10 @@
       if (!files.length) return;
       setOfferProgress(25, `Wczytywanie podglądu zdjęć (${files.length})...`);
       let loadedCount = 0;
-      files.forEach(file => {
+      files.forEach((file, idx) => {
         const reader = new FileReader();
         reader.onload = e => {
-          uploadedPhotosTemp.push(e.target.result);
+          uploadedPhotosTemp[idx] = e.target.result;
           loadedCount += 1;
           renderPhotoPreviews();
           const pct = 25 + Math.round((loadedCount / files.length) * 35);
@@ -1871,12 +1952,14 @@
       const sharePhoneVal = Boolean(phoneVal && document.getElementById('newSharePhone')?.checked);
       const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik';
 
-      let uploadedUrl = null;
+      const photosFinal = [...uploadedPhotosTemp].filter(Boolean).slice(0, 4);
       if (sb && uploadedPhotoFilesTemp.length > 0) {
-        setOfferProgress(45, 'Wysyłanie zdjęcia...');
-        uploadedUrl = await uploadFileToBucket(uploadedPhotoFilesTemp[0]);
+        setOfferProgress(45, `Wysyłanie zdjęć (${uploadedPhotoFilesTemp.length})...`);
+        for (let i = 0; i < Math.min(4, uploadedPhotoFilesTemp.length); i++) {
+          const url = await uploadFileToBucket(uploadedPhotoFilesTemp[i]);
+          if (url) photosFinal[i] = url;
+        }
       }
-      const photosFinal = uploadedUrl ? [uploadedUrl] : [...uploadedPhotosTemp];
       setOfferProgress(70, isUpdating ? 'Zapisywanie zmian oferty...' : 'Zapisywanie oferty...');
 
       if (isUpdating) {
@@ -2366,7 +2449,7 @@
         body.innerHTML = `
           <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
             <button type="button" class="mini-btn" onclick="togglePlaceholdersAdmin()">
-              ${showPlaceholderOffers ? '🗑️ Ukryj oferty startowe' : '👁️ Pokaż oferty startowe'}
+              ${showPlaceholderOffers ? '🗑️ Ukryj oferty reklamowe' : '👁️ Pokaż oferty reklamowe'}
             </button>
             <button type="button" class="mini-btn red" onclick="adminClearLocalJunk()">
               🧹 Wyczyść śmieci lokalne (${currentCountry})
@@ -2390,7 +2473,7 @@
                   </div>
                 </div>
               `;
-            }).join('') : '<p style="color:var(--muted)">Brak ogłoszeń w tej sekcji.</p>'}
+            }).join('') : '<p style="color:var(--muted)">Brak ogłoszeń użytkowników w tej sekcji.</p>'}
           </div>
         `;
       } else if (activeAdminTab === 'users') {
