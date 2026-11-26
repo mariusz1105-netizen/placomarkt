@@ -1766,6 +1766,7 @@
         country: currentCountry,
         fromSupabaseOgloszenia: Boolean(insertedRow),
         isPlaceholder: false,
+        createdInSession: true,
         ownerId: currentUser?.id || null,
         ownerEmail: currentUser?.email || null,
         type,
@@ -1841,7 +1842,14 @@
       }
 
       const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
-      const isMine = i => (currentUser.id && i.ownerId === currentUser.id) || (currentUser.email && i.ownerEmail === currentUser.email);
+      const isMine = i => {
+        if (currentUser) {
+          return (currentUser.id && i.ownerId === currentUser.id) ||
+                 (currentUser.email && i.ownerEmail === currentUser.email) ||
+                 Boolean(i.createdInSession);
+        }
+        return Boolean(i.createdInSession);
+      };
       const myAds = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isMine).map(x => ({ ...x, c })));
       const isAdmin = Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
 
