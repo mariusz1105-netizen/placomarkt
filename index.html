@@ -1423,7 +1423,7 @@
           name: currentUser.name,
           country: currentUser.country,
           is_admin: currentUser.isAdmin
-        }], { onConflict: 'email' }).catch(() => {});
+        }], { onConflict: 'email' }).then(() => {}).catch(() => {});
       }
       updateAccountButton();
     }
@@ -1715,7 +1715,7 @@
         created_at: new Date().toISOString()
       };
       adminMessages.unshift(msg);
-      if (sb) sb.from('wiadomosci_admin').insert([msg]).catch(() => {});
+      if (sb) sb.from('wiadomosci_admin').insert([msg]).then(() => {}).catch(() => {});
       updateAccountButton();
       alert('Wiadomość została wysłana.');
     }
@@ -1894,14 +1894,16 @@
         mergeListingsForCountry(editingListingCountry, (listingsData[editingListingCountry] || []).filter(x => x.fromSupabaseOgloszenia));
 
         if (sb && updatedItem.fromSupabaseOgloszenia) {
-          await sb.from(SUPABASE_TABLE_OGLOSZENIA).update({
-            tytul: title,
-            cena: price,
-            kategoria: category,
-            miejscowosc: city,
-            opis: desc,
-            zdjecie_url: updatedItem.photos?.[0] || null
-          }).eq('id', editingListingId).catch(() => {});
+          try {
+            await sb.from(SUPABASE_TABLE_OGLOSZENIA).update({
+              tytul: title,
+              cena: price,
+              kategoria: category,
+              miejscowosc: city,
+              opis: desc,
+              zdjecie_url: updatedItem.photos?.[0] || null
+            }).eq('id', editingListingId);
+          } catch (e) {}
         }
 
         editingListingCountry = null;
@@ -1977,7 +1979,7 @@
           created_at: new Date().toISOString()
         };
         adminMessages.unshift(alertMsg);
-        if (sb) sb.from('wiadomosci_admin').insert([alertMsg]).catch(() => {});
+        if (sb) sb.from('wiadomosci_admin').insert([alertMsg]).then(() => {}).catch(() => {});
         updateAccountButton();
       }
 
@@ -2173,7 +2175,7 @@
       currentUser.name = val;
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       if (sb && currentUser.email) {
-        sb.from('profiles').update({ name: val }).eq('email', currentUser.email).catch(() => {});
+        sb.from('profiles').update({ name: val }).eq('email', currentUser.email).then(() => {}).catch(() => {});
       }
       updateAccountButton();
       renderAccountModal();
@@ -2205,7 +2207,7 @@
           created_at: new Date().toISOString()
         };
         adminMessages.unshift(msg);
-        if (sb) sb.from('wiadomosci_admin').insert([msg]).catch(() => {});
+        if (sb) sb.from('wiadomosci_admin').insert([msg]).then(() => {}).catch(() => {});
         updateAccountButton();
         alert('Wysłano wiadomość do Admina.');
       } else {
@@ -2223,7 +2225,7 @@
         };
         adSubmissions.unshift(sub);
         uploadedAdPhotoDataUrl = '';
-        if (sb) sb.from('reklamy_zgloszenia').insert([sub]).catch(() => {});
+        if (sb) sb.from('reklamy_zgloszenia').insert([sub]).then(() => {}).catch(() => {});
         updateAccountButton();
         alert('Zgłoszenie reklamy wysłane do Admina.');
       }
@@ -2232,7 +2234,9 @@
     async function handleChangePasswordDirect(e) {
       e.preventDefault();
       const pass = document.getElementById('directNewPass').value;
-      if (sb) await sb.auth.updateUser({ password: pass }).catch(() => {});
+      if (sb) {
+        try { await sb.auth.updateUser({ password: pass }); } catch (e) {}
+      }
       alert('Hasło zostało zmienione.');
       document.getElementById('directNewPass').value = '';
     }
@@ -2280,7 +2284,9 @@
     }
 
     async function logoutUser() {
-      if (sb) await sb.auth.signOut().catch(() => {});
+      if (sb) {
+        try { await sb.auth.signOut(); } catch (e) {}
+      }
       currentUser = null;
       try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
       updateAccountButton();
@@ -2289,10 +2295,17 @@
 
     async function deleteMyListing(country, id) {
       removeLocalListing(country, id);
-      mergeListingsForCountry(country, (listingsData[country] || []).filter(x => x.fromSupabaseOgloszenia));
-      if (sb) await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id).catch(() => {});
+      const remainingDb = (listingsData[country] || []).filter(
+        x => x.fromSupabaseOgloszenia && String(x.id) !== String(id)
+      );
+      mergeListingsForCountry(country, remainingDb);
       renderAccountModal();
       renderCountryUI();
+      if (sb) {
+        try {
+          await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
+        } catch (e) {}
+      }
     }
 
     function openAdminPanel() {
@@ -2443,10 +2456,17 @@
 
     async function adminDelete(id) {
       removeLocalListing(currentCountry, id);
-      mergeListingsForCountry(currentCountry, (listingsData[currentCountry] || []).filter(x => x.fromSupabaseOgloszenia));
-      if (sb) await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id).catch(() => {});
+      const remainingDb = (listingsData[currentCountry] || []).filter(
+        x => x.fromSupabaseOgloszenia && String(x.id) !== String(id)
+      );
+      mergeListingsForCountry(currentCountry, remainingDb);
       renderAdminPanel();
       renderCountryUI();
+      if (sb) {
+        try {
+          await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
+        } catch (e) {}
+      }
     }
 
     async function adminBanUser(email, hours) {
@@ -2455,7 +2475,9 @@
       const untilIso = new Date(Date.now() + hours * 3600000).toISOString();
       u.bannedUntil = untilIso;
       saveUsersDb();
-      if (sb) await sb.from('profiles').update({ banned_until: untilIso }).eq('email', email).catch(() => {});
+      if (sb) {
+        try { await sb.from('profiles').update({ banned_until: untilIso }).eq('email', email); } catch (e) {}
+      }
       renderAdminPanel();
     }
 
@@ -2464,7 +2486,9 @@
       if (!u) return;
       u.bannedUntil = null;
       saveUsersDb();
-      if (sb) await sb.from('profiles').update({ banned_until: null }).eq('email', email).catch(() => {});
+      if (sb) {
+        try { await sb.from('profiles').update({ banned_until: null }).eq('email', email); } catch (e) {}
+      }
       renderAdminPanel();
     }
 
@@ -2489,14 +2513,18 @@
 
     async function adminDeleteSubmission(id) {
       adSubmissions = adSubmissions.filter(x => String(x.id) !== String(id));
-      if (sb) await sb.from('reklamy_zgloszenia').delete().eq('id', id).catch(() => {});
+      if (sb) {
+        try { await sb.from('reklamy_zgloszenia').delete().eq('id', id); } catch (e) {}
+      }
       updateAccountButton();
       renderAdminPanel();
     }
 
     async function adminDeleteMessage(id) {
       adminMessages = adminMessages.filter(x => String(x.id) !== String(id));
-      if (sb) await sb.from('wiadomosci_admin').delete().eq('id', id).catch(() => {});
+      if (sb) {
+        try { await sb.from('wiadomosci_admin').delete().eq('id', id); } catch (e) {}
+      }
       updateAccountButton();
       renderAdminPanel();
     }
