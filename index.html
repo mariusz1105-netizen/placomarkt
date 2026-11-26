@@ -6,14 +6,14 @@
   <meta name="theme-color" content="#f97316" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="description" content="PlacoMarkt.online — advertenties, veilingen, kopen & verkopen (NL & PL) | ogłoszenia, licytacje, zakupy, wczasy, nieruchomości." />
+  <meta name="description" content="PlacoMarkt.online — ogłoszenia, licytacje, zakupy, wczasy, nieruchomości i ogródki działkowe." />
   <link rel="canonical" href="https://placomarkt.online/" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23f97316'/></svg>" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://placomarkt.online/" />
-  <meta property="og:title" content="PlacoMarkt — Advertenties & Ogłoszenia (NL / PL)" />
-  <meta property="og:description" content="Lokale advertenties, veilingen & ogłoszenia w Holandii oraz Polsce na placomarkt.online." />
-  <title>PlacoMarkt — Advertenties, Veilingen & Ogłoszenia (NL / PL)</title>
+  <meta property="og:title" content="PlacoMarkt — Ogłoszenia, Licytacje i Zakupy" />
+  <meta property="og:description" content="Ogłoszenia, licytacje, zakupy, wczasy i nieruchomości na placomarkt.online." />
+  <title>PlacoMarkt — Ogłoszenia, Licytacje i Zakupy</title>
   <link id="pwaManifestLink" rel="manifest" href="" />
   <style>
     :root {
@@ -102,14 +102,6 @@
       color: #ffffff;
     }
     .logo span.brand-accent { color: #0f172a; }
-    .logo span.domain-tag {
-      font-size: 11px;
-      background: rgba(15,23,42,0.22);
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-weight: 700;
-      color: #ffffff;
-    }
     .nav-controls {
       display: flex;
       align-items: center;
@@ -162,7 +154,7 @@
     }
     .add-btn:hover { background: #1e293b; }
 
-    /* Schowane rozwijane menu języka & kraju */
+    /* Schowane rozwijane menu języka i regionu */
     .lang-dropdown-wrap { position: relative; }
     .lang-popover {
       display: none;
@@ -209,7 +201,7 @@
       border-color: var(--accent);
     }
 
-    /* Rozwijany mega-panel profilu użytkownika (wzór Allegro: Mariusz v) */
+    /* Rozwijany mega-panel profilu użytkownika */
     .profile-mega-dropdown {
       display: none;
       position: absolute;
@@ -256,16 +248,6 @@
     }
     .mega-greeting { font-size: 18px; font-weight: 800; margin-bottom: 3px; }
     .mega-sub { font-size: 12px; color: var(--muted); word-break: break-all; }
-    .mega-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-    .mega-pill {
-      font-size: 11px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: var(--blue);
-      color: #fff;
-    }
-    .mega-pill.orange { background: var(--accent); }
     .mega-settings-link {
       background: none;
       border: none;
@@ -451,73 +433,6 @@
       background: linear-gradient(90deg, #f97316, #16a34a);
       transition: width 0.25s ease;
     }
-
-    .promo-ads-zone {
-      display: grid;
-      grid-template-columns: 1.7fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 720px) {
-      .promo-ads-zone { grid-template-columns: 1fr; }
-    }
-    .bf-banner {
-      background: linear-gradient(135deg, #111827 0%, #1f2937 65%, #7c2d12 100%);
-      color: #fff;
-      border: 3px solid #000000;
-      border-radius: 12px;
-      padding: 15px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
-    }
-    .bf-pill {
-      display: inline-block;
-      background: var(--red);
-      color: #fff;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-bottom: 5px;
-    }
-    .bf-banner h2 { font-size: 17px; font-weight: 800; margin-bottom: 3px; }
-    .bf-banner p { font-size: 12px; color: #e2e8f0; }
-    .bf-btn {
-      background: #facc15;
-      color: #0f172a;
-      border: none;
-      border-radius: 8px;
-      padding: 9px 14px;
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .bf-btn:hover { background: #fde047; }
-    .ad-slot-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-    }
-    .ad-slot-tag {
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    .ad-slot-title { font-size: 14px; font-weight: 800; color: var(--text); }
-    .ad-slot-desc { font-size: 12px; color: var(--muted); }
 
     .mode-tabs {
       display: flex;
@@ -816,11 +731,10 @@
     <div class="nav-container">
       <div class="logo" onclick="resetFilters()">
         <span>Placo<span class="brand-accent">Markt</span></span>
-        <span class="domain-tag" id="domainTag">.nl</span>
       </div>
 
       <div class="nav-controls">
-        <!-- Schowany przycisk języka i kraju -->
+        <!-- Schowany przycisk języka i regionu (bez dopisku kodu języka w nagłówku) -->
         <div class="lang-dropdown-wrap" id="langDropdownWrap">
           <button type="button" class="icon-btn" id="langMenuBtn" onclick="toggleLangPopover(event)">
             🌐 <span id="langBtnLabel">Język</span> ▾
@@ -828,17 +742,17 @@
           <div class="lang-popover" id="langPopover">
             <div class="lang-popover-title" id="lblChooseLang">Język / Taal</div>
             <div class="lang-grid" id="headerLangGrid"></div>
-            <div class="lang-popover-title" id="lblChooseMarket">Rynek / Land</div>
+            <div class="lang-popover-title" id="lblChooseMarket">Region / Waluta</div>
             <div style="display:flex;gap:6px">
-              <button type="button" class="lang-choice-btn" style="flex:1" id="hdrMarketNL" onclick="manualSwitchCountry('NL');closeHeaderMenus()">🇳🇱 NL (€)</button>
-              <button type="button" class="lang-choice-btn" style="flex:1" id="hdrMarketPL" onclick="manualSwitchCountry('PL');closeHeaderMenus()">🇵🇱 PL (zł)</button>
+              <button type="button" class="lang-choice-btn" style="flex:1" id="hdrMarketNL" onclick="manualSwitchCountry('NL');closeHeaderMenus()">🇳🇱 (€)</button>
+              <button type="button" class="lang-choice-btn" style="flex:1" id="hdrMarketPL" onclick="manualSwitchCountry('PL');closeHeaderMenus()">🇵🇱 (zł)</button>
             </div>
           </div>
         </div>
 
         <button type="button" class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')">❤️ <span id="favCountBadge">0</span></button>
 
-        <!-- Przycisk profilu (Mariusz v / Konto v) otwierający szeroki panel -->
+        <!-- Przycisk profilu użytkownika -->
         <button type="button" class="icon-btn acc-btn" id="navProfileBtn" onclick="handleProfileHeaderClick(event)">
           👤 <span id="navAccountLabel">Konto</span> <span id="navProfileArrow">▾</span>
         </button>
@@ -847,16 +761,16 @@
         <button type="button" class="add-btn" id="navAddBtn" onclick="openAddModal()">+ Dodaj</button>
       </div>
 
-      <!-- Rozwijany szeroki panel profilu (wzór ze zdjęcia) -->
+      <!-- Rozwijany szeroki panel profilu -->
       <div class="profile-mega-dropdown" id="profileMegaDropdown"></div>
     </div>
   </header>
 
   <section class="hero">
     <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
-    <p id="heroSub">Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca (€)</p>
+    <p id="heroSub">Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca</p>
     <div class="search-box">
-      <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz (np. głośniki, glosniki, skuter)..." oninput="renderListings()" />
+      <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz (np. głośniki, skuter, ogródek)..." oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
       <input
         type="text"
@@ -884,29 +798,12 @@
         </div>
       </div>
 
-      <section class="promo-ads-zone" id="promoAdsZone" aria-label="Promocje i reklamy">
-        <div class="bf-banner">
-          <div>
-            <span class="bf-pill" id="bfPillText">Promocja startowa</span>
-            <h2 id="bfHeadingText">Wystawiaj ogłoszenia na PlacoMarkt</h2>
-            <p id="bfSubText">Szybkie ogłoszenia w Holandii i Polsce — bez zbędnych formalności.</p>
-          </div>
-          <button type="button" class="bf-btn" id="bfActionBtn" onclick="openAddModal()">+ Wystaw teraz</button>
-        </div>
-        <div class="ad-slot-card" id="dynamicAdCard">
-          <span class="ad-slot-tag" id="adSlotTag">Reklama</span>
-          <div class="ad-slot-title" id="adSlotTitle">Chcesz zareklamować firmę lub ofertę?</div>
-          <div class="ad-slot-desc" id="adSlotDesc">Wyślij opis i zdjęcie w panelu Konto → Pomoc / Reklama do Admina.</div>
-        </div>
-      </section>
-
       <div class="mode-tabs" id="modeTabs"></div>
       <div class="breadcrumb-bar" id="breadcrumbBar"></div>
 
       <div class="toolbar-bar">
         <div class="toolbar-left">
           <strong style="font-size:15px" id="resultsHeading">Znalezione oferty</strong>
-          <span style="font-size:12px;color:var(--muted)" id="autoLangNote"></span>
         </div>
         <div class="toolbar-right">
           <select id="filterCondition" onchange="renderListings()">
@@ -966,10 +863,10 @@
     <div class="modal admin-modal">
       <button type="button" class="close-modal" onclick="closeModal('adminModal')">×</button>
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-right:36px">
-        <h2>🛡️ Admin — PlacoMarkt (<span id="adminMarketLabel">NL</span>)</h2>
+        <h2>🛡️ Admin — PlacoMarkt</h2>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button type="button" class="country-btn" id="admNL" onclick="switchCountry('NL');openAdminPanel()">🇳🇱 NL (€)</button>
-          <button type="button" class="country-btn" id="admPL" onclick="switchCountry('PL');openAdminPanel()">🇵🇱 PL (zł)</button>
+          <button type="button" class="country-btn" id="admNL" onclick="switchCountry('NL');openAdminPanel()">🇳🇱 (€)</button>
+          <button type="button" class="country-btn" id="admPL" onclick="switchCountry('PL');openAdminPanel()">🇵🇱 (zł)</button>
         </div>
       </div>
 
@@ -1113,11 +1010,11 @@
       <button type="button" class="close-modal" onclick="closeModal('settingsModal')">×</button>
       <h2 style="margin-bottom:14px" id="settingsModalTitle">⚙️ Ustawienia / Instellingen</h2>
       <div class="set-section">
-        <h4>🌍 Kraj i Język / Land & Taal</h4>
+        <h4>🌍 Region i Język / Regio & Taal</h4>
         <div id="settingsLangButtons" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia / Nederland (€)</button>
-          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 Polska (zł)</button>
+          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 (€)</button>
+          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 (zł)</button>
         </div>
       </div>
       <div class="set-section">
@@ -1165,7 +1062,6 @@
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
 
-    /* Słownik wielojęzyczny: NL, PL, UK, DE, BE, FR */
     const SUPPORTED_LANGS = [
       { code: 'NL', flag: '🇳🇱', label: 'NL' },
       { code: 'PL', flag: '🇵🇱', label: 'PL' },
@@ -1180,7 +1076,7 @@
         htmlLang: 'pl',
         langBtn: 'Język',
         chooseLang: 'Wybierz język',
-        chooseMarket: 'Rynek / Waluta',
+        chooseMarket: 'Region / Waluta',
         account: 'Konto',
         add: '+ Dodaj',
         heroTitle: 'Ogłoszenia, Licytacje, Zakupy i Wczasy',
@@ -1190,13 +1086,6 @@
         searchBtn: 'Szukaj',
         allCats: '📂 Wszystkie kategorie',
         popular: 'Popularne:',
-        promoPill: 'Promocja startowa',
-        promoTitle: 'Wystawiaj ogłoszenia na PlacoMarkt',
-        promoSub: 'Szybkie ogłoszenia w Holandii i Polsce — bez zbędnych formalności.',
-        promoBtn: '+ Wystaw teraz',
-        adTag: 'Reklama',
-        adTitle: 'Chcesz zareklamować firmę lub ofertę?',
-        adDesc: 'Wyślij opis i zdjęcie w panelu Konto → Pomoc / Reklama do Admina.',
         tabAll: 'Wszystkie',
         tabSale: 'Kup teraz',
         tabAuction: '🔨 Licytacja',
@@ -1230,7 +1119,7 @@
         htmlLang: 'nl',
         langBtn: 'Taal',
         chooseLang: 'Kies taal',
-        chooseMarket: 'Land / Valuta',
+        chooseMarket: 'Regio / Valuta',
         account: 'Account',
         add: '+ Plaatsen',
         heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
@@ -1240,13 +1129,6 @@
         searchBtn: 'Zoeken',
         allCats: '📂 Alle categorieën',
         popular: 'Populair:',
-        promoPill: 'Startactie',
-        promoTitle: 'Plaats gratis je advertentie op PlacoMarkt',
-        promoSub: 'Snel kopen en verkopen in Nederland en Polen — zonder gedoe.',
-        promoBtn: '+ Nu plaatsen',
-        adTag: 'Advertentie',
-        adTitle: 'Wil je jouw bedrijf of aanbieding promoten?',
-        adDesc: 'Stuur je tekst en foto via Account → Hulp / Advertentie naar Admin.',
         tabAll: 'Alles',
         tabSale: 'Direct kopen',
         tabAuction: '🔨 Veiling',
@@ -1280,7 +1162,7 @@
         htmlLang: 'uk',
         langBtn: 'Мова',
         chooseLang: 'Оберіть мову',
-        chooseMarket: 'Країна / Валюта',
+        chooseMarket: 'Регіон / Валюта',
         account: 'Акаунт',
         add: '+ Додати',
         heroTitle: 'Оголошення, Аукціони, Покупки та Відпочинок',
@@ -1290,13 +1172,6 @@
         searchBtn: 'Пошук',
         allCats: '📂 Усі категорії',
         popular: 'Популярне:',
-        promoPill: 'Стартова акція',
-        promoTitle: 'Розміщуйте оголошення на PlacoMarkt',
-        promoSub: 'Швидкі оголошення в Нідерландах та Польщі.',
-        promoBtn: '+ Додати зараз',
-        adTag: 'Реклама',
-        adTitle: 'Хочете прорекламувати бізнес?',
-        adDesc: 'Надішліть опис і фото в Акаунт → Допомога / Реклама.',
         tabAll: 'Усі',
         tabSale: 'Купити зараз',
         tabAuction: '🔨 Аукціон',
@@ -1330,7 +1205,7 @@
         htmlLang: 'de',
         langBtn: 'Sprache',
         chooseLang: 'Sprache wählen',
-        chooseMarket: 'Land / Währung',
+        chooseMarket: 'Region / Währung',
         account: 'Konto',
         add: '+ Inserieren',
         heroTitle: 'Kleinanzeigen, Auktionen, Einkaufen & Urlaub',
@@ -1340,13 +1215,6 @@
         searchBtn: 'Suchen',
         allCats: '📂 Alle Kategorien',
         popular: 'Beliebt:',
-        promoPill: 'Startaktion',
-        promoTitle: 'Anzeigen auf PlacoMarkt aufgeben',
-        promoSub: 'Schnelle Kleinanzeigen in den Niederlanden und Polen.',
-        promoBtn: '+ Jetzt aufgeben',
-        adTag: 'Werbung',
-        adTitle: 'Möchten Sie Ihr Unternehmen bewerben?',
-        adDesc: 'Senden Sie Text und Foto über Konto → Hilfe / Werbung.',
         tabAll: 'Alle',
         tabSale: 'Sofort kaufen',
         tabAuction: '🔨 Auktion',
@@ -1378,9 +1246,9 @@
       },
       BE: {
         htmlLang: 'nl-BE',
-        langBtn: 'Taal (BE)',
-        chooseLang: 'Kies taal (België)',
-        chooseMarket: 'Markt / Valuta',
+        langBtn: 'Taal',
+        chooseLang: 'Kies taal',
+        chooseMarket: 'Regio / Valuta',
         account: 'Account',
         add: '+ Plaatsen',
         heroTitle: 'Zoekertjes, Veilingen, Kopen & Vakantie',
@@ -1390,13 +1258,6 @@
         searchBtn: 'Zoeken',
         allCats: '📂 Alle categorieën',
         popular: 'Populair:',
-        promoPill: 'Startactie',
-        promoTitle: 'Plaats je zoekertje op PlacoMarkt',
-        promoSub: 'Snel kopen en verkopen in NL, BE en PL.',
-        promoBtn: '+ Nu plaatsen',
-        adTag: 'Advertentie',
-        adTitle: 'Je zaak of aanbod promoten?',
-        adDesc: 'Stuur tekst en foto via Account → Hulp / Advertentie.',
         tabAll: 'Alles',
         tabSale: 'Direct kopen',
         tabAuction: '🔨 Veiling',
@@ -1430,7 +1291,7 @@
         htmlLang: 'fr',
         langBtn: 'Langue',
         chooseLang: 'Choisir la langue',
-        chooseMarket: 'Pays / Devise',
+        chooseMarket: 'Région / Devise',
         account: 'Compte',
         add: '+ Publier',
         heroTitle: 'Annonces, Enchères, Achats & Vacances',
@@ -1440,13 +1301,6 @@
         searchBtn: 'Rechercher',
         allCats: '📂 Toutes les catégories',
         popular: 'Populaire :',
-        promoPill: 'Offre de lancement',
-        promoTitle: 'Publiez vos annonces sur PlacoMarkt',
-        promoSub: 'Annonces rapides aux Pays-Bas et en Pologne.',
-        promoBtn: '+ Publier',
-        adTag: 'Publicité',
-        adTitle: 'Promouvoir votre entreprise ?',
-        adDesc: 'Envoyez texte et photo dans Compte → Aide / Publicité.',
         tabAll: 'Tout',
         tabSale: 'Achat immédiat',
         tabAuction: '🔨 Enchères',
@@ -1698,7 +1552,7 @@
         {
           id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
           title: 'Volkstuin met houten huisje — Rotterdam Zuid',
-          desc: 'Promotie — verzorgde volkstuin met tuinhuisje in Rotterdam Zuid.',
+          desc: 'Verzorgde volkstuin met tuinhuisje in Rotterdam Zuid.',
           city: 'Rotterdam', price: 3200,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142,
@@ -1707,7 +1561,7 @@
         {
           id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
           title: 'Stadsscooter 45 km/u — zuinig & betrouwbaar',
-          desc: 'Promotie — nette scooter voor dagelijks woon-werkverkeer.',
+          desc: 'Nette scooter voor dagelijks woon-werkverkeer.',
           city: 'Rotterdam', price: 890,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118,
@@ -1716,7 +1570,7 @@
         {
           id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
           title: 'Draagbare speakers & audio set',
-          desc: 'Promotie — krachtige speakers voor thuis, garage en feestjes.',
+          desc: 'Krachtige speakers voor thuis, garage en feestjes.',
           city: 'Den Haag', price: 165,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
           icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 96,
@@ -1725,7 +1579,7 @@
         {
           id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
           title: 'Voerboot & visuitrusting voor snoekbaars',
-          desc: 'Promotie — complete visset voor rivieren en kanalen in NL.',
+          desc: 'Complete visset voor rivieren en kanalen.',
           city: 'Dordrecht', price: 640,
           photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
           icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84,
@@ -1735,8 +1589,8 @@
       PL: [
         {
           id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
-          title: 'Ogródek działkowy ROD z altaną — Katowice / Śląsk',
-          desc: 'Oferta reklamowa — zadbany ogródek działkowy ROD z altaną i nasadzeniami.',
+          title: 'Ogródek działkowy ROD z altaną — Katowice',
+          desc: 'Zadbany ogródek działkowy ROD z altaną i nasadzeniami.',
           city: 'Katowice', price: 24500,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135,
@@ -1745,7 +1599,7 @@
         {
           id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
           title: 'Głośniki aktywne i sprzęt audio — Czeladź',
-          desc: 'Oferta reklamowa — głośniki, wzmacniacze i akcesoria audio.',
+          desc: 'Głośniki, wzmacniacze i akcesoria audio.',
           city: 'Czeladź', price: 420,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
           icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109,
@@ -1754,7 +1608,7 @@
         {
           id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
           title: 'Łódka zanętowa i akcesoria wędkarskie',
-          desc: 'Oferta reklamowa — sprzęt wędkarski nad jeziora oraz rzeki.',
+          desc: 'Sprzęt wędkarski nad jeziora oraz rzeki.',
           city: 'Będzin', price: 1150,
           photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
           icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88,
@@ -1763,7 +1617,7 @@
         {
           id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
           title: 'Skuter / motocykl miejski — stan bardzo dobry',
-          desc: 'Oferta reklamowa — zwrotny jednoślad do jazdy po mieście i okolicach.',
+          desc: 'Zwrotny jednoślad do jazdy po mieście i okolicach.',
           city: 'Sosnowiec', price: 3400,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92,
@@ -1776,14 +1630,6 @@
     try {
       const savedPh = localStorage.getItem('placomarkt_show_placeholders');
       if (savedPh !== null) showPlaceholderOffers = savedPh === 'true';
-    } catch (e) {}
-
-    let activePromoAds = [
-      { id: 1, tag: 'Reklama', title: 'Wystaw swoje ogłoszenie na PlacoMarkt', desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.' }
-    ];
-    try {
-      const savedAds = JSON.parse(localStorage.getItem('placomarkt_active_ads') || 'null');
-      if (Array.isArray(savedAds) && savedAds.length) activePromoAds = savedAds;
     } catch (e) {}
 
     let adSubmissions = [];
@@ -1847,8 +1693,8 @@
     }
 
     const COUNTRY_CONFIG = {
-      NL: { domain: '.nl', iso: 'nl', currency: '€', areaPL: 'Cała Holandia', areaNL: 'Heel Nederland' },
-      PL: { domain: '.pl', iso: 'pl', currency: 'zł', areaPL: 'Cała Polska', areaNL: 'Heel Polen' }
+      NL: { currency: '€' },
+      PL: { currency: 'zł' }
     };
 
     const initialLocale = detectInitialLanguageAndCountry();
@@ -1960,7 +1806,7 @@
         category: catId,
         condition: 'na',
         title: row.tytul || 'Ogłoszenie',
-        city: row.miejscowosc || (currentLang === 'PL' ? COUNTRY_CONFIG[rowCountry].areaPL : COUNTRY_CONFIG[rowCountry].areaNL),
+        city: row.miejscowosc || '',
         price: numericPrice,
         icon: matchedCat ? matchedCat.icon : '📦',
         photos,
@@ -2128,7 +1974,6 @@
       }).length;
     }
 
-    /* Schowane rozwijane menu Język / Taal */
     function toggleLangPopover(ev) {
       if (ev) ev.stopPropagation();
       const pop = document.getElementById('langPopover');
@@ -2152,7 +1997,6 @@
       if (bPL) bPL.classList.toggle('active', currentCountry === 'PL');
     }
 
-    /* Rozwijany mega-panel profilu użytkownika (kliknięcie w Mariusz v) */
     function handleProfileHeaderClick(ev) {
       if (ev) ev.stopPropagation();
       const pop = document.getElementById('langPopover');
@@ -2194,7 +2038,7 @@
       const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
       const initial = displayNick.charAt(0).toUpperCase();
       const isAdmin = hasAdminPermission();
-      const myAdsCount = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isListingOwnedByMe)).length;
+      const myAdsCount = (listingsData[currentCountry] || []).filter(isListingOwnedByMe).length;
       const inboxCount = getUnreadOrInboxCountForCurrentUser();
 
       let tabContentHtml = '';
@@ -2202,7 +2046,7 @@
         tabContentHtml = `
           <div class="mega-cols">
             <div class="mega-col">
-              <h4>${currentLang === 'PL' ? 'Zakupy na PlacoMarkt' : 'Aankopen op PlacoMarkt'}</h4>
+              <h4>${currentLang === 'PL' ? 'Zakupy' : 'Aankopen'}</h4>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">🛒 ${currentLang === 'PL' ? 'Moje zakupy' : 'Mijn aankopen'}</button>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">🔄 ${currentLang === 'PL' ? 'Kup ponownie' : 'Opnieuw kopen'}</button>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('auction')">🔨 ${currentLang === 'PL' ? 'Licytuję' : 'Mijn biedingen'}</button>
@@ -2210,15 +2054,14 @@
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">⭐ ${currentLang === 'PL' ? 'Oceń sprzedawcę' : 'Beoordeel verkoper'}</button>
             </div>
             <div class="mega-col">
-              <h4>PlacoMarkt Plus</h4>
+              <h4>PlacoMarkt</h4>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">👑 ${currentLang === 'PL' ? 'Mój Abonament' : 'Mijn Abonnement'}</button>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">💬 ${currentLang === 'PL' ? 'Wiadomości' : 'Berichten'} (${inboxCount})</button>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">📢 ${currentLang === 'PL' ? 'Promuj ofertę / Reklama' : 'Promoot aanbieding'}</button>
             </div>
             <div class="mega-col">
-              <h4>${currentLang === 'PL' ? 'Rynki lokalne' : 'Lokale markten'}</h4>
-              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('NL');closeHeaderMenus()">🇳🇱 PlacoMarkt.nl (€)</button>
-              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('PL');closeHeaderMenus()">🇵🇱 PlacoMarkt.pl (zł)</button>
+              <h4>${t('chooseMarket')}</h4>
+              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('NL');closeHeaderMenus()">🇳🇱 (€)</button>
+              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('PL');closeHeaderMenus()">🇵🇱 (zł)</button>
             </div>
           </div>
         `;
@@ -2228,17 +2071,17 @@
             <div class="mega-col">
               <h4>${currentLang === 'PL' ? 'Moja sprzedaż' : 'Mijn verkoop'}</h4>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">📋 ${currentLang === 'PL' ? 'Moje ogłoszenia' : 'Mijn advertenties'} (${myAdsCount})</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">➕ ${currentLang === 'PL' ? 'Wystaw nowe ogłoszenie' : 'Nieuwe advertentie'}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">➕ ${t('add')}</button>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">✏️ ${currentLang === 'PL' ? 'Edytuj / Usuń oferty' : 'Bewerken / Verwijderen'}</button>
             </div>
             <div class="mega-col">
-              <h4>${currentLang === 'PL' ? 'Kontakt z kupującymi' : 'Contact met kopers'}</h4>
+              <h4>${currentLang === 'PL' ? 'Kontakt' : 'Contact'}</h4>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">💬 ${currentLang === 'PL' ? 'Skrzynka wiadomości' : 'Berichteninbox'} (${inboxCount})</button>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">🏷️ ${currentLang === 'PL' ? 'Zmień ksywkę / inicjały' : 'Wijzig naam / initialen'}</button>
             </div>
             <div class="mega-col">
-              <h4>${currentLang === 'PL' ? 'Widoczność' : 'Zichtbaarheid'}</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">📢 ${currentLang === 'PL' ? 'Zgłoś reklamę banerową' : 'Banneradvertentie aanvragen'}</button>
+              <h4>${currentLang === 'PL' ? 'Abonament' : 'Abonnement'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">👑 ${currentLang === 'PL' ? 'Zarządzaj abonamentem' : 'Abonnement beheren'}</button>
             </div>
           </div>
         `;
@@ -2271,11 +2114,6 @@
               <div class="mega-avatar">${initial}</div>
               <div class="mega-greeting">${t('hello')} ${displayNick}!</div>
               <div class="mega-sub">${currentUser.email}</div>
-              <div class="mega-badges">
-                <span class="mega-pill">${currentCountry}</span>
-                <span class="mega-pill orange">${currentLang}</span>
-                ${isAdmin ? `<span class="mega-pill" style="background:#991b1b">ADMIN</span>` : ''}
-              </div>
             </div>
             <button type="button" class="mega-settings-link" onclick="closeHeaderMenus();openSettings()">⚙️ ${t('settingsUpper')}</button>
           </div>
@@ -2290,7 +2128,7 @@
             </div>
             <div class="mega-bottom-bar">
               <span>PlacoMarkt.online</span>
-              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">${currentLang === 'PL' ? 'Otwórz pełny panel →' : 'Open volledig paneel →'}</button>
+              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">${currentLang === 'PL' ? 'Otwórz panel →' : 'Open paneel →'}</button>
             </div>
           </div>
         </div>
@@ -2370,39 +2208,19 @@
       renderCountryUI();
     }
 
-    function renderPromoAdSlot() {
-      const ad = activePromoAds[0];
-      if (!ad) {
-        document.getElementById('adSlotTag').textContent = t('adTag');
-        document.getElementById('adSlotTitle').textContent = t('adTitle');
-        document.getElementById('adSlotDesc').textContent = t('adDesc');
-        return;
-      }
-      document.getElementById('adSlotTag').textContent = ad.tag || t('adTag');
-      document.getElementById('adSlotTitle').textContent = ad.title || '';
-      document.getElementById('adSlotDesc').textContent = ad.desc || '';
-    }
-
     function renderCountryUI() {
       const cfg = COUNTRY_CONFIG[currentCountry];
       document.documentElement.lang = t('htmlLang');
-      document.getElementById('domainTag').textContent = cfg.domain;
-      document.getElementById('langBtnLabel').textContent = `${t('langBtn')} (${currentLang})`;
+      document.getElementById('langBtnLabel').textContent = t('langBtn');
       document.getElementById('lblChooseLang').textContent = t('chooseLang');
       document.getElementById('lblChooseMarket').textContent = t('chooseMarket');
       document.getElementById('navAddBtn').textContent = t('add');
 
-      document.getElementById('heroTitle').textContent = `${t('heroTitle')} (${currentCountry})`;
-      document.getElementById('heroSub').textContent = `${t('heroSub')} (${cfg.currency})`;
+      document.getElementById('heroTitle').textContent = t('heroTitle');
+      document.getElementById('heroSub').textContent = t('heroSub');
       document.getElementById('searchInput').placeholder = t('searchPlaceholder');
       document.getElementById('cityInput').placeholder = t('cityPlaceholder');
       document.getElementById('btnSearchMain').textContent = t('searchBtn');
-      document.getElementById('autoLangNote').textContent = `${currentCountry} • ${currentLang}`;
-
-      document.getElementById('bfPillText').textContent = t('promoPill');
-      document.getElementById('bfHeadingText').textContent = t('promoTitle');
-      document.getElementById('bfSubText').textContent = t('promoSub');
-      document.getElementById('bfActionBtn').textContent = t('promoBtn');
 
       document.getElementById('optCondAll').textContent = t('condAll');
       document.getElementById('optCondNew').textContent = t('condNew');
@@ -2440,8 +2258,6 @@
         if (el) el.textContent = zeroCurrency;
       });
 
-      renderPromoAdSlot();
-
       document.getElementById('searchCatSelect').innerHTML =
         `<option value="all">${t('allCats')}</option>` +
         CATEGORIES_LIST.map(c => `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${c.icon} ${getCatLabel(c)}</option>`).join('');
@@ -2455,6 +2271,7 @@
         <option value="na">🤝 Nie dotyczy / N.v.t.</option>
       `;
 
+      /* Tylko oferty danego kraju (NL lub PL) — bez mieszania krajów */
       const visible = (listingsData[currentCountry] || []).filter(i => !i.hidden);
       const counts = {
         all: visible.length,
@@ -2477,11 +2294,10 @@
         </button>`
       ).join('');
 
-      const areaName = currentLang === 'PL' ? cfg.areaPL : cfg.areaNL;
+      const cityVal = document.getElementById('cityInput').value.trim();
       document.getElementById('breadcrumbBar').innerHTML = `
-        <span class="crumb-link" onclick="resetFilters()">PlacoMarkt${cfg.domain}</span>
-        <span>›</span>
-        <span>${document.getElementById('cityInput').value.trim() || areaName}</span>
+        <span class="crumb-link" onclick="resetFilters()">PlacoMarkt</span>
+        ${cityVal ? `<span>›</span><span>${cityVal}</span>` : ''}
       `;
 
       document.getElementById('favCountBadge').textContent = favoriteIds.length;
@@ -2522,7 +2338,6 @@
             ${mediaHtml}
             <div class="badges">
               <div class="badges-col">
-                ${item.isPlaceholder ? `<span class="badge badge-demo">PROMO</span>` : ''}
                 ${item.pirateFlag ? `<span class="badge badge-pirate">🏴‍☠️ PIRAT</span>` : ''}
                 ${isSubCard || item.hasSubscription ? `<span class="badge badge-sub">👑 ABONAMENT</span>` : ''}
                 ${item.top ? `<span class="badge badge-top">⭐ TOP</span>` : ''}
@@ -3075,7 +2890,7 @@
           cena: existing.price || 0,
           kategoria: existing.category || 'other',
           kraj: country,
-          miejscowosc: existing.city || COUNTRY_CONFIG[country].areaPL,
+          miejscowosc: existing.city || '',
           opis: existing.desc || '',
           zdjecie_url: photosArr[0] || null,
           zdjecia: photosArr,
@@ -3262,12 +3077,12 @@
           </div>
 
           <div class="set-section">
-            <h4>📢 Wyślij propozycję reklamy (ze zdjęciem) do Admina</h4>
+            <h4>📢 Wyślij propozycję ogłoszenia wyróżnionego (ze zdjęciem) do Admina</h4>
             <form onsubmit="submitHelpOrAdForm(event, 'reklama')">
-              <div class="form-group"><input type="text" id="adSubTitle" required placeholder="Nazwa firmy / hasło reklamowe..." /></div>
-              <div class="form-group"><textarea id="adSubDesc" rows="2" required placeholder="Opis reklamy / kontakt..."></textarea></div>
+              <div class="form-group"><input type="text" id="adSubTitle" required placeholder="Tytuł / hasło..." /></div>
+              <div class="form-group"><textarea id="adSubDesc" rows="2" required placeholder="Opis / kontakt..."></textarea></div>
               <div class="form-group"><input type="file" id="adSubPhoto" accept="image/*" onchange="handleAdPhotoPick(event)" /></div>
-              <button type="submit" class="mini-btn gold">Wyślij reklamę do Admina</button>
+              <button type="submit" class="mini-btn gold">Wyślij do Admina</button>
             </form>
           </div>
         `;
@@ -3367,7 +3182,7 @@
         updateAccountButton();
         alert('Wysłano wiadomość do Admina.');
       } else {
-        const tytul = document.getElementById('adSubTitle')?.value?.trim() || 'Reklama';
+        const tytul = document.getElementById('adSubTitle')?.value?.trim() || 'Wpis';
         const opis = document.getElementById('adSubDesc')?.value?.trim() || '';
         if (!opis) return;
         const sub = {
@@ -3383,7 +3198,7 @@
         uploadedAdPhotoDataUrl = '';
         if (sb) sb.from('reklamy_zgloszenia').insert([sub]).then(() => {}).catch(() => {});
         updateAccountButton();
-        alert('Zgłoszenie reklamy wysłane do Admina.');
+        alert('Zgłoszenie wysłane do Admina.');
       }
     }
 
@@ -3546,7 +3361,6 @@
         const b = document.getElementById('adm' + c);
         if (b) b.classList.toggle('active', c === currentCountry);
       });
-      document.getElementById('adminMarketLabel').textContent = currentCountry;
       renderAdminPanel();
       document.getElementById('adminModal').classList.add('open');
     }
@@ -3569,7 +3383,7 @@
         <div class="stat-card"><span>Zarejestrowane konta</span><strong>${usersCount}</strong></div>
         <div class="stat-card"><span>Ogłoszenia (${currentCountry})</span><strong>${items.length}</strong></div>
         <div class="stat-card"><span>Zgłoszenia / Alerty</span><strong>${adminMessages.length}</strong></div>
-        <div class="stat-card"><span>Zgłoszenia reklam</span><strong>${adSubmissions.length}</strong></div>
+        <div class="stat-card"><span>Zgłoszenia wyróżnień</span><strong>${adSubmissions.length}</strong></div>
       `;
 
       const body = document.getElementById('adminBody');
@@ -3578,7 +3392,7 @@
         body.innerHTML = `
           <div style="margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap">
             <button type="button" class="mini-btn" onclick="togglePlaceholdersAdmin()">
-              ${showPlaceholderOffers ? '🗑️ Ukryj oferty reklamowe' : '👁️ Pokaż oferty reklamowe'}
+              ${showPlaceholderOffers ? '🗑️ Ukryj przykładowe oferty' : '👁️ Pokaż przykładowe oferty'}
             </button>
             <button type="button" class="mini-btn red" onclick="adminClearLocalJunk()">
               🧹 Wyczyść śmieci lokalne (${currentCountry})
@@ -3629,14 +3443,6 @@
         `;
       } else if (activeAdminTab === 'ads') {
         body.innerHTML = `
-          <div class="set-section">
-            <h4>➕ Dodaj / zmień aktywną reklamę na stronie</h4>
-            <div class="form-row-2">
-              <input type="text" id="newAdTitle" placeholder="Tytuł reklamy" />
-              <input type="text" id="newAdDesc" placeholder="Krótki opis reklamy" />
-            </div>
-            <button type="button" class="mini-btn green" style="margin-top:8px" onclick="adminAddPromoAd()">Opublikuj reklamę</button>
-          </div>
           <h4 style="margin-bottom:8px">Nadesłane przez użytkowników (${adSubmissions.length})</h4>
           <div class="admin-list">
             ${adSubmissions.length ? adSubmissions.map(s => `
@@ -3644,14 +3450,13 @@
                 <div>
                   <strong>${s.tytul}</strong> <span style="font-size:12px;color:var(--muted)">(${s.autor_email || ''})</span>
                   <div style="font-size:12px;margin-top:4px">${s.opis}</div>
-                  ${s.zdjecie_url ? `<img src="${s.zdjecie_url}" alt="Reklama" style="max-height:70px;border-radius:6px;margin-top:6px" />` : ''}
+                  ${s.zdjecie_url ? `<img src="${s.zdjecie_url}" alt="Załącznik" style="max-height:70px;border-radius:6px;margin-top:6px" />` : ''}
                 </div>
                 <div class="admin-row-actions">
-                  <button type="button" class="mini-btn green" onclick="adminPromoteSubmission('${s.id}')">📢 Wrzuć na stronę</button>
                   <button type="button" class="mini-btn red" onclick="adminDeleteSubmission('${s.id}')">🗑️ Usuń</button>
                 </div>
               </div>
-            `).join('') : '<p style="color:var(--muted)">Brak zgłoszeń reklam.</p>'}
+            `).join('') : '<p style="color:var(--muted)">Brak zgłoszeń.</p>'}
           </div>
         `;
       } else {
@@ -3721,25 +3526,6 @@
         try { await sb.from('profiles').update({ banned_until: null }).eq('email', email); } catch (e) {}
       }
       renderAdminPanel();
-    }
-
-    function adminAddPromoAd() {
-      const title = document.getElementById('newAdTitle')?.value?.trim();
-      const desc = document.getElementById('newAdDesc')?.value?.trim();
-      if (!title) return;
-      activePromoAds.unshift({ id: Date.now(), tag: t('adTag'), title, desc: desc || '' });
-      try { localStorage.setItem('placomarkt_active_ads', JSON.stringify(activePromoAds)); } catch (e) {}
-      renderPromoAdSlot();
-      renderAdminPanel();
-    }
-
-    function adminPromoteSubmission(id) {
-      const sub = adSubmissions.find(x => String(x.id) === String(id));
-      if (!sub) return;
-      activePromoAds.unshift({ id: Date.now(), tag: 'Partner', title: sub.tytul, desc: sub.opis });
-      try { localStorage.setItem('placomarkt_active_ads', JSON.stringify(activePromoAds)); } catch (e) {}
-      renderPromoAdSlot();
-      alert('Reklama została opublikowana.');
     }
 
     async function adminDeleteSubmission(id) {
