@@ -6,14 +6,14 @@
   <meta name="theme-color" content="#f97316" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="description" content="PlacoMarkt.online — ogłoszenia, licytacje, zakupy, wczasy, nieruchomości i ogródki działkowe (NL & PL)." />
+  <meta name="description" content="PlacoMarkt.online — advertenties, veilingen, kopen & verkopen (NL & PL) | ogłoszenia, licytacje, zakupy, wczasy, nieruchomości." />
   <link rel="canonical" href="https://placomarkt.online/" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23f97316'/></svg>" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://placomarkt.online/" />
-  <meta property="og:title" content="PlacoMarkt — Platforma Ogłoszeń, Licytacji, Zakupów i Wczasów" />
-  <meta property="og:description" content="Lokalne ogłoszenia, licytacje, zakupy, nieruchomości i wczasy w Holandii oraz Polsce na placomarkt.online." />
-  <title>PlacoMarkt — Platforma Ogłoszeń, Licytacji, Zakupów i Wczasów</title>
+  <meta property="og:title" content="PlacoMarkt — Advertenties & Ogłoszenia (NL / PL)" />
+  <meta property="og:description" content="Lokale advertenties, veilingen & ogłoszenia w Holandii oraz Polsce na placomarkt.online." />
+  <title>PlacoMarkt — Advertenties, Veilingen & Ogłoszenia (NL / PL)</title>
   <link id="pwaManifestLink" rel="manifest" href="" />
   <style>
     :root {
@@ -34,6 +34,7 @@
       --gold-bg: #fffbeb;
       --input-bg: #ffffff;
       --soft-bg: #f1f5f9;
+      --hub-left-bg: #eef2f6;
     }
     body.dark-mode {
       --bg: #0f172a;
@@ -44,6 +45,7 @@
       --gold-bg: #292112;
       --input-bg: #0f172a;
       --soft-bg: #0f172a;
+      --hub-left-bg: #162032;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     body { background: var(--bg); color: var(--text); padding-bottom: 85px; transition: background 0.2s, color 0.2s; }
@@ -75,7 +77,7 @@
       color: #fff;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 120;
       box-shadow: 0 2px 10px rgba(0,0,0,0.16);
     }
     .nav-container {
@@ -87,6 +89,7 @@
       justify-content: space-between;
       gap: 10px;
       flex-wrap: wrap;
+      position: relative;
     }
     .logo {
       font-size: 22px;
@@ -158,6 +161,186 @@
       box-shadow: 0 2px 6px rgba(15,23,42,0.25);
     }
     .add-btn:hover { background: #1e293b; }
+
+    /* Schowane rozwijane menu języka & kraju */
+    .lang-dropdown-wrap { position: relative; }
+    .lang-popover {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 265px;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.22);
+      z-index: 250;
+    }
+    .lang-popover.open { display: block; }
+    .lang-popover-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .lang-choice-btn {
+      background: var(--soft-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 4px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+    .lang-choice-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Rozwijany mega-panel profilu użytkownika (wzór Allegro: Mariusz v) */
+    .profile-mega-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 16px;
+      width: min(880px, calc(100vw - 32px));
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 22px 48px rgba(15,23,42,0.28);
+      z-index: 240;
+      overflow: hidden;
+    }
+    .profile-mega-dropdown.open { display: block; }
+    .mega-inner {
+      display: grid;
+      grid-template-columns: 245px 1fr;
+      min-height: 360px;
+    }
+    @media (max-width: 720px) {
+      .mega-inner { grid-template-columns: 1fr; }
+    }
+    .mega-left {
+      background: var(--hub-left-bg);
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border);
+    }
+    .mega-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .mega-greeting { font-size: 18px; font-weight: 800; margin-bottom: 3px; }
+    .mega-sub { font-size: 12px; color: var(--muted); word-break: break-all; }
+    .mega-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+    .mega-pill {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+    }
+    .mega-pill.orange { background: var(--accent); }
+    .mega-settings-link {
+      background: none;
+      border: none;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: left;
+      padding: 8px 0;
+    }
+    .mega-settings-link:hover { text-decoration: underline; }
+
+    .mega-right { padding: 16px 22px; display: flex; flex-direction: column; justify-content: space-between; }
+    .mega-tabs {
+      display: flex;
+      gap: 22px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .mega-tab {
+      background: none;
+      border: none;
+      padding: 8px 2px 10px;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+    }
+    .mega-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .mega-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 640px) {
+      .mega-cols { grid-template-columns: 1fr; }
+    }
+    .mega-col h4 {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .mega-link-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 0;
+      cursor: pointer;
+    }
+    .mega-link-btn:hover { color: var(--accent); }
+    .mega-bottom-bar {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
 
     .hero {
       background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
@@ -484,7 +667,7 @@
 
     .modal-backdrop {
       display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.55);
-      backdrop-filter: blur(2px); z-index: 200; align-items: center; justify-content: center; padding: 16px;
+      backdrop-filter: blur(2px); z-index: 260; align-items: center; justify-content: center; padding: 16px;
     }
     .modal-backdrop.open { display: flex; }
     .modal {
@@ -629,19 +812,43 @@
 </head>
 <body>
 
-  <header>
+  <header id="topHeader">
     <div class="nav-container">
       <div class="logo" onclick="resetFilters()">
         <span>Placo<span class="brand-accent">Markt</span></span>
         <span class="domain-tag" id="domainTag">.nl</span>
       </div>
+
       <div class="nav-controls">
+        <!-- Schowany przycisk języka i kraju -->
+        <div class="lang-dropdown-wrap" id="langDropdownWrap">
+          <button type="button" class="icon-btn" id="langMenuBtn" onclick="toggleLangPopover(event)">
+            🌐 <span id="langBtnLabel">Język</span> ▾
+          </button>
+          <div class="lang-popover" id="langPopover">
+            <div class="lang-popover-title" id="lblChooseLang">Język / Taal</div>
+            <div class="lang-grid" id="headerLangGrid"></div>
+            <div class="lang-popover-title" id="lblChooseMarket">Rynek / Land</div>
+            <div style="display:flex;gap:6px">
+              <button type="button" class="lang-choice-btn" style="flex:1" id="hdrMarketNL" onclick="manualSwitchCountry('NL');closeHeaderMenus()">🇳🇱 NL (€)</button>
+              <button type="button" class="lang-choice-btn" style="flex:1" id="hdrMarketPL" onclick="manualSwitchCountry('PL');closeHeaderMenus()">🇵🇱 PL (zł)</button>
+            </div>
+          </div>
+        </div>
+
         <button type="button" class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')">❤️ <span id="favCountBadge">0</span></button>
-        <button type="button" class="icon-btn acc-btn" onclick="openAccountModal()">👤 <span id="navAccountLabel">Konto</span></button>
+
+        <!-- Przycisk profilu (Mariusz v / Konto v) otwierający szeroki panel -->
+        <button type="button" class="icon-btn acc-btn" id="navProfileBtn" onclick="handleProfileHeaderClick(event)">
+          👤 <span id="navAccountLabel">Konto</span> <span id="navProfileArrow">▾</span>
+        </button>
+
         <button type="button" class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">🛡️ Admin <span class="notif-dot" id="adminReportBadge">0</span></button>
-        <button type="button" class="icon-btn" onclick="openSettings()">⚙️ Ustawienia</button>
-        <button type="button" class="add-btn" onclick="openAddModal()">+ Dodaj</button>
+        <button type="button" class="add-btn" id="navAddBtn" onclick="openAddModal()">+ Dodaj</button>
       </div>
+
+      <!-- Rozwijany szeroki panel profilu (wzór ze zdjęcia) -->
+      <div class="profile-mega-dropdown" id="profileMegaDropdown"></div>
     </div>
   </header>
 
@@ -658,16 +865,9 @@
         placeholder="Miejscowość..."
         oninput="renderListings()"
       />
-      <button type="button" class="search-btn" onclick="searchAndShowAll()">Szukaj</button>
+      <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Szukaj</button>
     </div>
-    <div class="quick-tags" id="quickTagsBar">
-      <span style="color:#fff7ed">Popularne:</span>
-      <span class="quick-tag" onclick="quickSearch('głośniki')">🔊 Głośniki</span>
-      <span class="quick-tag" onclick="quickSearch('łódka')">🎣 Wędkarstwo</span>
-      <span class="quick-tag" onclick="quickSearch('skuter')">🛵 Auta, Motory i Skutery</span>
-      <span class="quick-tag" onclick="quickSearch('ogródek')">🏡 Ogródek działkowy / Volkstuin</span>
-      <span class="quick-tag" onclick="quickSearch('wczasy')">✈️ Wczasy i Podróże</span>
-    </div>
+    <div class="quick-tags" id="quickTagsBar"></div>
   </section>
 
   <main class="container">
@@ -687,11 +887,11 @@
       <section class="promo-ads-zone" id="promoAdsZone" aria-label="Promocje i reklamy">
         <div class="bf-banner">
           <div>
-            <span class="bf-pill">Promocja startowa</span>
-            <h2>Wystawiaj ogłoszenia na PlacoMarkt</h2>
-            <p>Szybkie ogłoszenia w Holandii i Polsce — bez zbędnych formalności.</p>
+            <span class="bf-pill" id="bfPillText">Promocja startowa</span>
+            <h2 id="bfHeadingText">Wystawiaj ogłoszenia na PlacoMarkt</h2>
+            <p id="bfSubText">Szybkie ogłoszenia w Holandii i Polsce — bez zbędnych formalności.</p>
           </div>
-          <button type="button" class="bf-btn" onclick="openAddModal()">+ Wystaw teraz</button>
+          <button type="button" class="bf-btn" id="bfActionBtn" onclick="openAddModal()">+ Wystaw teraz</button>
         </div>
         <div class="ad-slot-card" id="dynamicAdCard">
           <span class="ad-slot-tag" id="adSlotTag">Reklama</span>
@@ -710,17 +910,17 @@
         </div>
         <div class="toolbar-right">
           <select id="filterCondition" onchange="renderListings()">
-            <option value="all">Stan: Wszystkie</option>
-            <option value="new">✨ Nowe</option>
-            <option value="used">♻️ Używane</option>
+            <option value="all" id="optCondAll">Stan: Wszystkie</option>
+            <option value="new" id="optCondNew">✨ Nowe</option>
+            <option value="used" id="optCondUsed">♻️ Używane</option>
           </select>
-          <input type="number" id="filterMinPrice" placeholder="Od" min="0" style="width:80px" oninput="renderListings()" />
-          <input type="number" id="filterMaxPrice" placeholder="Do" min="0" style="width:80px" oninput="renderListings()" />
+          <input type="number" id="filterMinPrice" placeholder="Od / Van" min="0" style="width:85px" oninput="renderListings()" />
+          <input type="number" id="filterMaxPrice" placeholder="Do / Tot" min="0" style="width:85px" oninput="renderListings()" />
           <select id="sortSelect" onchange="renderListings()">
-            <option value="featured">Sortuj: Polecane i nowe</option>
-            <option value="price_asc">Cena: rosnąco</option>
-            <option value="price_desc">Cena: malejąco</option>
-            <option value="views_desc">Najpopularniejsze</option>
+            <option value="featured" id="optSortFeat">Sortuj: Polecane i nowe</option>
+            <option value="price_asc" id="optSortAsc">Cena: rosnąco</option>
+            <option value="price_desc" id="optSortDesc">Cena: malejąco</option>
+            <option value="views_desc" id="optSortViews">Najpopularniejsze</option>
           </select>
           <div class="view-toggle">
             <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')">⊞</button>
@@ -734,10 +934,10 @@
       <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Abonament">
         <div class="subscribers-header">
           <div>
-            <h2>👑 Oferty z abonamentem</h2>
-            <p>Ogłoszenia kont z aktywnym abonamentem na dole strony.</p>
+            <h2 id="subSectionTitle">👑 Oferty z abonamentem</h2>
+            <p id="subSectionDesc">Ogłoszenia kont z aktywnym abonamentem na dole strony.</p>
           </div>
-          <button type="button" class="mini-btn gold" onclick="openAccountModal()">👑 Abonament</button>
+          <button type="button" class="mini-btn gold" onclick="openFullAccountModal('account')">👑 Abonament</button>
         </div>
         <div class="grid" id="subscribersGrid"></div>
       </section>
@@ -746,10 +946,10 @@
     <footer class="site-footer">
       <div><strong>PlacoMarkt.online</strong> © 2026 • Kontakt: adminplacomarkt@gmail.com</div>
       <div class="footer-links">
-        <a onclick="openLegalModal('about')">O nas</a>
-        <a onclick="openLegalModal('terms')">Regulamin</a>
-        <a onclick="openLegalModal('privacy')">Prywatność (RODO)</a>
-        <a onclick="openLegalModal('dsa')">DSA i Kontakt</a>
+        <a onclick="openLegalModal('about')" id="footAbout">O nas</a>
+        <a onclick="openLegalModal('terms')" id="footTerms">Regulamin</a>
+        <a onclick="openLegalModal('privacy')" id="footPrivacy">Prywatność (RODO)</a>
+        <a onclick="openLegalModal('dsa')" id="footDsa">DSA i Kontakt</a>
       </div>
     </footer>
   </main>
@@ -793,99 +993,99 @@
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label>Cena / Forma sprzedaży</label>
+            <label id="lblFormType">Cena / Forma sprzedaży</label>
             <select id="newType" onchange="toggleAddFields()">
-              <option value="sale">Kup teraz</option>
-              <option value="auction">🔨 Licytacja</option>
-              <option value="free">🎁 Za darmo</option>
+              <option value="sale">Kup teraz / Direct kopen</option>
+              <option value="auction">🔨 Licytacja / Veiling</option>
+              <option value="free">🎁 Za darmo / Gratis</option>
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
-            <label>Stan</label>
+            <label id="lblFormCond">Stan / Staat</label>
             <select id="newCondition">
-              <option value="new">✨ Nowy</option>
-              <option value="used">♻️ Używany</option>
-              <option value="na">Nie dotyczy</option>
+              <option value="new">✨ Nowy / Nieuw</option>
+              <option value="used">♻️ Używany / Gebruikt</option>
+              <option value="na">Nie dotyczy / N.v.t.</option>
             </select>
           </div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label>Tytuł</label>
+            <label id="lblFormTitle">Tytuł / Titel</label>
             <input type="text" id="newTitle" required />
           </div>
           <div class="form-group">
-            <label>Twoja ksywka / inicjały w ogłoszeniu</label>
+            <label id="lblFormAlias">Ksywka / inicjały (Naam)</label>
             <input type="text" id="newSellerAlias" maxlength="24" placeholder="np. Mario, M.R., DJ Mario..." />
           </div>
         </div>
         <div class="form-group">
-          <label>Zdjęcia (maks. 6 — podgląd przed dodaniem)</label>
+          <label id="lblFormPhotos">Zdjęcia / Foto's (maks. 6)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label>Kategoria</label>
+            <label id="lblFormCat">Kategoria / Categorie</label>
             <select id="newCategory"></select>
           </div>
           <div class="form-group">
-            <label>Miejscowość</label>
+            <label id="lblFormCity">Miejscowość / Plaats</label>
             <input type="text" id="newCity" required />
           </div>
         </div>
 
         <div class="form-row-2" id="priceRowBox">
           <div class="form-group" id="priceGroup">
-            <label>Cena</label>
+            <label id="lblFormPrice">Cena / Prijs</label>
             <input type="number" id="newPrice" min="0" step="0.01" />
           </div>
           <div class="form-group" id="reservePriceGroup" style="display:none">
-            <label>🔒 Cena minimalna (opcjonalnie)</label>
+            <label>🔒 Cena minimalna / Minimumprijs</label>
             <input type="number" id="newReservePrice" min="0" step="0.01" />
           </div>
         </div>
 
         <div class="form-group" id="buyNowGroup" style="display:none">
-          <label>Kup teraz (opcjonalnie przy licytacji)</label>
+          <label>Kup teraz / Direct kopen</label>
           <input type="number" id="newBuyNow" min="0" step="0.01" />
         </div>
         <div class="form-group" id="shippingGroup">
-          <label>Dostawa / Odbiór</label>
+          <label id="lblFormShip">Dostawa / Levering</label>
           <select id="newShipping"></select>
         </div>
 
         <div class="set-section">
-          <h4>📞 Numer telefonu (domyślnie ukryty)</h4>
+          <h4 id="lblFormPhoneHdr">📞 Numer telefonu (domyślnie ukryty)</h4>
           <div class="form-group" style="margin-bottom:8px">
             <input type="tel" id="newPhone" placeholder="Opcjonalnie wpisz numer tylko jeśli chcesz go udostępnić..." oninput="toggleSharePhoneCheckbox()" />
           </div>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newSharePhone" style="width:auto" disabled />
-            <span>Udostępniam mój numer telefonu w tym ogłoszeniu</span>
+            <span id="lblFormSharePhone">Udostępniam mój numer telefonu w tym ogłoszeniu</span>
           </label>
         </div>
 
         <div class="form-group">
-          <label>Opis</label>
+          <label id="lblFormDesc">Opis / Beschrijving</label>
           <textarea id="newDesc" rows="3" required></textarea>
         </div>
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newHasSubscription" style="width:auto" />
-            <span>👑 Abonament</span>
+            <span>👑 Abonament / Abonnement</span>
           </label>
         </div>
         <div class="form-group">
-          <label>Widoczność</label>
+          <label>Widoczność / Zichtbaarheid</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoPriceStd">0,00 €</strong>
-              <div style="font-size:11px;color:var(--muted)">30 dni</div>
+              <div style="font-size:11px;color:var(--muted)">30 dni / dagen</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
               <strong style="color:var(--red)" id="promoPriceUrgent">0,00 €</strong>
-              <div style="font-size:11px;color:var(--muted)">⚡ PILNE</div>
+              <div style="font-size:11px;color:var(--muted)">⚡ PILNE / SPOED</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
               <strong style="color:var(--accent)" id="promoPriceTop">0,00 €</strong>
@@ -911,28 +1111,28 @@
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:540px">
       <button type="button" class="close-modal" onclick="closeModal('settingsModal')">×</button>
-      <h2 style="margin-bottom:14px">⚙️ Ustawienia</h2>
+      <h2 style="margin-bottom:14px" id="settingsModalTitle">⚙️ Ustawienia / Instellingen</h2>
       <div class="set-section">
-        <h4>🌍 Kraj i Język</h4>
+        <h4>🌍 Kraj i Język / Land & Taal</h4>
         <div id="settingsLangButtons" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia (€)</button>
+          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">🇳🇱 Holandia / Nederland (€)</button>
           <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">🇵🇱 Polska (zł)</button>
         </div>
       </div>
       <div class="set-section">
-        <h4>🎨 Wygląd</h4>
+        <h4>🎨 Wygląd / Weergave</h4>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
-          <span>🌙 Tryb ciemny</span>
+          <span id="lblDarkMode">🌙 Tryb ciemny / Donkere modus</span>
         </label>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
-          <span>Domyślna miejscowość:</span>
-          <input type="text" id="setDefaultCity" oninput="setDefaultCityPref(this.value)" style="width:220px;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px" />
+          <span id="lblDefCity">Domyślna miejscowość / Standaard plaats:</span>
+          <input type="text" id="setDefaultCity" oninput="setDefaultCityPref(this.value)" style="width:200px;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px" />
         </div>
       </div>
       <div class="set-section" style="margin-bottom:0">
-        <h4>📱 Dane</h4>
+        <h4>📱 Dane / Gegevens</h4>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button type="button" class="mini-btn" onclick="exportUserData()">📥 Eksport JSON</button>
           <button type="button" class="mini-btn red" onclick="resetLocalStorageData()">🗑️ Reset</button>
@@ -942,11 +1142,11 @@
   </div>
 
   <nav class="mobile-nav">
-    <button type="button" onclick="setMode('sale')">🏷️<span>Kup teraz</span></button>
-    <button type="button" onclick="openAddModal()" style="color:var(--accent)">➕<span>Dodaj</span></button>
-    <button type="button" onclick="setMode('favorites')">❤️<span>Ulubione</span></button>
-    <button type="button" onclick="openAccountModal()">👤<span>Konto</span></button>
-    <button type="button" onclick="openSettings()">⚙️<span>Opcje</span></button>
+    <button type="button" onclick="setMode('sale')">🏷️<span id="mobBuy">Kup teraz</span></button>
+    <button type="button" onclick="openAddModal()" style="color:var(--accent)">➕<span id="mobAdd">Dodaj</span></button>
+    <button type="button" onclick="setMode('favorites')">❤️<span id="mobFav">Ulubione</span></button>
+    <button type="button" onclick="handleProfileHeaderClick(event)">👤<span id="mobAcc">Konto</span></button>
+    <button type="button" onclick="openSettings()">⚙️<span id="mobOpt">Opcje</span></button>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -964,6 +1164,349 @@
     const sb = (window.supabase && SUPABASE_URL.startsWith('https://') && SUPABASE_PUBLISHABLE_KEY.length > 20)
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
+
+    /* Słownik wielojęzyczny: NL, PL, UK, DE, BE, FR */
+    const SUPPORTED_LANGS = [
+      { code: 'NL', flag: '🇳🇱', label: 'NL' },
+      { code: 'PL', flag: '🇵🇱', label: 'PL' },
+      { code: 'UK', flag: '🇺🇦', label: 'UK' },
+      { code: 'DE', flag: '🇩🇪', label: 'DE' },
+      { code: 'BE', flag: '🇧🇪', label: 'BE' },
+      { code: 'FR', flag: '🇫🇷', label: 'FR' }
+    ];
+
+    const I18N = {
+      PL: {
+        htmlLang: 'pl',
+        langBtn: 'Język',
+        chooseLang: 'Wybierz język',
+        chooseMarket: 'Rynek / Waluta',
+        account: 'Konto',
+        add: '+ Dodaj',
+        heroTitle: 'Ogłoszenia, Licytacje, Zakupy i Wczasy',
+        heroSub: 'Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca',
+        searchPlaceholder: 'Czego szukasz (np. głośniki, skuter, ogródek)...',
+        cityPlaceholder: 'Miejscowość...',
+        searchBtn: 'Szukaj',
+        allCats: '📂 Wszystkie kategorie',
+        popular: 'Popularne:',
+        promoPill: 'Promocja startowa',
+        promoTitle: 'Wystawiaj ogłoszenia na PlacoMarkt',
+        promoSub: 'Szybkie ogłoszenia w Holandii i Polsce — bez zbędnych formalności.',
+        promoBtn: '+ Wystaw teraz',
+        adTag: 'Reklama',
+        adTitle: 'Chcesz zareklamować firmę lub ofertę?',
+        adDesc: 'Wyślij opis i zdjęcie w panelu Konto → Pomoc / Reklama do Admina.',
+        tabAll: 'Wszystkie',
+        tabSale: 'Kup teraz',
+        tabAuction: '🔨 Licytacja',
+        tabFree: '🎁 Za darmo',
+        tabFav: '❤️ Ulubione',
+        foundOffers: 'Znalezione oferty',
+        condAll: 'Stan: Wszystkie',
+        condNew: '✨ Nowe',
+        condUsed: '♻️ Używane',
+        sortFeat: 'Sortuj: Polecane i nowe',
+        sortAsc: 'Cena: rosnąco',
+        sortDesc: 'Cena: malejąco',
+        sortViews: 'Najpopularniejsze',
+        details: 'Szczegóły →',
+        freeLabel: 'ZA DARMO',
+        subTitle: '👑 Oferty z abonamentem',
+        subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.',
+        hello: 'Cześć',
+        settingsUpper: 'USTAWIENIA',
+        logout: 'Wyloguj się',
+        megaBuy: 'ZAKUPY',
+        megaSell: 'SPRZEDAŻ',
+        megaAccount: 'KONTO',
+        mobBuy: 'Kup teraz',
+        mobAdd: 'Dodaj',
+        mobFav: 'Ulubione',
+        mobAcc: 'Konto',
+        mobOpt: 'Opcje'
+      },
+      NL: {
+        htmlLang: 'nl',
+        langBtn: 'Taal',
+        chooseLang: 'Kies taal',
+        chooseMarket: 'Land / Valuta',
+        account: 'Account',
+        add: '+ Plaatsen',
+        heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
+        heroSub: 'Auto’s, Motoren, Scooters, Vissen, Cosmetica, Woningen, Volkstuinen, Vakantie & Werk',
+        searchPlaceholder: 'Waar ben je naar op zoek (bijv. speakers, scooter, volkstuin)...',
+        cityPlaceholder: 'Plaats of postcode...',
+        searchBtn: 'Zoeken',
+        allCats: '📂 Alle categorieën',
+        popular: 'Populair:',
+        promoPill: 'Startactie',
+        promoTitle: 'Plaats gratis je advertentie op PlacoMarkt',
+        promoSub: 'Snel kopen en verkopen in Nederland en Polen — zonder gedoe.',
+        promoBtn: '+ Nu plaatsen',
+        adTag: 'Advertentie',
+        adTitle: 'Wil je jouw bedrijf of aanbieding promoten?',
+        adDesc: 'Stuur je tekst en foto via Account → Hulp / Advertentie naar Admin.',
+        tabAll: 'Alles',
+        tabSale: 'Direct kopen',
+        tabAuction: '🔨 Veiling',
+        tabFree: '🎁 Gratis',
+        tabFav: '❤️ Favorieten',
+        foundOffers: 'Gevonden advertenties',
+        condAll: 'Staat: Alle',
+        condNew: '✨ Nieuw',
+        condUsed: '♻️ Gebruikt',
+        sortFeat: 'Sorteren: Aanbevolen & nieuw',
+        sortAsc: 'Prijs: laag naar hoog',
+        sortDesc: 'Prijs: hoog naar laag',
+        sortViews: 'Meest bekeken',
+        details: 'Bekijk →',
+        freeLabel: 'GRATIS',
+        subTitle: '👑 Abonnement aanbiedingen',
+        subDesc: 'Advertenties van accounts met een actief abonnement.',
+        hello: 'Hallo',
+        settingsUpper: 'INSTELLINGEN',
+        logout: 'Uitloggen',
+        megaBuy: 'AANKOPEN',
+        megaSell: 'VERKOOP',
+        megaAccount: 'ACCOUNT',
+        mobBuy: 'Kopen',
+        mobAdd: 'Plaatsen',
+        mobFav: 'Favorieten',
+        mobAcc: 'Account',
+        mobOpt: 'Opties'
+      },
+      UK: {
+        htmlLang: 'uk',
+        langBtn: 'Мова',
+        chooseLang: 'Оберіть мову',
+        chooseMarket: 'Країна / Валюта',
+        account: 'Акаунт',
+        add: '+ Додати',
+        heroTitle: 'Оголошення, Аукціони, Покупки та Відпочинок',
+        heroSub: 'Авто, Мото, Скутери, Риболовля, Косметика, Нерухомість, Сади та Робота',
+        searchPlaceholder: 'Що шукаєте (напр. колонки, скутер)...',
+        cityPlaceholder: 'Місто...',
+        searchBtn: 'Пошук',
+        allCats: '📂 Усі категорії',
+        popular: 'Популярне:',
+        promoPill: 'Стартова акція',
+        promoTitle: 'Розміщуйте оголошення на PlacoMarkt',
+        promoSub: 'Швидкі оголошення в Нідерландах та Польщі.',
+        promoBtn: '+ Додати зараз',
+        adTag: 'Реклама',
+        adTitle: 'Хочете прорекламувати бізнес?',
+        adDesc: 'Надішліть опис і фото в Акаунт → Допомога / Реклама.',
+        tabAll: 'Усі',
+        tabSale: 'Купити зараз',
+        tabAuction: '🔨 Аукціон',
+        tabFree: '🎁 Безкоштовно',
+        tabFav: '❤️ Обране',
+        foundOffers: 'Знайдені оголошення',
+        condAll: 'Стан: Усі',
+        condNew: '✨ Нове',
+        condUsed: '♻️ Вживане',
+        sortFeat: 'Сортування: Рекомендовані',
+        sortAsc: 'Ціна: за зростанням',
+        sortDesc: 'Ціна: за спаданням',
+        sortViews: 'Найпопулярніші',
+        details: 'Детальніше →',
+        freeLabel: 'БЕЗКОШТОВНО',
+        subTitle: '👑 Пропозиції з підпискою',
+        subDesc: 'Оголошення акаунтів з активною підпискою.',
+        hello: 'Привіт',
+        settingsUpper: 'НАЛАШТУВАННЯ',
+        logout: 'Вийти',
+        megaBuy: 'ПОКУПКИ',
+        megaSell: 'ПРОДАЖ',
+        megaAccount: 'АКАУНТ',
+        mobBuy: 'Купити',
+        mobAdd: 'Додати',
+        mobFav: 'Обране',
+        mobAcc: 'Акаунт',
+        mobOpt: 'Опції'
+      },
+      DE: {
+        htmlLang: 'de',
+        langBtn: 'Sprache',
+        chooseLang: 'Sprache wählen',
+        chooseMarket: 'Land / Währung',
+        account: 'Konto',
+        add: '+ Inserieren',
+        heroTitle: 'Kleinanzeigen, Auktionen, Einkaufen & Urlaub',
+        heroSub: 'Autos, Roller, Angeln, Kosmetik, Immobilien, Schrebergärten & Jobs',
+        searchPlaceholder: 'Wonach suchst du (z.B. Lautsprecher, Roller)...',
+        cityPlaceholder: 'Ort...',
+        searchBtn: 'Suchen',
+        allCats: '📂 Alle Kategorien',
+        popular: 'Beliebt:',
+        promoPill: 'Startaktion',
+        promoTitle: 'Anzeigen auf PlacoMarkt aufgeben',
+        promoSub: 'Schnelle Kleinanzeigen in den Niederlanden und Polen.',
+        promoBtn: '+ Jetzt aufgeben',
+        adTag: 'Werbung',
+        adTitle: 'Möchten Sie Ihr Unternehmen bewerben?',
+        adDesc: 'Senden Sie Text und Foto über Konto → Hilfe / Werbung.',
+        tabAll: 'Alle',
+        tabSale: 'Sofort kaufen',
+        tabAuction: '🔨 Auktion',
+        tabFree: '🎁 Zu verschenken',
+        tabFav: '❤️ Merkliste',
+        foundOffers: 'Gefundene Anzeigen',
+        condAll: 'Zustand: Alle',
+        condNew: '✨ Neu',
+        condUsed: '♻️ Gebraucht',
+        sortFeat: 'Sortieren: Empfohlen & neu',
+        sortAsc: 'Preis: aufsteigend',
+        sortDesc: 'Preis: absteigend',
+        sortViews: 'Beliebteste',
+        details: 'Details →',
+        freeLabel: 'KOSTENLOS',
+        subTitle: '👑 Abo-Angebote',
+        subDesc: 'Anzeigen von Konten mit aktivem Abonnement.',
+        hello: 'Hallo',
+        settingsUpper: 'EINSTELLUNGEN',
+        logout: 'Abmelden',
+        megaBuy: 'EINKÄUFE',
+        megaSell: 'VERKAUF',
+        megaAccount: 'KONTO',
+        mobBuy: 'Kaufen',
+        mobAdd: 'Inserieren',
+        mobFav: 'Merkliste',
+        mobAcc: 'Konto',
+        mobOpt: 'Optionen'
+      },
+      BE: {
+        htmlLang: 'nl-BE',
+        langBtn: 'Taal (BE)',
+        chooseLang: 'Kies taal (België)',
+        chooseMarket: 'Markt / Valuta',
+        account: 'Account',
+        add: '+ Plaatsen',
+        heroTitle: 'Zoekertjes, Veilingen, Kopen & Vakantie',
+        heroSub: 'Auto’s, Bromfietsen, Vissen, Cosmetica, Vastgoed, Volkstuintjes & Werk',
+        searchPlaceholder: 'Waar ben je naar op zoek...',
+        cityPlaceholder: 'Gemeente...',
+        searchBtn: 'Zoeken',
+        allCats: '📂 Alle categorieën',
+        popular: 'Populair:',
+        promoPill: 'Startactie',
+        promoTitle: 'Plaats je zoekertje op PlacoMarkt',
+        promoSub: 'Snel kopen en verkopen in NL, BE en PL.',
+        promoBtn: '+ Nu plaatsen',
+        adTag: 'Advertentie',
+        adTitle: 'Je zaak of aanbod promoten?',
+        adDesc: 'Stuur tekst en foto via Account → Hulp / Advertentie.',
+        tabAll: 'Alles',
+        tabSale: 'Direct kopen',
+        tabAuction: '🔨 Veiling',
+        tabFree: '🎁 Gratis',
+        tabFav: '❤️ Favorieten',
+        foundOffers: 'Gevonden zoekertjes',
+        condAll: 'Staat: Alle',
+        condNew: '✨ Nieuw',
+        condUsed: '♻️ Tweedehands',
+        sortFeat: 'Sorteren: Aanbevolen',
+        sortAsc: 'Prijs: oplopend',
+        sortDesc: 'Prijs: aflopend',
+        sortViews: 'Meest bekeken',
+        details: 'Bekijk →',
+        freeLabel: 'GRATIS',
+        subTitle: '👑 Abonnement zoekertjes',
+        subDesc: 'Zoekertjes van accounts met actief abonnement.',
+        hello: 'Dag',
+        settingsUpper: 'INSTELLINGEN',
+        logout: 'Afmelden',
+        megaBuy: 'AANKOPEN',
+        megaSell: 'VERKOOP',
+        megaAccount: 'ACCOUNT',
+        mobBuy: 'Kopen',
+        mobAdd: 'Plaatsen',
+        mobFav: 'Favorieten',
+        mobAcc: 'Account',
+        mobOpt: 'Opties'
+      },
+      FR: {
+        htmlLang: 'fr',
+        langBtn: 'Langue',
+        chooseLang: 'Choisir la langue',
+        chooseMarket: 'Pays / Devise',
+        account: 'Compte',
+        add: '+ Publier',
+        heroTitle: 'Annonces, Enchères, Achats & Vacances',
+        heroSub: 'Autos, Scooters, Pêche, Cosmétiques, Immobilier, Jardins & Emploi',
+        searchPlaceholder: 'Que recherchez-vous (ex. enceintes, scooter)...',
+        cityPlaceholder: 'Ville...',
+        searchBtn: 'Rechercher',
+        allCats: '📂 Toutes les catégories',
+        popular: 'Populaire :',
+        promoPill: 'Offre de lancement',
+        promoTitle: 'Publiez vos annonces sur PlacoMarkt',
+        promoSub: 'Annonces rapides aux Pays-Bas et en Pologne.',
+        promoBtn: '+ Publier',
+        adTag: 'Publicité',
+        adTitle: 'Promouvoir votre entreprise ?',
+        adDesc: 'Envoyez texte et photo dans Compte → Aide / Publicité.',
+        tabAll: 'Tout',
+        tabSale: 'Achat immédiat',
+        tabAuction: '🔨 Enchères',
+        tabFree: '🎁 Gratuit',
+        tabFav: '❤️ Favoris',
+        foundOffers: 'Annonces trouvées',
+        condAll: 'État : Tous',
+        condNew: '✨ Neuf',
+        condUsed: '♻️ Occasion',
+        sortFeat: 'Trier : Recommandées',
+        sortAsc: 'Prix : croissant',
+        sortDesc: 'Prix : décroissant',
+        sortViews: 'Plus vues',
+        details: 'Détails →',
+        freeLabel: 'GRATUIT',
+        subTitle: '👑 Offres avec abonnement',
+        subDesc: 'Annonces des comptes avec abonnement actif.',
+        hello: 'Bonjour',
+        settingsUpper: 'PARAMÈTRES',
+        logout: 'Déconnexion',
+        megaBuy: 'ACHATS',
+        megaSell: 'VENTES',
+        megaAccount: 'COMPTE',
+        mobBuy: 'Acheter',
+        mobAdd: 'Publier',
+        mobFav: 'Favoris',
+        mobAcc: 'Compte',
+        mobOpt: 'Options'
+      }
+    };
+
+    function t(key) {
+      const pack = I18N[currentLang] || I18N.PL;
+      return pack[key] || I18N.PL[key] || key;
+    }
+
+    function detectInitialLanguageAndCountry() {
+      let savedLang = null;
+      let savedCountry = null;
+      try {
+        savedLang = localStorage.getItem('placomarkt_lang');
+        savedCountry = localStorage.getItem('placomarkt_country');
+      } catch (e) {}
+
+      if (savedLang && I18N[savedLang]) {
+        return {
+          lang: savedLang,
+          country: (savedCountry === 'PL' || savedCountry === 'NL') ? savedCountry : (savedLang === 'PL' ? 'PL' : 'NL')
+        };
+      }
+
+      const navLang = (navigator.language || navigator.userLanguage || 'nl').toLowerCase();
+      if (navLang.startsWith('pl')) return { lang: 'PL', country: 'PL' };
+      if (navLang.startsWith('nl-be')) return { lang: 'BE', country: 'NL' };
+      if (navLang.startsWith('nl')) return { lang: 'NL', country: 'NL' };
+      if (navLang.startsWith('uk') || navLang.startsWith('ru')) return { lang: 'UK', country: 'NL' };
+      if (navLang.startsWith('de')) return { lang: 'DE', country: 'NL' };
+      if (navLang.startsWith('fr')) return { lang: 'FR', country: 'NL' };
+      return { lang: 'NL', country: 'NL' };
+    }
 
     function hasAdminPermission() {
       if (!currentUser) return false;
@@ -1141,11 +1684,11 @@
     function getHonestyBadgeHtml(stats, pirateFlag) {
       if (pirateFlag) return `<span class="badge badge-pirate">🏴‍☠️ FLAGA PIRATA</span>`;
       if (!stats || stats.pct === null || stats.count === 0) {
-        return `<span class="trust-pct-pill trust-none">🆕 Brak ocen (po kontakcie)</span>`;
+        return `<span class="trust-pct-pill trust-none">🆕 0% (po kontakcie)</span>`;
       }
       const pct = stats.pct;
-      if (pct >= 95) return `<span class="honesty-icon-badge">🛡️⭐ Super Uczciwy (${pct}% • ${stats.count})</span>`;
-      if (pct >= 85) return `<span class="trust-pct-pill trust-high">✅ Rzetelny (${pct}% • ${stats.count})</span>`;
+      if (pct >= 95) return `<span class="honesty-icon-badge">🛡️⭐ ${pct}% (${stats.count})</span>`;
+      if (pct >= 85) return `<span class="trust-pct-pill trust-high">✅ ${pct}% (${stats.count})</span>`;
       if (pct >= 70) return `<span class="trust-pct-pill trust-mid">⭐ ${pct}% (${stats.count})</span>`;
       return `<span class="trust-pct-pill trust-low">⚠️ ${pct}% (${stats.count})</span>`;
     }
@@ -1154,8 +1697,8 @@
       NL: [
         {
           id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
-          title: 'Ogródek działkowy z altaną — Rotterdam Zuid',
-          desc: 'Oferta reklamowa — zadbany ogródek działkowy z drewnianą altaną i nasadzeniami w Rotterdam Zuid.',
+          title: 'Volkstuin met houten huisje — Rotterdam Zuid',
+          desc: 'Promotie — verzorgde volkstuin met tuinhuisje in Rotterdam Zuid.',
           city: 'Rotterdam', price: 3200,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142,
@@ -1163,8 +1706,8 @@
         },
         {
           id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
-          title: 'Skuter miejski 45 km/h — dojazdy po mieście',
-          desc: 'Oferta reklamowa — ekonomiczny skuter miejski do codziennych dojazdów do pracy i na zakupy.',
+          title: 'Stadsscooter 45 km/u — zuinig & betrouwbaar',
+          desc: 'Promotie — nette scooter voor dagelijks woon-werkverkeer.',
           city: 'Rotterdam', price: 890,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118,
@@ -1172,8 +1715,8 @@
         },
         {
           id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
-          title: 'Głośniki przenośne i zestaw nagłośnieniowy',
-          desc: 'Oferta reklamowa — głośniki oraz sprzęt audio do domu, garażu i na imprezy plenerowe.',
+          title: 'Draagbare speakers & audio set',
+          desc: 'Promotie — krachtige speakers voor thuis, garage en feestjes.',
           city: 'Den Haag', price: 165,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
           icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 96,
@@ -1181,30 +1724,12 @@
         },
         {
           id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
-          title: 'Łódka zanętowa i sprzęt wędkarski nad wodę',
-          desc: 'Oferta reklamowa — kompletny zestaw wędkarski do połowów na rzekach i kanałach w NL.',
+          title: 'Voerboot & visuitrusting voor snoekbaars',
+          desc: 'Promotie — complete visset voor rivieren en kanalen in NL.',
           city: 'Dordrecht', price: 640,
           photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
           icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84,
           sellerName: 'VisShopNL', ownerEmail: 'sklep@visshopnl.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
-        },
-        {
-          id: 9005, isPlaceholder: true, type: 'sale', category: 'travel', condition: 'new',
-          title: 'Wczasy i wyjazdy weekendowe — pakiety NL / PL',
-          desc: 'Oferta reklamowa — elastyczne wyjazdy wypoczynkowe i pakiety weekendowe w atrakcyjnych cenach.',
-          city: 'Utrecht', price: 299,
-          photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75'],
-          icon: '✈️', top: false, hasSubscription: false, urgent: false, hidden: false, views: 71,
-          sellerName: 'WakacjePlus', ownerEmail: 'rezerwacje@wakacjeplus.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
-        },
-        {
-          id: 9006, isPlaceholder: true, type: 'free', category: 'home', condition: 'used',
-          title: 'Oddam meble i wyposażenie domowe — odbiór osobisty',
-          desc: 'Oferta reklamowa — oddam za darmo sprawny sprzęt i wyposażenie domu przy odbiorze osobistym.',
-          city: 'Rotterdam', price: 0,
-          photos: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=75'],
-          icon: '🎁', top: false, hasSubscription: false, urgent: false, hidden: false, views: 154,
-          sellerName: 'DomZamozny', ownerEmail: 'oddam@domzamozny.nl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         }
       ],
       PL: [
@@ -1220,7 +1745,7 @@
         {
           id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
           title: 'Głośniki aktywne i sprzęt audio — Czeladź',
-          desc: 'Oferta reklamowa — głośniki, wzmacniacze i akcesoria audio do domu i na eventy.',
+          desc: 'Oferta reklamowa — głośniki, wzmacniacze i akcesoria audio.',
           city: 'Czeladź', price: 420,
           photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
           icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109,
@@ -1229,7 +1754,7 @@
         {
           id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used',
           title: 'Łódka zanętowa i akcesoria wędkarskie',
-          desc: 'Oferta reklamowa — sprzęt wędkarski i akcesoria nad jeziora oraz rzeki.',
+          desc: 'Oferta reklamowa — sprzęt wędkarski nad jeziora oraz rzeki.',
           city: 'Będzin', price: 1150,
           photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'],
           icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88,
@@ -1243,24 +1768,6 @@
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92,
           sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
-        },
-        {
-          id: 9105, isPlaceholder: true, type: 'sale', category: 'travel', condition: 'new',
-          title: 'Wczasy i noclegi wypoczynkowe — oferta promocyjna',
-          desc: 'Oferta reklamowa — pobyty wypoczynkowe i wyjazdy na weekend.',
-          city: 'Kraków', price: 590,
-          photos: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=75'],
-          icon: '✈️', top: false, hasSubscription: false, urgent: false, hidden: false, views: 67,
-          sellerName: 'UrlopPL', ownerEmail: 'rezerwacje@urloppl.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
-        },
-        {
-          id: 9106, isPlaceholder: true, type: 'free', category: 'home', condition: 'used',
-          title: 'Oddam za darmo — wyposażenie i dodatki do domu',
-          desc: 'Oferta reklamowa — oddam za darmo przy odbiorze osobistym.',
-          city: 'Czeladź', price: 0,
-          photos: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=75'],
-          icon: '🎁', top: false, hasSubscription: false, urgent: false, hidden: false, views: 121,
-          sellerName: 'OddamDarmo', ownerEmail: 'oddam@oddampolska.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         }
       ]
     };
@@ -1272,7 +1779,7 @@
     } catch (e) {}
 
     let activePromoAds = [
-      { id: 1, tag: 'Reklama startowa', title: 'Wystaw swoje ogłoszenie na PlacoMarkt', desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.' }
+      { id: 1, tag: 'Reklama', title: 'Wystaw swoje ogłoszenie na PlacoMarkt', desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.' }
     ];
     try {
       const savedAds = JSON.parse(localStorage.getItem('placomarkt_active_ads') || 'null');
@@ -1318,33 +1825,39 @@
     })();
 
     const CATEGORIES_LIST = [
-      { id: 'kids', icon: '🧸', label: 'Dla dzieci i Zabawki' },
-      { id: 'home', icon: '🛋️', label: 'Dom i Ogród' },
-      { id: 'electronics', icon: '📱', label: 'Elektronika i Audio' },
-      { id: 'cosmetics', icon: '💄', label: 'Kosmetyki i Perfumy' },
-      { id: 'courses', icon: '🎓', label: 'Kursy i Szkolenia' },
-      { id: 'housing', icon: '🏠', label: 'Nieruchomości, Działki i Ogródki' },
-      { id: 'auto', icon: '🚗', label: 'Auta, Motory i Skutery' },
-      { id: 'fashion', icon: '👕', label: 'Odzież i Obuwie' },
-      { id: 'sport', icon: '⚽', label: 'Sport i Hobby' },
-      { id: 'services', icon: '🔧', label: 'Usługi' },
-      { id: 'travel', icon: '✈️', label: 'Wakacje i podróże' },
-      { id: 'fishing', icon: '🎣', label: 'Wędkarstwo' },
-      { id: 'jobs', icon: '💼', label: 'Praca' },
-      { id: 'other', icon: '📦', label: 'Inne' }
+      { id: 'kids', icon: '🧸', labelPL: 'Dla dzieci i Zabawki', labelNL: 'Kinderen & Speelgoed' },
+      { id: 'home', icon: '🛋️', labelPL: 'Dom i Ogród', labelNL: 'Huis & Tuin' },
+      { id: 'electronics', icon: '📱', labelPL: 'Elektronika i Audio', labelNL: 'Elektronica & Audio' },
+      { id: 'cosmetics', icon: '💄', labelPL: 'Kosmetyki i Perfumy', labelNL: 'Cosmetica & Parfum' },
+      { id: 'courses', icon: '🎓', labelPL: 'Kursy i Szkolenia', labelNL: 'Cursussen & Opleiding' },
+      { id: 'housing', icon: '🏠', labelPL: 'Nieruchomości, Działki i Ogródki', labelNL: 'Woningen, Kavels & Volkstuinen' },
+      { id: 'auto', icon: '🚗', labelPL: 'Auta, Motory i Skutery', labelNL: 'Auto’s, Motoren & Scooters' },
+      { id: 'fashion', icon: '👕', labelPL: 'Odzież i Obuwie', labelNL: 'Kleding & Schoenen' },
+      { id: 'sport', icon: '⚽', labelPL: 'Sport i Hobby', labelNL: 'Sport & Hobby' },
+      { id: 'services', icon: '🔧', labelPL: 'Usługi', labelNL: 'Diensten' },
+      { id: 'travel', icon: '✈️', labelPL: 'Wakacje i podróże', labelNL: 'Vakantie & Reizen' },
+      { id: 'fishing', icon: '🎣', labelPL: 'Wędkarstwo', labelNL: 'Hengelsport / Vissen' },
+      { id: 'jobs', icon: '💼', labelPL: 'Praca', labelNL: 'Vacatures & Werk' },
+      { id: 'other', icon: '📦', labelPL: 'Inne', labelNL: 'Overig' }
     ];
 
+    function getCatLabel(cat) {
+      if (!cat) return '';
+      return currentLang === 'PL' ? cat.labelPL : cat.labelNL;
+    }
+
     const COUNTRY_CONFIG = {
-      NL: { domain: '.nl', iso: 'nl', currency: '€', areaLabel: 'Cała Holandia' },
-      PL: { domain: '.pl', iso: 'pl', currency: 'zł', areaLabel: 'Cała Polska' }
+      NL: { domain: '.nl', iso: 'nl', currency: '€', areaPL: 'Cała Holandia', areaNL: 'Heel Nederland' },
+      PL: { domain: '.pl', iso: 'pl', currency: 'zł', areaPL: 'Cała Polska', areaNL: 'Heel Polen' }
     };
 
+    const initialLocale = detectInitialLanguageAndCountry();
     let listingsData = { NL: [], PL: [] };
     let favoriteIds = [];
     try { favoriteIds = JSON.parse(localStorage.getItem('placomarkt_favs') || '[]'); } catch (e) {}
 
-    let currentCountry = 'NL';
-    let currentLang = 'PL';
+    let currentCountry = initialLocale.country;
+    let currentLang = initialLocale.lang;
     let currentMode = 'all';
     let currentCategory = 'all';
     let selectedPromo = 'std';
@@ -1355,6 +1868,7 @@
     let uploadedPhotoFilesTemp = [];
     let uploadedAdPhotoDataUrl = '';
     let currentUser = null;
+    let megaProfileTab = 'buy';
     let hubTopTab = 'sell';
     let authModalTab = 'login';
 
@@ -1446,7 +1960,7 @@
         category: catId,
         condition: 'na',
         title: row.tytul || 'Ogłoszenie',
-        city: row.miejscowosc || COUNTRY_CONFIG[rowCountry].areaLabel,
+        city: row.miejscowosc || (currentLang === 'PL' ? COUNTRY_CONFIG[rowCountry].areaPL : COUNTRY_CONFIG[rowCountry].areaNL),
         price: numericPrice,
         icon: matchedCat ? matchedCat.icon : '📦',
         photos,
@@ -1512,7 +2026,7 @@
           .order('created_at', { ascending: false });
 
         if (error) {
-          setDbStatus(`Uwaga z bazy Supabase: ${error.message} — oferty zapisują się też lokalnie w przeglądarce.`);
+          setDbStatus(`Supabase: ${error.message}`);
         } else {
           setDbStatus('');
           if (Array.isArray(rows)) {
@@ -1614,13 +2128,182 @@
       }).length;
     }
 
+    /* Schowane rozwijane menu Język / Taal */
+    function toggleLangPopover(ev) {
+      if (ev) ev.stopPropagation();
+      const pop = document.getElementById('langPopover');
+      const mega = document.getElementById('profileMegaDropdown');
+      if (mega) mega.classList.remove('open');
+      if (!pop) return;
+      pop.classList.toggle('open');
+      renderLangPopoverContent();
+    }
+
+    function renderLangPopoverContent() {
+      const grid = document.getElementById('headerLangGrid');
+      if (grid) {
+        grid.innerHTML = SUPPORTED_LANGS.map(item =>
+          `<button type="button" class="lang-choice-btn ${item.code === currentLang ? 'active' : ''}" onclick="setLanguage('${item.code}');closeHeaderMenus()">${item.flag} ${item.label}</button>`
+        ).join('');
+      }
+      const bNL = document.getElementById('hdrMarketNL');
+      const bPL = document.getElementById('hdrMarketPL');
+      if (bNL) bNL.classList.toggle('active', currentCountry === 'NL');
+      if (bPL) bPL.classList.toggle('active', currentCountry === 'PL');
+    }
+
+    /* Rozwijany mega-panel profilu użytkownika (kliknięcie w Mariusz v) */
+    function handleProfileHeaderClick(ev) {
+      if (ev) ev.stopPropagation();
+      const pop = document.getElementById('langPopover');
+      if (pop) pop.classList.remove('open');
+
+      if (!currentUser) {
+        openFullAccountModal('account');
+        return;
+      }
+
+      const mega = document.getElementById('profileMegaDropdown');
+      if (!mega) return;
+      const willOpen = !mega.classList.contains('open');
+      mega.classList.toggle('open', willOpen);
+      const arrow = document.getElementById('navProfileArrow');
+      if (arrow) arrow.textContent = willOpen ? '▴' : '▾';
+      if (willOpen) renderProfileMegaDropdown();
+    }
+
+    function closeHeaderMenus() {
+      const pop = document.getElementById('langPopover');
+      const mega = document.getElementById('profileMegaDropdown');
+      const arrow = document.getElementById('navProfileArrow');
+      if (pop) pop.classList.remove('open');
+      if (mega) mega.classList.remove('open');
+      if (arrow) arrow.textContent = '▾';
+    }
+
+    function openFullAccountModal(targetTab = 'sell') {
+      closeHeaderMenus();
+      hubTopTab = targetTab;
+      renderAccountModal();
+      document.getElementById('accountModal').classList.add('open');
+    }
+
+    function renderProfileMegaDropdown() {
+      const box = document.getElementById('profileMegaDropdown');
+      if (!box || !currentUser) return;
+      const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
+      const initial = displayNick.charAt(0).toUpperCase();
+      const isAdmin = hasAdminPermission();
+      const myAdsCount = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isListingOwnedByMe)).length;
+      const inboxCount = getUnreadOrInboxCountForCurrentUser();
+
+      let tabContentHtml = '';
+      if (megaProfileTab === 'buy') {
+        tabContentHtml = `
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Zakupy na PlacoMarkt' : 'Aankopen op PlacoMarkt'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">🛒 ${currentLang === 'PL' ? 'Moje zakupy' : 'Mijn aankopen'}</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">🔄 ${currentLang === 'PL' ? 'Kup ponownie' : 'Opnieuw kopen'}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('auction')">🔨 ${currentLang === 'PL' ? 'Licytuję' : 'Mijn biedingen'}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('favorites')">❤️ ${currentLang === 'PL' ? 'Ulubione' : 'Favorieten'} (${favoriteIds.length})</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">⭐ ${currentLang === 'PL' ? 'Oceń sprzedawcę' : 'Beoordeel verkoper'}</button>
+            </div>
+            <div class="mega-col">
+              <h4>PlacoMarkt Plus</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">👑 ${currentLang === 'PL' ? 'Mój Abonament' : 'Mijn Abonnement'}</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">💬 ${currentLang === 'PL' ? 'Wiadomości' : 'Berichten'} (${inboxCount})</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">📢 ${currentLang === 'PL' ? 'Promuj ofertę / Reklama' : 'Promoot aanbieding'}</button>
+            </div>
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Rynki lokalne' : 'Lokale markten'}</h4>
+              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('NL');closeHeaderMenus()">🇳🇱 PlacoMarkt.nl (€)</button>
+              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('PL');closeHeaderMenus()">🇵🇱 PlacoMarkt.pl (zł)</button>
+            </div>
+          </div>
+        `;
+      } else if (megaProfileTab === 'sell') {
+        tabContentHtml = `
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Moja sprzedaż' : 'Mijn verkoop'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">📋 ${currentLang === 'PL' ? 'Moje ogłoszenia' : 'Mijn advertenties'} (${myAdsCount})</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">➕ ${currentLang === 'PL' ? 'Wystaw nowe ogłoszenie' : 'Nieuwe advertentie'}</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">✏️ ${currentLang === 'PL' ? 'Edytuj / Usuń oferty' : 'Bewerken / Verwijderen'}</button>
+            </div>
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Kontakt z kupującymi' : 'Contact met kopers'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">💬 ${currentLang === 'PL' ? 'Skrzynka wiadomości' : 'Berichteninbox'} (${inboxCount})</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">🏷️ ${currentLang === 'PL' ? 'Zmień ksywkę / inicjały' : 'Wijzig naam / initialen'}</button>
+            </div>
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Widoczność' : 'Zichtbaarheid'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">📢 ${currentLang === 'PL' ? 'Zgłoś reklamę banerową' : 'Banneradvertentie aanvragen'}</button>
+            </div>
+          </div>
+        `;
+      } else {
+        tabContentHtml = `
+          <div class="mega-cols">
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Dane i bezpieczeństwo' : 'Gegevens & veiligheid'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">👤 ${currentLang === 'PL' ? 'Inicjały i dane konta' : 'Initialen & profiel'}</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">🔐 ${currentLang === 'PL' ? 'Zmiana hasła' : 'Wachtwoord wijzigen'}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">⚙️ ${currentLang === 'PL' ? 'Ustawienia języka i wyglądu' : 'Taal- & weergave-instellingen'}</button>
+            </div>
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Wsparcie i Admin' : 'Support & Admin'}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">✉️ ${currentLang === 'PL' ? 'Napisz do Admina' : 'Bericht aan Admin'}</button>
+              ${isAdmin ? `<button type="button" class="mega-link-btn" style="color:var(--red);font-weight:800" onclick="closeHeaderMenus();openAdminPanel()">🛡️ Panel Administratora</button>` : ''}
+            </div>
+            <div class="mega-col">
+              <h4>${currentLang === 'PL' ? 'Sesja' : 'Sessie'}</h4>
+              <button type="button" class="mega-link-btn" style="color:var(--red)" onclick="closeHeaderMenus();logoutUser()">🚪 ${t('logout')}</button>
+            </div>
+          </div>
+        `;
+      }
+
+      box.innerHTML = `
+        <div class="mega-inner" onclick="event.stopPropagation()">
+          <div class="mega-left">
+            <div>
+              <div class="mega-avatar">${initial}</div>
+              <div class="mega-greeting">${t('hello')} ${displayNick}!</div>
+              <div class="mega-sub">${currentUser.email}</div>
+              <div class="mega-badges">
+                <span class="mega-pill">${currentCountry}</span>
+                <span class="mega-pill orange">${currentLang}</span>
+                ${isAdmin ? `<span class="mega-pill" style="background:#991b1b">ADMIN</span>` : ''}
+              </div>
+            </div>
+            <button type="button" class="mega-settings-link" onclick="closeHeaderMenus();openSettings()">⚙️ ${t('settingsUpper')}</button>
+          </div>
+          <div class="mega-right">
+            <div>
+              <div class="mega-tabs">
+                <button type="button" class="mega-tab ${megaProfileTab === 'buy' ? 'active' : ''}" onclick="megaProfileTab='buy';renderProfileMegaDropdown()">${t('megaBuy')}</button>
+                <button type="button" class="mega-tab ${megaProfileTab === 'sell' ? 'active' : ''}" onclick="megaProfileTab='sell';renderProfileMegaDropdown()">${t('megaSell')}</button>
+                <button type="button" class="mega-tab ${megaProfileTab === 'account' ? 'active' : ''}" onclick="megaProfileTab='account';renderProfileMegaDropdown()">${t('megaAccount')}</button>
+              </div>
+              ${tabContentHtml}
+            </div>
+            <div class="mega-bottom-bar">
+              <span>PlacoMarkt.online</span>
+              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">${currentLang === 'PL' ? 'Otwórz pełny panel →' : 'Open volledig paneel →'}</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function updateAccountButton() {
       const lbl = document.getElementById('navAccountLabel');
       const admBtn = document.getElementById('navAdminBtn');
       const isAdmin = hasAdminPermission();
       const inboxCount = getUnreadOrInboxCountForCurrentUser();
       if (lbl) {
-        const baseName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Konto';
+        const baseName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : t('account');
         lbl.textContent = inboxCount > 0 ? `${baseName} (${inboxCount})` : baseName;
       }
       if (admBtn) admBtn.style.display = isAdmin ? 'inline-flex' : 'none';
@@ -1672,35 +2355,84 @@
       currentCountry = country;
       currentCategory = 'all';
       currentMode = 'all';
+      try { localStorage.setItem('placomarkt_country', country); } catch (e) {}
       document.getElementById('cityInput').value = userPrefs['defaultCity' + country] || '';
       renderCountryUI();
       syncFromSupabase();
     }
 
     function manualSwitchCountry(country) { switchCountry(country); }
-    function setLanguage(lang) { currentLang = lang; renderCountryUI(); }
+
+    function setLanguage(lang) {
+      if (!I18N[lang]) return;
+      currentLang = lang;
+      try { localStorage.setItem('placomarkt_lang', lang); } catch (e) {}
+      renderCountryUI();
+    }
 
     function renderPromoAdSlot() {
       const ad = activePromoAds[0];
       if (!ad) {
-        document.getElementById('adSlotTag').textContent = 'Reklama';
-        document.getElementById('adSlotTitle').textContent = 'Brak aktywnych reklam';
-        document.getElementById('adSlotDesc').textContent = 'Możesz zgłosić własną reklamę w panelu Konto.';
+        document.getElementById('adSlotTag').textContent = t('adTag');
+        document.getElementById('adSlotTitle').textContent = t('adTitle');
+        document.getElementById('adSlotDesc').textContent = t('adDesc');
         return;
       }
-      document.getElementById('adSlotTag').textContent = ad.tag || 'Reklama';
+      document.getElementById('adSlotTag').textContent = ad.tag || t('adTag');
       document.getElementById('adSlotTitle').textContent = ad.title || '';
       document.getElementById('adSlotDesc').textContent = ad.desc || '';
     }
 
     function renderCountryUI() {
       const cfg = COUNTRY_CONFIG[currentCountry];
+      document.documentElement.lang = t('htmlLang');
       document.getElementById('domainTag').textContent = cfg.domain;
-      document.getElementById('heroTitle').textContent = currentCountry === 'PL'
-        ? 'Ogłoszenia, Licytacje i Zakupy (PL)'
-        : 'Ogłoszenia, Licytacje i Zakupy (NL)';
-      document.getElementById('heroSub').textContent = `Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca (${cfg.currency})`;
+      document.getElementById('langBtnLabel').textContent = `${t('langBtn')} (${currentLang})`;
+      document.getElementById('lblChooseLang').textContent = t('chooseLang');
+      document.getElementById('lblChooseMarket').textContent = t('chooseMarket');
+      document.getElementById('navAddBtn').textContent = t('add');
+
+      document.getElementById('heroTitle').textContent = `${t('heroTitle')} (${currentCountry})`;
+      document.getElementById('heroSub').textContent = `${t('heroSub')} (${cfg.currency})`;
+      document.getElementById('searchInput').placeholder = t('searchPlaceholder');
+      document.getElementById('cityInput').placeholder = t('cityPlaceholder');
+      document.getElementById('btnSearchMain').textContent = t('searchBtn');
       document.getElementById('autoLangNote').textContent = `${currentCountry} • ${currentLang}`;
+
+      document.getElementById('bfPillText').textContent = t('promoPill');
+      document.getElementById('bfHeadingText').textContent = t('promoTitle');
+      document.getElementById('bfSubText').textContent = t('promoSub');
+      document.getElementById('bfActionBtn').textContent = t('promoBtn');
+
+      document.getElementById('optCondAll').textContent = t('condAll');
+      document.getElementById('optCondNew').textContent = t('condNew');
+      document.getElementById('optCondUsed').textContent = t('condUsed');
+      document.getElementById('optSortFeat').textContent = t('sortFeat');
+      document.getElementById('optSortAsc').textContent = t('sortAsc');
+      document.getElementById('optSortDesc').textContent = t('sortDesc');
+      document.getElementById('optSortViews').textContent = t('sortViews');
+      document.getElementById('subSectionTitle').textContent = t('subTitle');
+      document.getElementById('subSectionDesc').textContent = t('subDesc');
+
+      document.getElementById('mobBuy').textContent = t('mobBuy');
+      document.getElementById('mobAdd').textContent = t('mobAdd');
+      document.getElementById('mobFav').textContent = t('mobFav');
+      document.getElementById('mobAcc').textContent = t('mobAcc');
+      document.getElementById('mobOpt').textContent = t('mobOpt');
+
+      document.getElementById('quickTagsBar').innerHTML = currentLang === 'PL'
+        ? `<span style="color:#fff7ed">${t('popular')}</span>
+           <span class="quick-tag" onclick="quickSearch('głośniki')">🔊 Głośniki</span>
+           <span class="quick-tag" onclick="quickSearch('łódka')">🎣 Wędkarstwo</span>
+           <span class="quick-tag" onclick="quickSearch('skuter')">🛵 Skutery i Auta</span>
+           <span class="quick-tag" onclick="quickSearch('ogródek')">🏡 Ogródek działkowy</span>
+           <span class="quick-tag" onclick="quickSearch('wczasy')">✈️ Wczasy</span>`
+        : `<span style="color:#fff7ed">${t('popular')}</span>
+           <span class="quick-tag" onclick="quickSearch('speakers')">🔊 Speakers</span>
+           <span class="quick-tag" onclick="quickSearch('voerboot')">🎣 Hengelsport</span>
+           <span class="quick-tag" onclick="quickSearch('scooter')">🛵 Scooters & Auto’s</span>
+           <span class="quick-tag" onclick="quickSearch('volkstuin')">🏡 Volkstuin</span>
+           <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ Vakantie</span>`;
 
       const zeroCurrency = cfg.currency === 'zł' ? '0,00 zł' : '0,00 €';
       ['promoPriceStd', 'promoPriceUrgent', 'promoPriceTop'].forEach(id => {
@@ -1711,16 +2443,16 @@
       renderPromoAdSlot();
 
       document.getElementById('searchCatSelect').innerHTML =
-        `<option value="all">📂 Wszystkie kategorie</option>` +
-        CATEGORIES_LIST.map(c => `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${c.icon} ${c.label}</option>`).join('');
+        `<option value="all">${t('allCats')}</option>` +
+        CATEGORIES_LIST.map(c => `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${c.icon} ${getCatLabel(c)}</option>`).join('');
 
       document.getElementById('newCategory').innerHTML =
-        CATEGORIES_LIST.map(c => `<option value="${c.id}">${c.icon} ${c.label}</option>`).join('');
+        CATEGORIES_LIST.map(c => `<option value="${c.id}">${c.icon} ${getCatLabel(c)}</option>`).join('');
 
       document.getElementById('newShipping').innerHTML = `
-        <option value="pickup">📍 Odbiór osobisty</option>
-        <option value="post">📦 Wysyłka (PostNL / InPost / DHL)</option>
-        <option value="na">🤝 Nie dotyczy</option>
+        <option value="pickup">📍 Odbiór osobisty / Ophalen</option>
+        <option value="post">📦 Wysyłka / Verzenden (PostNL / InPost / DHL)</option>
+        <option value="na">🤝 Nie dotyczy / N.v.t.</option>
       `;
 
       const visible = (listingsData[currentCountry] || []).filter(i => !i.hidden);
@@ -1733,11 +2465,11 @@
       };
 
       const tabs = [
-        { id: 'all', label: 'Wszystkie' },
-        { id: 'sale', label: 'Kup teraz' },
-        { id: 'auction', label: '🔨 Licytacja' },
-        { id: 'free', label: '🎁 Za darmo' },
-        { id: 'favorites', label: '❤️ Ulubione', cls: 'fav-tab' }
+        { id: 'all', label: t('tabAll') },
+        { id: 'sale', label: t('tabSale') },
+        { id: 'auction', label: t('tabAuction') },
+        { id: 'free', label: t('tabFree') },
+        { id: 'favorites', label: t('tabFav'), cls: 'fav-tab' }
       ];
       document.getElementById('modeTabs').innerHTML = tabs.map(m =>
         `<button type="button" class="mode-tab ${m.cls || ''} ${currentMode === m.id ? 'active' : ''}" onclick="setMode('${m.id}')">
@@ -1745,10 +2477,11 @@
         </button>`
       ).join('');
 
+      const areaName = currentLang === 'PL' ? cfg.areaPL : cfg.areaNL;
       document.getElementById('breadcrumbBar').innerHTML = `
         <span class="crumb-link" onclick="resetFilters()">PlacoMarkt${cfg.domain}</span>
         <span>›</span>
-        <span>${document.getElementById('cityInput').value.trim() || cfg.areaLabel}</span>
+        <span>${document.getElementById('cityInput').value.trim() || areaName}</span>
       `;
 
       document.getElementById('favCountBadge').textContent = favoriteIds.length;
@@ -1757,13 +2490,13 @@
     }
 
     function formatPrice(val, isFree) {
-      if (isFree || Number(val) === 0) return 'ZA DARMO';
+      if (isFree || Number(val) === 0) return t('freeLabel');
       const cur = COUNTRY_CONFIG[currentCountry].currency;
       const num = Number(val).toLocaleString('pl-PL', {
         minimumFractionDigits: Number(val) % 1 !== 0 ? 2 : 0,
         maximumFractionDigits: 2
       });
-      return cur === 'zł' ? `${num} zł` : `${num} €`;
+      return cur === 'zł' ? `${num} zł` : `€ ${num}`;
     }
 
     function isListingOwnedByMe(item) {
@@ -1789,14 +2522,14 @@
             ${mediaHtml}
             <div class="badges">
               <div class="badges-col">
-                ${item.isPlaceholder ? `<span class="badge badge-demo">REKLAMA</span>` : ''}
+                ${item.isPlaceholder ? `<span class="badge badge-demo">PROMO</span>` : ''}
                 ${item.pirateFlag ? `<span class="badge badge-pirate">🏴‍☠️ PIRAT</span>` : ''}
                 ${isSubCard || item.hasSubscription ? `<span class="badge badge-sub">👑 ABONAMENT</span>` : ''}
                 ${item.top ? `<span class="badge badge-top">⭐ TOP</span>` : ''}
                 ${item.urgent ? `<span class="badge badge-urgent">⚡ PILNE</span>` : ''}
               </div>
               <div>
-                ${item.type === 'free' ? `<span class="badge badge-free">ZA DARMO</span>` : ''}
+                ${item.type === 'free' ? `<span class="badge badge-free">${t('freeLabel')}</span>` : ''}
               </div>
             </div>
             <button type="button" class="fav-heart-btn" onclick="toggleFavorite('${item.id}', event)">${isFav ? '❤️' : '🤍'}</button>
@@ -1813,7 +2546,7 @@
             </div>
             <div class="card-footer">
               <div class="price ${item.type === 'free' ? 'free-price' : ''}">${formatPrice(item.price, item.type === 'free')}</div>
-              <span style="font-size:12px;font-weight:700;color:var(--blue)">Szczegóły →</span>
+              <span style="font-size:12px;font-weight:700;color:var(--blue)">${t('details')}</span>
             </div>
           </div>
         </div>
@@ -1860,12 +2593,12 @@
       else list.sort((a, b) => (b.top ? 1 : 0) - (a.top ? 1 : 0));
 
       document.getElementById('resultsHeading').textContent =
-        currentMode === 'favorites' ? `❤️ Ulubione (${list.length})` : `Znalezione oferty (${list.length})`;
+        currentMode === 'favorites' ? `${t('tabFav')} (${list.length})` : `${t('foundOffers')} (${list.length})`;
 
       const grid = document.getElementById('listingsGrid');
       grid.innerHTML = list.length
         ? list.map(i => buildListingCardHtml(i, false)).join('')
-        : `<div style="grid-column:1/-1;text-align:center;padding:36px;background:var(--card);border-radius:12px;border:1px solid var(--border)"><h3>Znalezione oferty: 0</h3></div>`;
+        : `<div style="grid-column:1/-1;text-align:center;padding:36px;background:var(--card);border-radius:12px;border:1px solid var(--border)"><h3>${t('foundOffers')}: 0</h3></div>`;
 
       const subItems = (listingsData[currentCountry] || []).filter(i => !i.hidden && i.hasSubscription);
       const subSection = document.getElementById('subscribersSection');
@@ -1928,9 +2661,9 @@
             ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='📞 ${String(item.phone).replace(/'/g, '')}'">📞 Pokaż numer</button>`
             : ``}
           ${!isMine
-            ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">💬 Wiadomość do sprzedawcy</button>`
+            ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">💬 ${currentLang === 'PL' ? 'Wiadomość do sprzedawcy' : 'Bericht aan verkoper'}</button>`
             : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">✏️ Edytuj ogłoszenie</button>`}
-          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">🔗 Udostępnij</button>
+          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">🔗 ${currentLang === 'PL' ? 'Udostępnij' : 'Delen'}</button>
           ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">${deleteLabel}</button>` : ``}
         </div>
       `;
@@ -1943,8 +2676,10 @@
       if (!item) return;
 
       if (!currentUser || !currentUser.email) {
-        alert('Zaloguj się lub załóż darmowe konto z adresem e-mail, aby wysłać wiadomość do sprzedawcy.');
-        openAccountModal();
+        alert(currentLang === 'PL'
+          ? 'Zaloguj się lub załóż darmowe konto z adresem e-mail, aby wysłać wiadomość do sprzedawcy.'
+          : 'Log in of maak een gratis account aan met een e-mailadres om een bericht te sturen.');
+        openFullAccountModal('account');
         return;
       }
 
@@ -1962,7 +2697,7 @@
       }
 
       const displayNick = getFirstNameOrNick(item.sellerName, recipientEmail || 'Sprzedawca');
-      const txt = prompt(`Wiadomość do użytkownika ${displayNick} (dot. oferty: ${item.title}):`);
+      const txt = prompt(`${currentLang === 'PL' ? 'Wiadomość do' : 'Bericht aan'} ${displayNick} (${item.title}):`);
       if (!txt || !txt.trim()) return;
 
       const senderNick = getFirstNameOrNick(currentUser.name, currentUser.email);
@@ -1992,9 +2727,9 @@
 
       if (recipientEmail) {
         const maskedRecipient = maskEmailForConfirmation(recipientEmail);
-        alert(`Wiadomość została zapisana na stronie oraz wysłana do ${displayNick} (${maskedRecipient}).\nSprzedający otrzyma powiadomienie e-mail, a potwierdzenie dostarczenia wysłano na Twój e-mail (${currentUser.email}).`);
+        alert(`Wiadomość została zapisana na stronie oraz wysłana do ${displayNick} (${maskedRecipient}).\nPotwierdzenie dostarczenia zapisano dla Twojego adresu (${currentUser.email}).`);
       } else {
-        alert(`Wiadomość została dostarczona do skrzynki sprzedawcy ${displayNick} na stronie (w zakładce Konto → Wiadomości).\nPotwierdzenie zapisano dla Twojego adresu (${currentUser.email}).`);
+        alert(`Wiadomość została dostarczona do skrzynki sprzedawcy ${displayNick} na stronie (w zakładce Konto → Wiadomości).`);
       }
     }
 
@@ -2006,7 +2741,7 @@
       if (navigator.share) {
         navigator.share({ title, url }).catch(() => {});
       } else {
-        alert('Skopiowano link do ogłoszenia: ' + url);
+        alert('Skopiowano link: ' + url);
       }
     }
 
@@ -2090,8 +2825,10 @@
 
     function openAddModal(editCountry = null, editId = null) {
       if (!currentUser || !currentUser.email) {
-        alert('Zaloguj się lub utwórz darmowe konto z e-mailem, aby dodać ogłoszenie i odbierać pytania od kupujących.');
-        openAccountModal();
+        alert(currentLang === 'PL'
+          ? 'Zaloguj się lub utwórz darmowe konto z e-mailem, aby dodać ogłoszenie.'
+          : 'Log in of maak een gratis account aan om een advertentie te plaatsen.');
+        openFullAccountModal('account');
         return;
       }
 
@@ -2126,8 +2863,8 @@
         }
       }
 
-      document.getElementById('addModalTitle').textContent = '+ Dodaj ogłoszenie';
-      document.getElementById('submitOfferBtn').textContent = 'Dodaj ogłoszenie';
+      document.getElementById('addModalTitle').textContent = t('add');
+      document.getElementById('submitOfferBtn').textContent = t('add');
       document.getElementById('newSellerAlias').value = defaultAlias;
       document.getElementById('newPhone').value = '';
       document.getElementById('newSharePhone').checked = false;
@@ -2256,7 +2993,7 @@
           owner_id: ownerUuid
         }]).select();
         if (error) {
-          setDbStatus(`Baza Supabase zwróciła uwagę (${error.message}) — oferta zapisana lokalnie.`);
+          setDbStatus(`Baza Supabase: ${error.message} — oferta zapisana lokalnie.`);
         } else if (Array.isArray(data) && data[0]) {
           insertedRow = data[0];
         }
@@ -2338,7 +3075,7 @@
           cena: existing.price || 0,
           kategoria: existing.category || 'other',
           kraj: country,
-          miejscowosc: existing.city || COUNTRY_CONFIG[country].areaLabel,
+          miejscowosc: existing.city || COUNTRY_CONFIG[country].areaPL,
           opis: existing.desc || '',
           zdjecie_url: photosArr[0] || null,
           zdjecia: photosArr,
@@ -2374,11 +3111,6 @@
       setOfferProgress(100, 'Ogłoszenie zostało wystawione ponownie.', 3000);
     }
 
-    function openAccountModal() {
-      renderAccountModal();
-      document.getElementById('accountModal').classList.add('open');
-    }
-
     function renderAccountModal() {
       const body = document.getElementById('accountModalBody');
       const box = document.getElementById('accountModalBox');
@@ -2393,34 +3125,34 @@
 
         const loginTabHtml = `
           <form onsubmit="handleLoginSubmit(event)">
-            <div class="form-group"><input type="email" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="Adres e-mail (wymagany)" /></div>
-            <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Hasło" /></div>
+            <div class="form-group"><input type="email" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="E-mail" /></div>
+            <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Hasło / Wachtwoord" /></div>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:12px">
               <input type="checkbox" id="rememberLoginCheck" style="width:auto" ${savedCreds.remember ? 'checked' : ''} />
-              <span>Zapamiętaj hasło w pamięci przeglądarki</span>
+              <span>Zapamiętaj hasło / Wachtwoord onthouden</span>
             </label>
-            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się</button>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się / Inloggen</button>
           </form>
         `;
 
         const registerTabHtml = `
           <form onsubmit="handleRegisterSubmit(event)">
-            <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="Twoja ksywka / inicjały (np. Mario, M.K.)" /></div>
-            <div class="form-group"><input type="email" id="regEmail" required placeholder="Twój adres e-mail (wymagany do powiadomień)" /></div>
-            <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="Hasło (min. 6 znaków)" /></div>
-            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Załóż darmowe konto</button>
+            <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="Ksywka / inicjały (Naam)" /></div>
+            <div class="form-group"><input type="email" id="regEmail" required placeholder="E-mail" /></div>
+            <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="Hasło / Wachtwoord (min. 6)" /></div>
+            <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Załóż darmowe konto / Registreren</button>
           </form>
         `;
 
         body.innerHTML = `
           <div class="auth-switch-tabs">
-            <button type="button" class="auth-switch-btn ${authModalTab === 'login' ? 'active' : ''}" onclick="authModalTab='login';renderAccountModal()">Logowanie</button>
-            <button type="button" class="auth-switch-btn ${authModalTab === 'register' ? 'active' : ''}" onclick="authModalTab='register';renderAccountModal()">Rejestracja (e-mail)</button>
+            <button type="button" class="auth-switch-btn ${authModalTab === 'login' ? 'active' : ''}" onclick="authModalTab='login';renderAccountModal()">Logowanie / Inloggen</button>
+            <button type="button" class="auth-switch-btn ${authModalTab === 'register' ? 'active' : ''}" onclick="authModalTab='register';renderAccountModal()">Rejestracja / Registreren</button>
           </div>
           ${authModalTab === 'login' ? loginTabHtml : registerTabHtml}
-          <div class="alt-login-divider">LUB</div>
+          <div class="alt-login-divider">LUB / OF</div>
           <button type="button" class="alt-login-btn" onclick="handleGoogleLogin()">
-            <span class="google-g-badge">G</span><span>Kontynuuj z Google</span>
+            <span class="google-g-badge">G</span><span>Kontynuuj z Google / Doorgaan met Google</span>
           </button>
         `;
         return;
@@ -2446,7 +3178,7 @@
       if (hubTopTab === 'buy') {
         const favs = (listingsData[currentCountry] || []).filter(i => favoriteIds.includes(i.id));
         rightHtml = `
-          <h3>❤️ Ulubione (${favs.length})</h3>
+          <h3>❤️ ${t('tabFav')} (${favs.length})</h3>
           <div style="margin-top:8px">${favs.length ? favs.map(i => `<div class="admin-row"><div><strong>${i.icon} ${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${i.id}')">Podgląd</button></div>`).join('') : '<p style="color:var(--muted);font-size:13px">Brak ulubionych ofert.</p>'}</div>
         `;
       } else if (hubTopTab === 'messages') {
@@ -2482,8 +3214,8 @@
       } else if (hubTopTab === 'sell') {
         rightHtml = `
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <h3>🏷️ Moje wystawione ogłoszenia (${myAds.length})</h3>
-            <button type="button" class="add-btn" onclick="closeModal('accountModal');openAddModal()">+ Dodaj</button>
+            <h3>🏷️ Moje ogłoszenia (${myAds.length})</h3>
+            <button type="button" class="add-btn" onclick="closeModal('accountModal');openAddModal()">${t('add')}</button>
           </div>
           <div class="admin-list">
             ${myAds.length ? myAds.map(item => `
@@ -2505,10 +3237,10 @@
       } else {
         rightHtml = `
           <div class="set-section">
-            <h4>👤 Twoje inicjały / ksywka (także do zakupów i ogłoszeń)</h4>
+            <h4>👤 Twoje inicjały / ksywka</h4>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <input type="text" id="nickInputField" value="${displayNick}" placeholder="Wpisz inicjały lub ksywkę (np. M.R., Mario)..." style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
-              <button type="button" class="mini-btn green" onclick="saveNickName()">💾 Zapisz inicjały</button>
+              <input type="text" id="nickInputField" value="${displayNick}" placeholder="Wpisz inicjały lub ksywkę..." style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
+              <button type="button" class="mini-btn green" onclick="saveNickName()">💾 Zapisz</button>
             </div>
           </div>
 
@@ -2545,22 +3277,22 @@
         <div class="hub-shell">
           <div class="hub-sidebar">
             <div>
-              <div style="font-weight:800;font-size:14px">👤 ${displayNick}</div>
+              <div style="font-weight:800;font-size:15px">${t('hello')} ${displayNick}!</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">🛒 ZAKUPY</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">🛒 ${t('megaBuy')}</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">💬 WIADOMOŚCI (${myInbox.length})</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ SPRZEDAŻ (Edytuj / Usuń)</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 KONTO (Inicjały / Hasło / Pomoc)</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ ${t('megaSell')}</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 ${t('megaAccount')}</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Panel Admin</button>` : ''}
             </div>
-            <button type="button" class="mini-btn red" style="width:100%" onclick="logoutUser()">Wyloguj się</button>
+            <button type="button" class="mini-btn red" style="width:100%" onclick="logoutUser()">${t('logout')}</button>
           </div>
           <div>
             <div class="hub-top-tabs">
-              <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">ZAKUPY</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">WIADOMOŚCI (${myInbox.length})</button>
-              <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">SPRZEDAŻ</button>
-              <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">KONTO</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
             </div>
             ${rightHtml}
           </div>
@@ -2570,7 +3302,7 @@
 
     async function replyToBuyerMessage(listingId, listingTitle, buyerEmail) {
       if (!currentUser || !currentUser.email) return;
-      const txt = prompt(`Odpowiedź do ${maskEmailForConfirmation(buyerEmail)} (dot. ${listingTitle}):`);
+      const txt = prompt(`Odpowiedź do ${maskEmailForConfirmation(buyerEmail)} (${listingTitle}):`);
       if (!txt || !txt.trim()) return;
       const msgRow = {
         listing_id: String(listingId),
@@ -2590,7 +3322,7 @@
       userMessagesDb.unshift(savedMsg);
       saveUserMessagesLocal();
       renderAccountModal();
-      alert(`Odpowiedź dostarczona na stronę oraz do ${maskEmailForConfirmation(buyerEmail)}.`);
+      alert(`Odpowiedź dostarczona do ${maskEmailForConfirmation(buyerEmail)}.`);
     }
 
     function saveNickName() {
@@ -2603,7 +3335,7 @@
       }
       updateAccountButton();
       renderAccountModal();
-      alert('Zapisano inicjały / ksywkę: ' + val);
+      alert('Zapisano: ' + val);
     }
 
     function handleAdPhotoPick(ev) {
@@ -2672,7 +3404,7 @@
       const password = document.getElementById('regPass').value;
 
       if (!email || !email.includes('@')) {
-        alert('Podaj poprawny adres e-mail — jest wymagany do rejestracji i powiadomień.');
+        alert('Podaj poprawny adres e-mail.');
         return;
       }
 
@@ -2685,7 +3417,6 @@
         if (!error && data?.user) {
           applySupabaseAuthUser(data.user);
           renderAccountModal();
-          alert('Konto utworzone. Twój adres e-mail jest przypisany do ogłoszeń i powiadomień.');
           return;
         }
       }
@@ -2748,7 +3479,7 @@
         updateAccountButton();
         renderAccountModal();
       } else {
-        alert('Nieprawidłowy e-mail lub hasło. Jeśli nie masz konta, kliknij zakładkę Rejestracja.');
+        alert('Nieprawidłowy e-mail lub hasło.');
       }
     }
 
@@ -2808,7 +3539,7 @@
 
     function openAdminPanel() {
       if (!hasAdminPermission()) {
-        openAccountModal();
+        openFullAccountModal('account');
         return;
       }
       ['NL', 'PL'].forEach(c => {
@@ -2996,7 +3727,7 @@
       const title = document.getElementById('newAdTitle')?.value?.trim();
       const desc = document.getElementById('newAdDesc')?.value?.trim();
       if (!title) return;
-      activePromoAds.unshift({ id: Date.now(), tag: 'Reklama', title, desc: desc || '' });
+      activePromoAds.unshift({ id: Date.now(), tag: t('adTag'), title, desc: desc || '' });
       try { localStorage.setItem('placomarkt_active_ads', JSON.stringify(activePromoAds)); } catch (e) {}
       renderPromoAdSlot();
       renderAdminPanel();
@@ -3008,7 +3739,7 @@
       activePromoAds.unshift({ id: Date.now(), tag: 'Partner', title: sub.tytul, desc: sub.opis });
       try { localStorage.setItem('placomarkt_active_ads', JSON.stringify(activePromoAds)); } catch (e) {}
       renderPromoAdSlot();
-      alert('Reklama została opublikowana w strefie reklam.');
+      alert('Reklama została opublikowana.');
     }
 
     async function adminDeleteSubmission(id) {
@@ -3036,8 +3767,8 @@
         const btn = document.getElementById('set' + c);
         if (btn) btn.classList.toggle('active', c === currentCountry);
       });
-      document.getElementById('settingsLangButtons').innerHTML = ['NL', 'PL', 'UK', 'TR'].map(l =>
-        `<button type="button" class="country-btn ${l === currentLang ? 'active' : ''}" onclick="setLanguage('${l}');openSettings()">${l}</button>`
+      document.getElementById('settingsLangButtons').innerHTML = SUPPORTED_LANGS.map(item =>
+        `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" onclick="setLanguage('${item.code}');openSettings()">${item.flag} ${item.label}</button>`
       ).join('');
       document.getElementById('settingsModal').classList.add('open');
     }
@@ -3061,9 +3792,9 @@
 
     function setMode(m) { currentMode = m; renderCountryUI(); }
     function selectCategoryFromSearch(c) { currentCategory = c; renderCountryUI(); }
-    function quickSearch(t) {
+    function quickSearch(tVal) {
       currentCategory = 'all';
-      document.getElementById('searchInput').value = t;
+      document.getElementById('searchInput').value = tVal;
       renderCountryUI();
     }
     function resetFilters() {
@@ -3076,12 +3807,12 @@
       document.getElementById('legalContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('legalModal')">×</button>
         <h2>PlacoMarkt.online — ${doc.toUpperCase()}</h2>
-        <p style="margin-top:10px;line-height:1.6">Kontakt administracyjny: <strong>${ADMIN_EMAIL}</strong>.</p>
+        <p style="margin-top:10px;line-height:1.6">Kontakt: <strong>${ADMIN_EMAIL}</strong>.</p>
       `;
       document.getElementById('legalModal').classList.add('open');
     }
     function exportUserData() {
-      const blob = new Blob([JSON.stringify({ currentCountry, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings }, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify({ currentCountry, currentLang, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'placomarkt-backup.json';
@@ -3089,7 +3820,20 @@
     }
     function resetLocalStorageData() { localStorage.clear(); location.reload(); }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
     window.addEventListener('click', e => {
+      const langWrap = document.getElementById('langDropdownWrap');
+      const megaBox = document.getElementById('profileMegaDropdown');
+      const profBtn = document.getElementById('navProfileBtn');
+      if (langWrap && !langWrap.contains(e.target)) {
+        const pop = document.getElementById('langPopover');
+        if (pop) pop.classList.remove('open');
+      }
+      if (megaBox && profBtn && !megaBox.contains(e.target) && !profBtn.contains(e.target)) {
+        megaBox.classList.remove('open');
+        const arrow = document.getElementById('navProfileArrow');
+        if (arrow) arrow.textContent = '▾';
+      }
       ['detailModal', 'addModal', 'settingsModal', 'adminModal', 'accountModal', 'legalModal'].forEach(id => {
         const el = document.getElementById(id);
         if (e.target === el) closeModal(id);
