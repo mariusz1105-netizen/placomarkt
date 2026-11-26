@@ -940,6 +940,21 @@
       if (phoneVal.length === 0) cb.checked = false;
     }
 
+    let myListingIds = [];
+    try {
+      const savedMyIds = JSON.parse(localStorage.getItem('placomarkt_my_listing_ids') || '[]');
+      if (Array.isArray(savedMyIds)) myListingIds = savedMyIds.map(String);
+    } catch (e) {}
+
+    function markAsMyListing(id) {
+      if (id === undefined || id === null) return;
+      const strId = String(id);
+      if (!myListingIds.includes(strId)) {
+        myListingIds.push(strId);
+        try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
+      }
+    }
+
     const PLACEHOLDER_OFFERS = {
       NL: [
         {
@@ -1082,7 +1097,7 @@
     let uploadedPhotoFilesTemp = [];
     let uploadedAdPhotoDataUrl = '';
     let currentUser = null;
-    let hubTopTab = 'buy';
+    let hubTopTab = 'sell';
 
     let registeredUsers = [
       {
@@ -1534,7 +1549,7 @@
     }
 
     function openDetail(id) {
-      const item = (listingsData[currentCountry] || []).find(x => x.id === id);
+      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
       if (!item) return;
       item.views = (item.views || 0) + 1;
       const pct = getSellerTrustPercent(item);
@@ -1554,14 +1569,14 @@
             <strong>👤 ${displayNick}</strong>
             <div style="margin-top:4px">${getHonestyBadgeHtml(pct, Boolean(item.pirateFlag))}</div>
           </div>
-          <button type="button" class="mini-btn gold" onclick="rateSeller(${item.id})">⭐ Oceń</button>
+          <button type="button" class="mini-btn gold" onclick="rateSeller('${item.id}')">⭐ Oceń</button>
         </div>
         <div class="detail-actions">
           ${hasSharedPhone
             ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='📞 ${String(item.phone).replace(/'/g, '')}'">📞 Pokaż numer</button>`
             : ``}
           <button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${displayNick}', '${String(item.title).replace(/'/g, '')}')">💬 Wiadomość</button>
-          <button type="button" class="btn-action btn-share" onclick="shareOfferLink(${item.id}, '${String(item.title).replace(/'/g, '')}')">🔗 Udostępnij</button>
+          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">🔗 Udostępnij</button>
         </div>
       `;
       document.getElementById('detailModal').classList.add('open');
@@ -1599,7 +1614,7 @@
     }
 
     function rateSeller(id) {
-      const item = (listingsData[currentCountry] || []).find(x => x.id === id);
+      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
       if (!item) return;
       const val = prompt('Ocena (1 - 5):', '5');
       if (!val) return;
@@ -1724,6 +1739,7 @@
           arr[idx].phone = phoneVal;
           arr[idx].sharePhone = sharePhoneVal;
           if (photosFinal.length) arr[idx].photos = photosFinal;
+          markAsMyListing(arr[idx].id);
           if (sb && arr[idx].fromSupabaseOgloszenia) {
             await sb.from(SUPABASE_TABLE_OGLOSZENIA).update({
               tytul: title,
@@ -1761,8 +1777,11 @@
       }
 
       const catObj = CATEGORIES_LIST.find(c => c.id === category);
+      const finalId = insertedRow ? insertedRow.id : Date.now();
+      markAsMyListing(finalId);
+
       const newItem = {
-        id: insertedRow ? insertedRow.id : Date.now(),
+        id: finalId,
         country: currentCountry,
         fromSupabaseOgloszenia: Boolean(insertedRow),
         isPlaceholder: false,
@@ -1816,6 +1835,53 @@
       if (sb) await syncFromSupabase();
     }
 
+    async function relistMyListing(country, id) {
+      const existing = (listingsData[country] || []).find(x => String(x.id) === String(id));
+      if (!existing) return;
+      const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : (existing.sellerName || 'Użytkownik');
+      const photoUrl = existing.photos?.[0] || null;
+
+      let insertedRow = null;
+      if (sb) {
+        const { data, error } = await sb.from(SUPABASE_TABLE_OGLOSZENIA).insert([{
+          tytul: existing.title,
+          cena: existing.price || 0,
+          kategoria: existing.category || 'other',
+          kraj: country,
+          miejscowosc: existing.city || COUNTRY_CONFIG[country].areaLabel,
+          opis: existing.desc || '',
+          zdjecie_url: photoUrl
+        }]).select();
+        if (error) {
+          setDbStatus(`Nie udało się wystawić ponownie w bazie: ${error.message}`);
+        } else if (Array.isArray(data) && data[0]) {
+          insertedRow = data[0];
+        }
+      }
+
+      const newId = insertedRow ? insertedRow.id : Date.now();
+      markAsMyListing(newId);
+
+      const relistedItem = {
+        ...existing,
+        id: newId,
+        isPlaceholder: false,
+        createdInSession: true,
+        fromSupabaseOgloszenia: Boolean(insertedRow),
+        ownerId: currentUser?.id || existing.ownerId || null,
+        ownerEmail: currentUser?.email || existing.ownerEmail || null,
+        sellerName: nickName,
+        views: 1
+      };
+
+      listingsData[country] = (listingsData[country] || []).filter(x => !x.isPlaceholder);
+      listingsData[country].unshift(relistedItem);
+      renderAccountModal();
+      renderCountryUI();
+      if (sb) await syncFromSupabase();
+      alert('Ogłoszenie zostało wystawione ponownie.');
+    }
+
     function openAccountModal() {
       renderAccountModal();
       document.getElementById('accountModal').classList.add('open');
@@ -1842,23 +1908,24 @@
       }
 
       const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
+      const isAdmin = Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
       const isMine = i => {
-        if (currentUser) {
-          return (currentUser.id && i.ownerId === currentUser.id) ||
-                 (currentUser.email && i.ownerEmail === currentUser.email) ||
-                 Boolean(i.createdInSession);
-        }
-        return Boolean(i.createdInSession);
+        if (i.isPlaceholder) return false;
+        if (myListingIds.includes(String(i.id))) return true;
+        if (i.createdInSession) return true;
+        if (currentUser.id && i.ownerId === currentUser.id) return true;
+        if (currentUser.email && i.ownerEmail === currentUser.email) return true;
+        if (isAdmin && i.fromSupabaseOgloszenia) return true;
+        return false;
       };
       const myAds = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isMine).map(x => ({ ...x, c })));
-      const isAdmin = Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
 
       let rightHtml = '';
       if (hubTopTab === 'buy') {
         const favs = (listingsData[currentCountry] || []).filter(i => favoriteIds.includes(i.id));
         rightHtml = `
           <h3>❤️ Ulubione (${favs.length})</h3>
-          <div style="margin-top:8px">${favs.length ? favs.map(i => `<div class="admin-row"><div><strong>${i.icon} ${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail(${i.id})">Podgląd</button></div>`).join('') : '<p style="color:var(--muted);font-size:13px">Brak ulubionych ofert.</p>'}</div>
+          <div style="margin-top:8px">${favs.length ? favs.map(i => `<div class="admin-row"><div><strong>${i.icon} ${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${i.id}')">Podgląd</button></div>`).join('') : '<p style="color:var(--muted);font-size:13px">Brak ulubionych ofert.</p>'}</div>
         `;
       } else if (hubTopTab === 'sell') {
         rightHtml = `
@@ -1874,7 +1941,8 @@
                   <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')}</div>
                 </div>
                 <div class="admin-row-actions">
-                  <button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail(${item.id})">👁️ Podgląd</button>
+                  <button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${item.id}')">👁️ Podgląd</button>
+                  <button type="button" class="mini-btn green" onclick="relistMyListing('${item.c}', '${item.id}')">🔄 Wystaw ponownie</button>
                   <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">✏️ Edytuj</button>
                   <button type="button" class="mini-btn red" onclick="deleteMyListing('${item.c}', '${item.id}')">🗑️ Usuń</button>
                 </div>
@@ -1928,7 +1996,7 @@
               <div style="font-weight:800;font-size:14px">👤 ${displayNick}</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">🛒 ZAKUPY</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ SPRZEDAŻ (Podgląd / Edytuj)</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ SPRZEDAŻ (Wystaw ponownie / Edytuj)</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 KONTO (Ksywka / Hasło / Pomoc)</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Panel Admin</button>` : ''}
             </div>
@@ -2068,6 +2136,8 @@
 
     async function deleteMyListing(country, id) {
       listingsData[country] = (listingsData[country] || []).filter(x => String(x.id) !== String(id));
+      myListingIds = myListingIds.filter(x => String(x) !== String(id));
+      try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
       if (sb) await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id).catch(() => {});
       renderAccountModal();
       renderCountryUI();
@@ -2130,8 +2200,8 @@
                     ${reasons.length ? `<div class="risk-alert-box">⚠️ <strong>Powiadomienie o możliwej szkodliwości:</strong> ${reasons.join('; ')}</div>` : ''}
                   </div>
                   <div class="admin-row-actions">
-                    <button type="button" class="mini-btn dark" onclick="adminTogglePirate(${item.id})">${item.pirateFlag ? '🏴‍☠️ Zdejmij flagę' : '🏴‍☠️ Flaga Pirata'}</button>
-                    <button type="button" class="mini-btn red" onclick="adminDelete(${item.id})">🗑️ Usuń</button>
+                    <button type="button" class="mini-btn dark" onclick="adminTogglePirate('${item.id}')">${item.pirateFlag ? '🏴‍☠️ Zdejmij flagę' : '🏴‍☠️ Flaga Pirata'}</button>
+                    <button type="button" class="mini-btn red" onclick="adminDelete('${item.id}')">🗑️ Usuń</button>
                     ${item.ownerEmail ? `<button type="button" class="mini-btn gold" onclick="adminBanUser('${item.ownerEmail}', 24)">⏳ Ban 24h</button>` : ''}
                   </div>
                 </div>
@@ -2181,8 +2251,8 @@
                   ${s.zdjecie_url ? `<img src="${s.zdjecie_url}" alt="Reklama" style="max-height:70px;border-radius:6px;margin-top:6px" />` : ''}
                 </div>
                 <div class="admin-row-actions">
-                  <button type="button" class="mini-btn green" onclick="adminPromoteSubmission(${s.id})">📢 Wrzuć na stronę</button>
-                  <button type="button" class="mini-btn red" onclick="adminDeleteSubmission(${s.id})">🗑️ Usuń</button>
+                  <button type="button" class="mini-btn green" onclick="adminPromoteSubmission('${s.id}')">📢 Wrzuć na stronę</button>
+                  <button type="button" class="mini-btn red" onclick="adminDeleteSubmission('${s.id}')">🗑️ Usuń</button>
                 </div>
               </div>
             `).join('') : '<p style="color:var(--muted)">Brak zgłoszeń reklam.</p>'}
@@ -2197,7 +2267,7 @@
                   <strong>${m.temat}</strong> <span style="font-size:12px;color:var(--muted)">od: ${getFirstNameOrNick(m.od_nazwa, m.od_email)} (${m.od_email})</span>
                   <div style="font-size:12px;margin-top:4px">${m.tresc}</div>
                 </div>
-                <button type="button" class="mini-btn red" onclick="adminDeleteMessage(${m.id})">🗑️ Usuń</button>
+                <button type="button" class="mini-btn red" onclick="adminDeleteMessage('${m.id}')">🗑️ Usuń</button>
               </div>
             `).join('') : '<p style="color:var(--muted)">Brak wiadomości do admina.</p>'}
           </div>
@@ -2221,6 +2291,8 @@
 
     async function adminDelete(id) {
       listingsData[currentCountry] = (listingsData[currentCountry] || []).filter(x => String(x.id) !== String(id));
+      myListingIds = myListingIds.filter(x => String(x) !== String(id));
+      try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
       if (sb) await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id).catch(() => {});
       renderAdminPanel();
       renderCountryUI();
@@ -2330,7 +2402,7 @@
       document.getElementById('legalModal').classList.add('open');
     }
     function exportUserData() {
-      const blob = new Blob([JSON.stringify({ currentCountry, currentUser, favoriteIds, userPrefs }, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify({ currentCountry, currentUser, favoriteIds, userPrefs, myListingIds }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'placomarkt-backup.json';
