@@ -946,6 +946,12 @@
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
 
+    function hasAdminPermission() {
+      if (!currentUser) return false;
+      const email = (currentUser.email || '').toLowerCase();
+      return Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes(email));
+    }
+
     let progressHideTimer = null;
     function setOfferProgress(percent, label = '', autoHideMs = 0) {
       const banner = document.getElementById('offerProgressBanner');
@@ -1043,9 +1049,13 @@
     }
 
     function removeLocalListing(country, id) {
+      const targetStr = String(id);
+      const targetNum = Number(id);
       if (!localSavedListings[country]) return;
-      localSavedListings[country] = localSavedListings[country].filter(x => String(x.id) !== String(id));
-      myListingIds = myListingIds.filter(x => String(x) !== String(id));
+      localSavedListings[country] = localSavedListings[country].filter(
+        x => String(x.id) !== targetStr && Number(x.id) !== targetNum
+      );
+      myListingIds = myListingIds.filter(x => String(x) !== targetStr);
       persistLocalListings();
       try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
     }
@@ -1431,7 +1441,7 @@
     function updateAccountButton() {
       const lbl = document.getElementById('navAccountLabel');
       const admBtn = document.getElementById('navAdminBtn');
-      const isAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
+      const isAdmin = hasAdminPermission();
       if (lbl) lbl.textContent = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Konto';
       if (admBtn) admBtn.style.display = isAdmin ? 'inline-flex' : 'none';
       const dot = document.getElementById('adminReportBadge');
@@ -1675,6 +1685,7 @@
       const hasPhoto = item.photos && item.photos.length > 0;
       const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
       const hasSharedPhone = Boolean(item.sharePhone && item.phone && String(item.phone).trim().length > 0);
+      const canDeleteHere = hasAdminPermission() || myListingIds.includes(String(item.id));
 
       document.getElementById('detailContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('detailModal')">×</button>
@@ -1696,6 +1707,7 @@
             : ``}
           <button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${displayNick}', '${String(item.title).replace(/'/g, '')}')">💬 Wiadomość</button>
           <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">🔗 Udostępnij</button>
+          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');adminDelete('${item.id}')">🗑️ Usuń (Admin)</button>` : ``}
         </div>
       `;
       document.getElementById('detailModal').classList.add('open');
@@ -2064,7 +2076,7 @@
       }
 
       const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
-      const isAdmin = Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
+      const isAdmin = hasAdminPermission();
       const isMine = i => {
         if (i.isPlaceholder) return false;
         if (myListingIds.includes(String(i.id))) return true;
@@ -2261,6 +2273,7 @@
       const found = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
       if (found) {
         found.name = getFirstNameOrNick(found.name, found.email);
+        found.isAdmin = Boolean(found.isAdmin || ADMIN_EMAILS.includes((found.email || '').toLowerCase()));
         currentUser = found;
         try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
         updateAccountButton();
@@ -2279,6 +2292,7 @@
         if (!error) return;
       }
       currentUser = registeredUsers[0];
+      currentUser.isAdmin = true;
       updateAccountButton();
       renderAccountModal();
     }
@@ -2294,11 +2308,14 @@
     }
 
     async function deleteMyListing(country, id) {
+      const targetStr = String(id);
+      const targetNum = Number(id);
       removeLocalListing(country, id);
-      const remainingDb = (listingsData[country] || []).filter(
-        x => x.fromSupabaseOgloszenia && String(x.id) !== String(id)
-      );
-      mergeListingsForCountry(country, remainingDb);
+      if (Array.isArray(listingsData[country])) {
+        listingsData[country] = listingsData[country].filter(
+          x => String(x.id) !== targetStr && Number(x.id) !== targetNum
+        );
+      }
       renderAccountModal();
       renderCountryUI();
       if (sb) {
@@ -2309,8 +2326,7 @@
     }
 
     function openAdminPanel() {
-      const isAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
-      if (!isAdmin) {
+      if (!hasAdminPermission()) {
         openAccountModal();
         return;
       }
@@ -2352,6 +2368,9 @@
             <button type="button" class="mini-btn" onclick="togglePlaceholdersAdmin()">
               ${showPlaceholderOffers ? '🗑️ Ukryj oferty startowe' : '👁️ Pokaż oferty startowe'}
             </button>
+            <button type="button" class="mini-btn red" onclick="adminClearLocalJunk()">
+              🧹 Wyczyść śmieci lokalne (${currentCountry})
+            </button>
           </div>
           <div class="admin-list">
             ${items.length ? items.map(item => {
@@ -2361,7 +2380,7 @@
                 <div class="admin-row">
                   <div style="flex:1;min-width:240px">
                     <strong>${item.icon} ${item.title}</strong>
-                    <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')} • Konto: ${nick}</div>
+                    <div style="font-size:12px;color:var(--muted)">ID: ${item.id} • ${item.city} • ${formatPrice(item.price, item.type === 'free')} • Konto: ${nick}</div>
                     ${reasons.length ? `<div class="risk-alert-box">⚠️ <strong>Powiadomienie o możliwej szkodliwości:</strong> ${reasons.join('; ')}</div>` : ''}
                   </div>
                   <div class="admin-row-actions">
@@ -2440,6 +2459,17 @@
       }
     }
 
+    function adminClearLocalJunk() {
+      localSavedListings[currentCountry] = [];
+      persistLocalListings();
+      myListingIds = [];
+      try { localStorage.setItem('placomarkt_my_listing_ids', '[]'); } catch (e) {}
+      mergeListingsForCountry(currentCountry, []);
+      renderAdminPanel();
+      renderCountryUI();
+      syncFromSupabase();
+    }
+
     function togglePlaceholdersAdmin() {
       showPlaceholderOffers = !showPlaceholderOffers;
       try { localStorage.setItem('placomarkt_show_placeholders', String(showPlaceholderOffers)); } catch (e) {}
@@ -2455,13 +2485,27 @@
     }
 
     async function adminDelete(id) {
-      removeLocalListing(currentCountry, id);
-      const remainingDb = (listingsData[currentCountry] || []).filter(
-        x => x.fromSupabaseOgloszenia && String(x.id) !== String(id)
-      );
-      mergeListingsForCountry(currentCountry, remainingDb);
+      const targetStr = String(id);
+      const targetNum = Number(id);
+      ['NL', 'PL'].forEach(c => {
+        if (Array.isArray(localSavedListings[c])) {
+          localSavedListings[c] = localSavedListings[c].filter(
+            x => String(x.id) !== targetStr && Number(x.id) !== targetNum
+          );
+        }
+        if (Array.isArray(listingsData[c])) {
+          listingsData[c] = listingsData[c].filter(
+            x => String(x.id) !== targetStr && Number(x.id) !== targetNum
+          );
+        }
+      });
+      myListingIds = myListingIds.filter(x => String(x) !== targetStr);
+      persistLocalListings();
+      try { localStorage.setItem('placomarkt_my_listing_ids', JSON.stringify(myListingIds)); } catch (e) {}
+
       renderAdminPanel();
       renderCountryUI();
+
       if (sb) {
         try {
           await sb.from(SUPABASE_TABLE_OGLOSZENIA).delete().eq('id', id);
