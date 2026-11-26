@@ -238,14 +238,6 @@
       text-align: left;
       box-shadow: 0 8px 20px rgba(0,0,0,0.22);
     }
-    .suggest-item {
-      padding: 8px 12px;
-      cursor: pointer;
-      font-size: 13px;
-      border-bottom: 1px solid var(--border);
-    }
-    .suggest-item:last-child { border-bottom: none; }
-    .suggest-item:hover { background: var(--soft-bg); }
 
     .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
     .main-column { min-width: 0; }
@@ -352,45 +344,6 @@
     }
     .mode-tab.active .count-pill { background: rgba(255,255,255,0.22); color: #fff; }
 
-    .travel-filter-bar, .auto-filter-bar, .housing-filter-bar {
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      display: none;
-    }
-    .travel-filter-bar { background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border: 1px solid #bae6fd; }
-    body.dark-mode .travel-filter-bar { background: #0c2a3e; border-color: #0369a1; }
-    .travel-filter-bar.open { display: block; }
-
-    .auto-filter-bar { background: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%); border: 1px solid #fed7aa; }
-    body.dark-mode .auto-filter-bar { background: #2c1608; border-color: #9a3412; }
-    .auto-filter-bar.open { display: block; }
-
-    .housing-filter-bar { background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%); border: 1px solid #bbf7d0; }
-    body.dark-mode .housing-filter-bar { background: #052e16; border-color: #15803d; }
-    .housing-filter-bar.open { display: block; }
-
-    .travel-filter-title, .auto-filter-title, .housing-filter-title {
-      font-size: 14px; font-weight: 800; margin-bottom: 10px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;
-    }
-    .travel-filter-title { color: #0369a1; }
-    .auto-filter-title { color: #c2410c; }
-    .housing-filter-title { color: #15803d; }
-    body.dark-mode .travel-filter-title { color: #7dd3fc; }
-    body.dark-mode .auto-filter-title { color: #fdba74; }
-    body.dark-mode .housing-filter-title { color: #86efac; }
-
-    .travel-filters-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 10px;
-    }
-    .travel-filters-grid select, .travel-filters-grid input,
-    .auto-filter-bar select, .auto-filter-bar input,
-    .housing-filter-bar select, .housing-filter-bar input {
-      width: 100%; padding: 9px 11px; border-radius: 8px;
-      border: 1px solid var(--border); background: var(--input-bg); font-size: 13px; color: var(--text);
-    }
-
     .breadcrumb-bar {
       display: flex; align-items: center; gap: 6px; font-size: 12px;
       color: var(--muted); margin-bottom: 10px; flex-wrap: wrap;
@@ -443,9 +396,6 @@
     .badge-top { background: var(--gold); color: #fff; }
     .badge-sub { background: linear-gradient(90deg, #f59e0b, #ea580c); color: #fff; }
     .badge-urgent { background: var(--red); color: #fff; }
-    .badge-hot { background: #ea580c; color: #fff; }
-    .badge-auction { background: var(--purple); color: #fff; }
-    .badge-travel { background: var(--teal); color: #fff; }
     .badge-free { background: var(--green); color: #fff; }
     .badge-pirate { background: #111827; color: #facc15; border: 1px solid #ef4444; }
     .badge-demo { background: rgba(15,23,42,0.75); color: #f8fafc; }
@@ -460,11 +410,6 @@
     .card-body { padding: 13px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
     .card-title { font-size: 15px; font-weight: 700; margin-bottom: 5px; line-height: 1.35; }
     .card-meta { font-size: 12px; color: var(--muted); margin-bottom: 6px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .condition-pill {
-      display: inline-block; font-size: 10px; font-weight: 800; padding: 2px 6px;
-      border-radius: 4px; background: rgba(22,163,74,0.12); color: var(--green); margin-bottom: 5px; width: fit-content;
-    }
-    .condition-pill.used { background: rgba(245,158,11,0.15); color: #b45309; }
     .seller-mini-tag {
       display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700;
       color: #0369a1; background: #e0f2fe; padding: 3px 8px; border-radius: 5px;
@@ -484,23 +429,9 @@
       background: #fef9c3; color: #854d0e; border: 1px solid #fde047;
     }
 
-    .shipping-tag {
-      display: inline-block; background: var(--soft-bg); color: var(--text);
-      border: 1px solid var(--border); padding: 3px 7px; border-radius: 5px;
-      font-size: 11px; font-weight: 600; margin-bottom: 6px; width: fit-content;
-    }
-    .travel-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 7px; }
-    .travel-pill { background: #e0f2fe; color: #0369a1; font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 5px; }
-    .auto-pill { background: rgba(249,115,22,0.14); color: #c2410c; font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 5px; }
-    .housing-pill { background: rgba(22,163,74,0.14); color: #15803d; font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 5px; }
-
     .pirate-warning-box {
       background: #fef2f2; border: 1px solid #f87171; color: #991b1b;
       font-size: 11px; font-weight: 800; padding: 5px 8px; border-radius: 6px; margin-bottom: 8px;
-    }
-    .timer-box {
-      background: #f3e8ff; color: #6b21a8; font-size: 12px; font-weight: 700;
-      padding: 5px 8px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between;
     }
     .card-footer {
       border-top: 1px solid var(--border); padding-top: 9px;
@@ -508,7 +439,6 @@
     }
     .price { font-size: 18px; font-weight: 800; color: var(--text); }
     .price.free-price { color: var(--green); }
-    .sub-price { font-size: 11px; color: var(--muted); }
 
     .subscribers-bottom-section {
       margin-top: 34px; padding: 20px; border-radius: 14px;
@@ -553,15 +483,12 @@
       align-items: center; flex-wrap: wrap; gap: 10px;
     }
     .detail-actions {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 8px; margin: 14px 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 14px 0;
     }
     .btn-action { padding: 10px 12px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; text-align: center; }
     .btn-phone { background: #0f172a; color: #fff; }
-    .btn-wa { background: #16a34a; color: #fff; }
     .btn-chat { background: var(--blue); color: #fff; }
     .btn-share { background: #0284c7; color: #fff; }
-    .btn-fav-detail { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
-    .btn-report { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; margin-top: 8px; width: 100%; }
 
     .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0 18px; }
     .stat-card { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
@@ -606,22 +533,11 @@
     .photo-preview-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
     .photo-preview-strip img { width: 68px; height: 54px; object-fit: cover; border-radius: 7px; border: 1px solid var(--border); }
 
-    .travel-form-box { background: rgba(2,132,199,0.08); border: 1px solid #bae6fd; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
-    .auto-form-box { background: rgba(249,115,22,0.08); border: 1px solid #fed7aa; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
-    .housing-form-box { background: rgba(22,163,74,0.08); border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
-
     .promo-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 6px; }
     .promo-card { border: 2px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; background: var(--soft-bg); }
     .promo-card.selected { border-color: var(--accent); background: rgba(249,115,22,0.12); }
 
     .acc-btn { background: rgba(15,23,42,0.22); border-color: rgba(255,255,255,0.4); color: #ffffff; }
-    .auth-switch { display: flex; gap: 8px; margin-bottom: 14px; }
-    .auth-switch button {
-      flex: 1; padding: 9px; border-radius: 8px; border: 1px solid var(--border);
-      background: var(--soft-bg); color: var(--text); font-weight: 700; cursor: pointer;
-    }
-    .auth-switch button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
     .alt-login-divider { text-align: center; font-size: 12px; color: var(--muted); margin: 12px 0; font-weight: 700; }
     .alt-login-btn {
       width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
@@ -652,18 +568,6 @@
     .hub-top-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
     .twofa-box { background: rgba(22,163,74,0.08); border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
-    .premium-box {
-      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 2px solid #f59e0b;
-      border-radius: 12px; padding: 14px; margin-bottom: 14px; color: #78350f;
-    }
-    .premium-badge {
-      background: linear-gradient(90deg, #f59e0b, #d97706); color: #fff; font-size: 11px;
-      font-weight: 800; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;
-    }
-    .premium-btn {
-      background: linear-gradient(90deg, #f59e0b, #ea580c); color: #fff; border: none;
-      padding: 10px 16px; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; width: 100%;
-    }
     .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
     .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--accent); }
 
@@ -708,7 +612,7 @@
     <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
     <p id="heroSub">Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca (€)</p>
     <div class="search-box">
-      <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz..." oninput="renderListings()" />
+      <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz (np. głośniki, glosniki, skuter)..." oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
       <div style="position:relative;flex:1;min-width:175px">
         <input
@@ -716,23 +620,20 @@
           id="cityInput"
           autocomplete="off"
           placeholder="Miejscowość (od 3 liter)..."
-          oninput="handleCityInput('search');renderListings()"
-          onfocus="handleCityInput('search')"
-          onblur="hideSuggestDelayed('citySuggestSearch')"
+          oninput="renderListings()"
         />
         <div id="citySuggestSearch" class="suggest-box"></div>
       </div>
-      <button type="button" class="search-btn" onclick="renderListings()">Szukaj</button>
+      <button type="button" class="search-btn" onclick="searchAndShowAll()">Szukaj</button>
     </div>
     <div class="quick-tags" id="quickTagsBar">
       <span style="color:#fff7ed">Popularne:</span>
+      <span class="quick-tag" onclick="quickSearch('głośniki')">🔊 Głośniki</span>
       <span class="quick-tag" onclick="quickSearch('hengel')">🎣 Wędkarstwo</span>
       <span class="quick-tag" onclick="quickSearch('scooter')">🛵 Auta, Motory i Skutery</span>
       <span class="quick-tag" onclick="quickSearch('volkstuin')">🏡 Ogródek działkowy / Volkstuin</span>
       <span class="quick-tag" onclick="quickSearch('parfum')">💄 Kosmetyki i Perfumy</span>
-      <span class="quick-tag" onclick="quickSearch('woning')">🏠 Nieruchomości, Działki i Ogródki</span>
       <span class="quick-tag" onclick="quickSearch('vakantie')">✈️ Wczasy i Podróże</span>
-      <span class="quick-tag" onclick="quickSearch('werk')">💼 Praca</span>
     </div>
   </section>
 
@@ -750,99 +651,11 @@
         <div class="ad-slot-card" id="dynamicAdCard">
           <span class="ad-slot-tag" id="adSlotTag">Reklama</span>
           <div class="ad-slot-title" id="adSlotTitle">Chcesz zareklamować firmę lub ofertę?</div>
-          <div class="ad-slot-desc" id="adSlotDesc">Wyślij opis i zdjęcie w panelu Konto → Kontakt / Reklama do Admina.</div>
+          <div class="ad-slot-desc" id="adSlotDesc">Wyślij opis i zdjęcie w panelu Konto → Pomoc / Reklama do Admina.</div>
         </div>
       </section>
 
       <div class="mode-tabs" id="modeTabs"></div>
-
-      <div class="housing-filter-bar" id="housingFilterBar">
-        <div class="housing-filter-title">
-          <span>🏠 Nieruchomości, Działki i Ogródki</span>
-          <button type="button" onclick="resetHousingFilters()" style="background:var(--card);border:1px solid #86efac;color:#15803d;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
-        </div>
-        <div class="travel-filters-grid">
-          <select id="filterHousingKind" onchange="renderListings()">
-            <option value="all">🏠 Wszystkie obiekty</option>
-            <option value="garden">🏡 Ogródek działkowy / Volkstuin</option>
-            <option value="flat">🏢 Mieszkanie / Dom</option>
-            <option value="room">🛏️ Pokój / Stancja</option>
-            <option value="garage">🚗 Garaż / Magazyn</option>
-          </select>
-          <select id="filterHousingDeal" onchange="renderListings()">
-            <option value="all">🤝 Wszystkie transakcje</option>
-            <option value="sell">🏷️ Sprzedam / Odstąpię</option>
-            <option value="buy">🔎 Kupię / Szukam</option>
-            <option value="rent">🔑 Wynajmę / Dzierżawa</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="auto-filter-bar" id="autoFilterBar">
-        <div class="auto-filter-title">
-          <span>🚗 Auta, Motory i Skutery</span>
-          <button type="button" onclick="resetAutoFilters()" style="background:var(--card);border:1px solid #fdba74;color:#c2410c;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
-        </div>
-        <div class="travel-filters-grid">
-          <select id="filterVehicleKind" onchange="renderListings()">
-            <option value="all">🚘 Wszystkie pojazdy</option>
-            <option value="car">🚗 Samochód osobowy</option>
-            <option value="moto">🏍️ Motocykl / Motor</option>
-            <option value="scooter">🛵 Skuter / Motorower</option>
-            <option value="van">🚐 Dostawczy / Bus</option>
-            <option value="quad">🏎️ Quad / ATV</option>
-            <option value="parts">⚙️ Części i akcesoria</option>
-          </select>
-          <div style="position:relative">
-            <input
-              type="text"
-              id="filterVehicleBrand"
-              autocomplete="off"
-              placeholder="Marka (od 2 liter)..."
-              oninput="handleBrandInput('filter');renderListings()"
-              onfocus="handleBrandInput('filter')"
-              onblur="hideSuggestDelayed('brandSuggestFilter')"
-            />
-            <div id="brandSuggestFilter" class="suggest-box"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="travel-filter-bar" id="travelFilterBar">
-        <div class="travel-filter-title">
-          <span>✈️ Wczasy i Podróże</span>
-          <button type="button" onclick="resetTravelFilters()" style="background:var(--card);border:1px solid #7dd3fc;color:#0369a1;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Reset</button>
-        </div>
-        <div class="travel-filters-grid">
-          <select id="filterTravelDest" onchange="renderListings()">
-            <option value="all">🌍 Wszystkie kierunki</option>
-            <option value="PL">🇵🇱 Polska</option>
-            <option value="NL">🇳🇱 Holandia</option>
-            <option value="TR">🇹🇷 Turcja</option>
-            <option value="HR">🇭🇷 Chorwacja</option>
-            <option value="ES">🇪🇸 Hiszpania</option>
-            <option value="HU">🇭🇺 Węgry / Słowacja</option>
-            <option value="BUS">🚐 Trasa PL ↔ NL</option>
-          </select>
-          <select id="filterTravelKind" onchange="renderListings()">
-            <option value="all">🏕️ Wszystkie formy</option>
-            <option value="house">🏠 Domek / Apartament</option>
-            <option value="tour">🚌 Wycieczka zorganizowana</option>
-            <option value="allinc">☀️ Last Minute / All Inclusive</option>
-            <option value="bus">🚐 Przejazd / Bus PL ↔ NL</option>
-          </select>
-          <select id="filterTravelBoard" onchange="renderListings()">
-            <option value="all">🍽️ Wyżywienie</option>
-            <option value="self">🍳 Własne</option>
-            <option value="bb">🥐 Ze śniadaniami (BB)</option>
-            <option value="hb">🍲 Śniadania + Obiadokolacje (HB)</option>
-            <option value="ai">🍹 All Inclusive</option>
-            <option value="na">🚐 Nie dotyczy</option>
-          </select>
-          <input type="number" id="filterTravelMaxPrice" placeholder="Do" min="0" oninput="renderListings()" />
-        </div>
-      </div>
-
       <div class="breadcrumb-bar" id="breadcrumbBar"></div>
 
       <div class="toolbar-bar">
@@ -863,7 +676,6 @@
             <option value="price_asc">Cena: rosnąco</option>
             <option value="price_desc">Cena: malejąco</option>
             <option value="views_desc">Najpopularniejsze</option>
-            <option value="auction_end">Aukcje: kończące się</option>
           </select>
           <div class="view-toggle">
             <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')">⊞</button>
@@ -964,124 +776,11 @@
         <div class="form-row-2">
           <div class="form-group">
             <label>Kategoria</label>
-            <select id="newCategory" onchange="toggleCategorySubFields()"></select>
+            <select id="newCategory"></select>
           </div>
-          <div class="form-group" style="position:relative">
-            <label>Miejscowość (od 3 liter)</label>
-            <input
-              type="text"
-              id="newCity"
-              autocomplete="off"
-              required
-              oninput="handleCityInput('add')"
-              onfocus="handleCityInput('add')"
-              onblur="hideSuggestDelayed('citySuggestAdd')"
-            />
-            <div id="citySuggestAdd" class="suggest-box"></div>
-          </div>
-        </div>
-
-        <div class="housing-form-box" id="housingFieldsBox" style="display:none">
-          <div style="font-weight:800;color:#15803d;font-size:13px;margin-bottom:10px">🏠 Nieruchomości, Działki i Ogródki</div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label>Rodzaj obiektu</label>
-              <select id="newHousingKind">
-                <option value="garden">🏡 Ogródek działkowy / Volkstuin</option>
-                <option value="flat">🏢 Mieszkanie / Dom</option>
-                <option value="room">🛏️ Pokój / Stancja</option>
-                <option value="garage">🚗 Garaż / Magazyn</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Transakcja</label>
-              <select id="newHousingDeal">
-                <option value="sell">🏷️ Sprzedam / Odstąpię</option>
-                <option value="buy">🔎 Kupię / Szukam</option>
-                <option value="rent">🔑 Wynajmę / Dzierżawa</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="auto-form-box" id="autoFieldsBox" style="display:none">
-          <div style="font-weight:800;color:#c2410c;font-size:13px;margin-bottom:10px">🚗 Auta, Motory i Skutery</div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label>Typ</label>
-              <select id="newVehicleKind">
-                <option value="car">🚗 Samochód osobowy</option>
-                <option value="moto">🏍️ Motocykl / Motor</option>
-                <option value="scooter">🛵 Skuter / Motorower</option>
-                <option value="van">🚐 Dostawczy / Bus</option>
-                <option value="quad">🏎️ Quad / ATV</option>
-                <option value="parts">⚙️ Części i akcesoria</option>
-              </select>
-            </div>
-            <div class="form-group" style="position:relative">
-              <label>Marka (od 2 liter)...</label>
-              <input
-                type="text"
-                id="newVehicleBrand"
-                autocomplete="off"
-                oninput="handleBrandInput('add')"
-                onfocus="handleBrandInput('add')"
-                onblur="hideSuggestDelayed('brandSuggestAdd')"
-              />
-              <div id="brandSuggestAdd" class="suggest-box"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="travel-form-box" id="travelFieldsBox" style="display:none">
-          <div style="font-weight:800;color:var(--teal);font-size:13px;margin-bottom:10px">✈️ Wczasy i Podróże</div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label>Kierunek</label>
-              <select id="newTravelDest">
-                <option value="PL">🇵🇱 Polska</option>
-                <option value="NL">🇳🇱 Holandia</option>
-                <option value="TR">🇹🇷 Turcja</option>
-                <option value="HR">🇭🇷 Chorwacja</option>
-                <option value="ES">🇪🇸 Hiszpania</option>
-                <option value="HU">🇭🇺 Węgry / Słowacja</option>
-                <option value="BUS">🚐 Trasa PL ↔ NL</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Rodzaj wyjazdu</label>
-              <select id="newTravelKind">
-                <option value="house">🏠 Domek / Apartament</option>
-                <option value="tour">🚌 Wycieczka zorganizowana</option>
-                <option value="allinc">☀️ Last Minute / All Inclusive</option>
-                <option value="bus">🚐 Przejazd / Bus PL ↔ NL</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row-2">
-            <div class="form-group"><label>Termin</label><input type="text" id="newTravelDate" /></div>
-            <div class="form-group"><label>Liczba osób</label><input type="text" id="newTravelGuests" /></div>
-          </div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label>Wyżywienie</label>
-              <select id="newTravelBoard">
-                <option value="self">🍳 Własne</option>
-                <option value="bb">🥐 Ze śniadaniami (BB)</option>
-                <option value="hb">🍲 Śniadania + Obiadokolacje (HB)</option>
-                <option value="ai">🍹 All Inclusive</option>
-                <option value="na">🚐 Nie dotyczy</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Cena za</label>
-              <select id="newTravelUnit">
-                <option value="person">/ osoba</option>
-                <option value="night">/ doba</option>
-                <option value="stay">/ cały pobyt</option>
-                <option value="trip">/ przejazd w 1 stronę</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label>Miejscowość</label>
+            <input type="text" id="newCity" required />
           </div>
         </div>
 
@@ -1104,6 +803,18 @@
           <label>Dostawa / Odbiór</label>
           <select id="newShipping"></select>
         </div>
+
+        <div class="set-section">
+          <h4>📞 Numer telefonu (domyślnie ukryty)</h4>
+          <div class="form-group" style="margin-bottom:8px">
+            <input type="tel" id="newPhone" placeholder="Opcjonalnie wpisz numer tylko jeśli chcesz go udostępnić..." oninput="toggleSharePhoneCheckbox()" />
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+            <input type="checkbox" id="newSharePhone" style="width:auto" disabled />
+            <span>Udostępniam mój numer telefonu w tym ogłoszeniu</span>
+          </label>
+        </div>
+
         <div class="form-group">
           <label>Opis</label>
           <textarea id="newDesc" rows="3" required></textarea>
@@ -1118,15 +829,15 @@
           <label>Widoczność</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
-              <strong style="color:var(--green)" id="promoStdPrice">0,00 €</strong>
+              <strong style="color:var(--green)">0,00 €</strong>
               <div style="font-size:11px;color:var(--muted)">30 dni</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
-              <strong style="color:var(--red)" id="promoUrgentPrice">0,00 €</strong>
+              <strong style="color:var(--red)">0,00 €</strong>
               <div style="font-size:11px;color:var(--muted)">⚡ PILNE</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
-              <strong style="color:var(--accent)" id="promoTopPrice">0,00 €</strong>
+              <strong style="color:var(--accent)">0,00 €</strong>
               <div style="font-size:11px;color:var(--muted)">⭐ TOP</div>
             </div>
           </div>
@@ -1190,75 +901,88 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://dotadrdquekzdqoxvtkk.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_IkdITkOoV5NKdAJ-NMyeTg_s_KY3Ufl';
+    const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvdGFkcmRxdWVremRxb3h2dGtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1NjIxNjEsImV4cCI6MjExMTEzODE2MX0.8_BWwZHq71Kdypx955_AL_0wrOh61rWuC4iP34KjPVw';
     const SUPABASE_TABLE_OGLOSZENIA = 'ogloszenia';
     const SUPABASE_BUCKET_OGLOSZENIA = 'ogloszenia';
     const ADMIN_EMAIL = 'adminplacomarkt@gmail.com';
     const ADMIN_EMAILS = ['adminplacomarkt@gmail.com', 'admin@placomarkt.nl', 'kontakt@placomarkt.nl', 'admin@placomarkt.online'];
 
-    const isSupabaseConfigured =
-      SUPABASE_URL.startsWith('https://') &&
-      SUPABASE_PUBLISHABLE_KEY.length > 20 &&
-      !SUPABASE_PUBLISHABLE_KEY.includes('WKLEJ_TUTAJ');
-
-    const sb = isSupabaseConfigured && window.supabase
+    const sb = (window.supabase && SUPABASE_URL.startsWith('https://') && SUPABASE_PUBLISHABLE_KEY.length > 20)
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
 
-    const VEHICLE_BRANDS = [
-      'La Souris', 'Vespa', 'Piaggio', 'Kymco', 'SYM', 'Peugeot Motocycles', 'Aprilia',
-      'Yamaha', 'Honda', 'Kawasaki', 'Suzuki', 'BMW', 'Audi', 'Volkswagen', 'Mercedes-Benz',
-      'Opel', 'Ford', 'Toyota', 'Kia', 'Hyundai', 'Skoda', 'Renault', 'Fiat', 'Volvo'
-    ];
+    function normalizeText(str) {
+      return String(str || '')
+        .toLowerCase()
+        .replace(/ł/g, 'l')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function getFirstNameOrNick(rawName, email) {
+      const cleaned = String(rawName || '').trim();
+      if (cleaned) return cleaned.split(/\s+/)[0];
+      if (email && email.includes('@')) return email.split('@')[0];
+      return 'Konto';
+    }
+
+    function toggleSharePhoneCheckbox() {
+      const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
+      const cb = document.getElementById('newSharePhone');
+      if (!cb) return;
+      cb.disabled = phoneVal.length === 0;
+      if (phoneVal.length === 0) cb.checked = false;
+    }
 
     const PLACEHOLDER_OFFERS = {
       NL: [
         {
-          id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', housingKind: 'garden', housingDeal: 'sell',
-          condition: 'used', title: 'Ogródek działkowy z altaną — Rotterdam Zuid',
+          id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
+          title: 'Ogródek działkowy z altaną — Rotterdam Zuid',
           desc: 'Oferta startowa — ogródek działkowy z altaną i nasadzeniami w Rotterdam Zuid.',
-          city: 'Rotterdam', price: 3200, shippingCode: 'pickup',
+          city: 'Rotterdam', price: 3200,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 120,
-          sellerName: 'PlacoMarkt Start', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Start', stars: 5 }], phone: ''
+          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         },
         {
-          id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', vehicleKind: 'scooter', vehicleBrand: 'La Souris',
-          condition: 'used', title: 'Skuter miejski — dojazdy po mieście',
+          id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used',
+          title: 'Skuter miejski — dojazdy po mieście',
           desc: 'Oferta startowa — skuter miejski do codziennych dojazdów.',
-          city: 'Rotterdam', price: 890, shippingCode: 'pickup',
+          city: 'Rotterdam', price: 890,
           photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
           icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 98,
-          sellerName: 'PlacoMarkt Start', sellerVerified: true, sellerRating: 4.9, sellerReviews: [{ author: 'Start', stars: 5 }], phone: ''
+          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         },
         {
-          id: 9003, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'new',
-          title: 'Zestaw spinningowy — wędka i kołowrotek',
-          desc: 'Oferta startowa — sprzęt wędkarski na wody stojące i rzeki.',
-          city: 'Rotterdam', price: 85, shippingCode: 'post',
-          photos: ['https://images.unsplash.com/photo-1504472478235-9bc48ba4d60f?auto=format&fit=crop&w=800&q=75'],
-          icon: '🎣', top: false, hasSubscription: false, urgent: true, hidden: false, views: 76,
-          sellerName: 'PlacoMarkt Start', sellerVerified: true, sellerRating: 4.8, sellerReviews: [{ author: 'Start', stars: 5 }], phone: ''
+          id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
+          title: 'Głośniki przenośne i sprzęt audio',
+          desc: 'Oferta startowa — głośniki, wzmacniacze i sprzęt audio do domu i w plener.',
+          city: 'Rotterdam', price: 145,
+          photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
+          icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 76,
+          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false
         }
       ],
       PL: [
         {
-          id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', housingKind: 'garden', housingDeal: 'sell',
-          condition: 'used', title: 'Ogródek działkowy ROD z altaną — Katowice',
+          id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used',
+          title: 'Ogródek działkowy ROD z altaną — Katowice',
           desc: 'Oferta startowa — ogródek działkowy ROD z altaną i terenem zielonym.',
-          city: 'Katowice', price: 24500, shippingCode: 'pickup',
+          city: 'Katowice', price: 24500,
           photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'],
           icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 110,
-          sellerName: 'PlacoMarkt Start', sellerVerified: true, sellerRating: 5.0, sellerReviews: [{ author: 'Start', stars: 5 }], phone: ''
+          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false
         },
         {
-          id: 9102, isPlaceholder: true, type: 'sale', category: 'auto', vehicleKind: 'moto', vehicleBrand: 'Yamaha',
-          condition: 'used', title: 'Motocykl turystyczny — trasy i miasto',
-          desc: 'Oferta startowa — motocykl do jazdy miejskiej i wycieczek.',
-          city: 'Katowice', price: 23900, shippingCode: 'pickup',
-          photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'],
-          icon: '🏍️', top: true, hasSubscription: false, urgent: false, hidden: false, views: 88,
-          sellerName: 'PlacoMarkt Start', sellerVerified: true, sellerRating: 4.9, sellerReviews: [{ author: 'Start', stars: 5 }], phone: ''
+          id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new',
+          title: 'Głośniki i sprzęt audio — Czeladź / Śląsk',
+          desc: 'Oferta startowa — głośniki oraz sprzęt audio.',
+          city: 'Czeladź', price: 420,
+          photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'],
+          icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 88,
+          sellerName: 'DJ Mario', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false
         }
       ]
     };
@@ -1270,12 +994,7 @@
     } catch (e) {}
 
     let activePromoAds = [
-      {
-        id: 1,
-        tag: 'Reklama startowa',
-        title: 'Wystaw swoje ogłoszenie za darmo',
-        desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.'
-      }
+      { id: 1, tag: 'Reklama startowa', title: 'Wystaw swoje ogłoszenie za darmo', desc: 'Dodaj ofertę i dotrzyj do odbiorców w NL i PL.' }
     ];
     try {
       const savedAds = JSON.parse(localStorage.getItem('placomarkt_active_ads') || 'null');
@@ -1294,15 +1013,7 @@
       if (Array.isArray(savedMsgs)) adminMessages = savedMsgs;
     } catch (e) {}
 
-    let userPrefs = {
-      darkMode: false,
-      defaultCityNL: '',
-      defaultCityPL: '',
-      phoneVisibility: 'click',
-      antiPhishing: true,
-      bidAlerts: true,
-      layoutView: 'grid'
-    };
+    let userPrefs = { darkMode: false, defaultCityNL: '', defaultCityPL: '', layoutView: 'grid' };
     try {
       const savedPrefs = JSON.parse(localStorage.getItem('placomarkt_prefs') || 'null');
       if (savedPrefs) userPrefs = { ...userPrefs, ...savedPrefs };
@@ -1346,8 +1057,8 @@
     ];
 
     const COUNTRY_CONFIG = {
-      NL: { domain: '.nl', iso: 'nl', currency: '€', areaLabel: 'Cała Holandia', promoPrices: { std: '0,00 €', urgent: '0,00 €', top: '0,00 €', premiumMonth: '0,00 €' } },
-      PL: { domain: '.pl', iso: 'pl', currency: 'zł', areaLabel: 'Cała Polska', promoPrices: { std: '0,00 zł', urgent: '0,00 zł', top: '0,00 zł', premiumMonth: '0,00 zł' } }
+      NL: { domain: '.nl', iso: 'nl', currency: '€', areaLabel: 'Cała Holandia' },
+      PL: { domain: '.pl', iso: 'pl', currency: 'zł', areaLabel: 'Cała Polska' }
     };
 
     let listingsData = { NL: [], PL: [] };
@@ -1370,10 +1081,9 @@
 
     let registeredUsers = [
       {
-        id: 'admin-1', name: 'Admin PlacoMarkt', email: ADMIN_EMAIL,
-        password: 'admin', phone: '', birthDate: '1990-01-01', country: 'NL', isPremium: true,
-        premiumUntil: '∞', isAdmin: true, twoFactorEnabled: false, passkeyEnabled: false,
-        bannedUntil: null, banReason: ''
+        id: 'admin-1', name: 'Admin', email: ADMIN_EMAIL,
+        password: 'admin', phone: '', country: 'NL', isPremium: true,
+        isAdmin: true, bannedUntil: null, banReason: ''
       }
     ];
     try {
@@ -1401,48 +1111,28 @@
 
     function analyzeListingHarm(item) {
       const reasons = [];
-      const text = `${item.title || ''} ${item.desc || ''}`.toLowerCase();
-      const fakeWords = ['replika', '1:1', 'podróbka', 'podrobka', 'imitacja', 'fake', 'kopia', 'tester bez korka', 'bez pudełka', 'outlet bez'];
-      const badWords = ['kurw', 'chuj', 'pierdol', 'spierdal', 'szmata', 'oszust', 'wyłudzenie'];
+      const text = normalizeText(`${item.title || ''} ${item.desc || ''}`);
+      const fakeWords = ['replika', '1:1', 'podrobka', 'imitacja', 'fake', 'kopia', 'tester bez korka', 'bez pudelka'];
+      const badWords = ['kurw', 'chuj', 'pierdol', 'spierdal', 'szmata', 'oszust', 'wyludzenie'];
 
-      if (fakeWords.some(w => text.includes(w))) {
-        reasons.push('Wykryto słowa powiązane z podróbkami / replikami / brakiem opakowania');
-      }
-      if (badWords.some(w => text.includes(w))) {
-        reasons.push('Wykryto wulgaryzmy lub ostre określenia w treści');
-      }
-      if (!item.photos || item.photos.length === 0) {
-        reasons.push('Brak dodanego zdjęcia przedmiotu');
-      }
-      if (item.category === 'cosmetics' && item.price > 0 && item.price < 15) {
-        reasons.push('Bardzo niska cena w kategorii Kosmetyki i Perfumy — sprawdź autentyczność');
-      }
-      if (item.category === 'auto' && item.price > 0 && item.price < 200) {
-        reasons.push('Bardzo niska cena w kategorii Auta, Motory i Skutery');
-      }
+      if (fakeWords.some(w => text.includes(w))) reasons.push('Wykryto słowa powiązane z podróbkami / replikami / brakiem opakowania');
+      if (badWords.some(w => text.includes(w))) reasons.push('Wykryto wulgaryzmy lub ostre określenia w treści');
+      if (!item.photos || item.photos.length === 0) reasons.push('Brak dodanego zdjęcia przedmiotu');
+      if (item.category === 'cosmetics' && item.price > 0 && item.price < 15) reasons.push('Bardzo niska cena w kategorii Kosmetyki i Perfumy');
+      if (item.category === 'auto' && item.price > 0 && item.price < 200) reasons.push('Bardzo niska cena w kategorii Auta, Motory i Skutery');
       return reasons;
     }
 
     function getSellerTrustPercent(item) {
       const rating = Number(item.sellerRating || 5.0);
-      const count = Array.isArray(item.sellerReviews) ? item.sellerReviews.length : 0;
-      const pct = Math.min(100, Math.max(0, Math.round((rating / 5) * 100)));
-      return count === 0 && !item.sellerVerified ? Math.min(85, pct) : pct;
+      return Math.min(100, Math.max(0, Math.round((rating / 5) * 100)));
     }
 
     function getHonestyBadgeHtml(pct, pirateFlag) {
-      if (pirateFlag) {
-        return `<span class="badge badge-pirate">🏴‍☠️ FLAGA PIRATA</span>`;
-      }
-      if (pct >= 95) {
-        return `<span class="honesty-icon-badge">🛡️⭐ Super Uczciwy (${pct}%)</span>`;
-      }
-      if (pct >= 85) {
-        return `<span class="trust-pct-pill trust-high">✅ Rzetelny (${pct}%)</span>`;
-      }
-      if (pct >= 70) {
-        return `<span class="trust-pct-pill trust-mid">⭐ ${pct}%</span>`;
-      }
+      if (pirateFlag) return `<span class="badge badge-pirate">🏴‍☠️ FLAGA PIRATA</span>`;
+      if (pct >= 95) return `<span class="honesty-icon-badge">🛡️⭐ Super Uczciwy (${pct}%)</span>`;
+      if (pct >= 85) return `<span class="trust-pct-pill trust-high">✅ Rzetelny (${pct}%)</span>`;
+      if (pct >= 70) return `<span class="trust-pct-pill trust-mid">⭐ ${pct}%</span>`;
       return `<span class="trust-pct-pill trust-low">⚠️ ${pct}%</span>`;
     }
 
@@ -1454,14 +1144,14 @@
     }
 
     function mapOgloszenieRowToUi(row) {
-      const rawCat = (row.kategoria || 'other').toLowerCase();
+      const rawCat = normalizeText(row.kategoria || 'other');
       const matchedCat = CATEGORIES_LIST.find(c =>
         c.id === rawCat ||
         (rawCat.includes('auto') || rawCat.includes('motoryz') ? c.id === 'auto' : false) ||
-        (rawCat.includes('wędk') || rawCat.includes('wedk') ? c.id === 'fishing' : false) ||
-        (rawCat.includes('elektron') || rawCat.includes('audio') ? c.id === 'electronics' : false) ||
-        (rawCat.includes('ogród') || rawCat.includes('volkstuin') || rawCat.includes('nieruch') ? c.id === 'housing' : false) ||
-        (rawCat.includes('wakac') || rawCat.includes('podró') ? c.id === 'travel' : false)
+        (rawCat.includes('wedk') ? c.id === 'fishing' : false) ||
+        (rawCat.includes('elektron') || rawCat.includes('audio') || rawCat.includes('glosn') ? c.id === 'electronics' : false) ||
+        (rawCat.includes('ogrod') || rawCat.includes('volkstuin') || rawCat.includes('nieruch') ? c.id === 'housing' : false) ||
+        (rawCat.includes('wakac') || rawCat.includes('podro') ? c.id === 'travel' : false)
       );
       const catId = matchedCat ? matchedCat.id : 'other';
       const numericPrice = parsePriceNumber(row.cena);
@@ -1479,7 +1169,6 @@
         title: row.tytul || 'Ogłoszenie',
         city: row.miejscowosc || COUNTRY_CONFIG[rowCountry].areaLabel,
         price: numericPrice,
-        shippingCode: 'pickup',
         icon: matchedCat ? matchedCat.icon : '📦',
         photos,
         top: false,
@@ -1488,11 +1177,11 @@
         pirateFlag: false,
         hidden: false,
         views: 1,
-        sellerName: 'Użytkownik PlacoMarkt',
+        sellerName: 'Użytkownik',
         sellerVerified: true,
         sellerRating: 5.0,
-        sellerReviews: [],
         phone: '',
+        sharePhone: false,
         desc: row.opis || ''
       };
     }
@@ -1534,7 +1223,7 @@
             const idx = registeredUsers.findIndex(u => (u.email || '').toLowerCase() === p.email.toLowerCase());
             const mapped = {
               id: p.id,
-              name: p.name || p.email.split('@')[0],
+              name: getFirstNameOrNick(p.name, p.email),
               email: p.email,
               country: p.country || 'NL',
               isAdmin: Boolean(p.is_admin || ADMIN_EMAILS.includes(p.email.toLowerCase())),
@@ -1567,18 +1256,17 @@
     function applySupabaseAuthUser(sbUser) {
       if (!sbUser) return;
       const email = (sbUser.email || '').toLowerCase();
-      const metaName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || email.split('@')[0] || 'Użytkownik';
+      const rawName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '';
+      const shortName = getFirstNameOrNick(rawName, email);
       const existing = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
       currentUser = {
         id: sbUser.id,
-        name: existing?.name || metaName,
+        name: existing?.name ? getFirstNameOrNick(existing.name, email) : shortName,
         email,
         phone: existing?.phone || '',
         country: existing?.country || currentCountry,
         isPremium: Boolean(existing?.isPremium || ADMIN_EMAILS.includes(email)),
-        premiumUntil: existing?.premiumUntil || (ADMIN_EMAILS.includes(email) ? '∞' : null),
-        isAdmin: Boolean(existing?.isAdmin || ADMIN_EMAILS.includes(email)),
-        twoFactorEnabled: Boolean(existing?.twoFactorEnabled)
+        isAdmin: Boolean(existing?.isAdmin || ADMIN_EMAILS.includes(email))
       };
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       if (sb) {
@@ -1597,7 +1285,7 @@
       const lbl = document.getElementById('navAccountLabel');
       const admBtn = document.getElementById('navAdminBtn');
       const isAdmin = Boolean(currentUser && (currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase())));
-      if (lbl) lbl.textContent = currentUser ? currentUser.name.split(' ')[0] : 'Konto';
+      if (lbl) lbl.textContent = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Konto';
       if (admBtn) admBtn.style.display = isAdmin ? 'inline-flex' : 'none';
       const dot = document.getElementById('adminReportBadge');
       if (dot) {
@@ -1612,7 +1300,10 @@
     async function initApp() {
       try {
         const savedUser = JSON.parse(localStorage.getItem('placomarkt_user') || 'null');
-        if (savedUser) currentUser = savedUser;
+        if (savedUser) {
+          savedUser.name = getFirstNameOrNick(savedUser.name, savedUser.email);
+          currentUser = savedUser;
+        }
       } catch (e) {}
 
       listingsData.NL = showPlaceholderOffers ? [...PLACEHOLDER_OFFERS.NL] : [];
@@ -1712,10 +1403,6 @@
         </button>`
       ).join('');
 
-      document.getElementById('housingFilterBar').classList.toggle('open', currentCategory === 'housing');
-      document.getElementById('autoFilterBar').classList.toggle('open', currentCategory === 'auto');
-      document.getElementById('travelFilterBar').classList.toggle('open', currentCategory === 'travel');
-
       document.getElementById('breadcrumbBar').innerHTML = `
         <span class="crumb-link" onclick="resetFilters()">PlacoMarkt${cfg.domain}</span>
         <span>›</span>
@@ -1742,6 +1429,7 @@
       const isFav = favoriteIds.includes(item.id);
       const hasPhoto = item.photos && item.photos.length > 0;
       const mediaHtml = hasPhoto ? `<img src="${item.photos[0]}" alt="${item.title}" />` : item.icon;
+      const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
 
       return `
         <div class="card ${item.top || isSubCard ? 'top-offer' : ''}" onclick="openDetail(${item.id})">
@@ -1766,7 +1454,7 @@
               <div class="card-title">${item.title}</div>
               <div class="card-meta"><span>📍 ${item.city}</span><span>👁️ ${item.views || 1}</span></div>
               <div class="seller-mini-tag">
-                <span>${item.sellerVerified ? '✅' : '👤'} ${item.sellerName || 'PlacoMarkt'}</span>
+                <span>👤 ${displayNick}</span>
                 ${getHonestyBadgeHtml(pct, Boolean(item.pirateFlag))}
               </div>
               ${item.pirateFlag ? `<div class="pirate-warning-box">🏴‍☠️ Flaga Pirata — uwaga na ryzyko nieoryginalnego przedmiotu</div>` : ''}
@@ -1780,9 +1468,18 @@
       `;
     }
 
+    function searchAndShowAll() {
+      const qVal = document.getElementById('searchInput').value.trim();
+      if (qVal && currentCategory !== 'all') {
+        currentCategory = 'all';
+        document.getElementById('searchCatSelect').value = 'all';
+      }
+      renderListings();
+    }
+
     function renderListings() {
-      const q = document.getElementById('searchInput').value.toLowerCase().trim();
-      const city = document.getElementById('cityInput').value.trim().toLowerCase();
+      const qNorm = normalizeText(document.getElementById('searchInput').value);
+      const cityNorm = normalizeText(document.getElementById('cityInput').value);
       const cond = document.getElementById('filterCondition').value;
       const minP = Number(document.getElementById('filterMinPrice').value || 0);
       const maxP = Number(document.getElementById('filterMaxPrice').value || 0);
@@ -1792,14 +1489,15 @@
         if (item.hidden) return false;
         if (currentMode === 'favorites' && !favoriteIds.includes(item.id)) return false;
         if (currentMode !== 'all' && currentMode !== 'favorites' && item.type !== currentMode) return false;
-        if (currentCategory !== 'all' && item.category !== currentCategory) return false;
-        if (city && !item.fromSupabaseOgloszenia && !(item.city || '').toLowerCase().includes(city)) return false;
+        if (!qNorm && currentCategory !== 'all' && item.category !== currentCategory) return false;
+        if (cityNorm && !item.fromSupabaseOgloszenia && !normalizeText(item.city).includes(cityNorm)) return false;
         if (cond !== 'all' && item.condition !== cond) return false;
         if (minP > 0 && item.price < minP) return false;
         if (maxP > 0 && item.price > maxP) return false;
-        if (q) {
-          const hay = `${item.title || ''} ${item.desc || ''} ${item.city || ''} ${item.sellerName || ''}`.toLowerCase();
-          if (!q.split(/\s+/).every(w => hay.includes(w))) return false;
+        if (qNorm) {
+          const hay = normalizeText(`${item.title || ''} ${item.desc || ''} ${item.city || ''} ${item.category || ''} ${item.sellerName || ''}`);
+          const words = qNorm.split(/\s+/).filter(Boolean);
+          if (!words.every(w => hay.includes(w))) return false;
         }
         return true;
       });
@@ -1829,6 +1527,8 @@
       item.views = (item.views || 0) + 1;
       const pct = getSellerTrustPercent(item);
       const hasPhoto = item.photos && item.photos.length > 0;
+      const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
+      const hasSharedPhone = Boolean(item.sharePhone && item.phone && String(item.phone).trim().length > 0);
 
       document.getElementById('detailContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('detailModal')">×</button>
@@ -1839,29 +1539,60 @@
         <p style="line-height:1.55;margin:10px 0">${item.desc}</p>
         <div class="seller-card-box">
           <div>
-            <strong>${item.sellerName || 'PlacoMarkt'}</strong>
+            <strong>👤 ${displayNick}</strong>
             <div style="margin-top:4px">${getHonestyBadgeHtml(pct, Boolean(item.pirateFlag))}</div>
           </div>
-          <button type="button" class="mini-btn gold" onclick="rateSeller(${item.id})">⭐ Oceń sprzedawcę</button>
+          <button type="button" class="mini-btn gold" onclick="rateSeller(${item.id})">⭐ Oceń</button>
         </div>
         <div class="detail-actions">
-          <button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='📞 '+(item.phone||'Brak numeru')">📞 Pokaż numer</button>
-          <button type="button" class="btn-action btn-chat" onclick="sendHelpMessage('Oferta: ${item.title.replace(/'/g, '')}')">💬 Napisz do admina</button>
+          ${hasSharedPhone
+            ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='📞 ${String(item.phone).replace(/'/g, '')}'">📞 Pokaż numer</button>`
+            : ``}
+          <button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${displayNick}', '${String(item.title).replace(/'/g, '')}')">💬 Wiadomość</button>
+          <button type="button" class="btn-action btn-share" onclick="shareOfferLink(${item.id}, '${String(item.title).replace(/'/g, '')}')">🔗 Udostępnij</button>
         </div>
       `;
       document.getElementById('detailModal').classList.add('open');
       renderListings();
     }
 
+    function openDirectMessagePrompt(nick, title) {
+      const txt = prompt(`Wiadomość do użytkownika ${nick} (dot. oferty: ${title}):`);
+      if (!txt || !txt.trim()) return;
+      const msg = {
+        id: Date.now(),
+        od_email: currentUser?.email || 'użytkownik',
+        od_nazwa: getFirstNameOrNick(currentUser?.name, currentUser?.email),
+        typ: 'wiadomosc',
+        temat: `Wiadomość dot. "${title}" (do: ${nick})`,
+        tresc: txt.trim(),
+        created_at: new Date().toISOString()
+      };
+      adminMessages.unshift(msg);
+      if (sb) sb.from('wiadomosci_admin').insert([msg]).catch(() => {});
+      updateAccountButton();
+      alert('Wiadomość została wysłana.');
+    }
+
+    function shareOfferLink(id, title) {
+      const url = `${window.location.origin}${window.location.pathname}?oferta=${id}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).catch(() => {});
+      }
+      if (navigator.share) {
+        navigator.share({ title, url }).catch(() => {});
+      } else {
+        alert('Skopiowano link do ogłoszenia: ' + url);
+      }
+    }
+
     function rateSeller(id) {
       const item = (listingsData[currentCountry] || []).find(x => x.id === id);
       if (!item) return;
-      const val = prompt('Ocena sprzedającego (1 - 5):', '5');
+      const val = prompt('Ocena (1 - 5):', '5');
       if (!val) return;
       const stars = Math.min(5, Math.max(1, Number(val) || 5));
-      item.sellerReviews = item.sellerReviews || [];
-      item.sellerReviews.unshift({ stars });
-      item.sellerRating = item.sellerReviews.reduce((s, r) => s + r.stars, 0) / item.sellerReviews.length;
+      item.sellerRating = stars;
       openDetail(id);
     }
 
@@ -1908,6 +1639,9 @@
           document.getElementById('newPrice').value = existing.price || 0;
           document.getElementById('newDesc').value = existing.desc || '';
           document.getElementById('newHasSubscription').checked = Boolean(existing.hasSubscription);
+          document.getElementById('newPhone').value = existing.phone || '';
+          document.getElementById('newSharePhone').checked = Boolean(existing.sharePhone && existing.phone);
+          toggleSharePhoneCheckbox();
           document.getElementById('addModal').classList.add('open');
           return;
         }
@@ -1915,18 +1649,12 @@
 
       document.getElementById('addModalTitle').textContent = '+ Dodaj ogłoszenie';
       document.getElementById('submitOfferBtn').textContent = 'Dodaj ogłoszenie';
+      document.getElementById('newPhone').value = '';
+      document.getElementById('newSharePhone').checked = false;
+      toggleSharePhoneCheckbox();
       document.getElementById('newHasSubscription').checked = Boolean(currentUser && currentUser.isPremium);
       toggleAddFields();
-      toggleCategorySubFields();
       document.getElementById('addModal').classList.add('open');
-    }
-
-    function toggleCategorySubFields() {
-      const cat = document.getElementById('newCategory').value;
-      document.getElementById('autoFieldsBox').style.display = cat === 'auto' ? 'block' : 'none';
-      document.getElementById('housingFieldsBox').style.display = cat === 'housing' ? 'block' : 'none';
-      document.getElementById('travelFieldsBox').style.display = cat === 'travel' ? 'block' : 'none';
-      document.getElementById('shippingGroup').style.display = cat === 'travel' ? 'none' : 'block';
     }
 
     function toggleAddFields() {
@@ -1934,7 +1662,6 @@
       document.getElementById('priceGroup').style.display = type === 'free' ? 'none' : 'block';
       document.getElementById('reservePriceGroup').style.display = type === 'auction' ? 'block' : 'none';
       document.getElementById('buyNowGroup').style.display = type === 'auction' ? 'block' : 'none';
-      toggleCategorySubFields();
     }
 
     function selectPromo(tier) {
@@ -1962,8 +1689,11 @@
       const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
       const desc = document.getElementById('newDesc').value.trim();
       const hasSubscription = document.getElementById('newHasSubscription').checked;
+      const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
+      const sharePhoneVal = Boolean(phoneVal && document.getElementById('newSharePhone')?.checked);
       const cur = COUNTRY_CONFIG[currentCountry].currency;
       const cenaText = type === 'free' ? '0' : `${price} ${cur}`;
+      const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik';
 
       let uploadedUrl = null;
       if (sb && uploadedPhotoFilesTemp.length > 0) {
@@ -1981,6 +1711,8 @@
           arr[idx].price = price;
           arr[idx].desc = desc;
           arr[idx].hasSubscription = hasSubscription;
+          arr[idx].phone = phoneVal;
+          arr[idx].sharePhone = sharePhoneVal;
           if (photosFinal.length) arr[idx].photos = photosFinal;
           if (sb && arr[idx].fromSupabaseOgloszenia) {
             await sb.from(SUPABASE_TABLE_OGLOSZENIA).update({
@@ -2035,11 +1767,11 @@
         pirateFlag: false,
         hidden: false,
         views: 1,
-        sellerName: currentUser ? currentUser.name : 'Użytkownik PlacoMarkt',
+        sellerName: nickName,
         sellerVerified: true,
         sellerRating: 5.0,
-        sellerReviews: [],
-        phone: currentUser?.phone || '',
+        phone: phoneVal,
+        sharePhone: sharePhoneVal,
         desc
       };
 
@@ -2051,21 +1783,20 @@
         const alertMsg = {
           id: Date.now() + 1,
           od_email: currentUser?.email || 'gość',
-          od_nazwa: newItem.sellerName,
+          od_nazwa: nickName,
           typ: 'szkodliwosc',
           temat: `Powiadomienie o możliwej szkodliwości: ${newItem.title}`,
           tresc: harmReasons.join(' | ') + ` (ID oferty: ${newItem.id})`,
           created_at: new Date().toISOString()
         };
         adminMessages.unshift(alertMsg);
-        if (sb) {
-          sb.from('wiadomosci_admin').insert([alertMsg]).catch(() => {});
-        }
+        if (sb) sb.from('wiadomosci_admin').insert([alertMsg]).catch(() => {});
         updateAccountButton();
       }
 
       closeModal('addModal');
       e.target.reset();
+      toggleSharePhoneCheckbox();
       renderCountryUI();
       if (sb) await syncFromSupabase();
     }
@@ -2095,6 +1826,7 @@
         return;
       }
 
+      const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
       const isMine = i => (currentUser.id && i.ownerId === currentUser.id) || (currentUser.email && i.ownerEmail === currentUser.email);
       const myAds = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isMine).map(x => ({ ...x, c })));
       const isAdmin = Boolean(currentUser.isAdmin || ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
@@ -2130,6 +1862,14 @@
         `;
       } else {
         rightHtml = `
+          <div class="set-section">
+            <h4>👤 Imię lub ksywka (bez nazwiska)</h4>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input type="text" id="nickInputField" value="${displayNick}" placeholder="Wpisz imię lub ksywkę..." style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
+              <button type="button" class="mini-btn green" onclick="saveNickName()">💾 Zapisz ksywkę</button>
+            </div>
+          </div>
+
           <div class="twofa-box">
             <h4 style="margin-bottom:8px">🔐 Zmień hasło</h4>
             <form onsubmit="handleChangePasswordDirect(event)" style="display:flex;gap:8px;flex-wrap:wrap">
@@ -2163,11 +1903,11 @@
         <div class="hub-shell">
           <div class="hub-sidebar">
             <div>
-              <div style="font-weight:800;font-size:14px">${currentUser.name}</div>
+              <div style="font-weight:800;font-size:14px">👤 ${displayNick}</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">🛒 ZAKUPY</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">🏷️ SPRZEDAŻ (Podgląd / Edytuj)</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 KONTO (Zmień hasło / Pomoc / Reklama)</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">👤 KONTO (Ksywka / Hasło / Pomoc)</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">🛡️ Panel Admin</button>` : ''}
             </div>
             <button type="button" class="mini-btn red" style="width:100%" onclick="logoutUser()">Wyloguj się</button>
@@ -2184,6 +1924,19 @@
       `;
     }
 
+    function saveNickName() {
+      const val = getFirstNameOrNick(document.getElementById('nickInputField')?.value, currentUser?.email);
+      if (!currentUser) return;
+      currentUser.name = val;
+      try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
+      if (sb && currentUser.email) {
+        sb.from('profiles').update({ name: val }).eq('email', currentUser.email).catch(() => {});
+      }
+      updateAccountButton();
+      renderAccountModal();
+      alert('Zapisano imię / ksywkę: ' + val);
+    }
+
     function handleAdPhotoPick(ev) {
       const f = ev.target.files?.[0];
       if (!f) { uploadedAdPhotoDataUrl = ''; return; }
@@ -2194,6 +1947,7 @@
 
     async function submitHelpOrAdForm(ev, kind) {
       if (ev) ev.preventDefault();
+      const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik';
       if (kind === 'pomoc') {
         const temat = document.getElementById('helpSubject')?.value?.trim() || 'Wiadomość';
         const tresc = document.getElementById('helpBody')?.value?.trim() || '';
@@ -2201,7 +1955,7 @@
         const msg = {
           id: Date.now(),
           od_email: currentUser?.email || 'użytkownik',
-          od_nazwa: currentUser?.name || 'Użytkownik',
+          od_nazwa: nickName,
           typ: 'pomoc',
           temat,
           tresc,
@@ -2209,9 +1963,8 @@
         };
         adminMessages.unshift(msg);
         if (sb) sb.from('wiadomosci_admin').insert([msg]).catch(() => {});
-        window.open(`mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent('[PlacoMarkt] ' + temat)}&body=${encodeURIComponent(tresc)}`, '_blank');
         updateAccountButton();
-        alert('Wysłano wiadomość do Admina oraz przygotowano kopię e-mail na ' + ADMIN_EMAIL);
+        alert('Wysłano wiadomość do Admina.');
       } else {
         const tytul = document.getElementById('adSubTitle')?.value?.trim() || 'Reklama';
         const opis = document.getElementById('adSubDesc')?.value?.trim() || '';
@@ -2228,18 +1981,15 @@
         adSubmissions.unshift(sub);
         uploadedAdPhotoDataUrl = '';
         if (sb) sb.from('reklamy_zgloszenia').insert([sub]).catch(() => {});
-        window.open(`mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent('[PlacoMarkt Reklama] ' + tytul)}&body=${encodeURIComponent(opis)}`, '_blank');
         updateAccountButton();
-        alert('Zgłoszenie reklamy (wraz ze zdjęciem, jeśli dodano) wysłane do Admina!');
+        alert('Zgłoszenie reklamy wysłane do Admina.');
       }
     }
 
     async function handleChangePasswordDirect(e) {
       e.preventDefault();
       const pass = document.getElementById('directNewPass').value;
-      if (sb) {
-        await sb.auth.updateUser({ password: pass }).catch(() => {});
-      }
+      if (sb) await sb.auth.updateUser({ password: pass }).catch(() => {});
       alert('Hasło zostało zmienione.');
       document.getElementById('directNewPass').value = '';
     }
@@ -2263,6 +2013,7 @@
       }
       const found = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
       if (found) {
+        found.name = getFirstNameOrNick(found.name, found.email);
         currentUser = found;
         try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
         updateAccountButton();
@@ -2348,11 +2099,12 @@
           <div class="admin-list">
             ${items.length ? items.map(item => {
               const reasons = analyzeListingHarm(item);
+              const nick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
               return `
                 <div class="admin-row">
                   <div style="flex:1;min-width:240px">
                     <strong>${item.icon} ${item.title}</strong>
-                    <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')} • Autor: ${item.ownerEmail || item.sellerName}</div>
+                    <div style="font-size:12px;color:var(--muted)">${item.city} • ${formatPrice(item.price, item.type === 'free')} • Konto: ${nick}</div>
                     ${reasons.length ? `<div class="risk-alert-box">⚠️ <strong>Powiadomienie o możliwej szkodliwości:</strong> ${reasons.join('; ')}</div>` : ''}
                   </div>
                   <div class="admin-row-actions">
@@ -2370,10 +2122,11 @@
           <div class="admin-list">
             ${registeredUsers.map(u => {
               const activeBan = isUserBanned(u.email);
+              const nick = getFirstNameOrNick(u.name, u.email);
               return `
                 <div class="admin-row ${activeBan ? 'blocked-row' : ''}">
                   <div>
-                    <strong>${u.name}</strong> <span style="font-size:12px;color:var(--muted)">(${u.email})</span>
+                    <strong>👤 ${nick}</strong> <span style="font-size:12px;color:var(--muted)">(${u.email})</span>
                     ${activeBan ? `<div style="font-size:12px;color:var(--red);font-weight:700">⏳ Zbanowany do: ${new Date(activeBan.bannedUntil).toLocaleString('pl-PL')}</div>` : ''}
                   </div>
                   <div class="admin-row-actions">
@@ -2419,7 +2172,7 @@
             ${adminMessages.length ? adminMessages.map(m => `
               <div class="admin-row">
                 <div>
-                  <strong>${m.temat}</strong> <span style="font-size:12px;color:var(--muted)">od: ${m.od_email}</span>
+                  <strong>${m.temat}</strong> <span style="font-size:12px;color:var(--muted)">od: ${getFirstNameOrNick(m.od_nazwa, m.od_email)} (${m.od_email})</span>
                   <div style="font-size:12px;margin-top:4px">${m.tresc}</div>
                 </div>
                 <button type="button" class="mini-btn red" onclick="adminDeleteMessage(${m.id})">🗑️ Usuń</button>
@@ -2457,9 +2210,7 @@
       const untilIso = new Date(Date.now() + hours * 3600000).toISOString();
       u.bannedUntil = untilIso;
       saveUsersDb();
-      if (sb) {
-        await sb.from('profiles').update({ banned_until: untilIso }).eq('email', email).catch(() => {});
-      }
+      if (sb) await sb.from('profiles').update({ banned_until: untilIso }).eq('email', email).catch(() => {});
       renderAdminPanel();
     }
 
@@ -2468,9 +2219,7 @@
       if (!u) return;
       u.bannedUntil = null;
       saveUsersDb();
-      if (sb) {
-        await sb.from('profiles').update({ banned_until: null }).eq('email', email).catch(() => {});
-      }
+      if (sb) await sb.from('profiles').update({ banned_until: null }).eq('email', email).catch(() => {});
       renderAdminPanel();
     }
 
@@ -2539,10 +2288,11 @@
 
     function setMode(m) { currentMode = m; renderCountryUI(); }
     function selectCategoryFromSearch(c) { currentCategory = c; renderCountryUI(); }
-    function quickSearch(t) { document.getElementById('searchInput').value = t; renderListings(); }
-    function resetHousingFilters() { renderListings(); }
-    function resetAutoFilters() { renderListings(); }
-    function resetTravelFilters() { renderListings(); }
+    function quickSearch(t) {
+      currentCategory = 'all';
+      document.getElementById('searchInput').value = t;
+      renderCountryUI();
+    }
     function resetFilters() {
       currentMode = 'all'; currentCategory = 'all';
       document.getElementById('searchInput').value = '';
