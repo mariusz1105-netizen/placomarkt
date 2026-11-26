@@ -236,6 +236,38 @@
       border: 1px solid #fca5a5;
     }
 
+    .offer-progress-banner {
+      display: none;
+      margin-bottom: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 2px solid var(--accent);
+      box-shadow: 0 6px 18px rgba(249,115,22,0.16);
+    }
+    .offer-progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .offer-progress-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--soft-bg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .offer-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f97316, #16a34a);
+      transition: width 0.25s ease;
+    }
+
     .promo-ads-zone {
       display: grid;
       grid-template-columns: 1.7fr 1fr;
@@ -525,7 +557,7 @@
       background: var(--input-bg); color: var(--text); border-radius: 8px; font-size: 14px;
     }
     .photo-preview-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    .photo-preview-strip img { width: 68px; height: 54px; object-fit: cover; border-radius: 7px; border: 1px solid var(--border); }
+    .photo-preview-strip img { width: 78px; height: 60px; object-fit: cover; border-radius: 7px; border: 1px solid var(--border); }
 
     .promo-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 6px; }
     .promo-card { border: 2px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; background: var(--soft-bg); }
@@ -631,6 +663,16 @@
   <main class="container">
     <div class="main-column">
       <div class="status-banner" id="dbStatusBanner"></div>
+
+      <div class="offer-progress-banner" id="offerProgressBanner">
+        <div class="offer-progress-top">
+          <span id="offerProgressLabel">Ładowanie oferty...</span>
+          <span id="offerProgressPercent">0%</span>
+        </div>
+        <div class="offer-progress-track">
+          <div class="offer-progress-fill" id="offerProgressFill"></div>
+        </div>
+      </div>
 
       <section class="promo-ads-zone" id="promoAdsZone" aria-label="Promocje i reklamy">
         <div class="bf-banner">
@@ -762,7 +804,7 @@
           <input type="text" id="newTitle" required />
         </div>
         <div class="form-group">
-          <label>Zdjęcia (maks. 4)</label>
+          <label>Zdjęcia (maks. 4 — podgląd przed dodaniem)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
@@ -903,6 +945,27 @@
     const sb = (window.supabase && SUPABASE_URL.startsWith('https://') && SUPABASE_PUBLISHABLE_KEY.length > 20)
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
+
+    let progressHideTimer = null;
+    function setOfferProgress(percent, label = '', autoHideMs = 0) {
+      const banner = document.getElementById('offerProgressBanner');
+      const fill = document.getElementById('offerProgressFill');
+      const lbl = document.getElementById('offerProgressLabel');
+      const pct = document.getElementById('offerProgressPercent');
+      if (!banner || !fill || !lbl || !pct) return;
+      if (progressHideTimer) { clearTimeout(progressHideTimer); progressHideTimer = null; }
+      banner.style.display = 'block';
+      const clamped = Math.max(0, Math.min(100, Number(percent) || 0));
+      fill.style.width = `${clamped}%`;
+      pct.textContent = `${clamped}%`;
+      if (label) lbl.textContent = label;
+      if (autoHideMs > 0) {
+        progressHideTimer = setTimeout(() => {
+          banner.style.display = 'none';
+          fill.style.width = '0%';
+        }, autoHideMs);
+      }
+    }
 
     function setDbStatus(msg = '') {
       const el = document.getElementById('dbStatusBanner');
@@ -1177,12 +1240,15 @@
       const numericPrice = parsePriceNumber(row.cena);
       const photos = row.zdjecie_url ? [row.zdjecie_url] : [];
       const rowCountry = (row.kraj === 'PL' || row.kraj === 'NL') ? row.kraj : currentCountry;
+      const isOwnedByCurrent = myListingIds.includes(String(row.id)) || Boolean(currentUser && ADMIN_EMAILS.includes((currentUser.email || '').toLowerCase()));
 
       return {
         id: row.id,
         country: rowCountry,
         fromSupabaseOgloszenia: true,
         isPlaceholder: false,
+        ownerEmail: isOwnedByCurrent && currentUser ? currentUser.email : null,
+        ownerId: isOwnedByCurrent && currentUser ? currentUser.id : null,
         type: numericPrice === 0 ? 'free' : 'sale',
         category: catId,
         condition: 'na',
@@ -1197,7 +1263,7 @@
         pirateFlag: false,
         hidden: false,
         views: 1,
-        sellerName: 'Użytkownik',
+        sellerName: isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik',
         sellerVerified: true,
         sellerRating: 5.0,
         phone: '',
@@ -1632,17 +1698,31 @@
       renderCountryUI();
     }
 
+    function renderPhotoPreviews() {
+      const strip = document.getElementById('photoPreviewStrip');
+      if (!strip) return;
+      strip.innerHTML = uploadedPhotosTemp.length
+        ? uploadedPhotosTemp.map(src => `<img src="${src}" alt="Podgląd zdjęcia" />`).join('')
+        : '';
+    }
+
     function handlePhotoUpload(ev) {
       const files = Array.from(ev.target.files || []).slice(0, 4);
       uploadedPhotosTemp = [];
       uploadedPhotoFilesTemp = files;
       const strip = document.getElementById('photoPreviewStrip');
       strip.innerHTML = '';
+      if (!files.length) return;
+      setOfferProgress(25, `Wczytywanie podglądu zdjęć (${files.length})...`);
+      let loadedCount = 0;
       files.forEach(file => {
         const reader = new FileReader();
         reader.onload = e => {
           uploadedPhotosTemp.push(e.target.result);
-          strip.innerHTML = uploadedPhotosTemp.map(src => `<img src="${src}" />`).join('');
+          loadedCount += 1;
+          renderPhotoPreviews();
+          const pct = 25 + Math.round((loadedCount / files.length) * 35);
+          setOfferProgress(pct, `Podgląd zdjęć gotowy (${loadedCount}/${files.length})`, loadedCount === files.length ? 1800 : 0);
         };
         reader.readAsDataURL(file);
       });
@@ -1653,6 +1733,7 @@
       editingListingId = editId;
       uploadedPhotosTemp = [];
       uploadedPhotoFilesTemp = [];
+      document.getElementById('newPhotos').value = '';
       document.getElementById('photoPreviewStrip').innerHTML = '';
 
       if (editCountry && editId !== null) {
@@ -1668,6 +1749,8 @@
           document.getElementById('newHasSubscription').checked = Boolean(existing.hasSubscription);
           document.getElementById('newPhone').value = existing.phone || '';
           document.getElementById('newSharePhone').checked = Boolean(existing.sharePhone && existing.phone);
+          uploadedPhotosTemp = Array.isArray(existing.photos) ? [...existing.photos] : [];
+          renderPhotoPreviews();
           toggleSharePhoneCheckbox();
           document.getElementById('addModal').classList.add('open');
           return;
@@ -1709,6 +1792,9 @@
         }
       }
 
+      const isUpdating = Boolean(editingListingCountry && editingListingId !== null);
+      setOfferProgress(20, isUpdating ? 'Aktualizowanie oferty...' : 'Ładowanie oferty...');
+
       const type = document.getElementById('newType').value;
       const title = document.getElementById('newTitle').value.trim();
       const category = document.getElementById('newCategory').value;
@@ -1722,11 +1808,13 @@
 
       let uploadedUrl = null;
       if (sb && uploadedPhotoFilesTemp.length > 0) {
+        setOfferProgress(45, 'Wysyłanie zdjęcia do magazynu...');
         uploadedUrl = await uploadFileToBucket(uploadedPhotoFilesTemp[0]);
       }
       const photosFinal = uploadedUrl ? [uploadedUrl] : [...uploadedPhotosTemp];
+      setOfferProgress(70, isUpdating ? 'Zapisywanie zmian oferty...' : 'Zapisywanie oferty...');
 
-      if (editingListingCountry && editingListingId !== null) {
+      if (isUpdating) {
         const arr = listingsData[editingListingCountry] || [];
         const idx = arr.findIndex(x => String(x.id) === String(editingListingId));
         if (idx >= 0) {
@@ -1739,6 +1827,11 @@
           arr[idx].phone = phoneVal;
           arr[idx].sharePhone = sharePhoneVal;
           if (photosFinal.length) arr[idx].photos = photosFinal;
+          if (currentUser) {
+            arr[idx].ownerEmail = currentUser.email;
+            arr[idx].ownerId = currentUser.id;
+            arr[idx].sellerName = nickName;
+          }
           markAsMyListing(arr[idx].id);
           if (sb && arr[idx].fromSupabaseOgloszenia) {
             await sb.from(SUPABASE_TABLE_OGLOSZENIA).update({
@@ -1755,6 +1848,7 @@
         editingListingId = null;
         closeModal('addModal');
         renderCountryUI();
+        setOfferProgress(100, 'Oferta została zaktualizowana.', 3000);
         return;
       }
 
@@ -1787,7 +1881,7 @@
         isPlaceholder: false,
         createdInSession: true,
         ownerId: currentUser?.id || null,
-        ownerEmail: currentUser?.email || null,
+        ownerEmail: currentUser?.email || ADMIN_EMAIL,
         type,
         category,
         title,
@@ -1830,14 +1924,19 @@
 
       closeModal('addModal');
       e.target.reset();
+      uploadedPhotosTemp = [];
+      uploadedPhotoFilesTemp = [];
+      document.getElementById('photoPreviewStrip').innerHTML = '';
       toggleSharePhoneCheckbox();
       renderCountryUI();
+      setOfferProgress(100, 'Oferta została załadowana i zapisana.', 3000);
       if (sb) await syncFromSupabase();
     }
 
     async function relistMyListing(country, id) {
       const existing = (listingsData[country] || []).find(x => String(x.id) === String(id));
       if (!existing) return;
+      setOfferProgress(25, 'Ponowne ładowanie oferty...');
       const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : (existing.sellerName || 'Użytkownik');
       const photoUrl = existing.photos?.[0] || null;
 
@@ -1859,6 +1958,7 @@
         }
       }
 
+      setOfferProgress(75, 'Zapisywanie ponowionej oferty...');
       const newId = insertedRow ? insertedRow.id : Date.now();
       markAsMyListing(newId);
 
@@ -1869,7 +1969,7 @@
         createdInSession: true,
         fromSupabaseOgloszenia: Boolean(insertedRow),
         ownerId: currentUser?.id || existing.ownerId || null,
-        ownerEmail: currentUser?.email || existing.ownerEmail || null,
+        ownerEmail: currentUser?.email || existing.ownerEmail || ADMIN_EMAIL,
         sellerName: nickName,
         views: 1
       };
@@ -1878,8 +1978,8 @@
       listingsData[country].unshift(relistedItem);
       renderAccountModal();
       renderCountryUI();
+      setOfferProgress(100, 'Ogłoszenie zostało wystawione ponownie.', 3000);
       if (sb) await syncFromSupabase();
-      alert('Ogłoszenie zostało wystawione ponownie.');
     }
 
     function openAccountModal() {
