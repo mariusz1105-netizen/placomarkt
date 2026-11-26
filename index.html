@@ -221,26 +221,20 @@
     }
     .quick-tag:hover { background: #0f172a; border-color: #0f172a; color: #fff; }
 
-    .suggest-box {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-top: 4px;
-      max-height: 220px;
-      overflow-y: auto;
-      z-index: 260;
-      text-align: left;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
-    }
-
     .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
     .main-column { min-width: 0; }
+
+    .status-banner {
+      display: none;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
 
     .promo-ads-zone {
       display: grid;
@@ -614,16 +608,13 @@
     <div class="search-box">
       <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz (np. głośniki, glosniki, skuter)..." oninput="renderListings()" />
       <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
-      <div style="position:relative;flex:1;min-width:175px">
-        <input
-          type="text"
-          id="cityInput"
-          autocomplete="off"
-          placeholder="Miejscowość (od 3 liter)..."
-          oninput="renderListings()"
-        />
-        <div id="citySuggestSearch" class="suggest-box"></div>
-      </div>
+      <input
+        type="text"
+        id="cityInput"
+        autocomplete="off"
+        placeholder="Miejscowość..."
+        oninput="renderListings()"
+      />
       <button type="button" class="search-btn" onclick="searchAndShowAll()">Szukaj</button>
     </div>
     <div class="quick-tags" id="quickTagsBar">
@@ -639,6 +630,8 @@
 
   <main class="container">
     <div class="main-column">
+      <div class="status-banner" id="dbStatusBanner"></div>
+
       <section class="promo-ads-zone" id="promoAdsZone" aria-label="Promocje i reklamy">
         <div class="bf-banner">
           <div>
@@ -910,6 +903,18 @@
     const sb = (window.supabase && SUPABASE_URL.startsWith('https://') && SUPABASE_PUBLISHABLE_KEY.length > 20)
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
+
+    function setDbStatus(msg = '') {
+      const el = document.getElementById('dbStatusBanner');
+      if (!el) return;
+      if (!msg) {
+        el.style.display = 'none';
+        el.textContent = '';
+      } else {
+        el.style.display = 'block';
+        el.textContent = msg;
+      }
+    }
 
     function normalizeText(str) {
       return String(str || '')
@@ -1198,6 +1203,7 @@
 
     async function syncFromSupabase() {
       if (!sb) {
+        setDbStatus('Brak inicjalizacji klienta Supabase w przeglądarce.');
         renderCountryUI();
         return;
       }
@@ -1207,13 +1213,18 @@
           .select('*')
           .order('created_at', { ascending: false });
 
-        if (!error && Array.isArray(rows)) {
-          ['NL', 'PL'].forEach(c => {
-            const countryRows = rows.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
-            const realItems = countryRows.map(mapOgloszenieRowToUi);
-            const placeholders = (showPlaceholderOffers && realItems.length === 0) ? (PLACEHOLDER_OFFERS[c] || []) : [];
-            listingsData[c] = [...realItems, ...placeholders];
-          });
+        if (error) {
+          setDbStatus(`Błąd połączenia z tabelą "${SUPABASE_TABLE_OGLOSZENIA}" (${error.code || ''} ${error.status || ''}): ${error.message}`);
+        } else {
+          setDbStatus('');
+          if (Array.isArray(rows)) {
+            ['NL', 'PL'].forEach(c => {
+              const countryRows = rows.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
+              const realItems = countryRows.map(mapOgloszenieRowToUi);
+              const placeholders = (showPlaceholderOffers && realItems.length === 0) ? (PLACEHOLDER_OFFERS[c] || []) : [];
+              listingsData[c] = [...realItems, ...placeholders];
+            });
+          }
         }
 
         const { data: profs } = await sb.from('profiles').select('*');
@@ -1248,6 +1259,7 @@
           try { localStorage.setItem('placomarkt_ad_submissions', JSON.stringify(adSubmissions)); } catch (e) {}
         }
       } catch (e) {
+        setDbStatus(`Wyjątek przy połączeniu z Supabase: ${e?.message || e}`);
         console.error('Supabase sync error:', e);
       }
       renderCountryUI();
@@ -1490,7 +1502,7 @@
         if (currentMode === 'favorites' && !favoriteIds.includes(item.id)) return false;
         if (currentMode !== 'all' && currentMode !== 'favorites' && item.type !== currentMode) return false;
         if (!qNorm && currentCategory !== 'all' && item.category !== currentCategory) return false;
-        if (cityNorm && !item.fromSupabaseOgloszenia && !normalizeText(item.city).includes(cityNorm)) return false;
+        if (cityNorm && !normalizeText(item.city).includes(cityNorm)) return false;
         if (cond !== 'all' && item.condition !== cond) return false;
         if (minP > 0 && item.price < minP) return false;
         if (maxP > 0 && item.price > maxP) return false;
@@ -1691,8 +1703,6 @@
       const hasSubscription = document.getElementById('newHasSubscription').checked;
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
       const sharePhoneVal = Boolean(phoneVal && document.getElementById('newSharePhone')?.checked);
-      const cur = COUNTRY_CONFIG[currentCountry].currency;
-      const cenaText = type === 'free' ? '0' : `${price} ${cur}`;
       const nickName = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik';
 
       let uploadedUrl = null;
@@ -1717,7 +1727,7 @@
           if (sb && arr[idx].fromSupabaseOgloszenia) {
             await sb.from(SUPABASE_TABLE_OGLOSZENIA).update({
               tytul: title,
-              cena: cenaText,
+              cena: price,
               kategoria: category,
               miejscowosc: city,
               opis: desc,
@@ -1736,14 +1746,18 @@
       if (sb) {
         const { data, error } = await sb.from(SUPABASE_TABLE_OGLOSZENIA).insert([{
           tytul: title,
-          cena: cenaText,
+          cena: price,
           kategoria: category,
           kraj: currentCountry,
           miejscowosc: city,
           opis: desc,
           zdjecie_url: photosFinal[0] || null
         }]).select();
-        if (!error && Array.isArray(data) && data[0]) insertedRow = data[0];
+        if (error) {
+          setDbStatus(`Nie udało się zapisać ogłoszenia w bazie: ${error.message}`);
+        } else if (Array.isArray(data) && data[0]) {
+          insertedRow = data[0];
+        }
       }
 
       const catObj = CATEGORIES_LIST.find(c => c.id === category);
@@ -1893,7 +1907,7 @@
               <div class="form-group"><input type="text" id="adSubTitle" required placeholder="Nazwa firmy / hasło reklamowe..." /></div>
               <div class="form-group"><textarea id="adSubDesc" rows="2" required placeholder="Opis reklamy / kontakt..."></textarea></div>
               <div class="form-group"><input type="file" id="adSubPhoto" accept="image/*" onchange="handleAdPhotoPick(event)" /></div>
-              <button type="button" class="mini-btn gold" onclick="submitHelpOrAdForm(event, 'reklama')">Wyślij reklamę do Admina</button>
+              <button type="submit" class="mini-btn gold">Wyślij reklamę do Admina</button>
             </form>
           </div>
         `;
