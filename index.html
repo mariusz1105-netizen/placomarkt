@@ -146,7 +146,7 @@
       position: absolute;
       top: calc(100% + 6px);
       right: 16px;
-      width: min(880px, calc(100vw - 32px));
+      width: min(920px, calc(100vw - 32px));
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
@@ -156,7 +156,30 @@
       overflow: hidden;
     }
     .profile-mega-dropdown.open { display: block; }
-    .mega-inner { display: grid; grid-template-columns: 245px 1fr; min-height: 340px; }
+    .mega-top-locale-bar {
+      background: var(--soft-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .mega-locale-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .mega-locale-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+    .mega-inner { display: grid; grid-template-columns: 245px 1fr; min-height: 330px; }
     @media (max-width: 720px) { .mega-inner { grid-template-columns: 1fr; } }
     .mega-left {
       background: var(--hub-left-bg);
@@ -190,7 +213,7 @@
     .mega-col h4 { font-size: 13px; font-weight: 800; margin-bottom: 10px; color: var(--text); }
     .mega-link-btn {
       display: block; width: 100%; text-align: left; background: none; border: none;
-      color: var(--muted); font-size: 13px; font-weight: 600; padding: 6px 0; cursor: pointer;
+      color: var(--muted); font-size: 13px; font-weight: 600; padding: 5px 0; cursor: pointer;
     }
     .mega-link-btn:hover { color: var(--accent); }
     .mega-bottom-bar {
@@ -205,7 +228,7 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      min-height: 240px;
+      min-height: 245px;
     }
     #animCanvas {
       position: absolute;
@@ -220,21 +243,33 @@
       position: relative;
       z-index: 2;
     }
-    .holiday-banner {
+    .hero-top-banner {
       display: inline-block;
-      font-size: 20px;
+      font-size: clamp(26px, 4vw, 42px);
       font-weight: 900;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.5px;
       color: #ffffff;
-      text-shadow: 0 2px 10px rgba(15, 23, 42, 0.55);
-      margin-bottom: 6px;
-      padding: 3px 14px;
+      text-shadow: 0 3px 14px rgba(15, 23, 42, 0.82);
+      margin-bottom: 8px;
+      padding: 6px 22px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.24);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(15, 23, 42, 0.38);
+      border: 2px solid rgba(255, 255, 255, 0.65);
     }
-    .hero h1 { font-size: 23px; margin-bottom: 5px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 8px rgba(15,23,42,0.4); }
-    .hero p { color: #e0f2fe; font-size: 13px; margin-bottom: 14px; text-shadow: 0 1px 6px rgba(15,23,42,0.4); }
+    .hero-ny-banner {
+      display: block;
+      width: fit-content;
+      margin: 0 auto 14px;
+      font-size: clamp(20px, 2.9vw, 34px);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #fef08a;
+      text-shadow: 0 3px 14px rgba(15, 23, 42, 0.92);
+      padding: 5px 20px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.52);
+      border: 2px solid rgba(254, 240, 138, 0.8);
+    }
     .search-box {
       max-width: 1080px;
       margin: 0 auto;
@@ -377,7 +412,6 @@
     .trust-low { background: #fee2e2; color: #b91c1c; }
     .trust-none { background: #e2e8f0; color: #475569; }
     .honesty-icon-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 999px; font-size: 10px; font-weight: 800; background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
-    .pirate-warning-box { background: #fef2f2; border: 1px solid #f87171; color: #991b1b; font-size: 11px; font-weight: 800; padding: 5px 8px; border-radius: 6px; margin-bottom: 8px; }
     .card-footer { border-top: 1px solid var(--border); padding-top: 9px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .price { font-size: 18px; font-weight: 800; color: var(--text); }
     .price.free-price { color: var(--green); }
@@ -563,13 +597,12 @@
   <section class="hero" id="heroSection">
     <canvas id="animCanvas"></canvas>
     <div class="hero-inner">
-      <div class="holiday-banner" id="holidayBannerText">Weso\u0142ych \u015awi\u0105t!</div>
-      <h1 id="heroTitle">Og\u0142oszenia, Licytacje, Zakupy i Wczasy</h1>
-      <p id="heroSub">Auta, Motory, Skutery, W\u0119dkarstwo, Kosmetyki, Nieruchomo\u015bci, Ogr\u00f3dki, Wczasy i Praca</p>
+      <div class="hero-top-banner" id="holidayBannerText">Wesołych Świąt!</div>
+      <div class="hero-ny-banner" id="holidaySubBannerText">Szczęśliwego Nowego Roku 2027!</div>
       <div class="search-box">
         <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz..." oninput="renderListings()" />
         <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
-        <input type="text" id="cityInput" autocomplete="off" placeholder="Miejscowo\u015b\u0107..." oninput="renderListings()" />
+        <input type="text" id="cityInput" autocomplete="off" placeholder="Miejscowość..." oninput="renderListings()" />
         <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Szukaj</button>
       </div>
       <div class="quick-tags" id="quickTagsBar"></div>
@@ -582,7 +615,7 @@
 
       <div class="offer-progress-banner" id="offerProgressBanner">
         <div class="offer-progress-top">
-          <span id="offerProgressLabel">\u0141adowanie oferty...</span>
+          <span id="offerProgressLabel">Ładowanie oferty...</span>
           <span id="offerProgressPercent">0%</span>
         </div>
         <div class="offer-progress-track">
@@ -601,14 +634,14 @@
           <select id="filterCondition" onchange="renderListings()">
             <option value="all" id="optCondAll">Stan: Wszystkie</option>
             <option value="new" id="optCondNew">Nowe</option>
-            <option value="used" id="optCondUsed">U\u017cywane</option>
+            <option value="used" id="optCondUsed">Używane</option>
           </select>
           <input type="number" id="filterMinPrice" placeholder="Od / Van" min="0" style="width:85px" oninput="renderListings()" />
           <input type="number" id="filterMaxPrice" placeholder="Do / Tot" min="0" style="width:85px" oninput="renderListings()" />
           <select id="sortSelect" onchange="renderListings()">
             <option value="featured" id="optSortFeat">Sortuj: Polecane i nowe</option>
-            <option value="price_asc" id="optSortAsc">Cena: rosn\u0105co</option>
-            <option value="price_desc" id="optSortDesc">Cena: malej\u0105co</option>
+            <option value="price_asc" id="optSortAsc">Cena: rosnąco</option>
+            <option value="price_desc" id="optSortDesc">Cena: malejąco</option>
             <option value="views_desc" id="optSortViews">Najpopularniejsze</option>
           </select>
           <div class="view-toggle">
@@ -624,7 +657,7 @@
         <div class="subscribers-header">
           <div>
             <h2 id="subSectionTitle">Oferty z abonamentem</h2>
-            <p id="subSectionDesc">Og\u0142oszenia kont z aktywnym abonamentem na dole strony.</p>
+            <p id="subSectionDesc">Ogłoszenia kont z aktywnym abonamentem na dole strony.</p>
           </div>
           <button type="button" class="mini-btn gold" onclick="openFullAccountModal('account')">Abonament</button>
         </div>
@@ -637,7 +670,7 @@
       <div class="footer-links">
         <a onclick="openLegalModal('about')">O nas</a>
         <a onclick="openLegalModal('terms')">Regulamin</a>
-        <a onclick="openLegalModal('privacy')">Prywatno\u015b\u0107 (RODO)</a>
+        <a onclick="openLegalModal('privacy')">Prywatność (RODO)</a>
         <a onclick="openLegalModal('dsa')">DSA i Kontakt</a>
       </div>
     </footer>
@@ -658,15 +691,21 @@
         <h2>Admin &mdash; PlacoMarkt</h2>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <button type="button" class="country-btn" id="admNL" onclick="switchCountry('NL');openAdminPanel()">NL (&euro;)</button>
-          <button type="button" class="country-btn" id="admPL" onclick="switchCountry('PL');openAdminPanel()">PL (z\u0142)</button>
+          <button type="button" class="country-btn" id="admPL" onclick="switchCountry('PL');openAdminPanel()">PL (zł)</button>
         </div>
       </div>
+
+      <div class="set-section" style="margin-top:12px">
+        <h4>Animacja w nagłówku — tylko Admin (7 motywów)</h4>
+        <div class="scene-picker-grid" id="adminScenePickerGrid"></div>
+      </div>
+
       <div class="admin-stats" id="adminStats"></div>
       <div class="admin-tabs">
-        <button type="button" class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">Og\u0142oszenia i ryzyko</button>
-        <button type="button" class="admin-tab" id="admTabUsers" onclick="setAdminTab('users')">U\u017cytkownicy i bany</button>
+        <button type="button" class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">Ogłoszenia i ryzyko</button>
+        <button type="button" class="admin-tab" id="admTabUsers" onclick="setAdminTab('users')">Użytkownicy i bany</button>
         <button type="button" class="admin-tab" id="admTabAds" onclick="setAdminTab('ads')">Reklamy</button>
-        <button type="button" class="admin-tab" id="admTabHelp" onclick="setAdminTab('help')">Pomoc / Zg\u0142oszenia (<span id="repCountTab">0</span>)</button>
+        <button type="button" class="admin-tab" id="admTabHelp" onclick="setAdminTab('help')">Pomoc / Zgłoszenia (<span id="repCountTab">0</span>)</button>
       </div>
       <div id="adminBody"></div>
     </div>
@@ -675,11 +714,11 @@
   <div class="modal-backdrop" id="addModal">
     <div class="modal">
       <button type="button" class="close-modal" onclick="closeModal('addModal')">&times;</button>
-      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj og\u0142oszenie</h2>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj ogłoszenie</h2>
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label>Forma sprzeda\u017cy</label>
+            <label>Forma sprzedaży</label>
             <select id="newType" onchange="toggleAddFields()">
               <option value="sale">Kup teraz / Direct kopen</option>
               <option value="auction">Licytacja / Veiling</option>
@@ -690,23 +729,23 @@
             <label>Stan / Staat</label>
             <select id="newCondition">
               <option value="new">Nowy / Nieuw</option>
-              <option value="used">U\u017cywany / Gebruikt</option>
+              <option value="used">Używany / Gebruikt</option>
               <option value="na">Nie dotyczy / N.v.t.</option>
             </select>
           </div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label>Tytu\u0142 / Titel</label>
+            <label>Tytuł / Titel</label>
             <input type="text" id="newTitle" required />
           </div>
           <div class="form-group">
-            <label>Ksywka / inicja\u0142y (Naam)</label>
+            <label>Ksywka / inicjały (Naam)</label>
             <input type="text" id="newSellerAlias" maxlength="24" />
           </div>
         </div>
         <div class="form-group">
-          <label>Zdj\u0119cia / Foto's (maks. 6)</label>
+          <label>Zdjęcia / Foto's (maks. 6)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
@@ -716,7 +755,7 @@
             <select id="newCategory"></select>
           </div>
           <div class="form-group">
-            <label>Miejscowo\u015b\u0107 / Plaats</label>
+            <label>Miejscowość / Plaats</label>
             <input type="text" id="newCity" required />
           </div>
         </div>
@@ -739,13 +778,13 @@
           <select id="newShipping"></select>
         </div>
         <div class="set-section">
-          <h4>Numer telefonu (domy\u015blnie ukryty)</h4>
+          <h4>Numer telefonu (domyślnie ukryty)</h4>
           <div class="form-group" style="margin-bottom:8px">
             <input type="tel" id="newPhone" oninput="toggleSharePhoneCheckbox()" />
           </div>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newSharePhone" style="width:auto" disabled />
-            <span>Udost\u0119pniam m\u00f3j numer telefonu w tym og\u0142oszeniu</span>
+            <span>Udostępniam mój numer telefonu w tym ogłoszeniu</span>
           </label>
         </div>
         <div class="form-group">
@@ -759,7 +798,7 @@
           </label>
         </div>
         <div class="form-group">
-          <label>Widoczno\u015b\u0107 / Zichtbaarheid</label>
+          <label>Widoczność / Zichtbaarheid</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoPriceStd">0,00 &euro;</strong>
@@ -776,7 +815,7 @@
           </div>
         </div>
         <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:12px;font-size:15px" id="submitOfferBtn">
-          Dodaj og\u0142oszenie
+          Dodaj ogłoszenie
         </button>
       </form>
     </div>
@@ -796,30 +835,25 @@
       <h2 style="margin-bottom:14px">Ustawienia / Instellingen</h2>
 
       <div class="set-section">
-        <h4>J\u0119zyk i Region / Taal & Regio</h4>
+        <h4>Język i Region / Taal &amp; Regio</h4>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <button type="button" class="lang-toggle-btn" id="btnToggleLangDrawer" onclick="toggleLangDrawer()">
-            J\u0119zyk (<span id="currentLangLabel">NL</span>) &#9662;
+            Język (<span id="currentLangLabel">NL</span>) &#9662;
           </button>
           <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">NL (&euro;)</button>
-          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">PL (z\u0142)</button>
+          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">PL (zł)</button>
         </div>
         <div class="lang-drawer" id="langDrawerBox"></div>
       </div>
 
       <div class="set-section">
-        <h4>Animacja w nag\u0142\u00f3wku (6 motyw\u00f3w)</h4>
-        <div class="scene-picker-grid" id="scenePickerGrid"></div>
-      </div>
-
-      <div class="set-section">
-        <h4>Wygl\u0105d / Weergave</h4>
+        <h4>Wygląd / Weergave</h4>
         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
           <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
           <span>Tryb ciemny / Donkere modus</span>
         </label>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
-          <span>Domy\u015blna miejscowo\u015b\u0107:</span>
+          <span>Domyślna miejscowość:</span>
           <input type="text" id="setDefaultCity" oninput="setDefaultCityPref(this.value)" style="width:200px;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px" />
         </div>
       </div>
@@ -868,41 +902,40 @@
     ];
 
     const SCENE_OPTIONS = [
-      { id: 'xmas1', label: '\u015awi\u0119ta 1: Sanie Miko\u0142aja i renifery' },
-      { id: 'xmas2', label: '\u015awi\u0119ta 2: Choinki, lampki i prezenty' },
+      { id: 'xmas1', label: 'Święta 1: Sanie, babki i renifery' },
+      { id: 'xmas2', label: 'Święta 2: Choinki, lampki i babki' },
+      { id: 'ny2027', label: 'Nowy Rok 2027: Duże fajerwerki' },
       { id: 'ny1', label: 'Nowy Rok 1: Fajerwerki i konfetti' },
       { id: 'ny2', label: 'Nowy Rok 2: Rakiety i iskry sylwestrowe' },
-      { id: 'easter1', label: 'Wielkanoc 1: Pisanki i wiosenna \u0142\u0105ka' },
+      { id: 'easter1', label: 'Wielkanoc 1: Pisanki i wiosenna łąka' },
       { id: 'easter2', label: 'Wielkanoc 2: Motyle, kwiaty i koszyczek' }
     ];
 
     const I18N = {
       PL: {
         htmlLang: 'pl', account: 'Konto', add: '+ Dodaj',
-        banner: 'Weso\u0142ych \u015awi\u0105t!',
-        heroTitle: 'Og\u0142oszenia, Licytacje, Zakupy i Wczasy',
-        heroSub: 'Auta, Motory, Skutery, W\u0119dkarstwo, Kosmetyki, Nieruchomo\u015bci, Ogr\u00f3dki, Wczasy i Praca',
-        searchPlaceholder: 'Czego szukasz (np. g\u0142o\u015bniki, skuter, ogr\u00f3dek)...',
-        cityPlaceholder: 'Miejscowo\u015b\u0107...', searchBtn: 'Szukaj',
+        banner: 'Wesołych Świąt!',
+        nyBanner: 'Szczęśliwego Nowego Roku 2027!',
+        searchPlaceholder: 'Czego szukasz...',
+        cityPlaceholder: 'Miejscowość...', searchBtn: 'Szukaj',
         allCats: 'Wszystkie kategorie', popular: 'Popularne:',
         tabAll: 'Wszystkie', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
         tabFav: 'Ulubione', foundOffers: 'Znalezione oferty', condAll: 'Stan: Wszystkie',
-        condNew: 'Nowe', condUsed: 'U\u017cywane', sortFeat: 'Sortuj: Polecane i nowe',
-        sortAsc: 'Cena: rosn\u0105co', sortDesc: 'Cena: malej\u0105co', sortViews: 'Najpopularniejsze',
-        details: 'Szczeg\u00f3\u0142y', freeLabel: 'ZA DARMO', subTitle: 'Oferty z abonamentem',
-        subDesc: 'Og\u0142oszenia kont z aktywnym abonamentem na dole strony.', hello: 'Cze\u015b\u0107',
-        settingsUpper: 'USTAWIENIA', logout: 'Wyloguj si\u0119', megaBuy: 'ZAKUPY',
-        megaSell: 'SPRZEDA\u017b', megaAccount: 'KONTO', mobBuy: 'Kup teraz', mobAdd: 'Dodaj',
+        condNew: 'Nowe', condUsed: 'Używane', sortFeat: 'Sortuj: Polecane i nowe',
+        sortAsc: 'Cena: rosnąco', sortDesc: 'Cena: malejąco', sortViews: 'Najpopularniejsze',
+        details: 'Szczegóły', freeLabel: 'ZA DARMO', subTitle: 'Oferty z abonamentem',
+        subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.', hello: 'Cześć',
+        settingsUpper: 'USTAWIENIA', logout: 'Wyloguj się', megaBuy: 'ZAKUPY',
+        megaSell: 'SPRZEDAŻ', megaAccount: 'KONTO', mobBuy: 'Kup teraz', mobAdd: 'Dodaj',
         mobFav: 'Ulubione', mobAcc: 'Konto', mobOpt: 'Opcje'
       },
       NL: {
         htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
-        banner: 'Weso\u0142ych \u015awi\u0105t \u2014 Vrolijk Kerstfeest!',
-        heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
-        heroSub: 'Auto\u2019s, Motoren, Scooters, Vissen, Cosmetica, Woningen, Volkstuinen, Vakantie & Werk',
-        searchPlaceholder: 'Waar ben je naar op zoek (bijv. speakers, scooter, volkstuin)...',
+        banner: 'Wesołych Świąt — Vrolijk Kerstfeest!',
+        nyBanner: 'Szczęśliwego Nowego Roku 2027!',
+        searchPlaceholder: 'Waar ben je naar op zoek...',
         cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
-        allCats: 'Alle categorie\u00ebn', popular: 'Populair:',
+        allCats: 'Alle categorieën', popular: 'Populair:',
         tabAll: 'Alles', tabSale: 'Direct kopen', tabAuction: 'Veiling', tabFree: 'Gratis',
         tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
         condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
@@ -913,10 +946,10 @@
         megaSell: 'VERKOOP', megaAccount: 'ACCOUNT', mobBuy: 'Kopen', mobAdd: 'Plaatsen',
         mobFav: 'Favorieten', mobAcc: 'Account', mobOpt: 'Opties'
       },
-      UK: { htmlLang: 'uk', account: 'Акаунт', add: '+ Додати', banner: 'Weso\u0142ych \u015awi\u0105t!' },
-      DE: { htmlLang: 'de', account: 'Konto', add: '+ Inserieren', banner: 'Weso\u0142ych \u015awi\u0105t!' },
-      BE: { htmlLang: 'nl-BE', account: 'Account', add: '+ Plaatsen', banner: 'Weso\u0142ych \u015awi\u0105t!' },
-      FR: { htmlLang: 'fr', account: 'Compte', add: '+ Publier', banner: 'Weso\u0142ych \u015awi\u0105t!' }
+      UK: { htmlLang: 'uk', account: 'Акаунт', add: '+ Додати', banner: 'Wesołych Świąt!', nyBanner: 'Szczęśliwego Nowego Roku 2027!' },
+      DE: { htmlLang: 'de', account: 'Konto', add: '+ Inserieren', banner: 'Wesołych Świąt!', nyBanner: 'Szczęśliwego Nowego Roku 2027!' },
+      BE: { htmlLang: 'nl-BE', account: 'Account', add: '+ Plaatsen', banner: 'Wesołych Świąt!', nyBanner: 'Szczęśliwego Nowego Roku 2027!' },
+      FR: { htmlLang: 'fr', account: 'Compte', add: '+ Publier', banner: 'Wesołych Świąt!', nyBanner: 'Szczęśliwego Nowego Roku 2027!' }
     };
 
     function t(key) {
@@ -958,15 +991,16 @@
     } catch (e) {}
 
     function setActiveScene(sceneId) {
+      if (!hasAdminPermission()) return;
       if (!SCENE_OPTIONS.some(s => s.id === sceneId)) return;
       activeScene = sceneId;
       try { localStorage.setItem('placomarkt_scene', sceneId); } catch (e) {}
       initSceneParticles();
-      renderScenePicker();
+      renderAdminScenePicker();
     }
 
-    function renderScenePicker() {
-      const grid = document.getElementById('scenePickerGrid');
+    function renderAdminScenePicker() {
+      const grid = document.getElementById('adminScenePickerGrid');
       if (!grid) return;
       grid.innerHTML = SCENE_OPTIONS.map(s =>
         `<button type="button" class="scene-choice-btn ${s.id === activeScene ? 'active' : ''}" onclick="setActiveScene('${s.id}')">${s.label}</button>`
@@ -1000,13 +1034,13 @@
       const hero = document.getElementById('heroSection');
       if (!canvas || !hero) return;
       canvas.width = hero.clientWidth || 1000;
-      canvas.height = hero.clientHeight || 240;
+      canvas.height = hero.clientHeight || 245;
     }
 
     function initSceneParticles() {
       resizeCanvas();
       const w = canvas ? canvas.width : 1000;
-      const h = canvas ? canvas.height : 240;
+      const h = canvas ? canvas.height : 245;
       particles = [];
       fireworks = [];
 
@@ -1014,22 +1048,17 @@
         const count = activeScene === 'xmas2' ? 75 : 50;
         for (let i = 0; i < count; i++) {
           particles.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            r: 1.5 + Math.random() * 3.2,
-            vy: 0.7 + Math.random() * 1.4,
+            x: Math.random() * w, y: Math.random() * h,
+            r: 1.5 + Math.random() * 3.2, vy: 0.7 + Math.random() * 1.4,
             vx: -0.4 + Math.random() * 0.8
           });
         }
-      } else if (activeScene === 'ny1' || activeScene === 'ny2') {
-        for (let i = 0; i < 45; i++) {
+      } else if (activeScene === 'ny1' || activeScene === 'ny2' || activeScene === 'ny2027') {
+        for (let i = 0; i < 50; i++) {
           particles.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            w: 5 + Math.random() * 5,
-            h: 3 + Math.random() * 3,
-            vy: 0.9 + Math.random() * 1.5,
-            vx: -0.6 + Math.random() * 1.2,
+            x: Math.random() * w, y: Math.random() * h,
+            w: 5 + Math.random() * 5, h: 3 + Math.random() * 3,
+            vy: 0.9 + Math.random() * 1.5, vx: -0.6 + Math.random() * 1.2,
             rot: Math.random() * Math.PI * 2,
             color: ['#facc15', '#38bdf8', '#f87171', '#4ade80', '#e879f9'][i % 5]
           });
@@ -1037,10 +1066,8 @@
       } else {
         for (let i = 0; i < 36; i++) {
           particles.push({
-            x: Math.random() * w,
-            y: Math.random() * h,
-            r: 3 + Math.random() * 4,
-            vy: 0.6 + Math.random() * 1.1,
+            x: Math.random() * w, y: Math.random() * h,
+            r: 3 + Math.random() * 4, vy: 0.6 + Math.random() * 1.1,
             vx: 0.3 + Math.random() * 0.8,
             color: ['#fde047', '#f472b6', '#a78bfa', '#34d399'][i % 4]
           });
@@ -1048,25 +1075,60 @@
       }
     }
 
-    function spawnFirework() {
+    function spawnBigFirework2027() {
       if (!canvas) return;
-      const cx = 120 + Math.random() * Math.max(120, canvas.width - 240);
-      const cy = 35 + Math.random() * Math.max(40, canvas.height * 0.45);
-      const palette = ['#facc15', '#38bdf8', '#fb7185', '#4ade80', '#f97316'];
+      const cx = 70 + Math.random() * Math.max(140, canvas.width - 140);
+      const cy = 24 + Math.random() * Math.max(45, canvas.height * 0.52);
+      const palette = ['#facc15', '#38bdf8', '#fb7185', '#4ade80', '#f97316', '#e879f9', '#ffffff'];
       const col = palette[Math.floor(Math.random() * palette.length)];
       const sparks = [];
-      for (let i = 0; i < 22; i++) {
-        const ang = (Math.PI * 2 * i) / 22;
-        const spd = 1.2 + Math.random() * 2.4;
+      const count = 46;
+      for (let i = 0; i < count; i++) {
+        const ang = (Math.PI * 2 * i) / count;
+        const spd = 2.2 + Math.random() * 4.2;
         sparks.push({
           x: cx, y: cy,
-          vx: Math.cos(ang) * spd,
-          vy: Math.sin(ang) * spd,
-          alpha: 1,
-          color: col
+          vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
+          alpha: 1, size: 3.0 + Math.random() * 2.6,
+          color: i % 3 === 0 ? '#fef08a' : col
         });
       }
       fireworks.push(sparks);
+    }
+
+    function drawHolidayBabka(x, baseY, phase, variant = 0) {
+      if (!ctx) return;
+      ctx.save();
+      ctx.translate(x, baseY + Math.sin(phase) * 2.5);
+
+      ctx.fillStyle = variant % 2 === 0 ? '#e11d48' : '#7c3aed';
+      ctx.beginPath();
+      ctx.moveTo(-8, -15); ctx.lineTo(8, -15); ctx.lineTo(15, 0); ctx.lineTo(-15, 0);
+      ctx.closePath(); ctx.fill();
+
+      ctx.fillStyle = '#fde047';
+      ctx.fillRect(-9, -16, 18, 3);
+
+      ctx.fillStyle = '#fed7aa';
+      ctx.beginPath(); ctx.arc(0, -22, 7, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = variant % 2 === 0 ? '#fbbf24' : '#92400e';
+      ctx.beginPath(); ctx.arc(0, -28.5, 4.2, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.moveTo(-6.5, -25); ctx.lineTo(6.5, -25); ctx.lineTo(1, -36); ctx.closePath(); ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath(); ctx.arc(1, -36, 2.5, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = '#1e293b';
+      ctx.beginPath(); ctx.arc(-2.4, -22, 1.2, 0, Math.PI * 2); ctx.arc(2.4, -22, 1.2, 0, Math.PI * 2); ctx.fill();
+
+      ctx.strokeStyle = '#be123c';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(0, -19.5, 2.7, 0.15 * Math.PI, 0.85 * Math.PI); ctx.stroke();
+
+      ctx.restore();
     }
 
     function drawPineTree(x, baseY, scale, lightPhase) {
@@ -1074,17 +1136,14 @@
       ctx.save();
       ctx.translate(x, baseY);
       ctx.scale(scale, scale);
-
       ctx.fillStyle = '#5c3a21';
       ctx.fillRect(-4, -10, 8, 10);
-
       ctx.fillStyle = '#15803d';
-      const tiers = [
+      [
         { yTop: -44, yBot: -26, halfW: 16 },
         { yTop: -34, yBot: -16, halfW: 21 },
         { yTop: -24, yBot: -8,  halfW: 26 }
-      ];
-      tiers.forEach(t => {
+      ].forEach(t => {
         ctx.beginPath();
         ctx.moveTo(0, t.yTop);
         ctx.lineTo(t.halfW, t.yBot);
@@ -1092,16 +1151,13 @@
         ctx.closePath();
         ctx.fill();
       });
-
       ctx.fillStyle = '#facc15';
       ctx.beginPath();
       ctx.arc(0, -47, 4, 0, Math.PI * 2);
       ctx.fill();
-
       const bulbColors = ['#ef4444', '#facc15', '#38bdf8', '#f472b6'];
       bulbColors.forEach((c, idx) => {
-        const blink = 0.45 + 0.55 * Math.sin(lightPhase + idx * 1.4);
-        ctx.globalAlpha = blink;
+        ctx.globalAlpha = 0.45 + 0.55 * Math.sin(lightPhase + idx * 1.4);
         ctx.fillStyle = c;
         ctx.beginPath();
         ctx.arc(-8 + idx * 5.5, -15 - (idx % 2) * 8, 2.5, 0, Math.PI * 2);
@@ -1115,46 +1171,24 @@
       if (!ctx) return;
       ctx.save();
       ctx.translate(rx, ry);
-
-      // Poroże
       ctx.strokeStyle = '#fde68a';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(11, -8);
-      ctx.lineTo(13, -15);
-      ctx.lineTo(10, -18);
-      ctx.moveTo(13, -13);
-      ctx.lineTo(16, -16);
+      ctx.moveTo(11, -8); ctx.lineTo(13, -15); ctx.lineTo(10, -18);
+      ctx.moveTo(13, -13); ctx.lineTo(16, -16);
       ctx.stroke();
-
-      // Nogi (animowane)
       const swing = Math.sin(legPhase) * 4;
       ctx.strokeStyle = '#78350f';
       ctx.lineWidth = 2.4;
       ctx.beginPath();
-      ctx.moveTo(-6, 4);
-      ctx.lineTo(-8 + swing, 12);
-      ctx.moveTo(6, 4);
-      ctx.lineTo(8 - swing, 12);
+      ctx.moveTo(-6, 4); ctx.lineTo(-8 + swing, 12);
+      ctx.moveTo(6, 4); ctx.lineTo(8 - swing, 12);
       ctx.stroke();
-
-      // Tułów
       ctx.fillStyle = '#92400e';
-      ctx.beginPath();
-      ctx.ellipse(0, 1, 10, 5.5, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Głowa i szyja
-      ctx.beginPath();
-      ctx.ellipse(10, -4, 5.5, 3.8, -0.35, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Czerwony nosek Rudolfa
+      ctx.beginPath(); ctx.ellipse(0, 1, 10, 5.5, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(10, -4, 5.5, 3.8, -0.35, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#ef4444';
-      ctx.beginPath();
-      ctx.arc(15.5, -4, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-
+      ctx.beginPath(); ctx.arc(15.5, -4, 2.2, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     }
 
@@ -1162,84 +1196,40 @@
       if (!ctx) return;
       ctx.save();
       ctx.translate(x, y);
-
-      // Płozy sań
       ctx.strokeStyle = '#fde047';
       ctx.lineWidth = 2.6;
       ctx.beginPath();
-      ctx.moveTo(0, 13);
-      ctx.lineTo(54, 13);
-      ctx.quadraticCurveTo(64, 13, 66, 5);
-      ctx.moveTo(10, 9);
-      ctx.lineTo(10, 13);
-      ctx.moveTo(44, 9);
-      ctx.lineTo(44, 13);
+      ctx.moveTo(0, 13); ctx.lineTo(54, 13); ctx.quadraticCurveTo(64, 13, 66, 5);
+      ctx.moveTo(10, 9); ctx.lineTo(10, 13);
+      ctx.moveTo(44, 9); ctx.lineTo(44, 13);
       ctx.stroke();
-
-      // Kadłub sań
       ctx.fillStyle = '#dc2626';
       ctx.beginPath();
-      ctx.moveTo(4, -2);
-      ctx.lineTo(54, -2);
-      ctx.lineTo(48, 9);
-      ctx.lineTo(8, 9);
-      ctx.closePath();
-      ctx.fill();
-
-      // Złoty pasek na saniach
+      ctx.moveTo(4, -2); ctx.lineTo(54, -2); ctx.lineTo(48, 9); ctx.lineTo(8, 9);
+      ctx.closePath(); ctx.fill();
       ctx.strokeStyle = '#facc15';
       ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(6, 3);
-      ctx.lineTo(51, 3);
-      ctx.stroke();
-
-      // Paczki z prezentami
-      ctx.fillStyle = '#22c55e';
-      ctx.fillRect(11, -11, 10, 9);
-      ctx.fillStyle = '#facc15';
-      ctx.fillRect(22, -13, 10, 11);
-
-      // Mikołaj
+      ctx.beginPath(); ctx.moveTo(6, 3); ctx.lineTo(51, 3); ctx.stroke();
+      ctx.fillStyle = '#22c55e'; ctx.fillRect(11, -11, 10, 9);
+      ctx.fillStyle = '#facc15'; ctx.fillRect(22, -13, 10, 11);
       ctx.fillStyle = '#dc2626';
-      ctx.beginPath();
-      ctx.arc(39, -6, 6.5, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(39, -6, 6.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#fed7aa';
-      ctx.beginPath();
-      ctx.arc(39, -13.5, 4.5, 0, Math.PI * 2);
-      ctx.fill();
-      // Biała broda
+      ctx.beginPath(); ctx.arc(39, -13.5, 4.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(40, -11.5, 3.5, 0, Math.PI * 2);
-      ctx.fill();
-      // Czapka
+      ctx.beginPath(); ctx.arc(40, -11.5, 3.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#dc2626';
-      ctx.beginPath();
-      ctx.moveTo(34, -15.5);
-      ctx.lineTo(44, -15.5);
-      ctx.lineTo(38, -24.5);
-      ctx.closePath();
-      ctx.fill();
+      ctx.beginPath(); ctx.moveTo(34, -15.5); ctx.lineTo(44, -15.5); ctx.lineTo(38, -24.5); ctx.closePath(); ctx.fill();
       ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(38, -24.5, 2.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Lejce i dwa renifery
+      ctx.beginPath(); ctx.arc(38, -24.5, 2.5, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = '#fef08a';
       ctx.lineWidth = 1.3;
       ctx.beginPath();
-      ctx.moveTo(54, 4);
-      ctx.lineTo(84, 1);
-      ctx.moveTo(98, -1);
-      ctx.lineTo(122, -1);
+      ctx.moveTo(54, 4); ctx.lineTo(84, 1);
+      ctx.moveTo(98, -1); ctx.lineTo(122, -1);
       ctx.stroke();
-
       drawReindeer(90, 2, phase);
       drawReindeer(128, 0, phase + 1.2);
-
       ctx.restore();
     }
 
@@ -1248,17 +1238,10 @@
       ctx.save();
       ctx.translate(x, y);
       ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, 8, 11, 0, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.ellipse(0, 0, 8, 11, 0, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = stripeColor;
       ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(-7, -2);
-      ctx.lineTo(7, -2);
-      ctx.moveTo(-6, 4);
-      ctx.lineTo(6, 4);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(-7, -2); ctx.lineTo(7, -2); ctx.moveTo(-6, 4); ctx.lineTo(6, 4); ctx.stroke();
       ctx.restore();
     }
 
@@ -1271,13 +1254,11 @@
         ctx.clearRect(0, 0, w, h);
 
         if (activeScene === 'xmas1' || activeScene === 'xmas2') {
-          const treePositions = [32, 78, 130, w - 130, w - 78, w - 32];
-          treePositions.forEach((tx, i) => {
-            if (tx > 15 && tx < w - 15) {
-              drawPineTree(tx, h - 2, i % 2 === 0 ? 0.95 : 0.72, animTick);
-            }
+          [32, 78, 130, w - 130, w - 78, w - 32].forEach((tx, i) => {
+            if (tx > 15 && tx < w - 15) drawPineTree(tx, h - 2, i % 2 === 0 ? 0.95 : 0.72, animTick);
           });
-
+          drawHolidayBabka(w * 0.23, h - 2, animTick * 2.2, 0);
+          drawHolidayBabka(w * 0.77, h - 2, animTick * 2.2 + 1.5, 1);
           ctx.fillStyle = '#ffffff';
           particles.forEach(p => {
             p.x += p.vx + Math.sin(animTick + p.y * 0.03) * 0.35;
@@ -1285,81 +1266,50 @@
             if (p.y > h) { p.y = -6; p.x = Math.random() * w; }
             if (p.x > w) p.x = 0;
             if (p.x < 0) p.x = w;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
           });
-
           sleighX += activeScene === 'xmas2' ? 1.75 : 1.35;
           if (sleighX > w + 160) sleighX = -160;
-          const sleighY = 30 + Math.sin(animTick * 1.4) * 5;
-          drawSantaSleigh(sleighX, sleighY, animTick * 3);
-
-        } else if (activeScene === 'ny1' || activeScene === 'ny2') {
-          if (Math.random() < (activeScene === 'ny2' ? 0.06 : 0.035)) {
-            spawnFirework();
-          }
+          drawSantaSleigh(sleighX, 30 + Math.sin(animTick * 1.4) * 5, animTick * 3);
+        } else if (activeScene === 'ny1' || activeScene === 'ny2' || activeScene === 'ny2027') {
+          const chance = activeScene === 'ny2027' ? 0.11 : (activeScene === 'ny2' ? 0.08 : 0.06);
+          if (Math.random() < chance) spawnBigFirework2027();
           fireworks.forEach(sparks => {
             sparks.forEach(s => {
-              s.x += s.vx;
-              s.y += s.vy;
-              s.vy += 0.03;
-              s.alpha -= 0.015;
+              s.x += s.vx; s.y += s.vy; s.vy += 0.03; s.alpha -= 0.014;
               if (s.alpha > 0) {
-                ctx.save();
-                ctx.globalAlpha = Math.max(0, s.alpha);
-                ctx.fillStyle = s.color;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, 2.6, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
+                ctx.save(); ctx.globalAlpha = Math.max(0, s.alpha); ctx.fillStyle = s.color;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.size || 3.2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
               }
             });
           });
           fireworks = fireworks.filter(sparks => sparks.some(s => s.alpha > 0));
-
           particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.rot += 0.06;
+            p.x += p.vx; p.y += p.vy; p.rot += 0.06;
             if (p.y > h) { p.y = -8; p.x = Math.random() * w; }
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rot);
-            ctx.fillStyle = p.color;
-            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-            ctx.restore();
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
           });
-
         } else {
-          const eggSpots = [
+          [
             { x: 42, y: h - 18, c: '#f472b6', s: '#fde047' },
             { x: 86, y: h - 16, c: '#38bdf8', s: '#ffffff' },
             { x: w - 86, y: h - 16, c: '#facc15', s: '#ef4444' },
             { x: w - 42, y: h - 18, c: '#4ade80', s: '#ffffff' }
-          ];
-          eggSpots.forEach((e, idx) => {
-            drawEasterEgg(e.x, e.y + Math.sin(animTick * 2 + idx) * 2.5, e.c, e.s);
-          });
-
+          ].forEach((e, idx) => drawEasterEgg(e.x, e.y + Math.sin(animTick * 2 + idx) * 2.5, e.c, e.s));
           particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
+            p.x += p.vx; p.y += p.vy;
             if (p.y > h) { p.y = -8; p.x = Math.random() * w; }
             if (p.x > w) p.x = 0;
             ctx.fillStyle = p.color;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
           });
         }
       }
       requestAnimationFrame(renderAnimationFrame);
     }
 
-    window.addEventListener('resize', () => {
-      initSceneParticles();
-    });
+    window.addEventListener('resize', () => { initSceneParticles(); });
 
     function hasAdminPermission() {
       if (!currentUser) return false;
@@ -1381,10 +1331,7 @@
       pct.textContent = `${clamped}%`;
       if (label) lbl.textContent = label;
       if (autoHideMs > 0) {
-        progressHideTimer = setTimeout(() => {
-          banner.style.display = 'none';
-          fill.style.width = '0%';
-        }, autoHideMs);
+        progressHideTimer = setTimeout(() => { banner.style.display = 'none'; fill.style.width = '0%'; }, autoHideMs);
       }
     }
 
@@ -1396,7 +1343,7 @@
     }
 
     function normalizeText(str) {
-      return String(str || '').toLowerCase().replace(/\u0142/g, 'l').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+      return String(str || '').toLowerCase().replace(/ł/g, 'l').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
     }
 
     function getFirstNameOrNick(rawName, email) {
@@ -1481,10 +1428,6 @@
       if (Array.isArray(savedRatings)) sellerRatingsDb = savedRatings;
     } catch (e) {}
 
-    function saveSellerRatingsLocal() {
-      try { localStorage.setItem('placomarkt_seller_ratings', JSON.stringify(sellerRatingsDb)); } catch (e) {}
-    }
-
     function getSellerRatingStats(item) {
       const sellerMail = (item.ownerEmail || '').toLowerCase();
       const matched = sellerRatingsDb.filter(r =>
@@ -1521,10 +1464,10 @@
         { id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used', title: 'Voerboot & visuitrusting voor snoekbaars', desc: 'Complete visset voor rivieren en kanalen.', city: 'Dordrecht', price: 640, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84, sellerName: 'VisShopNL', ownerEmail: 'sklep@visshopnl.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
       ],
       PL: [
-        { id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used', title: 'Ogr\u00f3dek dzia\u0142kowy ROD z altan\u0105 — Katowice', desc: 'Zadbany ogr\u00f3dek dzia\u0142kowy ROD z altan\u0105 i nasadzeniami.', city: 'Katowice', price: 24500, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135, sellerName: 'OgrodSlask', ownerEmail: 'kontakt@ogrodslask.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
-        { id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new', title: 'G\u0142o\u015bniki aktywne i sprz\u0119t audio — Czelad\u017a', desc: 'G\u0142o\u015bniki, wzmacniacze i akcesoria audio.', city: 'Czelad\u017a', price: 420, photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'], icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109, sellerName: 'AudioSlask', ownerEmail: 'sklep@audioslask.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
-        { id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used', title: '\u0141\u00f3dka zan\u0119towa i akcesoria w\u0119dkarskie', desc: 'Sprz\u0119t w\u0119dkarski nad jeziora oraz rzeki.', city: 'B\u0119dzin', price: 1150, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88, sellerName: 'WedkarzPL', ownerEmail: 'biuro@wedkarzpl.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
-        { id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used', title: 'Skuter / motocykl miejski — stan bardzo dobry', desc: 'Zwrotny jedno\u015blad do jazdy po mie\u015bcie i okolicach.', city: 'Sosnowiec', price: 3400, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92, sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
+        { id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used', title: 'Ogródek działkowy ROD z altaną — Katowice', desc: 'Zadbany ogródek działkowy ROD z altaną i nasadzeniami.', city: 'Katowice', price: 24500, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135, sellerName: 'OgrodSlask', ownerEmail: 'kontakt@ogrodslask.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
+        { id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new', title: 'Głośniki aktywne i sprzęt audio — Czeladź', desc: 'Głośniki, wzmacniacze i akcesoria audio.', city: 'Czeladź', price: 420, photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'], icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109, sellerName: 'AudioSlask', ownerEmail: 'sklep@audioslask.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
+        { id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used', title: 'Łódka zanętowa i akcesoria wędkarskie', desc: 'Sprzęt wędkarski nad jeziora oraz rzeki.', city: 'Będzin', price: 1150, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88, sellerName: 'WedkarzPL', ownerEmail: 'biuro@wedkarzpl.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
+        { id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used', title: 'Skuter / motocykl miejski — stan bardzo dobry', desc: 'Zwrotny jednoślad do jazdy po mieście i okolicach.', city: 'Sosnowiec', price: 3400, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92, sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
       ]
     };
 
@@ -1559,17 +1502,17 @@
 
     const CATEGORIES_LIST = [
       { id: 'kids', icon: '🧸', labelPL: 'Dla dzieci i Zabawki', labelNL: 'Kinderen & Speelgoed' },
-      { id: 'home', icon: '🛋️', labelPL: 'Dom i Ogr\u00f3d', labelNL: 'Huis & Tuin' },
+      { id: 'home', icon: '🛋️', labelPL: 'Dom i Ogród', labelNL: 'Huis & Tuin' },
       { id: 'electronics', icon: '📱', labelPL: 'Elektronika i Audio', labelNL: 'Elektronica & Audio' },
       { id: 'cosmetics', icon: '💄', labelPL: 'Kosmetyki i Perfumy', labelNL: 'Cosmetica & Parfum' },
       { id: 'courses', icon: '🎓', labelPL: 'Kursy i Szkolenia', labelNL: 'Cursussen & Opleiding' },
-      { id: 'housing', icon: '🏠', labelPL: 'Nieruchomo\u015bci, Dzia\u0142ki i Ogr\u00f3dki', labelNL: 'Woningen, Kavels & Volkstuinen' },
-      { id: 'auto', icon: '🚗', labelPL: 'Auta, Motory i Skutery', labelNL: 'Auto\u2019s, Motoren & Scooters' },
-      { id: 'fashion', icon: '👕', labelPL: 'Odzie\u017c i Obuwie', labelNL: 'Kleding & Schoenen' },
+      { id: 'housing', icon: '🏠', labelPL: 'Nieruchomości, Działki i Ogródki', labelNL: 'Woningen, Kavels & Volkstuinen' },
+      { id: 'auto', icon: '🚗', labelPL: 'Auta, Motory i Skutery', labelNL: 'Auto’s, Motoren & Scooters' },
+      { id: 'fashion', icon: '👕', labelPL: 'Odzież i Obuwie', labelNL: 'Kleding & Schoenen' },
       { id: 'sport', icon: '⚽', labelPL: 'Sport i Hobby', labelNL: 'Sport & Hobby' },
-      { id: 'services', icon: '🔧', labelPL: 'Us\u0142ugi', labelNL: 'Diensten' },
-      { id: 'travel', icon: '✈️', labelPL: 'Wakacje i podr\u00f3\u017ce', labelNL: 'Vakantie & Reizen' },
-      { id: 'fishing', icon: '🎣', labelPL: 'W\u0119dkarstwo', labelNL: 'Hengelsport / Vissen' },
+      { id: 'services', icon: '🔧', labelPL: 'Usługi', labelNL: 'Diensten' },
+      { id: 'travel', icon: '✈️', labelPL: 'Wakacje i podróże', labelNL: 'Vakantie & Reizen' },
+      { id: 'fishing', icon: '🎣', labelPL: 'Wędkarstwo', labelNL: 'Hengelsport / Vissen' },
       { id: 'jobs', icon: '💼', labelPL: 'Praca', labelNL: 'Vacatures & Werk' },
       { id: 'other', icon: '📦', labelPL: 'Inne', labelNL: 'Overig' }
     ];
@@ -1579,7 +1522,7 @@
       return currentLang === 'PL' ? cat.labelPL : cat.labelNL;
     }
 
-    const COUNTRY_CONFIG = { NL: { currency: '\u20ac' }, PL: { currency: 'z\u0142' } };
+    const COUNTRY_CONFIG = { NL: { currency: '€' }, PL: { currency: 'zł' } };
     const initialLocale = detectInitialLanguageAndCountry();
     let listingsData = { NL: [], PL: [] };
     let favoriteIds = [];
@@ -1663,7 +1606,7 @@
         type: numericPrice === 0 ? 'free' : 'sale',
         category: catId,
         condition: 'na',
-        title: row.tytul || 'Og\u0142oszenie',
+        title: row.tytul || 'Ogłoszenie',
         city: row.miejscowosc || '',
         price: numericPrice,
         icon: matchedCat ? matchedCat.icon : '📦',
@@ -1762,8 +1705,6 @@
         }
         const msgRes = await safeSelectTable(SUPABASE_TABLE_WIADOMOSCI, 'created_at');
         if (msgRes && Array.isArray(msgRes.data)) { userMessagesDb = msgRes.data; saveUserMessagesLocal(); }
-        const ratRes = await safeSelectTable(SUPABASE_TABLE_OCENY, 'created_at');
-        if (ratRes && Array.isArray(ratRes.data)) { sellerRatingsDb = ratRes.data; saveSellerRatingsLocal(); }
       } catch (e) {}
       renderCountryUI();
     }
@@ -1815,7 +1756,7 @@
       const willOpen = !mega.classList.contains('open');
       mega.classList.toggle('open', willOpen);
       const arrow = document.getElementById('navProfileArrow');
-      if (arrow) arrow.textContent = willOpen ? '\u25b4' : '\u25be';
+      if (arrow) arrow.textContent = willOpen ? '▴' : '▾';
       if (willOpen) renderProfileMegaDropdown();
     }
 
@@ -1823,7 +1764,7 @@
       const mega = document.getElementById('profileMegaDropdown');
       const arrow = document.getElementById('navProfileArrow');
       if (mega) mega.classList.remove('open');
-      if (arrow) arrow.textContent = '\u25be';
+      if (arrow) arrow.textContent = '▾';
     }
 
     function openFullAccountModal(targetTab = 'sell') {
@@ -1831,6 +1772,11 @@
       hubTopTab = targetTab;
       renderAccountModal();
       document.getElementById('accountModal').classList.add('open');
+    }
+
+    function setLanguageFromMenu(lang) {
+      setLanguage(lang);
+      renderProfileMegaDropdown();
     }
 
     function renderProfileMegaDropdown() {
@@ -1842,6 +1788,21 @@
       const myAdsCount = (listingsData[currentCountry] || []).filter(isListingOwnedByMe).length;
       const inboxCount = getUnreadOrInboxCountForCurrentUser();
 
+      const topLocaleBarHtml = `
+        <div class="mega-top-locale-bar" onclick="event.stopPropagation()">
+          <div class="mega-locale-group">
+            <span class="mega-locale-label">Region:</span>
+            <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" style="padding:4px 9px;font-size:11px" onclick="manualSwitchCountry('NL');renderProfileMegaDropdown()">NL (€)</button>
+            <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" style="padding:4px 9px;font-size:11px" onclick="manualSwitchCountry('PL');renderProfileMegaDropdown()">PL (zł)</button>
+          </div>
+          <div class="mega-locale-group">
+            <span class="mega-locale-label">Język:</span>
+            ${SUPPORTED_LANGS.map(item =>
+              `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" style="padding:4px 9px;font-size:11px" onclick="setLanguageFromMenu('${item.code}')">${item.label}</button>`
+            ).join('')}
+          </div>
+        </div>`;
+
       let tabContentHtml = '';
       if (megaProfileTab === 'buy') {
         tabContentHtml = `
@@ -1850,46 +1811,55 @@
               <h4>Zakupy</h4>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">Moje zakupy</button>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('favorites')">Ulubione (${favoriteIds.length})</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('auction')">Moje licytacje</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomości do sprzedających</button>
             </div>
             <div class="mega-col">
               <h4>PlacoMarkt</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomo\u015bci (${inboxCount})</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomości (${inboxCount})</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('free')">Oferty za darmo</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();resetFilters()">Wszystkie kategorie</button>
             </div>
             <div class="mega-col">
-              <h4>Region</h4>
-              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('NL');closeHeaderMenus()">NL (&euro;)</button>
-              <button type="button" class="mega-link-btn" onclick="manualSwitchCountry('PL');closeHeaderMenus()">PL (z\u0142)</button>
+              <h4>Szybkie akcje</h4>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">${t('add')}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">Ustawienia (język, motyw)</button>
             </div>
           </div>`;
       } else if (megaProfileTab === 'sell') {
         tabContentHtml = `
           <div class="mega-cols">
             <div class="mega-col">
-              <h4>Moja sprzeda\u017c</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Moje og\u0142oszenia (${myAdsCount})</button>
+              <h4>Moja sprzedaż</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Moje ogłoszenia (${myAdsCount})</button>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">${t('add')}</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Zakończone i aktywne</button>
             </div>
             <div class="mega-col">
-              <h4>Kontakt</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomo\u015bci (${inboxCount})</button>
+              <h4>Kontakt i oceny</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomości od kupujących (${inboxCount})</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Wiarygodność i opinie</button>
             </div>
             <div class="mega-col">
-              <h4>Konto</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Ksywka / inicja\u0142y</button>
+              <h4>Promowanie i abonament</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Abonament i pakiety</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Ksywka / inicjały sprzedawcy</button>
             </div>
           </div>`;
       } else {
         tabContentHtml = `
           <div class="mega-cols">
             <div class="mega-col">
-              <h4>Konto</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Inicja\u0142y i has\u0142o</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">Ustawienia (j\u0119zyk i animacje)</button>
+              <h4>Konto i bezpieczeństwo</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Inicjały i zmiana hasła</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">Ustawienia (język, motyw)</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();exportUserData()">Eksport danych JSON</button>
             </div>
             <div class="mega-col">
-              <h4>Wsparcie</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Napisz do Admina</button>
-              ${isAdmin ? `<button type="button" class="mega-link-btn" style="color:var(--red);font-weight:800" onclick="closeHeaderMenus();openAdminPanel()">Panel Admin</button>` : ''}
+              <h4>Wsparcie i regulaminy</h4>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openLegalModal('terms')">Regulamin</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openLegalModal('privacy')">Prywatność (RODO)</button>
+              ${isAdmin ? `<button type="button" class="mega-link-btn" style="color:var(--red);font-weight:800" onclick="closeHeaderMenus();openAdminPanel()">Panel Admin (animacje)</button>` : ''}
             </div>
             <div class="mega-col">
               <h4>Sesja</h4>
@@ -1899,6 +1869,7 @@
       }
 
       box.innerHTML = `
+        ${topLocaleBarHtml}
         <div class="mega-inner" onclick="event.stopPropagation()">
           <div class="mega-left">
             <div>
@@ -1919,7 +1890,7 @@
             </div>
             <div class="mega-bottom-bar">
               <span>PlacoMarkt.online</span>
-              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">Panel &rarr;</button>
+              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">Pełny panel &rarr;</button>
             </div>
           </div>
         </div>`;
@@ -2005,8 +1976,7 @@
       document.documentElement.lang = t('htmlLang');
       document.getElementById('navAddBtn').textContent = t('add');
       document.getElementById('holidayBannerText').textContent = t('banner');
-      document.getElementById('heroTitle').textContent = t('heroTitle');
-      document.getElementById('heroSub').textContent = t('heroSub');
+      document.getElementById('holidaySubBannerText').textContent = t('nyBanner');
       document.getElementById('searchInput').placeholder = t('searchPlaceholder');
       document.getElementById('cityInput').placeholder = t('cityPlaceholder');
       document.getElementById('btnSearchMain').textContent = t('searchBtn');
@@ -2027,19 +1997,19 @@
 
       document.getElementById('quickTagsBar').innerHTML = currentLang === 'PL'
         ? `<span style="color:#e0f2fe">${t('popular')}</span>
-           <span class="quick-tag" onclick="quickSearch('g\u0142o\u015bniki')">G\u0142o\u015bniki</span>
-           <span class="quick-tag" onclick="quickSearch('\u0142\u00f3dka')">W\u0119dkarstwo</span>
+           <span class="quick-tag" onclick="quickSearch('głośniki')">Głośniki</span>
+           <span class="quick-tag" onclick="quickSearch('łódka')">Wędkarstwo</span>
            <span class="quick-tag" onclick="quickSearch('skuter')">Skutery i Auta</span>
-           <span class="quick-tag" onclick="quickSearch('ogr\u00f3dek')">Ogr\u00f3dek dzia\u0142kowy</span>
+           <span class="quick-tag" onclick="quickSearch('ogródek')">Ogródek działkowy</span>
            <span class="quick-tag" onclick="quickSearch('wczasy')">Wczasy</span>`
         : `<span style="color:#e0f2fe">${t('popular')}</span>
            <span class="quick-tag" onclick="quickSearch('speakers')">Speakers</span>
            <span class="quick-tag" onclick="quickSearch('voerboot')">Hengelsport</span>
-           <span class="quick-tag" onclick="quickSearch('scooter')">Scooters & Auto\u2019s</span>
+           <span class="quick-tag" onclick="quickSearch('scooter')">Scooters &amp; Auto’s</span>
            <span class="quick-tag" onclick="quickSearch('volkstuin')">Volkstuin</span>
            <span class="quick-tag" onclick="quickSearch('vakantie')">Vakantie</span>`;
 
-      const zeroCurrency = cfg.currency === 'z\u0142' ? '0,00 z\u0142' : '0,00 \u20ac';
+      const zeroCurrency = cfg.currency === 'zł' ? '0,00 zł' : '0,00 €';
       ['promoPriceStd', 'promoPriceUrgent', 'promoPriceTop'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.textContent = zeroCurrency;
@@ -2053,8 +2023,8 @@
         CATEGORIES_LIST.map(c => `<option value="${c.id}">${getCatLabel(c)}</option>`).join('');
 
       document.getElementById('newShipping').innerHTML = `
-        <option value="pickup">Odbi\u00f3r osobisty / Ophalen</option>
-        <option value="post">Wysy\u0142ka / Verzenden</option>
+        <option value="pickup">Odbiór osobisty / Ophalen</option>
+        <option value="post">Wysyłka / Verzenden</option>
         <option value="na">Nie dotyczy / N.v.t.</option>
       `;
 
@@ -2098,7 +2068,7 @@
         minimumFractionDigits: Number(val) % 1 !== 0 ? 2 : 0,
         maximumFractionDigits: 2
       });
-      return cur === 'z\u0142' ? `${num} z\u0142` : `\u20ac ${num}`;
+      return cur === 'zł' ? `${num} zł` : `€ ${num}`;
     }
 
     function isListingOwnedByMe(item) {
@@ -2227,10 +2197,10 @@
           <div><strong>${displayNick}</strong><div>${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}</div></div>
         </div>
         <div class="detail-actions">
-          ${hasSharedPhone ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='${String(item.phone).replace(/'/g, '')}'">Poka\u017c numer</button>` : ''}
-          ${!isMine ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">Wiadomo\u015b\u0107</button>` : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">Edytuj</button>`}
-          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">Udost\u0119pnij</button>
-          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">Usu\u0144</button>` : ''}
+          ${hasSharedPhone ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='${String(item.phone).replace(/'/g, '')}'">Pokaż numer</button>` : ''}
+          ${!isMine ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">Wiadomość</button>` : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">Edytuj</button>`}
+          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">Udostępnij</button>
+          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">Usuń</button>` : ''}
         </div>`;
       document.getElementById('detailModal').classList.add('open');
       renderListings();
@@ -2245,7 +2215,7 @@
         const matchedUser = registeredUsers.find(u => (u.name || '').toLowerCase() === item.sellerName.toLowerCase() && u.email);
         if (matchedUser) recipientEmail = matchedUser.email.toLowerCase();
       }
-      if (recipientEmail && recipientEmail === currentUser.email.toLowerCase()) { alert('To Twoje og\u0142oszenie.'); return; }
+      if (recipientEmail && recipientEmail === currentUser.email.toLowerCase()) { alert('To Twoje ogłoszenie.'); return; }
       const txt = prompt(`${item.title}:`);
       if (!txt || !txt.trim()) return;
       const msgRow = {
@@ -2263,7 +2233,7 @@
       userMessagesDb.unshift(savedMsg);
       saveUserMessagesLocal();
       updateAccountButton();
-      alert('Wys\u0142ano.');
+      alert('Wysłano.');
     }
 
     function shareOfferLink(id, title) {
@@ -2372,7 +2342,7 @@
       const hasSubscription = document.getElementById('newHasSubscription').checked;
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
       const sharePhoneVal = Boolean(phoneVal && document.getElementById('newSharePhone')?.checked);
-      const nickName = customAlias || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'U\u017cytkownik');
+      const nickName = customAlias || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik');
 
       const photosFinal = [...uploadedPhotosTemp].filter(Boolean).slice(0, MAX_PHOTOS_PER_OFFER);
       if (sb && uploadedPhotoFilesTemp.length > 0) {
@@ -2463,18 +2433,18 @@
           ${authModalTab === 'login' ? `
             <form onsubmit="handleLoginSubmit(event)">
               <div class="form-group"><input type="email" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="E-mail" /></div>
-              <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Has\u0142o / Wachtwoord" /></div>
+              <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Hasło / Wachtwoord" /></div>
               <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:12px">
                 <input type="checkbox" id="rememberLoginCheck" style="width:auto" ${savedCreds.remember ? 'checked' : ''} />
-                <span>Zapami\u0119taj has\u0142o / Wachtwoord onthouden</span>
+                <span>Zapamiętaj hasło / Wachtwoord onthouden</span>
               </label>
-              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj si\u0119 / Inloggen</button>
+              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się / Inloggen</button>
             </form>` : `
             <form onsubmit="handleRegisterSubmit(event)">
-              <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="Ksywka / inicja\u0142y (Naam)" /></div>
+              <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="Ksywka / inicjały (Naam)" /></div>
               <div class="form-group"><input type="email" id="regEmail" required placeholder="E-mail" /></div>
-              <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="Has\u0142o / Wachtwoord (min. 6)" /></div>
-              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Za\u0142\u00f3\u017c konto / Registreren</button>
+              <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="Hasło / Wachtwoord (min. 6)" /></div>
+              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Załóż konto / Registreren</button>
             </form>`}
           <div class="alt-login-divider">LUB / OF</div>
           <button type="button" class="alt-login-btn" onclick="handleGoogleLogin()">
@@ -2502,11 +2472,11 @@
         const favs = (listingsData[currentCountry] || []).filter(i => favoriteIds.includes(i.id));
         rightHtml = `<h3>${t('tabFav')} (${favs.length})</h3><div style="margin-top:8px">${favs.map(i => `<div class="admin-row"><div><strong>${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${i.id}')">${t('details')}</button></div>`).join('') || ''}</div>`;
       } else if (hubTopTab === 'messages') {
-        rightHtml = `<h3>Wiadomo\u015bci (${myInbox.length})</h3><div class="admin-list" style="margin-top:8px">${myInbox.map(m => `<div class="admin-row"><div><strong>${m.listing_title || ''}</strong><div style="font-size:12px;color:var(--muted)">${m.sender_email}</div><div style="font-size:13px;margin-top:4px">${m.tresc}</div></div></div>`).join('') || ''}</div>`;
+        rightHtml = `<h3>Wiadomości (${myInbox.length})</h3><div class="admin-list" style="margin-top:8px">${myInbox.map(m => `<div class="admin-row"><div><strong>${m.listing_title || ''}</strong><div style="font-size:12px;color:var(--muted)">${m.sender_email}</div><div style="font-size:13px;margin-top:4px">${m.tresc}</div></div></div>`).join('') || ''}</div>`;
       } else if (hubTopTab === 'sell') {
         rightHtml = `
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <h3>Moje og\u0142oszenia (${myAds.length})</h3>
+            <h3>Moje ogłoszenia (${myAds.length})</h3>
             <button type="button" class="add-btn" onclick="closeModal('accountModal');openAddModal()">${t('add')}</button>
           </div>
           <div class="admin-list">
@@ -2515,24 +2485,24 @@
                 <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}</div></div>
                 <div class="admin-row-actions">
                   <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">Edytuj</button>
-                  <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">Usu\u0144</button>
+                  <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">Usuń</button>
                 </div>
               </div>`).join('') || ''}
           </div>`;
       } else {
         rightHtml = `
           <div class="set-section">
-            <h4>Ksywka / inicja\u0142y</h4>
+            <h4>Ksywka / inicjały</h4>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <input type="text" id="nickInputField" value="${displayNick}" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
               <button type="button" class="mini-btn green" onclick="saveNickName()">Zapisz</button>
             </div>
           </div>
           <div class="twofa-box">
-            <h4 style="margin-bottom:8px">Zmie\u0144 has\u0142o</h4>
+            <h4 style="margin-bottom:8px">Zmień hasło</h4>
             <form onsubmit="handleChangePasswordDirect(event)" style="display:flex;gap:8px;flex-wrap:wrap">
-              <input type="password" id="directNewPass" minlength="6" required placeholder="Nowe has\u0142o" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
-              <button type="submit" class="mini-btn green">Zmie\u0144</button>
+              <input type="password" id="directNewPass" minlength="6" required placeholder="Nowe hasło" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
+              <button type="submit" class="mini-btn green">Zmień</button>
             </form>
           </div>`;
       }
@@ -2544,7 +2514,7 @@
               <div style="font-weight:800;font-size:15px">${t('hello')} ${displayNick}!</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">WIADOMO\u015aCI (${myInbox.length})</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">WIADOMOŚCI (${myInbox.length})</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">Admin</button>` : ''}
@@ -2554,7 +2524,7 @@
           <div>
             <div class="hub-top-tabs">
               <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
-              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">WIADOMO\u015aCI (${myInbox.length})</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">WIADOMOŚCI (${myInbox.length})</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
             </div>
@@ -2620,7 +2590,7 @@
         updateAccountButton();
         renderAccountModal();
       } else {
-        alert('B\u0142\u0105d logowania.');
+        alert('Błąd logowania.');
       }
     }
 
@@ -2670,6 +2640,7 @@
         const b = document.getElementById('adm' + c);
         if (b) b.classList.toggle('active', c === currentCountry);
       });
+      renderAdminScenePicker();
       renderAdminPanel();
       document.getElementById('adminModal').classList.add('open');
     }
@@ -2688,8 +2659,8 @@
       const items = (listingsData[currentCountry] || []).filter(x => !x.isPlaceholder);
       document.getElementById('adminStats').innerHTML = `
         <div class="stat-card"><span>Konta</span><strong>${registeredUsers.length}</strong></div>
-        <div class="stat-card"><span>Og\u0142oszenia (${currentCountry})</span><strong>${items.length}</strong></div>
-        <div class="stat-card"><span>Zg\u0142oszenia</span><strong>${adminMessages.length}</strong></div>
+        <div class="stat-card"><span>Ogłoszenia (${currentCountry})</span><strong>${items.length}</strong></div>
+        <div class="stat-card"><span>Zgłoszenia</span><strong>${adminMessages.length}</strong></div>
         <div class="stat-card"><span>Reklamy</span><strong>${adSubmissions.length}</strong></div>`;
       const body = document.getElementById('adminBody');
       if (activeAdminTab === 'listings') {
@@ -2697,8 +2668,8 @@
           <div class="admin-row">
             <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}</div></div>
             <div class="admin-row-actions">
-              <button type="button" class="mini-btn dark" onclick="adminTogglePirate('${item.id}')">${item.pirateFlag ? 'Zdejmij flag\u0119' : 'Flaga Pirata'}</button>
-              <button type="button" class="mini-btn red" onclick="adminDelete('${item.id}')">Usu\u0144</button>
+              <button type="button" class="mini-btn dark" onclick="adminTogglePirate('${item.id}')">${item.pirateFlag ? 'Zdejmij flagę' : 'Flaga Pirata'}</button>
+              <button type="button" class="mini-btn red" onclick="adminDelete('${item.id}')">Usuń</button>
             </div>
           </div>`).join('') || ''}</div>`;
       } else if (activeAdminTab === 'users') {
@@ -2726,7 +2697,6 @@
         if (btn) btn.classList.toggle('active', c === currentCountry);
       });
       renderLangDrawer();
-      renderScenePicker();
       document.getElementById('settingsModal').classList.add('open');
     }
 
@@ -2770,7 +2740,7 @@
       if (megaBox && profBtn && !megaBox.contains(e.target) && !profBtn.contains(e.target)) {
         megaBox.classList.remove('open');
         const arrow = document.getElementById('navProfileArrow');
-        if (arrow) arrow.textContent = '\u25be';
+        if (arrow) arrow.textContent = '▾';
       }
       ['detailModal', 'addModal', 'settingsModal', 'adminModal', 'accountModal', 'legalModal'].forEach(id => {
         const el = document.getElementById(id);
