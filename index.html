@@ -681,7 +681,8 @@
       <div class="admin-stats" id="adminStats"></div>
       <div class="admin-tabs">
         <button type="button" class="admin-tab active" id="admTabListings" onclick="setAdminTab('listings')">Ogłoszenia i ryzyko</button>
-        <button type="button" class="admin-tab" id="admTabUsers" onclick="setAdminTab('users')">Użytkownicy i bany</button>
+        <button type="button" class="admin-tab" id="admTabUsers" onclick="setAdminTab('users')">Konta użytkowników</button>
+        <button type="button" class="admin-tab" id="admTabBanned" onclick="setAdminTab('banned')">Zbanowani użytkownicy</button>
         <button type="button" class="admin-tab" id="admTabAds" onclick="setAdminTab('ads')">Reklamy</button>
         <button type="button" class="admin-tab" id="admTabHelp" onclick="setAdminTab('help')">Pomoc / Zgłoszenia (<span id="repCountTab">0</span>)</button>
       </div>
@@ -1695,12 +1696,38 @@
     }
 
     async function invokeDeleteUserEdgeFn(payload) {
-      if (!sb || !sb.functions) return { error: null };
+      if (!sb || !sb.functions) return { data: null, error: null };
       try {
         const res = await sb.functions.invoke('delete-user', { body: payload });
-        return res || { error: null };
+        return res || { data: null, error: null };
       } catch (e) {
-        return { error: e };
+        return { data: null, error: e };
+      }
+    }
+
+    async function fetchAllSupabaseUsersForAdmin() {
+      if (!hasAdminPermission()) return;
+      const { data, error } = await invokeDeleteUserEdgeFn({ action: 'list' });
+      if (!error && data && Array.isArray(data.users)) {
+        data.users.forEach(su => {
+          if (!su.email) return;
+          const low = su.email.toLowerCase();
+          permanentlyDeletedEmails = permanentlyDeletedEmails.filter(e => e !== low);
+          const idx = registeredUsers.findIndex(u => (u.email || '').toLowerCase() === low);
+          const mapped = {
+            id: su.id,
+            name: getFirstNameOrNick(su.name, su.email),
+            email: su.email,
+            country: 'NL',
+            isAdmin: ADMIN_EMAILS.includes(low),
+            bannedUntil: su.bannedUntil || null,
+            banReason: idx >= 0 ? (registeredUsers[idx].banReason || '') : ''
+          };
+          if (idx >= 0) registeredUsers[idx] = { ...registeredUsers[idx], ...mapped };
+          else registeredUsers.push(mapped);
+        });
+        try { localStorage.setItem('placomarkt_deleted_emails', JSON.stringify(permanentlyDeletedEmails)); } catch (e) {}
+        saveUsersDb();
       }
     }
 
@@ -2911,17 +2938,19 @@
       if (modal && modal.classList.contains('open')) renderAdminPanel();
     }
 
-    function openAdminPanel() {
+    async function openAdminPanel() {
       if (!hasAdminPermission()) { openFullAccountModal('account'); return; }
       renderAdminScenePicker();
       renderAdminPanel();
       document.getElementById('adminModal').classList.add('open');
+      await fetchAllSupabaseUsersForAdmin();
+      renderAdminPanel();
     }
 
     function setAdminTab(tab) {
       activeAdminTab = tab;
-      ['listings', 'users', 'ads', 'help'].forEach(k => {
-        const map = { listings: 'admTabListings', users: 'admTabUsers', ads: 'admTabAds', help: 'admTabHelp' };
+      ['listings', 'users', 'banned', 'ads', 'help'].forEach(k => {
+        const map = { listings: 'admTabListings', users: 'admTabUsers', banned: 'admTabBanned', ads: 'admTabAds', help: 'admTabHelp' };
         const el = document.getElementById(map[k]);
         if (el) el.classList.toggle('active', k === tab);
       });
@@ -2930,11 +2959,14 @@
 
     function renderAdminPanel() {
       const items = (listingsData[currentCountry] || []).filter(x => !x.isPlaceholder);
+      const bannedUsers = registeredUsers.filter(u => u.bannedUntil && new Date(u.bannedUntil).getTime() > Date.now());
+
       document.getElementById('adminStats').innerHTML = `
-        <div class="stat-card" style="cursor:pointer" onclick="setAdminTab('users')"><span>Konta</span><strong>${registeredUsers.length}</strong></div>
+        <div class="stat-card" style="cursor:pointer" onclick="setAdminTab('users')"><span>Konta użytkowników</span><strong>${registeredUsers.length}</strong></div>
+        <div class="stat-card" style="cursor:pointer" onclick="setAdminTab('banned')"><span>Zbanowani użytkownicy</span><strong style="color:var(--red)">${bannedUsers.length}</strong></div>
         <div class="stat-card"><span>Ogłoszenia (${currentCountry})</span><strong>${items.length}</strong></div>
-        <div class="stat-card"><span>Zgłoszenia</span><strong>${adminMessages.length}</strong></div>
-        <div class="stat-card"><span>Reklamy</span><strong>${adSubmissions.length}</strong></div>`;
+        <div class="stat-card"><span>Zgłoszenia</span><strong>${adminMessages.length}</strong></div>`;
+
       const body = document.getElementById('adminBody');
       if (activeAdminTab === 'listings') {
         body.innerHTML = `<div class="admin-list">${items.map(item => `
@@ -2945,8 +2977,9 @@
               <button type="button" class="mini-btn red" onclick="adminDelete('${item.id}')">Usuń</button>
             </div>
           </div>`).join('') || '<div class="admin-row">Brak ogłoszeń.</div>'}</div>`;
-      } else if (activeAdminTab === 'users') {
-        body.innerHTML = `<div class="admin-list">${registeredUsers.map(u => {
+      } else if (activeAdminTab === 'users' || activeAdminTab === 'banned') {
+        const targetList = activeAdminTab === 'banned' ? bannedUsers : registeredUsers;
+        body.innerHTML = `<div class="admin-list">${targetList.map(u => {
           const banned = Boolean(u.bannedUntil && new Date(u.bannedUntil).getTime() > Date.now());
           const isMainAdmin = (u.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
           return `
@@ -2954,7 +2987,7 @@
               <div>
                 <strong>${getFirstNameOrNick(u.name, u.email)}</strong> (${u.email})
                 <div style="font-size:12px;color:${banned ? 'var(--red)' : 'var(--muted)'}">
-                  ${banned ? `ZABLOKOWANY do ${new Date(u.bannedUntil).toLocaleString('pl-PL')} (${u.banReason || 'Naruszenie regulaminu'})` : 'Aktywne konto'}
+                  ${banned ? `ZBANOWANY do ${new Date(u.bannedUntil).toLocaleString('pl-PL')} (${u.banReason || 'Naruszenie regulaminu'})` : 'Aktywne konto'}
                 </div>
               </div>
               <div class="admin-row-actions">
@@ -2972,7 +3005,7 @@
                 ` : '<span style="font-size:12px;color:var(--muted)">Admin</span>'}
               </div>
             </div>`;
-        }).join('') || ''}</div>`;
+        }).join('') || `<div class="admin-row">${activeAdminTab === 'banned' ? 'Brak zbanowanych użytkowników.' : 'Brak kont użytkowników.'}</div>`}</div>`;
       } else if (activeAdminTab === 'ads') {
         body.innerHTML = `<div class="admin-list">${adSubmissions.map(s => `<div class="admin-row"><div><strong>${s.tytul}</strong><div style="font-size:12px">${s.opis}</div></div></div>`).join('') || '<div class="admin-row">Brak reklam.</div>'}</div>`;
       } else {
