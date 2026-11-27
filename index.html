@@ -475,7 +475,6 @@
     .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
     .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 10px; color: var(--accent); }
 
-    /* Katalogi w Ustawieniach */
     .settings-folders {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -529,7 +528,6 @@
       border-color: var(--accent);
     }
 
-    /* Dokumenty prawne i kontakt */
     .legal-doc-tabs {
       display: flex;
       gap: 6px;
@@ -777,15 +775,15 @@
           <label>Widoczność / Zichtbaarheid</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
-              <strong style="color:var(--green)" id="promoPriceStd">0,00 &euro;</strong>
+              <strong style="color:var(--green)" id="promoPriceStd">0,00</strong>
               <div style="font-size:11px;color:var(--muted)">30 dni / dagen</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
-              <strong style="color:var(--red)" id="promoPriceUrgent">0,00 &euro;</strong>
+              <strong style="color:var(--red)" id="promoPriceUrgent">0,00</strong>
               <div style="font-size:11px;color:var(--muted)">PILNE / SPOED</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
-              <strong style="color:var(--accent)" id="promoPriceTop">0,00 &euro;</strong>
+              <strong style="color:var(--accent)" id="promoPriceTop">0,00</strong>
               <div style="font-size:11px;color:var(--muted)">TOP</div>
             </div>
           </div>
@@ -836,12 +834,12 @@
       : null;
 
     const SUPPORTED_LANGS = [
-      { code: 'NL', label: 'Nederlands (NL)' },
-      { code: 'PL', label: 'Polski (PL)' },
-      { code: 'UK', label: 'Українська (UK)' },
-      { code: 'DE', label: 'Deutsch (DE)' },
-      { code: 'BE', label: 'België (BE)' },
-      { code: 'FR', label: 'Français (FR)' }
+      { code: 'NL', label: 'Nederlands' },
+      { code: 'PL', label: 'Polski' },
+      { code: 'UK', label: 'Українська' },
+      { code: 'DE', label: 'Deutsch' },
+      { code: 'BE', label: 'België' },
+      { code: 'FR', label: 'Français' }
     ];
 
     const SCENE_OPTIONS = [
@@ -945,7 +943,6 @@
       ).join('');
     }
 
-    /* Katalogi w Ustawieniach */
     let activeSettingsFolder = 'locale';
 
     function setSettingsFolder(folder) {
@@ -965,17 +962,17 @@
       if (activeSettingsFolder === 'locale') {
         container.innerHTML = `
           <div class="set-section">
-            <h4>&#127757; Wybierz kraj i walutę / Regio &amp; Valuta</h4>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Zmienia rynek ogłoszeń oraz walutę (Euro lub Złoty).</p>
+            <h4>&#127757; Wybierz kraj / Regio</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Zmienia rynek ogłoszeń na dany kraj.</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" onclick="manualSwitchCountry('NL');renderSettingsFolderContent()">Holandia — NL (&euro;)</button>
-              <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" onclick="manualSwitchCountry('PL');renderSettingsFolderContent()">Polska — PL (zł)</button>
+              <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" onclick="manualSwitchCountry('NL');renderSettingsFolderContent()">Holandia (NL)</button>
+              <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" onclick="manualSwitchCountry('PL');renderSettingsFolderContent()">Polska (PL)</button>
             </div>
           </div>
           <div class="set-section" style="margin-bottom:0">
             <h4>&#128483;&#65039; Wybierz język aplikacji / Taal</h4>
             <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Język interfejsu oraz wyszukiwarki.</p>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px">
               ${SUPPORTED_LANGS.map(item =>
                 `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" style="justify-content:center;padding:8px 10px" onclick="setLanguage('${item.code}');renderSettingsFolderContent()">${item.label}</button>`
               ).join('')}
@@ -1762,7 +1759,6 @@
       document.getElementById('accountModal').classList.add('open');
     }
 
-    /* Czyste menu profilu — BEZ REGIONU I JĘZYKA */
     function renderProfileMegaDropdown() {
       const box = document.getElementById('profileMegaDropdown');
       if (!box || !currentUser) return;
@@ -1940,7 +1936,6 @@
     }
 
     function renderCountryUI() {
-      const cfg = COUNTRY_CONFIG[currentCountry];
       document.documentElement.lang = t('htmlLang');
       document.getElementById('navAddBtn').textContent = t('add');
       document.getElementById('holidayBannerText').textContent = t('banner');
@@ -1971,10 +1966,9 @@
            <span class="quick-tag" onclick="quickSearch('volkstuin')">Volkstuin</span>
            <span class="quick-tag" onclick="quickSearch('vakantie')">Vakantie</span>`;
 
-      const zeroCurrency = cfg.currency === 'zł' ? '0,00 zł' : '0,00 €';
       ['promoPriceStd', 'promoPriceUrgent', 'promoPriceTop'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.textContent = zeroCurrency;
+        if (el) el.textContent = '0,00';
       });
 
       document.getElementById('searchCatSelect').innerHTML =
@@ -2676,20 +2670,19 @@
       renderCountryUI();
     }
 
-    /* Pełne dokumenty: O nas, Regulamin, RODO, DSA i Kontakt */
+    /* Dokumenty O nas, Regulamin, RODO, DSA i Kontakt — poprawione zgodnie z uwagami */
     function openLegalModal(doc = 'about') {
       const docs = {
         about: {
           title: 'O nas — PlacoMarkt.online',
           html: `
             <h3>O platformie PlacoMarkt.online</h3>
-            <p><strong>PlacoMarkt.online</strong> to nowoczesny serwis ogłoszeń lokalnych i transgranicznych stworzony z myślą o użytkownikach w <strong>Holandii (NL)</strong> oraz <strong>Polsce (PL)</strong>.</p>
+            <p><strong>PlacoMarkt.online</strong> to nowoczesny serwis ogłoszeń lokalnych stworzony z myślą o wygodnym kupowaniu, sprzedawaniu i oddawaniu rzeczy za darmo.</p>
             <h4>Co wyróżnia PlacoMarkt?</h4>
             <ul>
               <li><strong>Proste dodawanie ofert:</strong> sprzedaż („Kup teraz”), licytacje oraz oddawanie przedmiotów za darmo w jednym miejscu.</li>
               <li><strong>Przejrzysta wiarygodność sprzedawców:</strong> system ocen procentowych oraz ochrona przed nieuczciwymi ofertami.</li>
               <li><strong>Prywatność numeru telefonu:</strong> Twój numer pozostaje ukryty, dopóki sam nie zdecydujesz o jego udostępnieniu w konkretnym ogłoszeniu.</li>
-              <li><strong>Wielojęzyczność:</strong> obsługa języków NL, PL, UK, DE, BE oraz FR.</li>
             </ul>
             <p>Masz pytania lub sugestie rozwoju serwisu? Napisz do nas: <strong>adminplacomarkt@gmail.com</strong>.</p>
           `
@@ -2699,12 +2692,11 @@
           html: `
             <h3>Regulamin korzystania z PlacoMarkt.online</h3>
             <h4>1. Postanowienia ogólne</h4>
-            <p>Serwis PlacoMarkt.online umożliwia publikowanie i przeglądanie ogłoszeń drobnych przez osoby prywatne oraz firmy na terenie Holandii i Polski.</p>
+            <p>Serwis PlacoMarkt.online umożliwia publikowanie i przeglądanie ogłoszeń drobnych przez osoby prywatne oraz firmy.</p>
             <h4>2. Zasady publikacji ogłoszeń</h4>
             <ul>
               <li>Ogłoszenie musi dotyczyć realnego przedmiotu, nieruchomości, pojazdu, usługi lub oferty pracy i zawierać prawdziwy opis oraz cenę.</li>
-              <li>Zabrania się publikowania treści niezgodnych z prawem UE, Holandii i Polski, towarów podrobionych, niebezpiecznych oraz wprowadzających w błąd.</li>
-              <li>Jeden przedmiot można wystawić w jednym aktywnym ogłoszeniu w odpowiedniej kategorii.</li>
+              <li>Zabrania się publikowania treści niezgodnych z prawem, towarów podrobionych, niebezpiecznych oraz wprowadzających w błąd.</li>
             </ul>
             <h4>3. Odpowiedzialność i bezpieczeństwo</h4>
             <p>PlacoMarkt.online pełni rolę platformy ogłoszeniowej łączącej kupujących ze sprzedającymi. Zalecamy odbiór osobisty lub sprawdzoną wysyłkę oraz weryfikację oceny wiarygodności konta przed dokonaniem płatności.</p>
@@ -2733,8 +2725,7 @@
             <h4>1. Punkt kontaktowy (DSA)</h4>
             <p>Zgodnie z unijnym Aktem o Usługach Cyfrowych (DSA — Rozporządzenie UE 2022/2065), pojedynczym punktem kontaktowym dla organów państw członkowskich, Komisji Europejskiej, Rady Usług Cyfrowych oraz użytkowników serwisu PlacoMarkt.online jest:</p>
             <p style="padding:10px 12px;background:var(--soft-bg);border-radius:8px;border:1px solid var(--border)">
-              <strong>E-mail kontaktowy i zgłoszeniowy:</strong> adminplacomarkt@gmail.com<br/>
-              <strong>Języki komunikacji:</strong> polski (PL), niderlandzki (NL), angielski (EN)
+              <strong>E-mail kontaktowy i zgłoszeniowy:</strong> adminplacomarkt@gmail.com
             </p>
             <h4>2. Zgłaszanie nielegalnych treści i naruszeń</h4>
             <p>Jeśli zauważysz ogłoszenie naruszające prawo lub regulamin serwisu, prześlij link do oferty oraz krótki opis naruszenia na adres <strong>adminplacomarkt@gmail.com</strong>. Każde zgłoszenie jest weryfikowane przez administratora, a oferty naruszające zasady są oznaczane lub usuwane.</p>
