@@ -141,8 +141,6 @@
       gap: 6px;
     }
 
-    .lang-dropdown-wrap { display: none !important; }
-
     .profile-mega-dropdown {
       display: none;
       position: absolute;
@@ -207,7 +205,7 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      min-height: 235px;
+      min-height: 240px;
     }
     #animCanvas {
       position: absolute;
@@ -428,8 +426,6 @@
     .admin-tab.active { background: #0f172a; color: #fff; }
     .admin-list { display: flex; flex-direction: column; gap: 10px; }
     .admin-row { border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--card); }
-    .admin-row.blocked-row { background: rgba(220,38,38,0.08); border-color: #fca5a5; }
-    .risk-alert-box { background: #fff7ed; border: 1px solid #fb923c; color: #9a3412; border-radius: 8px; padding: 8px 10px; font-size: 12px; margin-top: 6px; }
     .admin-row-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
     .mini-btn { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; font-weight: 700; cursor: pointer; background: var(--soft-bg); color: var(--text); }
     .mini-btn.gold { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
@@ -475,6 +471,31 @@
     .twofa-box { background: rgba(22,163,74,0.08); border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
     .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
     .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--accent); }
+
+    .lang-toggle-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-drawer {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .lang-drawer.open {
+      display: flex;
+    }
 
     .scene-picker-grid {
       display: grid;
@@ -776,11 +797,14 @@
 
       <div class="set-section">
         <h4>J\u0119zyk i Region / Taal & Regio</h4>
-        <div id="settingsLangButtons" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <button type="button" class="lang-toggle-btn" id="btnToggleLangDrawer" onclick="toggleLangDrawer()">
+            J\u0119zyk (<span id="currentLangLabel">NL</span>) &#9662;
+          </button>
           <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">NL (&euro;)</button>
           <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">PL (z\u0142)</button>
         </div>
+        <div class="lang-drawer" id="langDrawerBox"></div>
       </div>
 
       <div class="set-section">
@@ -844,7 +868,7 @@
     ];
 
     const SCENE_OPTIONS = [
-      { id: 'xmas1', label: '\u015awi\u0119ta 1: Sanie Miko\u0142aja i \u015bnieg' },
+      { id: 'xmas1', label: '\u015awi\u0119ta 1: Sanie Miko\u0142aja i renifery' },
       { id: 'xmas2', label: '\u015awi\u0119ta 2: Choinki, lampki i prezenty' },
       { id: 'ny1', label: 'Nowy Rok 1: Fajerwerki i konfetti' },
       { id: 'ny2', label: 'Nowy Rok 2: Rakiety i iskry sylwestrowe' },
@@ -949,7 +973,23 @@
       ).join('');
     }
 
-    // Rysowanie 6 ruchomych scen w canvas bez uzycia emoji w stringach
+    let langDrawerOpen = false;
+    function toggleLangDrawer() {
+      langDrawerOpen = !langDrawerOpen;
+      renderLangDrawer();
+    }
+
+    function renderLangDrawer() {
+      const box = document.getElementById('langDrawerBox');
+      const curLbl = document.getElementById('currentLangLabel');
+      if (curLbl) curLbl.textContent = currentLang;
+      if (!box) return;
+      box.classList.toggle('open', langDrawerOpen);
+      box.innerHTML = SUPPORTED_LANGS.map(item =>
+        `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" onclick="setLanguage('${item.code}');renderLangDrawer()">${item.label}</button>`
+      ).join('');
+    }
+
     const canvas = document.getElementById('animCanvas');
     const ctx = canvas ? canvas.getContext('2d') : null;
     let particles = [];
@@ -1035,11 +1075,9 @@
       ctx.translate(x, baseY);
       ctx.scale(scale, scale);
 
-      // Pien
       ctx.fillStyle = '#5c3a21';
       ctx.fillRect(-4, -10, 8, 10);
 
-      // Korona choinki (3 warstwy)
       ctx.fillStyle = '#15803d';
       const tiers = [
         { yTop: -44, yBot: -26, halfW: 16 },
@@ -1055,13 +1093,11 @@
         ctx.fill();
       });
 
-      // Gwiazdka na czubku
       ctx.fillStyle = '#facc15';
       ctx.beginPath();
       ctx.arc(0, -47, 4, 0, Math.PI * 2);
       ctx.fill();
 
-      // Lampki choinkowe
       const bulbColors = ['#ef4444', '#facc15', '#38bdf8', '#f472b6'];
       bulbColors.forEach((c, idx) => {
         const blink = 0.45 + 0.55 * Math.sin(lightPhase + idx * 1.4);
@@ -1075,78 +1111,134 @@
       ctx.restore();
     }
 
-    function drawSantaSleigh(x, y) {
+    function drawReindeer(rx, ry, legPhase) {
+      if (!ctx) return;
+      ctx.save();
+      ctx.translate(rx, ry);
+
+      // Poroże
+      ctx.strokeStyle = '#fde68a';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(11, -8);
+      ctx.lineTo(13, -15);
+      ctx.lineTo(10, -18);
+      ctx.moveTo(13, -13);
+      ctx.lineTo(16, -16);
+      ctx.stroke();
+
+      // Nogi (animowane)
+      const swing = Math.sin(legPhase) * 4;
+      ctx.strokeStyle = '#78350f';
+      ctx.lineWidth = 2.4;
+      ctx.beginPath();
+      ctx.moveTo(-6, 4);
+      ctx.lineTo(-8 + swing, 12);
+      ctx.moveTo(6, 4);
+      ctx.lineTo(8 - swing, 12);
+      ctx.stroke();
+
+      // Tułów
+      ctx.fillStyle = '#92400e';
+      ctx.beginPath();
+      ctx.ellipse(0, 1, 10, 5.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Głowa i szyja
+      ctx.beginPath();
+      ctx.ellipse(10, -4, 5.5, 3.8, -0.35, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Czerwony nosek Rudolfa
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.arc(15.5, -4, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawSantaSleigh(x, y, phase) {
       if (!ctx) return;
       ctx.save();
       ctx.translate(x, y);
 
       // Płozy sań
       ctx.strokeStyle = '#fde047';
-      ctx.lineWidth = 2.5;
+      ctx.lineWidth = 2.6;
       ctx.beginPath();
-      ctx.moveTo(0, 12);
-      ctx.lineTo(54, 12);
-      ctx.quadraticCurveTo(62, 12, 64, 6);
+      ctx.moveTo(0, 13);
+      ctx.lineTo(54, 13);
+      ctx.quadraticCurveTo(64, 13, 66, 5);
+      ctx.moveTo(10, 9);
+      ctx.lineTo(10, 13);
+      ctx.moveTo(44, 9);
+      ctx.lineTo(44, 13);
       ctx.stroke();
 
       // Kadłub sań
       ctx.fillStyle = '#dc2626';
       ctx.beginPath();
       ctx.moveTo(4, -2);
-      ctx.lineTo(52, -2);
-      ctx.lineTo(46, 10);
-      ctx.lineTo(8, 10);
+      ctx.lineTo(54, -2);
+      ctx.lineTo(48, 9);
+      ctx.lineTo(8, 9);
       ctx.closePath();
       ctx.fill();
 
-      // Prezent w saniach
+      // Złoty pasek na saniach
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(6, 3);
+      ctx.lineTo(51, 3);
+      ctx.stroke();
+
+      // Paczki z prezentami
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(11, -11, 10, 9);
       ctx.fillStyle = '#facc15';
-      ctx.fillRect(14, -12, 11, 10);
-      ctx.fillStyle = '#2563eb';
-      ctx.fillRect(18.5, -12, 2, 10);
+      ctx.fillRect(22, -13, 10, 11);
 
       // Mikołaj
       ctx.fillStyle = '#dc2626';
       ctx.beginPath();
-      ctx.arc(36, -6, 6.5, 0, Math.PI * 2);
+      ctx.arc(39, -6, 6.5, 0, Math.PI * 2);
       ctx.fill();
       ctx.fillStyle = '#fed7aa';
       ctx.beginPath();
-      ctx.arc(36, -13, 4.5, 0, Math.PI * 2);
+      ctx.arc(39, -13.5, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      // Biała broda
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.arc(40, -11.5, 3.5, 0, Math.PI * 2);
       ctx.fill();
       // Czapka
       ctx.fillStyle = '#dc2626';
       ctx.beginPath();
-      ctx.moveTo(31, -15);
-      ctx.lineTo(41, -15);
-      ctx.lineTo(35, -24);
+      ctx.moveTo(34, -15.5);
+      ctx.lineTo(44, -15.5);
+      ctx.lineTo(38, -24.5);
       ctx.closePath();
       ctx.fill();
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
-      ctx.arc(35, -24, 2.5, 0, Math.PI * 2);
+      ctx.arc(38, -24.5, 2.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Linka i renifer z przodu
-      ctx.strokeStyle = '#ffffff';
+      // Lejce i dwa renifery
+      ctx.strokeStyle = '#fef08a';
       ctx.lineWidth = 1.3;
       ctx.beginPath();
       ctx.moveTo(54, 4);
-      ctx.lineTo(82, 2);
+      ctx.lineTo(84, 1);
+      ctx.moveTo(98, -1);
+      ctx.lineTo(122, -1);
       ctx.stroke();
 
-      ctx.fillStyle = '#92400e';
-      ctx.beginPath();
-      ctx.ellipse(92, 2, 9, 5, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(101, -2, 4, 0, Math.PI * 2);
-      ctx.fill();
-      // Czerwony nosek
-      ctx.fillStyle = '#ef4444';
-      ctx.beginPath();
-      ctx.arc(105, -2, 2, 0, Math.PI * 2);
-      ctx.fill();
+      drawReindeer(90, 2, phase);
+      drawReindeer(128, 0, phase + 1.2);
 
       ctx.restore();
     }
@@ -1179,7 +1271,6 @@
         ctx.clearRect(0, 0, w, h);
 
         if (activeScene === 'xmas1' || activeScene === 'xmas2') {
-          // Choinki wzdłuż dolnej krawędzi sekcji
           const treePositions = [32, 78, 130, w - 130, w - 78, w - 32];
           treePositions.forEach((tx, i) => {
             if (tx > 15 && tx < w - 15) {
@@ -1187,7 +1278,6 @@
             }
           });
 
-          // Płatki śniegu
           ctx.fillStyle = '#ffffff';
           particles.forEach(p => {
             p.x += p.vx + Math.sin(animTick + p.y * 0.03) * 0.35;
@@ -1200,11 +1290,10 @@
             ctx.fill();
           });
 
-          // Sanie z Mikołajem
-          sleighX += activeScene === 'xmas2' ? 1.8 : 1.35;
-          if (sleighX > w + 130) sleighX = -130;
-          const sleighY = 28 + Math.sin(animTick * 1.4) * 5;
-          drawSantaSleigh(sleighX, sleighY);
+          sleighX += activeScene === 'xmas2' ? 1.75 : 1.35;
+          if (sleighX > w + 160) sleighX = -160;
+          const sleighY = 30 + Math.sin(animTick * 1.4) * 5;
+          drawSantaSleigh(sleighX, sleighY, animTick * 3);
 
         } else if (activeScene === 'ny1' || activeScene === 'ny2') {
           if (Math.random() < (activeScene === 'ny2' ? 0.06 : 0.035)) {
@@ -1243,7 +1332,6 @@
           });
 
         } else {
-          // Wielkanoc: pisanki i wiosenne płatki
           const eggSpots = [
             { x: 42, y: h - 18, c: '#f472b6', s: '#fde047' },
             { x: 86, y: h - 16, c: '#38bdf8', s: '#ffffff' },
@@ -1273,7 +1361,6 @@
       initSceneParticles();
     });
 
-    // Pozostała logika aplikacji
     function hasAdminPermission() {
       if (!currentUser) return false;
       const email = (currentUser.email || '').toLowerCase();
@@ -1317,14 +1404,6 @@
       if (cleaned) return cleaned;
       if (email && email.includes('@')) return email.split('@')[0];
       return 'Konto';
-    }
-
-    function maskEmailForConfirmation(email) {
-      const str = String(email || '').trim();
-      if (!str.includes('@')) return str || 'skrzynki na stronie';
-      const [userPart, domain] = str.split('@');
-      if (userPart.length <= 2) return `${userPart[0] || '*'}***@${domain}`;
-      return `${userPart.slice(0, 2)}***@${domain}`;
     }
 
     function toggleSharePhoneCheckbox() {
@@ -1406,21 +1485,6 @@
       try { localStorage.setItem('placomarkt_seller_ratings', JSON.stringify(sellerRatingsDb)); } catch (e) {}
     }
 
-    function hasBuyerSellerContact(listingId, buyerEmail, sellerEmail) {
-      if (!buyerEmail) return false;
-      const b = buyerEmail.toLowerCase();
-      const s = (sellerEmail || '').toLowerCase();
-      if (s && b === s) return false;
-      return userMessagesDb.some(m => {
-        const sameListing = String(m.listing_id) === String(listingId);
-        const mSender = (m.sender_email || '').toLowerCase();
-        const mRecip = (m.recipient_email || '').toLowerCase();
-        if (!sameListing) return false;
-        if (!s) return mSender === b;
-        return (mSender === b && mRecip === s) || (mSender === s && mRecip === b);
-      });
-    }
-
     function getSellerRatingStats(item) {
       const sellerMail = (item.ownerEmail || '').toLowerCase();
       const matched = sellerRatingsDb.filter(r =>
@@ -1465,23 +1529,8 @@
     };
 
     let showPlaceholderOffers = true;
-    try {
-      const savedPh = localStorage.getItem('placomarkt_show_placeholders');
-      if (savedPh !== null) showPlaceholderOffers = savedPh === 'true';
-    } catch (e) {}
-
     let adSubmissions = [];
-    try {
-      const savedSubs = JSON.parse(localStorage.getItem('placomarkt_ad_submissions') || '[]');
-      if (Array.isArray(savedSubs)) adSubmissions = savedSubs;
-    } catch (e) {}
-
     let adminMessages = [];
-    try {
-      const savedMsgs = JSON.parse(localStorage.getItem('placomarkt_admin_messages') || '[]');
-      if (Array.isArray(savedMsgs)) adminMessages = savedMsgs;
-    } catch (e) {}
-
     let userPrefs = { darkMode: false, defaultCityNL: '', defaultCityPL: '', layoutView: 'grid' };
     try {
       const savedPrefs = JSON.parse(localStorage.getItem('placomarkt_prefs') || 'null');
@@ -1546,7 +1595,6 @@
     let editingListingId = null;
     let uploadedPhotosTemp = [];
     let uploadedPhotoFilesTemp = [];
-    let uploadedAdPhotoDataUrl = '';
     let currentUser = null;
     let megaProfileTab = 'buy';
     let hubTopTab = 'sell';
@@ -1573,19 +1621,6 @@
         u.bannedUntil = null; u.banReason = ''; saveUsersDb(); return null;
       }
       return u;
-    }
-
-    function analyzeListingHarm(item) {
-      const reasons = [];
-      const text = normalizeText(`${item.title || ''} ${item.desc || ''}`);
-      const fakeWords = ['replika', '1:1', 'podrobka', 'imitacja', 'fake', 'kopia', 'tester bez korka', 'bez pudelka'];
-      const badWords = ['kurw', 'chuj', 'pierdol', 'spierdal', 'szmata', 'oszust', 'wyludzenie'];
-      if (fakeWords.some(w => text.includes(w))) reasons.push('Podr\u00f3bki / repliki / brak opakowania');
-      if (badWords.some(w => text.includes(w))) reasons.push('Wulgaryzmy');
-      if (!item.photos || item.photos.length === 0) reasons.push('Brak zdj\u0119cia');
-      if (item.category === 'cosmetics' && item.price > 0 && item.price < 15) reasons.push('Niska cena w Kosmetyki');
-      if (item.category === 'auto' && item.price > 0 && item.price < 200) reasons.push('Niska cena w Auta');
-      return reasons;
     }
 
     function parsePriceNumber(val) {
@@ -1729,16 +1764,6 @@
         if (msgRes && Array.isArray(msgRes.data)) { userMessagesDb = msgRes.data; saveUserMessagesLocal(); }
         const ratRes = await safeSelectTable(SUPABASE_TABLE_OCENY, 'created_at');
         if (ratRes && Array.isArray(ratRes.data)) { sellerRatingsDb = ratRes.data; saveSellerRatingsLocal(); }
-        const admMsgRes = await safeSelectTable('wiadomosci_admin', 'created_at');
-        if (admMsgRes && Array.isArray(admMsgRes.data)) {
-          adminMessages = admMsgRes.data;
-          try { localStorage.setItem('placomarkt_admin_messages', JSON.stringify(adminMessages)); } catch (e) {}
-        }
-        const adsRes = await safeSelectTable('reklamy_zgloszenia', 'created_at');
-        if (adsRes && Array.isArray(adsRes.data)) {
-          adSubmissions = adsRes.data;
-          try { localStorage.setItem('placomarkt_ad_submissions', JSON.stringify(adSubmissions)); } catch (e) {}
-        }
       } catch (e) {}
       renderCountryUI();
     }
@@ -2118,7 +2143,6 @@
                 <span>${displayNick}</span>
                 ${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}
               </div>
-              ${item.pirateFlag ? `<div class="pirate-warning-box">Flaga Pirata</div>` : ''}
             </div>
             <div class="card-footer">
               <div class="price ${item.type === 'free' ? 'free-price' : ''}">${formatPrice(item.price, item.type === 'free')}</div>
@@ -2179,13 +2203,6 @@
       const subSection = document.getElementById('subscribersSection');
       subSection.style.display = subItems.length ? 'block' : 'none';
       document.getElementById('subscribersGrid').innerHTML = subItems.map(i => buildListingCardHtml(i, true)).join('');
-    }
-
-    function selectDetailPhoto(idx, id) {
-      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
-      if (!item || !item.photos || !item.photos[idx]) return;
-      const heroImg = document.getElementById('detailMainPhoto');
-      if (heroImg) heroImg.src = item.photos[idx];
     }
 
     function openDetail(id) {
@@ -2276,12 +2293,10 @@
       uploadedPhotoFilesTemp = files;
       document.getElementById('photoPreviewStrip').innerHTML = '';
       if (!files.length) return;
-      let loadedCount = 0;
       files.forEach((file, idx) => {
         const reader = new FileReader();
         reader.onload = e => {
           uploadedPhotosTemp[idx] = e.target.result;
-          loadedCount += 1;
           renderPhotoPreviews();
         };
         reader.readAsDataURL(file);
@@ -2710,9 +2725,7 @@
         const btn = document.getElementById('set' + c);
         if (btn) btn.classList.toggle('active', c === currentCountry);
       });
-      document.getElementById('settingsLangButtons').innerHTML = SUPPORTED_LANGS.map(item =>
-        `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" onclick="setLanguage('${item.code}');openSettings()">${item.label}</button>`
-      ).join('');
+      renderLangDrawer();
       renderScenePicker();
       document.getElementById('settingsModal').classList.add('open');
     }
