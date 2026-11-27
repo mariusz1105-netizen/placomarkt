@@ -154,7 +154,6 @@
     }
     .add-btn:hover { background: #1e293b; }
 
-    /* Schowane rozwijane menu języka i regionu */
     .lang-dropdown-wrap { position: relative; }
     .lang-popover {
       display: none;
@@ -201,7 +200,6 @@
       border-color: var(--accent);
     }
 
-    /* Rozwijany mega-panel profilu użytkownika */
     .profile-mega-dropdown {
       display: none;
       position: absolute;
@@ -734,7 +732,6 @@
       </div>
 
       <div class="nav-controls">
-        <!-- Schowany przycisk języka i regionu (bez dopisku kodu języka w nagłówku) -->
         <div class="lang-dropdown-wrap" id="langDropdownWrap">
           <button type="button" class="icon-btn" id="langMenuBtn" onclick="toggleLangPopover(event)">
             🌐 <span id="langBtnLabel">Język</span> ▾
@@ -752,7 +749,6 @@
 
         <button type="button" class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')">❤️ <span id="favCountBadge">0</span></button>
 
-        <!-- Przycisk profilu użytkownika -->
         <button type="button" class="icon-btn acc-btn" id="navProfileBtn" onclick="handleProfileHeaderClick(event)">
           👤 <span id="navAccountLabel">Konto</span> <span id="navProfileArrow">▾</span>
         </button>
@@ -761,7 +757,6 @@
         <button type="button" class="add-btn" id="navAddBtn" onclick="openAddModal()">+ Dodaj</button>
       </div>
 
-      <!-- Rozwijany szeroki panel profilu -->
       <div class="profile-mega-dropdown" id="profileMegaDropdown"></div>
     </div>
   </header>
@@ -1872,7 +1867,9 @@
           .order('created_at', { ascending: false });
 
         if (error) {
-          setDbStatus(`Supabase: ${error.message}`);
+          if (error.status !== 401 && !String(error.message || '').toLowerCase().includes('401')) {
+            setDbStatus(`Supabase: ${error.message}`);
+          }
         } else {
           setDbStatus('');
           if (Array.isArray(rows)) {
@@ -2271,7 +2268,6 @@
         <option value="na">🤝 Nie dotyczy / N.v.t.</option>
       `;
 
-      /* Tylko oferty danego kraju (NL lub PL) — bez mieszania krajów */
       const visible = (listingsData[currentCountry] || []).filter(i => !i.hidden);
       const counts = {
         all: visible.length,
