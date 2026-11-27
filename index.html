@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -154,7 +154,8 @@
     }
     .add-btn:hover { background: #1e293b; }
 
-    .lang-dropdown-wrap { position: relative; }
+    /* Ukryty przełącznik języka na górnym pasku — przeniesiony do ustawień użytkownika */
+    .lang-dropdown-wrap { display: none !important; }
     .lang-popover {
       display: none;
       position: absolute;
@@ -521,7 +522,6 @@
     .badge-urgent { background: var(--red); color: #fff; }
     .badge-free { background: var(--green); color: #fff; }
     .badge-pirate { background: #111827; color: #facc15; border: 1px solid #ef4444; }
-    .badge-demo { background: rgba(15,23,42,0.8); color: #f8fafc; }
 
     .fav-heart-btn {
       position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.94);
@@ -1068,268 +1068,106 @@
 
     const I18N = {
       PL: {
-        htmlLang: 'pl',
-        langBtn: 'Język',
-        chooseLang: 'Wybierz język',
-        chooseMarket: 'Region / Waluta',
-        account: 'Konto',
-        add: '+ Dodaj',
-        heroTitle: 'Ogłoszenia, Licytacje, Zakupy i Wczasy',
+        htmlLang: 'pl', langBtn: 'Język', chooseLang: 'Wybierz język', chooseMarket: 'Region / Waluta',
+        account: 'Konto', add: '+ Dodaj', heroTitle: 'Ogłoszenia, Licytacje, Zakupy i Wczasy',
         heroSub: 'Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca',
-        searchPlaceholder: 'Czego szukasz (np. głośniki, skuter, ogródek)...',
-        cityPlaceholder: 'Miejscowość...',
-        searchBtn: 'Szukaj',
-        allCats: '📂 Wszystkie kategorie',
-        popular: 'Popularne:',
-        tabAll: 'Wszystkie',
-        tabSale: 'Kup teraz',
-        tabAuction: '🔨 Licytacja',
-        tabFree: '🎁 Za darmo',
-        tabFav: '❤️ Ulubione',
-        foundOffers: 'Znalezione oferty',
-        condAll: 'Stan: Wszystkie',
-        condNew: '✨ Nowe',
-        condUsed: '♻️ Używane',
-        sortFeat: 'Sortuj: Polecane i nowe',
-        sortAsc: 'Cena: rosnąco',
-        sortDesc: 'Cena: malejąco',
-        sortViews: 'Najpopularniejsze',
-        details: 'Szczegóły →',
-        freeLabel: 'ZA DARMO',
-        subTitle: '👑 Oferty z abonamentem',
-        subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.',
-        hello: 'Cześć',
-        settingsUpper: 'USTAWIENIA',
-        logout: 'Wyloguj się',
-        megaBuy: 'ZAKUPY',
-        megaSell: 'SPRZEDAŻ',
-        megaAccount: 'KONTO',
-        mobBuy: 'Kup teraz',
-        mobAdd: 'Dodaj',
-        mobFav: 'Ulubione',
-        mobAcc: 'Konto',
-        mobOpt: 'Opcje'
+        searchPlaceholder: 'Czego szukasz (np. głośniki, skuter, ogródek)...', cityPlaceholder: 'Miejscowość...',
+        searchBtn: 'Szukaj', allCats: '📂 Wszystkie kategorie', popular: 'Popularne:',
+        tabAll: 'Wszystkie', tabSale: 'Kup teraz', tabAuction: '🔨 Licytacja', tabFree: '🎁 Za darmo',
+        tabFav: '❤️ Ulubione', foundOffers: 'Znalezione oferty', condAll: 'Stan: Wszystkie',
+        condNew: '✨ Nowe', condUsed: '♻️ Używane', sortFeat: 'Sortuj: Polecane i nowe',
+        sortAsc: 'Cena: rosnąco', sortDesc: 'Cena: malejąco', sortViews: 'Najpopularniejsze',
+        details: 'Szczegóły →', freeLabel: 'ZA DARMO', subTitle: '👑 Oferty z abonamentem',
+        subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.', hello: 'Cześć',
+        settingsUpper: 'USTAWIENIA', logout: 'Wyloguj się', megaBuy: 'ZAKUPY',
+        megaSell: 'SPRZEDAŻ', megaAccount: 'KONTO', mobBuy: 'Kup teraz', mobAdd: 'Dodaj',
+        mobFav: 'Ulubione', mobAcc: 'Konto', mobOpt: 'Opcje'
       },
       NL: {
-        htmlLang: 'nl',
-        langBtn: 'Taal',
-        chooseLang: 'Kies taal',
-        chooseMarket: 'Regio / Valuta',
-        account: 'Account',
-        add: '+ Plaatsen',
-        heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
+        htmlLang: 'nl', langBtn: 'Taal', chooseLang: 'Kies taal', chooseMarket: 'Regio / Valuta',
+        account: 'Account', add: '+ Plaatsen', heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
         heroSub: 'Auto’s, Motoren, Scooters, Vissen, Cosmetica, Woningen, Volkstuinen, Vakantie & Werk',
-        searchPlaceholder: 'Waar ben je naar op zoek (bijv. speakers, scooter, volkstuin)...',
-        cityPlaceholder: 'Plaats of postcode...',
-        searchBtn: 'Zoeken',
-        allCats: '📂 Alle categorieën',
-        popular: 'Populair:',
-        tabAll: 'Alles',
-        tabSale: 'Direct kopen',
-        tabAuction: '🔨 Veiling',
-        tabFree: '🎁 Gratis',
-        tabFav: '❤️ Favorieten',
-        foundOffers: 'Gevonden advertenties',
-        condAll: 'Staat: Alle',
-        condNew: '✨ Nieuw',
-        condUsed: '♻️ Gebruikt',
-        sortFeat: 'Sorteren: Aanbevolen & nieuw',
-        sortAsc: 'Prijs: laag naar hoog',
-        sortDesc: 'Prijs: hoog naar laag',
-        sortViews: 'Meest bekeken',
-        details: 'Bekijk →',
-        freeLabel: 'GRATIS',
-        subTitle: '👑 Abonnement aanbiedingen',
-        subDesc: 'Advertenties van accounts met een actief abonnement.',
-        hello: 'Hallo',
-        settingsUpper: 'INSTELLINGEN',
-        logout: 'Uitloggen',
-        megaBuy: 'AANKOPEN',
-        megaSell: 'VERKOOP',
-        megaAccount: 'ACCOUNT',
-        mobBuy: 'Kopen',
-        mobAdd: 'Plaatsen',
-        mobFav: 'Favorieten',
-        mobAcc: 'Account',
-        mobOpt: 'Opties'
+        searchPlaceholder: 'Waar ben je naar op zoek (bijv. speakers, scooter, volkstuin)...', cityPlaceholder: 'Plaats of postcode...',
+        searchBtn: 'Zoeken', allCats: '📂 Alle categorieën', popular: 'Populair:',
+        tabAll: 'Alles', tabSale: 'Direct kopen', tabAuction: '🔨 Veiling', tabFree: '🎁 Gratis',
+        tabFav: '❤️ Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
+        condNew: '✨ Nieuw', condUsed: '♻️ Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
+        sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
+        details: 'Bekijk →', freeLabel: 'GRATIS', subTitle: '👑 Abonnement aanbiedingen',
+        subDesc: 'Advertenties van accounts met een actief abonnement.', hello: 'Hallo',
+        settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen', megaBuy: 'AANKOPEN',
+        megaSell: 'VERKOOP', megaAccount: 'ACCOUNT', mobBuy: 'Kopen', mobAdd: 'Plaatsen',
+        mobFav: 'Favorieten', mobAcc: 'Account', mobOpt: 'Opties'
       },
       UK: {
-        htmlLang: 'uk',
-        langBtn: 'Мова',
-        chooseLang: 'Оберіть мову',
-        chooseMarket: 'Регіон / Валюта',
-        account: 'Акаунт',
-        add: '+ Додати',
-        heroTitle: 'Оголошення, Аукціони, Покупки та Відпочинок',
+        htmlLang: 'uk', langBtn: 'Мова', chooseLang: 'Оберіть мову', chooseMarket: 'Регіон / Валюта',
+        account: 'Акаунт', add: '+ Додати', heroTitle: 'Оголошення, Аукціони, Покупки та Відпочинок',
         heroSub: 'Авто, Мото, Скутери, Риболовля, Косметика, Нерухомість, Сади та Робота',
-        searchPlaceholder: 'Що шукаєте (напр. колонки, скутер)...',
-        cityPlaceholder: 'Місто...',
-        searchBtn: 'Пошук',
-        allCats: '📂 Усі категорії',
-        popular: 'Популярне:',
-        tabAll: 'Усі',
-        tabSale: 'Купити зараз',
-        tabAuction: '🔨 Аукціон',
-        tabFree: '🎁 Безкоштовно',
-        tabFav: '❤️ Обране',
-        foundOffers: 'Знайдені оголошення',
-        condAll: 'Стан: Усі',
-        condNew: '✨ Нове',
-        condUsed: '♻️ Вживане',
-        sortFeat: 'Сортування: Рекомендовані',
-        sortAsc: 'Ціна: за зростанням',
-        sortDesc: 'Ціна: за спаданням',
-        sortViews: 'Найпопулярніші',
-        details: 'Детальніше →',
-        freeLabel: 'БЕЗКОШТОВНО',
-        subTitle: '👑 Пропозиції з підпискою',
-        subDesc: 'Оголошення акаунтів з активною підпискою.',
-        hello: 'Привіт',
-        settingsUpper: 'НАЛАШТУВАННЯ',
-        logout: 'Вийти',
-        megaBuy: 'ПОКУПКИ',
-        megaSell: 'ПРОДАЖ',
-        megaAccount: 'АКАУНТ',
-        mobBuy: 'Купити',
-        mobAdd: 'Додати',
-        mobFav: 'Обране',
-        mobAcc: 'Акаунт',
-        mobOpt: 'Опції'
+        searchPlaceholder: 'Що шукаєте (напр. колонки, скутер)...', cityPlaceholder: 'Місто...',
+        searchBtn: 'Пошук', allCats: '📂 Усі категорії', popular: 'Популярне:',
+        tabAll: 'Усі', tabSale: 'Купити зараз', tabAuction: '🔨 Аукціон', tabFree: '🎁 Безкоштовно',
+        tabFav: '❤️ Обране', foundOffers: 'Знайдені оголошення', condAll: 'Стан: Усі',
+        condNew: '✨ Нове', condUsed: '♻️ Вживане', sortFeat: 'Сортування: Рекомендовані',
+        sortAsc: 'Ціна: за зростанням', sortDesc: 'Ціна: за спаданням', sortViews: 'Найпопулярніші',
+        details: 'Детальніше →', freeLabel: 'БЕЗКОШТОВНО', subTitle: '👑 Пропозиції з підпискою',
+        subDesc: 'Оголошення акаунтів з активною підпискою.', hello: 'Привіт',
+        settingsUpper: 'НАЛАШТУВАННЯ', logout: 'Вийти', megaBuy: 'ПОКУПКИ',
+        megaSell: 'ПРОДАЖ', megaAccount: 'АКАУНТ', mobBuy: 'Купити', mobAdd: 'Додати',
+        mobFav: 'Обране', mobAcc: 'Акаунт', mobOpt: 'Опції'
       },
       DE: {
-        htmlLang: 'de',
-        langBtn: 'Sprache',
-        chooseLang: 'Sprache wählen',
-        chooseMarket: 'Region / Währung',
-        account: 'Konto',
-        add: '+ Inserieren',
-        heroTitle: 'Kleinanzeigen, Auktionen, Einkaufen & Urlaub',
+        htmlLang: 'de', langBtn: 'Sprache', chooseLang: 'Sprache wählen', chooseMarket: 'Region / Währung',
+        account: 'Konto', add: '+ Inserieren', heroTitle: 'Kleinanzeigen, Auktionen, Einkaufen & Urlaub',
         heroSub: 'Autos, Roller, Angeln, Kosmetik, Immobilien, Schrebergärten & Jobs',
-        searchPlaceholder: 'Wonach suchst du (z.B. Lautsprecher, Roller)...',
-        cityPlaceholder: 'Ort...',
-        searchBtn: 'Suchen',
-        allCats: '📂 Alle Kategorien',
-        popular: 'Beliebt:',
-        tabAll: 'Alle',
-        tabSale: 'Sofort kaufen',
-        tabAuction: '🔨 Auktion',
-        tabFree: '🎁 Zu verschenken',
-        tabFav: '❤️ Merkliste',
-        foundOffers: 'Gefundene Anzeigen',
-        condAll: 'Zustand: Alle',
-        condNew: '✨ Neu',
-        condUsed: '♻️ Gebraucht',
-        sortFeat: 'Sortieren: Empfohlen & neu',
-        sortAsc: 'Preis: aufsteigend',
-        sortDesc: 'Preis: absteigend',
-        sortViews: 'Beliebteste',
-        details: 'Details →',
-        freeLabel: 'KOSTENLOS',
-        subTitle: '👑 Abo-Angebote',
-        subDesc: 'Anzeigen von Konten mit aktivem Abonnement.',
-        hello: 'Hallo',
-        settingsUpper: 'EINSTELLUNGEN',
-        logout: 'Abmelden',
-        megaBuy: 'EINKÄUFE',
-        megaSell: 'VERKAUF',
-        megaAccount: 'KONTO',
-        mobBuy: 'Kaufen',
-        mobAdd: 'Inserieren',
-        mobFav: 'Merkliste',
-        mobAcc: 'Konto',
-        mobOpt: 'Optionen'
+        searchPlaceholder: 'Wonach suchst du (z.B. Lautsprecher, Roller)...', cityPlaceholder: 'Ort...',
+        searchBtn: 'Suchen', allCats: '📂 Alle Kategorien', popular: 'Beliebt:',
+        tabAll: 'Alle', tabSale: 'Sofort kaufen', tabAuction: '🔨 Auktion', tabFree: '🎁 Zu verschenken',
+        tabFav: '❤️ Merkliste', foundOffers: 'Gefundene Anzeigen', condAll: 'Zustand: Alle',
+        condNew: '✨ Neu', condUsed: '♻️ Gebraucht', sortFeat: 'Sortieren: Empfohlen & neu',
+        sortAsc: 'Preis: aufsteigend', sortDesc: 'Preis: absteigend', sortViews: 'Beliebteste',
+        details: 'Details →', freeLabel: 'KOSTENLOS', subTitle: '👑 Abo-Angebote',
+        subDesc: 'Anzeigen von Konten mit aktivem Abonnement.', hello: 'Hallo',
+        settingsUpper: 'EINSTELLUNGEN', logout: 'Abmelden', megaBuy: 'EINKÄUFE',
+        megaSell: 'VERKAUF', megaAccount: 'KONTO', mobBuy: 'Kaufen', mobAdd: 'Inserieren',
+        mobFav: 'Merkliste', mobAcc: 'Konto', mobOpt: 'Optionen'
       },
       BE: {
-        htmlLang: 'nl-BE',
-        langBtn: 'Taal',
-        chooseLang: 'Kies taal',
-        chooseMarket: 'Regio / Valuta',
-        account: 'Account',
-        add: '+ Plaatsen',
-        heroTitle: 'Zoekertjes, Veilingen, Kopen & Vakantie',
+        htmlLang: 'nl-BE', langBtn: 'Taal', chooseLang: 'Kies taal', chooseMarket: 'Regio / Valuta',
+        account: 'Account', add: '+ Plaatsen', heroTitle: 'Zoekertjes, Veilingen, Kopen & Vakantie',
         heroSub: 'Auto’s, Bromfietsen, Vissen, Cosmetica, Vastgoed, Volkstuintjes & Werk',
-        searchPlaceholder: 'Waar ben je naar op zoek...',
-        cityPlaceholder: 'Gemeente...',
-        searchBtn: 'Zoeken',
-        allCats: '📂 Alle categorieën',
-        popular: 'Populair:',
-        tabAll: 'Alles',
-        tabSale: 'Direct kopen',
-        tabAuction: '🔨 Veiling',
-        tabFree: '🎁 Gratis',
-        tabFav: '❤️ Favorieten',
-        foundOffers: 'Gevonden zoekertjes',
-        condAll: 'Staat: Alle',
-        condNew: '✨ Nieuw',
-        condUsed: '♻️ Tweedehands',
-        sortFeat: 'Sorteren: Aanbevolen',
-        sortAsc: 'Prijs: oplopend',
-        sortDesc: 'Prijs: aflopend',
-        sortViews: 'Meest bekeken',
-        details: 'Bekijk →',
-        freeLabel: 'GRATIS',
-        subTitle: '👑 Abonnement zoekertjes',
-        subDesc: 'Zoekertjes van accounts met actief abonnement.',
-        hello: 'Dag',
-        settingsUpper: 'INSTELLINGEN',
-        logout: 'Afmelden',
-        megaBuy: 'AANKOPEN',
-        megaSell: 'VERKOOP',
-        megaAccount: 'ACCOUNT',
-        mobBuy: 'Kopen',
-        mobAdd: 'Plaatsen',
-        mobFav: 'Favorieten',
-        mobAcc: 'Account',
-        mobOpt: 'Opties'
+        searchPlaceholder: 'Waar ben je naar op zoek...', cityPlaceholder: 'Gemeente...',
+        searchBtn: 'Zoeken', allCats: '📂 Alle categorieën', popular: 'Populair:',
+        tabAll: 'Alles', tabSale: 'Direct kopen', tabAuction: '🔨 Veiling', tabFree: '🎁 Gratis',
+        tabFav: '❤️ Favorieten', foundOffers: 'Gevonden zoekertjes', condAll: 'Staat: Alle',
+        condNew: '✨ Nieuw', condUsed: '♻️ Tweedehands', sortFeat: 'Sorteren: Aanbevolen',
+        sortAsc: 'Prijs: oplopend', sortDesc: 'Prijs: aflopend', sortViews: 'Meest bekeken',
+        details: 'Bekijk →', freeLabel: 'GRATIS', subTitle: '👑 Abonnement zoekertjes',
+        subDesc: 'Zoekertjes van accounts met actief abonnement.', hello: 'Dag',
+        settingsUpper: 'INSTELLINGEN', logout: 'Afmelden', megaBuy: 'AANKOPEN',
+        megaSell: 'VERKOOP', megaAccount: 'ACCOUNT', mobBuy: 'Kopen', mobAdd: 'Plaatsen',
+        mobFav: 'Favorieten', mobAcc: 'Account', mobOpt: 'Opties'
       },
       FR: {
-        htmlLang: 'fr',
-        langBtn: 'Langue',
-        chooseLang: 'Choisir la langue',
-        chooseMarket: 'Région / Devise',
-        account: 'Compte',
-        add: '+ Publier',
-        heroTitle: 'Annonces, Enchères, Achats & Vacances',
+        htmlLang: 'fr', langBtn: 'Langue', chooseLang: 'Choisir la langue', chooseMarket: 'Région / Devise',
+        account: 'Compte', add: '+ Publier', heroTitle: 'Annonces, Enchères, Achats & Vacances',
         heroSub: 'Autos, Scooters, Pêche, Cosmétiques, Immobilier, Jardins & Emploi',
-        searchPlaceholder: 'Que recherchez-vous (ex. enceintes, scooter)...',
-        cityPlaceholder: 'Ville...',
-        searchBtn: 'Rechercher',
-        allCats: '📂 Toutes les catégories',
-        popular: 'Populaire :',
-        tabAll: 'Tout',
-        tabSale: 'Achat immédiat',
-        tabAuction: '🔨 Enchères',
-        tabFree: '🎁 Gratuit',
-        tabFav: '❤️ Favoris',
-        foundOffers: 'Annonces trouvées',
-        condAll: 'État : Tous',
-        condNew: '✨ Neuf',
-        condUsed: '♻️ Occasion',
-        sortFeat: 'Trier : Recommandées',
-        sortAsc: 'Prix : croissant',
-        sortDesc: 'Prix : décroissant',
-        sortViews: 'Plus vues',
-        details: 'Détails →',
-        freeLabel: 'GRATUIT',
-        subTitle: '👑 Offres avec abonnement',
-        subDesc: 'Annonces des comptes avec abonnement actif.',
-        hello: 'Bonjour',
-        settingsUpper: 'PARAMÈTRES',
-        logout: 'Déconnexion',
-        megaBuy: 'ACHATS',
-        megaSell: 'VENTES',
-        megaAccount: 'COMPTE',
-        mobBuy: 'Acheter',
-        mobAdd: 'Publier',
-        mobFav: 'Favoris',
-        mobAcc: 'Compte',
-        mobOpt: 'Options'
+        searchPlaceholder: 'Que recherchez-vous (ex. enceintes, scooter)...', cityPlaceholder: 'Ville...',
+        searchBtn: 'Rechercher', allCats: '📂 Toutes les catégories', popular: 'Populaire :',
+        tabAll: 'Tout', tabSale: 'Achat immédiat', tabAuction: '🔨 Enchères', tabFree: '🎁 Gratuit',
+        tabFav: '❤️ Favoris', foundOffers: 'Annonces trouvées', condAll: 'État : Tous',
+        condNew: '✨ Neuf', condUsed: '♻️ Occasion', sortFeat: 'Trier : Recommandées',
+        sortAsc: 'Prix : croissant', sortDesc: 'Prix : décroissant', sortViews: 'Plus vues',
+        details: 'Détails →', freeLabel: 'GRATUIT', subTitle: '👑 Offres avec abonnement',
+        subDesc: 'Annonces des comptes avec abonnement actif.', hello: 'Bonjour',
+        settingsUpper: 'PARAMÈTRES', logout: 'Déconnexion', megaBuy: 'ACHATS',
+        megaSell: 'VENTES', megaAccount: 'COMPTE', mobBuy: 'Acheter', mobAdd: 'Publier',
+        mobFav: 'Favoris', mobAcc: 'Compte', mobOpt: 'Options'
       }
     };
 
     function t(key) {
-      const pack = I18N[currentLang] || I18N.PL;
-      return pack[key] || I18N.PL[key] || key;
+      const pack = I18N[currentLang] || I18N.NL;
+      return pack[key] || I18N.NL[key] || I18N.PL[key] || key;
     }
 
     function detectInitialLanguageAndCountry() {
@@ -1340,10 +1178,18 @@
         savedCountry = localStorage.getItem('placomarkt_country');
       } catch (e) {}
 
+      // Zawsze szanuj zapisany przez użytkownika język/kraj i nie nadpisuj go przy starcie
       if (savedLang && I18N[savedLang]) {
         return {
           lang: savedLang,
           country: (savedCountry === 'PL' || savedCountry === 'NL') ? savedCountry : (savedLang === 'PL' ? 'PL' : 'NL')
+        };
+      }
+
+      if (savedCountry === 'PL' || savedCountry === 'NL') {
+        return {
+          lang: savedCountry === 'PL' ? 'PL' : 'NL',
+          country: savedCountry
         };
       }
 
@@ -1769,7 +1615,7 @@
       const matchedCat = CATEGORIES_LIST.find(c =>
         c.id === rawCat ||
         (rawCat.includes('auto') || rawCat.includes('motoryz') ? c.id === 'auto' : false) ||
-        (rawCat.includes('wedk') ? c.id === 'fishing' : false) ||
+        (rawCat.includes('wedk') || rawCat.includes('fish') || rawCat.includes('lodk') ? c.id === 'fishing' : false) ||
         (rawCat.includes('elektron') || rawCat.includes('audio') || rawCat.includes('glosn') ? c.id === 'electronics' : false) ||
         (rawCat.includes('ogrod') || rawCat.includes('volkstuin') || rawCat.includes('nieruch') ? c.id === 'housing' : false) ||
         (rawCat.includes('wakac') || rawCat.includes('podro') ? c.id === 'travel' : false)
@@ -1853,6 +1699,24 @@
       listingsData[c] = [...realItems, ...placeholders];
     }
 
+    async function safeSelectTable(tableName, orderCol = null) {
+      if (!sb) return null;
+      try {
+        let query = sb.from(tableName).select('*');
+        if (orderCol) query = query.order(orderCol, { ascending: false });
+        const { data, error } = await query;
+        if (error) {
+          if (error.status === 401 || String(error.message || '').toLowerCase().includes('401')) {
+            return null;
+          }
+          return { error };
+        }
+        return { data: Array.isArray(data) ? data : [] };
+      } catch (e) {
+        return null;
+      }
+    }
+
     async function syncFromSupabase() {
       ['NL', 'PL'].forEach(c => mergeListingsForCountry(c, listingsData[c]?.filter(x => x.fromSupabaseOgloszenia) || []));
 
@@ -1860,29 +1724,24 @@
         renderCountryUI();
         return;
       }
-      try {
-        const { data: rows, error } = await sb
-          .from(SUPABASE_TABLE_OGLOSZENIA)
-          .select('*')
-          .order('created_at', { ascending: false });
 
-        if (error) {
-          if (error.status !== 401 && !String(error.message || '').toLowerCase().includes('401')) {
-            setDbStatus(`Supabase: ${error.message}`);
-          }
+      try {
+        const oglRes = await safeSelectTable(SUPABASE_TABLE_OGLOSZENIA, 'created_at');
+        if (oglRes && oglRes.error) {
+          setDbStatus(`Supabase: ${oglRes.error.message}`);
         } else {
           setDbStatus('');
-          if (Array.isArray(rows)) {
+          if (oglRes && Array.isArray(oglRes.data)) {
             ['NL', 'PL'].forEach(c => {
-              const countryRows = rows.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
+              const countryRows = oglRes.data.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
               mergeListingsForCountry(c, countryRows.map(mapOgloszenieRowToUi));
             });
           }
         }
 
-        const { data: profs } = await sb.from('profiles').select('*');
-        if (Array.isArray(profs) && profs.length) {
-          profs.forEach(p => {
+        const profRes = await safeSelectTable('profiles', null);
+        if (profRes && Array.isArray(profRes.data) && profRes.data.length) {
+          profRes.data.forEach(p => {
             if (!p.email) return;
             const idx = registeredUsers.findIndex(u => (u.email || '').toLowerCase() === p.email.toLowerCase());
             const mapped = {
@@ -1900,32 +1759,33 @@
           saveUsersDb();
         }
 
-        const { data: userMsgs } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).select('*').order('created_at', { ascending: false });
-        if (Array.isArray(userMsgs)) {
-          userMessagesDb = userMsgs;
+        const msgRes = await safeSelectTable(SUPABASE_TABLE_WIADOMOSCI, 'created_at');
+        if (msgRes && Array.isArray(msgRes.data)) {
+          userMessagesDb = msgRes.data;
           saveUserMessagesLocal();
         }
 
-        const { data: ratingsRows } = await sb.from(SUPABASE_TABLE_OCENY).select('*').order('created_at', { ascending: false });
-        if (Array.isArray(ratingsRows)) {
-          sellerRatingsDb = ratingsRows;
+        const ratRes = await safeSelectTable(SUPABASE_TABLE_OCENY, 'created_at');
+        if (ratRes && Array.isArray(ratRes.data)) {
+          sellerRatingsDb = ratRes.data;
           saveSellerRatingsLocal();
         }
 
-        const { data: msgs } = await sb.from('wiadomosci_admin').select('*').order('created_at', { ascending: false });
-        if (Array.isArray(msgs)) {
-          adminMessages = msgs;
+        const admMsgRes = await safeSelectTable('wiadomosci_admin', 'created_at');
+        if (admMsgRes && Array.isArray(admMsgRes.data)) {
+          adminMessages = admMsgRes.data;
           try { localStorage.setItem('placomarkt_admin_messages', JSON.stringify(adminMessages)); } catch (e) {}
         }
 
-        const { data: adsSub } = await sb.from('reklamy_zgloszenia').select('*').order('created_at', { ascending: false });
-        if (Array.isArray(adsSub)) {
-          adSubmissions = adsSub;
+        const adsRes = await safeSelectTable('reklamy_zgloszenia', 'created_at');
+        if (adsRes && Array.isArray(adsRes.data)) {
+          adSubmissions = adsRes.data;
           try { localStorage.setItem('placomarkt_ad_submissions', JSON.stringify(adSubmissions)); } catch (e) {}
         }
       } catch (e) {
         console.error('Supabase sync error:', e);
       }
+
       renderCountryUI();
     }
 
@@ -2525,10 +2385,12 @@
 
       let savedMsg = { id: Date.now(), ...msgRow, created_at: new Date().toISOString() };
       if (sb) {
-        const { data, error } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]).select();
-        if (!error && Array.isArray(data) && data[0]) {
-          savedMsg = data[0];
-        }
+        try {
+          const { data, error } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]).select();
+          if (!error && Array.isArray(data) && data[0]) {
+            savedMsg = data[0];
+          }
+        } catch (e) {}
       }
 
       userMessagesDb.unshift(savedMsg);
@@ -3048,6 +2910,19 @@
       } else {
         rightHtml = `
           <div class="set-section">
+            <h4>🌍 Język i region konta</h4>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+              ${SUPPORTED_LANGS.map(item =>
+                `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" onclick="setLanguage('${item.code}');renderAccountModal()">${item.flag} ${item.label}</button>`
+              ).join('')}
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" onclick="manualSwitchCountry('NL');renderAccountModal()">🇳🇱 (€)</button>
+              <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" onclick="manualSwitchCountry('PL');renderAccountModal()">🇵🇱 (zł)</button>
+            </div>
+          </div>
+
+          <div class="set-section">
             <h4>👤 Twoje inicjały / ksywka</h4>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <input type="text" id="nickInputField" value="${displayNick}" placeholder="Wpisz inicjały lub ksywkę..." style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
@@ -3073,7 +2948,7 @@
           </div>
 
           <div class="set-section">
-            <h4>📢 Wyślij propozycję ogłoszenia wyróżnionego (ze zdjęciem) do Admina</h4>
+            <h4>📢 Wyślij propozycję ogłoszenia wyróżnionego / reklamy (ze zdjęciem) do Admina</h4>
             <form onsubmit="submitHelpOrAdForm(event, 'reklama')">
               <div class="form-group"><input type="text" id="adSubTitle" required placeholder="Tytuł / hasło..." /></div>
               <div class="form-group"><textarea id="adSubDesc" rows="2" required placeholder="Opis / kontakt..."></textarea></div>
@@ -3127,8 +3002,10 @@
       };
       let savedMsg = { id: Date.now(), ...msgRow, created_at: new Date().toISOString() };
       if (sb) {
-        const { data, error } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]).select();
-        if (!error && Array.isArray(data) && data[0]) savedMsg = data[0];
+        try {
+          const { data, error } = await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]).select();
+          if (!error && Array.isArray(data) && data[0]) savedMsg = data[0];
+        } catch (e) {}
       }
       userMessagesDb.unshift(savedMsg);
       saveUserMessagesLocal();
@@ -3194,7 +3071,7 @@
         uploadedAdPhotoDataUrl = '';
         if (sb) sb.from('reklamy_zgloszenia').insert([sub]).then(() => {}).catch(() => {});
         updateAccountButton();
-        alert('Zgłoszenie wysłane do Admina.');
+        alert('Zgłoszenie reklamy / wyróżnienia wysłane do Admina.');
       }
     }
 
@@ -3379,7 +3256,7 @@
         <div class="stat-card"><span>Zarejestrowane konta</span><strong>${usersCount}</strong></div>
         <div class="stat-card"><span>Ogłoszenia (${currentCountry})</span><strong>${items.length}</strong></div>
         <div class="stat-card"><span>Zgłoszenia / Alerty</span><strong>${adminMessages.length}</strong></div>
-        <div class="stat-card"><span>Zgłoszenia wyróżnień</span><strong>${adSubmissions.length}</strong></div>
+        <div class="stat-card"><span>Zgłoszenia reklam</span><strong>${adSubmissions.length}</strong></div>
       `;
 
       const body = document.getElementById('adminBody');
@@ -3439,20 +3316,20 @@
         `;
       } else if (activeAdminTab === 'ads') {
         body.innerHTML = `
-          <h4 style="margin-bottom:8px">Nadesłane przez użytkowników (${adSubmissions.length})</h4>
+          <h4 style="margin-bottom:8px">Nadesłane reklamy i propozycje wyróżnień (${adSubmissions.length})</h4>
           <div class="admin-list">
             ${adSubmissions.length ? adSubmissions.map(s => `
               <div class="admin-row">
                 <div>
                   <strong>${s.tytul}</strong> <span style="font-size:12px;color:var(--muted)">(${s.autor_email || ''})</span>
                   <div style="font-size:12px;margin-top:4px">${s.opis}</div>
-                  ${s.zdjecie_url ? `<img src="${s.zdjecie_url}" alt="Załącznik" style="max-height:70px;border-radius:6px;margin-top:6px" />` : ''}
+                  ${s.zdjecie_url ? `<img src="${s.zdjecie_url}" alt="Załącznik reklamy" style="max-height:70px;border-radius:6px;margin-top:6px" />` : ''}
                 </div>
                 <div class="admin-row-actions">
                   <button type="button" class="mini-btn red" onclick="adminDeleteSubmission('${s.id}')">🗑️ Usuń</button>
                 </div>
               </div>
-            `).join('') : '<p style="color:var(--muted)">Brak zgłoszeń.</p>'}
+            `).join('') : '<p style="color:var(--muted)">Brak zgłoszeń reklam.</p>'}
           </div>
         `;
       } else {
