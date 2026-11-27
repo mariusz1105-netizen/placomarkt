@@ -562,11 +562,11 @@
       <div class="nav-controls">
         <button type="button" class="icon-btn fav-nav-btn" id="navFavBtn" onclick="setMode('favorites')">&#10084;&#65039; <span id="favCountBadge">0</span></button>
         <button type="button" class="icon-btn acc-btn" id="navProfileBtn" onclick="handleProfileHeaderClick(event)">
-          &#128100; <span id="navAccountLabel">Konto</span> <span id="navProfileArrow">&#9662;</span>
+          &#128100; <span id="navAccountLabel">Account</span> <span id="navProfileArrow">&#9662;</span>
         </button>
         <button type="button" class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">&#128737;&#65039; Admin <span class="notif-dot" id="adminReportBadge">0</span></button>
-        <button type="button" class="add-btn" id="navAddBtn" onclick="openAddModal()">+ Dodaj</button>
-        <button type="button" class="icon-btn gear-btn" id="navSettingsGearBtn" title="Ustawienia" onclick="openSettings()">&#9881;&#65039;</button>
+        <button type="button" class="add-btn" id="navAddBtn" onclick="openAddModal()">+ Plaatsen</button>
+        <button type="button" class="icon-btn gear-btn" id="navSettingsGearBtn" title="Instellingen" onclick="openSettings()">&#9881;&#65039;</button>
       </div>
 
       <div class="profile-mega-dropdown" id="profileMegaDropdown"></div>
@@ -576,12 +576,12 @@
   <section class="hero" id="heroSection">
     <canvas id="animCanvas"></canvas>
     <div class="hero-inner">
-      <div class="hero-top-banner" id="holidayBannerText">Wesołych Świąt!</div>
+      <div class="hero-top-banner" id="holidayBannerText">Vrolijk Kerstfeest!</div>
       <div class="search-box">
-        <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz..." oninput="renderListings()" />
+        <input type="text" id="searchInput" class="main-q" placeholder="Waar ben je naar op zoek..." oninput="renderListings()" />
         <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
-        <input type="text" id="cityInput" autocomplete="off" placeholder="Miejscowość..." oninput="renderListings()" />
-        <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Szukaj</button>
+        <input type="text" id="cityInput" autocomplete="off" placeholder="Plaats of postcode..." oninput="renderListings()" />
+        <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Zoeken</button>
       </div>
       <div class="quick-tags" id="quickTagsBar"></div>
     </div>
@@ -593,7 +593,7 @@
 
       <div class="offer-progress-banner" id="offerProgressBanner">
         <div class="offer-progress-top">
-          <span id="offerProgressLabel">Ładowanie oferty...</span>
+          <span id="offerProgressLabel">Laden...</span>
           <span id="offerProgressPercent">0%</span>
         </div>
         <div class="offer-progress-track">
@@ -606,21 +606,21 @@
 
       <div class="toolbar-bar">
         <div class="toolbar-left">
-          <strong style="font-size:15px" id="resultsHeading">Znalezione oferty</strong>
+          <strong style="font-size:15px" id="resultsHeading">Gevonden advertenties</strong>
         </div>
         <div class="toolbar-right">
           <select id="filterCondition" onchange="renderListings()">
-            <option value="all" id="optCondAll">Stan: Wszystkie</option>
-            <option value="new" id="optCondNew">Nowe</option>
-            <option value="used" id="optCondUsed">Używane</option>
+            <option value="all" id="optCondAll">Staat: Alle</option>
+            <option value="new" id="optCondNew">Nieuw</option>
+            <option value="used" id="optCondUsed">Gebruikt</option>
           </select>
-          <input type="number" id="filterMinPrice" placeholder="Od / Van" min="0" style="width:85px" oninput="renderListings()" />
-          <input type="number" id="filterMaxPrice" placeholder="Do / Tot" min="0" style="width:85px" oninput="renderListings()" />
+          <input type="number" id="filterMinPrice" placeholder="Van" min="0" style="width:85px" oninput="renderListings()" />
+          <input type="number" id="filterMaxPrice" placeholder="Tot" min="0" style="width:85px" oninput="renderListings()" />
           <select id="sortSelect" onchange="renderListings()">
-            <option value="featured" id="optSortFeat">Sortuj: Polecane i nowe</option>
-            <option value="price_asc" id="optSortAsc">Cena: rosnąco</option>
-            <option value="price_desc" id="optSortDesc">Cena: malejąco</option>
-            <option value="views_desc" id="optSortViews">Najpopularniejsze</option>
+            <option value="featured" id="optSortFeat">Sorteren: Aanbevolen &amp; nieuw</option>
+            <option value="price_asc" id="optSortAsc">Prijs: laag naar hoog</option>
+            <option value="price_desc" id="optSortDesc">Prijs: hoog naar laag</option>
+            <option value="views_desc" id="optSortViews">Meest bekeken</option>
           </select>
           <div class="view-toggle">
             <button type="button" id="btnViewGrid" class="active" onclick="setLayoutView('grid')">&#8862;</button>
@@ -631,25 +631,25 @@
 
       <div class="grid" id="listingsGrid"></div>
 
-      <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Abonament">
+      <section class="subscribers-bottom-section" id="subscribersSection" aria-label="Abonnement">
         <div class="subscribers-header">
           <div>
-            <h2 id="subSectionTitle">Oferty z abonamentem</h2>
-            <p id="subSectionDesc">Ogłoszenia kont z aktywnym abonamentem na dole strony.</p>
+            <h2 id="subSectionTitle">Abonnement aanbiedingen</h2>
+            <p id="subSectionDesc">Advertenties van accounts met een actief abonnement.</p>
           </div>
-          <button type="button" class="mini-btn gold" onclick="openFullAccountModal('account')">Abonament</button>
+          <button type="button" class="mini-btn gold" id="subSectionBtn" onclick="openFullAccountModal('account')">Abonnement</button>
         </div>
         <div class="grid" id="subscribersGrid"></div>
       </section>
     </div>
 
     <footer class="site-footer">
-      <div><strong>PlacoMarkt.online</strong> &copy; 2026 &bull; Kontakt: adminplacomarkt@gmail.com</div>
+      <div><strong>PlacoMarkt.online</strong> &copy; 2026 &bull; Contact: adminplacomarkt@gmail.com</div>
       <div class="footer-links">
-        <a onclick="openLegalModal('about')">O nas</a>
-        <a onclick="openLegalModal('terms')">Regulamin</a>
-        <a onclick="openLegalModal('privacy')">Prywatność (RODO)</a>
-        <a onclick="openLegalModal('dsa')">DSA i Kontakt</a>
+        <a id="footerAboutLink" onclick="openLegalModal('about')">Over ons</a>
+        <a id="footerTermsLink" onclick="openLegalModal('terms')">Voorwaarden</a>
+        <a id="footerPrivacyLink" onclick="openLegalModal('privacy')">Privacy (AVG/RODO)</a>
+        <a id="footerDsaLink" onclick="openLegalModal('dsa')">DSA &amp; Contact</a>
       </div>
     </footer>
   </main>
@@ -688,99 +688,99 @@
   <div class="modal-backdrop" id="addModal">
     <div class="modal">
       <button type="button" class="close-modal" onclick="closeModal('addModal')">&times;</button>
-      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj ogłoszenie</h2>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Plaats advertentie</h2>
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label>Forma sprzedaży</label>
+            <label id="lblAddType">Verkoopvorm</label>
             <select id="newType" onchange="toggleAddFields()">
-              <option value="sale">Kup teraz / Direct kopen</option>
-              <option value="auction">Licytacja / Veiling</option>
-              <option value="free">Za darmo / Gratis</option>
+              <option value="sale" id="optTypeSale">Direct kopen</option>
+              <option value="auction" id="optTypeAuction">Veiling</option>
+              <option value="free" id="optTypeFree">Gratis</option>
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
-            <label>Stan / Staat</label>
+            <label id="lblAddCond">Staat</label>
             <select id="newCondition">
-              <option value="new">Nowy / Nieuw</option>
-              <option value="used">Używany / Gebruikt</option>
-              <option value="na">Nie dotyczy / N.v.t.</option>
+              <option value="new" id="optAddCondNew">Nieuw</option>
+              <option value="used" id="optAddCondUsed">Gebruikt</option>
+              <option value="na" id="optAddCondNa">N.v.t.</option>
             </select>
           </div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label>Tytuł / Titel</label>
+            <label id="lblAddTitle">Titel</label>
             <input type="text" id="newTitle" required />
           </div>
           <div class="form-group">
-            <label>Ksywka / inicjały (Naam)</label>
+            <label id="lblAddAlias">Naam / initialen</label>
             <input type="text" id="newSellerAlias" maxlength="24" />
           </div>
         </div>
         <div class="form-group">
-          <label>Zdjęcia / Foto's (maks. 6)</label>
+          <label id="lblAddPhotos">Foto's (max. 6)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label>Kategoria / Categorie</label>
+            <label id="lblAddCat">Categorie</label>
             <select id="newCategory"></select>
           </div>
           <div class="form-group">
-            <label>Miejscowość / Plaats</label>
+            <label id="lblAddCity">Plaats</label>
             <input type="text" id="newCity" required />
           </div>
         </div>
         <div class="form-row-2" id="priceRowBox">
           <div class="form-group" id="priceGroup">
-            <label>Cena / Prijs</label>
+            <label id="lblAddPrice">Prijs</label>
             <input type="number" id="newPrice" min="0" step="0.01" />
           </div>
           <div class="form-group" id="reservePriceGroup" style="display:none">
-            <label>Cena minimalna / Minimumprijs</label>
+            <label id="lblAddReserve">Minimumprijs</label>
             <input type="number" id="newReservePrice" min="0" step="0.01" />
           </div>
         </div>
         <div class="form-group" id="buyNowGroup" style="display:none">
-          <label>Kup teraz / Direct kopen</label>
+          <label id="lblAddBuyNow">Direct kopen</label>
           <input type="number" id="newBuyNow" min="0" step="0.01" />
         </div>
         <div class="form-group" id="shippingGroup">
-          <label>Dostawa / Levering</label>
+          <label id="lblAddShipping">Levering</label>
           <select id="newShipping"></select>
         </div>
         <div class="set-section">
-          <h4>Numer telefonu (domyślnie ukryty)</h4>
+          <h4 id="lblAddPhoneHead">Telefoonnummer (standaard verborgen)</h4>
           <div class="form-group" style="margin-bottom:8px">
             <input type="tel" id="newPhone" oninput="toggleSharePhoneCheckbox()" />
           </div>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newSharePhone" style="width:auto" disabled />
-            <span>Udostępniam mój numer telefonu w tym ogłoszeniu</span>
+            <span id="lblAddSharePhone">Deel mijn telefoonnummer in deze advertentie</span>
           </label>
         </div>
         <div class="form-group">
-          <label>Opis / Beschrijving</label>
+          <label id="lblAddDesc">Beschrijving</label>
           <textarea id="newDesc" rows="3" required></textarea>
         </div>
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newHasSubscription" style="width:auto" />
-            <span>Abonament / Abonnement</span>
+            <span id="lblAddSub">Abonnement</span>
           </label>
         </div>
         <div class="form-group">
-          <label>Widoczność / Zichtbaarheid</label>
+          <label id="lblAddVis">Zichtbaarheid</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoPriceStd">0,00</strong>
-              <div style="font-size:11px;color:var(--muted)">30 dni / dagen</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoDaysStd">30 dagen</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
               <strong style="color:var(--red)" id="promoPriceUrgent">0,00</strong>
-              <div style="font-size:11px;color:var(--muted)">PILNE / SPOED</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoTagUrgent">SPOED</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
               <strong style="color:var(--accent)" id="promoPriceTop">0,00</strong>
@@ -789,7 +789,7 @@
           </div>
         </div>
         <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:12px;font-size:15px" id="submitOfferBtn">
-          Dodaj ogłoszenie
+          Advertentie plaatsen
         </button>
       </form>
     </div>
@@ -798,7 +798,7 @@
   <div class="modal-backdrop" id="accountModal">
     <div class="modal" id="accountModalBox" style="max-width:640px">
       <button type="button" class="close-modal" onclick="closeModal('accountModal')">&times;</button>
-      <h2 style="margin-bottom:12px">Konto</h2>
+      <h2 style="margin-bottom:12px" id="accountModalHeading">Account</h2>
       <div id="accountModalBody"></div>
     </div>
   </div>
@@ -806,12 +806,12 @@
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:580px">
       <button type="button" class="close-modal" onclick="closeModal('settingsModal')">&times;</button>
-      <h2 style="margin-bottom:14px">&#9881;&#65039; Ustawienia / Instellingen</h2>
+      <h2 style="margin-bottom:14px" id="settingsModalHeading">&#9881;&#65039; Instellingen</h2>
 
       <div class="settings-folders">
-        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Kraj i Język</button>
-        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Wygląd i Miasto</button>
-        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Konto i Dane</button>
+        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Land &amp; Taal</button>
+        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Weergave &amp; Plaats</button>
+        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Account &amp; Data</button>
       </div>
 
       <div id="settingsFolderContent"></div>
@@ -863,13 +863,40 @@
         condNew: 'Nowe', condUsed: 'Używane', sortFeat: 'Sortuj: Polecane i nowe',
         sortAsc: 'Cena: rosnąco', sortDesc: 'Cena: malejąco', sortViews: 'Najpopularniejsze',
         details: 'Szczegóły', freeLabel: 'ZA DARMO', subTitle: 'Oferty z abonamentem',
-        subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.', hello: 'Cześć',
-        settingsUpper: 'USTAWIENIA', logout: 'Wyloguj się', megaBuy: 'ZAKUPY',
-        megaSell: 'SPRZEDAŻ', megaAccount: 'KONTO'
+        subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.', subBtn: 'Abonament',
+        hello: 'Cześć',
+        settingsTitle: 'Ustawienia', settingsUpper: 'USTAWIENIA', logout: 'Wyloguj się',
+        megaBuy: 'ZAKUPY', megaSell: 'SPRZEDAŻ', megaAccount: 'KONTO',
+        minPricePh: 'Od', maxPricePh: 'Do',
+        badgeSub: 'ABONAMENT', badgeUrgent: 'PILNE',
+        folderLocale: 'Kraj i Język', folderLook: 'Wygląd i Miasto', folderData: 'Konto i Dane',
+        setRegionTitle: 'Wybierz kraj / region', setRegionDesc: 'Zmienia rynek ogłoszeń na dany kraj.',
+        countryNL: 'Holandia (NL)', countryPL: 'Polska (PL)',
+        setLangTitle: 'Wybierz język aplikacji', setLangDesc: 'Język interfejsu oraz wyszukiwarki.',
+        setThemeTitle: 'Motyw ekranu', setDarkMode: 'Tryb ciemny',
+        setCityTitle: 'Domyślna miejscowość', setCityDesc: 'Automatycznie podpowiadana po zmianie kraju.',
+        setCityPh: 'np. Katowice lub Rotterdam...',
+        setAccTitle: 'Aktywne konto', setGuest: 'Gość (niezalogowany)', setOpenAcc: 'Otwórz panel konta',
+        setBackupTitle: 'Kopia zapasowa i pamięć', setExport: 'Eksport JSON', setReset: 'Reset ustawień',
+        footerAbout: 'O nas', footerTerms: 'Regulamin', footerPrivacy: 'Prywatność (RODO)', footerDsa: 'DSA i Kontakt',
+        addTitleModal: '+ Dodaj ogłoszenie', addType: 'Forma sprzedaży', addCond: 'Stan',
+        addCondNa: 'Nie dotyczy', addOfferTitle: 'Tytuł', addAlias: 'Ksywka / inicjały',
+        addPhotos: 'Zdjęcia (maks. 6)', addCat: 'Kategoria', addCity: 'Miejscowość',
+        addPrice: 'Cena', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
+        addShipping: 'Dostawa', shipPickup: 'Odbiór osobisty', shipPost: 'Wysyłka', shipNa: 'Nie dotyczy',
+        addPhoneHead: 'Numer telefonu (domyślnie ukryty)', addSharePhone: 'Udostępniam mój numer telefonu w tym ogłoszeniu',
+        addDesc: 'Opis', addSub: 'Abonament', addVis: 'Widoczność', addDays: '30 dni',
+        addSubmit: 'Dodaj ogłoszenie',
+        loginTab: 'Logowanie', regTab: 'Rejestracja', passPh: 'Hasło', rememberPass: 'Zapamiętaj hasło',
+        loginBtn: 'Zaloguj się', regBtn: 'Załóż konto', orLabel: 'LUB',
+        myAds: 'Moje ogłoszenia', msgsLabel: 'Wiadomości', editBtn: 'Edytuj', delBtn: 'Usuń',
+        saveBtn: 'Zapisz', changePassTitle: 'Zmień hasło', newPassPh: 'Nowe hasło', changeBtn: 'Zmień',
+        showPhoneBtn: 'Pokaż numer', msgBtn: 'Wiadomość', shareBtn: 'Udostępnij',
+        fullPanelBtn: 'Pełny panel'
       },
       NL: {
         htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
-        banner: 'Wesołych Świąt — Vrolijk Kerstfeest!',
+        banner: 'Vrolijk Kerstfeest!',
         searchPlaceholder: 'Waar ben je naar op zoek...',
         cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
         allCats: 'Alle categorieën', popular: 'Populair:',
@@ -878,14 +905,73 @@
         condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
         sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
         details: 'Bekijk', freeLabel: 'GRATIS', subTitle: 'Abonnement aanbiedingen',
-        subDesc: 'Advertenties van accounts met een actief abonnement.', hello: 'Hallo',
-        settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen', megaBuy: 'AANKOPEN',
-        megaSell: 'VERKOOP', megaAccount: 'ACCOUNT'
+        subDesc: 'Advertenties van accounts met een actief abonnement.', subBtn: 'Abonnement',
+        hello: 'Hallo',
+        settingsTitle: 'Instellingen', settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen',
+        megaBuy: 'AANKOPEN', megaSell: 'VERKOOP', megaAccount: 'ACCOUNT',
+        minPricePh: 'Van', maxPricePh: 'Tot',
+        badgeSub: 'ABONNEMENT', badgeUrgent: 'SPOED',
+        folderLocale: 'Land & Taal', folderLook: 'Weergave & Plaats', folderData: 'Account & Data',
+        setRegionTitle: 'Kies land / regio', setRegionDesc: 'Wijzigt de advertentiemarkt naar dit land.',
+        countryNL: 'Nederland (NL)', countryPL: 'Polen (PL)',
+        setLangTitle: 'Kies app-taal', setLangDesc: 'Taal van de interface en zoekfunctie.',
+        setThemeTitle: 'Weergave', setDarkMode: 'Donkere modus',
+        setCityTitle: 'Standaard plaats', setCityDesc: 'Wordt automatisch ingevuld na landwissel.',
+        setCityPh: 'bijv. Rotterdam of Amsterdam...',
+        setAccTitle: 'Actief account', setGuest: 'Gast (niet ingelogd)', setOpenAcc: 'Open accountoverzicht',
+        setBackupTitle: 'Back-up en opslag', setExport: 'JSON exporteren', setReset: 'Instellingen resetten',
+        footerAbout: 'Over ons', footerTerms: 'Voorwaarden', footerPrivacy: 'Privacy (AVG)', footerDsa: 'DSA & Contact',
+        addTitleModal: '+ Advertentie plaatsen', addType: 'Verkoopvorm', addCond: 'Staat',
+        addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
+        addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addCity: 'Plaats',
+        addPrice: 'Prijs', addReserve: 'Minimumprijs', addBuyNow: 'Direct kopen',
+        addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
+        addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
+        addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
+        addSubmit: 'Advertentie plaatsen',
+        loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', rememberPass: 'Wachtwoord onthouden',
+        loginBtn: 'Inloggen', regBtn: 'Account aanmaken', orLabel: 'OF',
+        myAds: 'Mijn advertenties', msgsLabel: 'Berichten', editBtn: 'Bewerken', delBtn: 'Verwijderen',
+        saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
+        showPhoneBtn: 'Toon nummer', msgBtn: 'Bericht', shareBtn: 'Delen',
+        fullPanelBtn: 'Volledig overzicht'
       },
-      UK: { htmlLang: 'uk', account: 'Акаунт', add: '+ Додати', banner: 'Wesołych Świąt!' },
-      DE: { htmlLang: 'de', account: 'Konto', add: '+ Inserieren', banner: 'Wesołych Świąt!' },
-      BE: { htmlLang: 'nl-BE', account: 'Account', add: '+ Plaatsen', banner: 'Wesołych Świąt!' },
-      FR: { htmlLang: 'fr', account: 'Compte', add: '+ Publier', banner: 'Wesołych Świąt!' }
+      UK: {
+        htmlLang: 'uk', account: 'Акаунт', add: '+ Додати',
+        banner: 'Веселих свят!', hello: 'Привіт',
+        settingsTitle: 'Налаштування', settingsUpper: 'НАЛАШТУВАННЯ', logout: 'Вийти',
+        folderLocale: 'Країна і мова', folderLook: 'Вигляд і місто', folderData: 'Акаунт і дані',
+        setRegionTitle: 'Оберіть країну', setRegionDesc: 'Змінює ринок оголошень.',
+        countryNL: 'Нідерланди (NL)', countryPL: 'Польща (PL)',
+        setLangTitle: 'Оберіть мову додатку', setLangDesc: 'Мова інтерфейсу та пошуку.'
+      },
+      DE: {
+        htmlLang: 'de', account: 'Konto', add: '+ Inserieren',
+        banner: 'Frohe Weihnachten!', hello: 'Hallo',
+        settingsTitle: 'Einstellungen', settingsUpper: 'EINSTELLUNGEN', logout: 'Abmelden',
+        folderLocale: 'Land & Sprache', folderLook: 'Ansicht & Ort', folderData: 'Konto & Daten',
+        setRegionTitle: 'Land / Region wählen', setRegionDesc: 'Wechselt den Anzeigenmarkt.',
+        countryNL: 'Niederlande (NL)', countryPL: 'Polen (PL)',
+        setLangTitle: 'App-Sprache wählen', setLangDesc: 'Sprache der Benutzeroberfläche.'
+      },
+      BE: {
+        htmlLang: 'nl-BE', account: 'Account', add: '+ Plaatsen',
+        banner: 'Vrolijk Kerstfeest!', hello: 'Hallo',
+        settingsTitle: 'Instellingen', settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen',
+        folderLocale: 'Land & Taal', folderLook: 'Weergave & Plaats', folderData: 'Account & Data',
+        setRegionTitle: 'Kies land / regio', setRegionDesc: 'Wijzigt de advertentiemarkt naar dit land.',
+        countryNL: 'Nederland (NL)', countryPL: 'Polen (PL)',
+        setLangTitle: 'Kies app-taal', setLangDesc: 'Taal van de interface en zoekfunctie.'
+      },
+      FR: {
+        htmlLang: 'fr', account: 'Compte', add: '+ Publier',
+        banner: 'Joyeux Noël !', hello: 'Bonjour',
+        settingsTitle: 'Paramètres', settingsUpper: 'PARAMÈTRES', logout: 'Déconnexion',
+        folderLocale: 'Pays et Langue', folderLook: 'Affichage et Ville', folderData: 'Compte et Données',
+        setRegionTitle: 'Choisir le pays / la région', setRegionDesc: 'Change le marché des annonces.',
+        countryNL: 'Pays-Bas (NL)', countryPL: 'Pologne (PL)',
+        setLangTitle: "Choisir la langue de l'application", setLangDesc: "Langue de l'interface et de la recherche."
+      }
     };
 
     function t(key) {
@@ -945,8 +1031,20 @@
 
     let activeSettingsFolder = 'locale';
 
+    function updateSettingsLabels() {
+      const h = document.getElementById('settingsModalHeading');
+      if (h) h.innerHTML = `&#9881;&#65039; ${t('settingsTitle')}`;
+      const f1 = document.getElementById('folderLocaleBtn');
+      const f2 = document.getElementById('folderLookBtn');
+      const f3 = document.getElementById('folderDataBtn');
+      if (f1) f1.innerHTML = `&#128193; ${t('folderLocale')}`;
+      if (f2) f2.innerHTML = `&#128193; ${t('folderLook')}`;
+      if (f3) f3.innerHTML = `&#128193; ${t('folderData')}`;
+    }
+
     function setSettingsFolder(folder) {
       activeSettingsFolder = folder;
+      updateSettingsLabels();
       ['locale', 'look', 'data'].forEach(k => {
         const map = { locale: 'folderLocaleBtn', look: 'folderLookBtn', data: 'folderDataBtn' };
         const el = document.getElementById(map[k]);
@@ -958,20 +1056,21 @@
     function renderSettingsFolderContent() {
       const container = document.getElementById('settingsFolderContent');
       if (!container) return;
+      updateSettingsLabels();
 
       if (activeSettingsFolder === 'locale') {
         container.innerHTML = `
           <div class="set-section">
-            <h4>&#127757; Wybierz kraj / Regio</h4>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Zmienia rynek ogłoszeń na dany kraj.</p>
+            <h4>&#127757; ${t('setRegionTitle')}</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">${t('setRegionDesc')}</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" onclick="manualSwitchCountry('NL');renderSettingsFolderContent()">Holandia (NL)</button>
-              <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" onclick="manualSwitchCountry('PL');renderSettingsFolderContent()">Polska (PL)</button>
+              <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" onclick="manualSwitchCountry('NL');renderSettingsFolderContent()">${t('countryNL')}</button>
+              <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" onclick="manualSwitchCountry('PL');renderSettingsFolderContent()">${t('countryPL')}</button>
             </div>
           </div>
           <div class="set-section" style="margin-bottom:0">
-            <h4>&#128483;&#65039; Wybierz język aplikacji / Taal</h4>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Język interfejsu oraz wyszukiwarki.</p>
+            <h4>&#128483;&#65039; ${t('setLangTitle')}</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">${t('setLangDesc')}</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px">
               ${SUPPORTED_LANGS.map(item =>
                 `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" style="justify-content:center;padding:8px 10px" onclick="setLanguage('${item.code}');renderSettingsFolderContent()">${item.label}</button>`
@@ -982,33 +1081,33 @@
         const cityVal = userPrefs['defaultCity' + currentCountry] || '';
         container.innerHTML = `
           <div class="set-section">
-            <h4>&#127912; Motyw ekranu / Weergave</h4>
+            <h4>&#127912; ${t('setThemeTitle')}</h4>
             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
               <input type="checkbox" id="setDarkMode" ${userPrefs.darkMode ? 'checked' : ''} onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
-              <span>Tryb ciemny / Donkere modus</span>
+              <span>${t('setDarkMode')}</span>
             </label>
           </div>
           <div class="set-section" style="margin-bottom:0">
-            <h4>&#128205; Domyślna miejscowość (${currentCountry})</h4>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Automatycznie podpowiadana po zmianie kraju.</p>
-            <input type="text" id="setDefaultCity" value="${cityVal}" placeholder="np. Rotterdam lub Katowice..." oninput="setDefaultCityPref(this.value)" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:13px" />
+            <h4>&#128205; ${t('setCityTitle')} (${currentCountry})</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:8px">${t('setCityDesc')}</p>
+            <input type="text" id="setDefaultCity" value="${cityVal}" placeholder="${t('setCityPh')}" oninput="setDefaultCityPref(this.value)" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:13px" />
           </div>`;
       } else {
-        const displayNick = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Gość (niezalogowany)';
+        const displayNick = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : t('setGuest');
         container.innerHTML = `
           <div class="set-section">
-            <h4>&#128100; Aktywne konto</h4>
+            <h4>&#128100; ${t('setAccTitle')}</h4>
             <p style="font-size:13px;margin-bottom:10px"><strong>${displayNick}</strong> ${currentUser?.email ? `(${currentUser.email})` : ''}</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="mini-btn gold" onclick="closeModal('settingsModal');openFullAccountModal('account')">Otwórz panel konta</button>
-              ${currentUser ? `<button type="button" class="mini-btn red" onclick="closeModal('settingsModal');logoutUser()">Wyloguj się</button>` : ''}
+              <button type="button" class="mini-btn gold" onclick="closeModal('settingsModal');openFullAccountModal('account')">${t('setOpenAcc')}</button>
+              ${currentUser ? `<button type="button" class="mini-btn red" onclick="closeModal('settingsModal');logoutUser()">${t('logout')}</button>` : ''}
             </div>
           </div>
           <div class="set-section" style="margin-bottom:0">
-            <h4>&#128190; Kopia zapasowa i pamięć</h4>
+            <h4>&#128190; ${t('setBackupTitle')}</h4>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="mini-btn" onclick="exportUserData()">Eksport JSON</button>
-              <button type="button" class="mini-btn red" onclick="resetLocalStorageData()">Reset ustawień</button>
+              <button type="button" class="mini-btn" onclick="exportUserData()">${t('setExport')}</button>
+              <button type="button" class="mini-btn red" onclick="resetLocalStorageData()">${t('setReset')}</button>
             </div>
           </div>`;
       }
@@ -1335,7 +1434,7 @@
       const cleaned = String(rawName || '').trim();
       if (cleaned) return cleaned;
       if (email && email.includes('@')) return email.split('@')[0];
-      return 'Konto';
+      return t('account');
     }
 
     function toggleSharePhoneCheckbox() {
@@ -1430,9 +1529,9 @@
     }
 
     function getHonestyBadgeHtml(stats, pirateFlag) {
-      if (pirateFlag) return `<span class="badge badge-pirate">FLAGA PIRATA</span>`;
+      if (pirateFlag) return `<span class="badge badge-pirate">PIRAT</span>`;
       if (!stats || stats.pct === null || stats.count === 0) {
-        return `<span class="trust-pct-pill trust-none">0% (po kontakcie)</span>`;
+        return `<span class="trust-pct-pill trust-none">0%</span>`;
       }
       const pct = stats.pct;
       if (pct >= 95) return `<span class="honesty-icon-badge">${pct}% (${stats.count})</span>`;
@@ -1551,6 +1650,58 @@
       return u;
     }
 
+    async function adminToggleBanUser(userId, email) {
+      if (!hasAdminPermission()) return;
+      const idx = registeredUsers.findIndex(u => String(u.id) === String(userId) || ((u.email || '').toLowerCase() === String(email || '').toLowerCase()));
+      if (idx < 0) return;
+      const target = registeredUsers[idx];
+      if ((target.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        alert('Nie można zbanować głównego konta administratora.');
+        return;
+      }
+      const currentlyBanned = Boolean(target.bannedUntil && new Date(target.bannedUntil).getTime() > Date.now());
+      if (currentlyBanned) {
+        if (!confirm(`Czy na pewno chcesz zdjąć bana z użytkownika ${target.email}?`)) return;
+        target.bannedUntil = null;
+        target.banReason = '';
+      } else {
+        const reason = prompt(`Podaj powód bana dla użytkownika ${target.email}:`, 'Naruszenie regulaminu');
+        if (reason === null) return;
+        if (!confirm(`Czy na pewno chcesz ZBANOWAĆ użytkownika ${target.email}?`)) return;
+        target.bannedUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+        target.banReason = reason.trim() || 'Naruszenie regulaminu';
+      }
+      registeredUsers[idx] = target;
+      saveUsersDb();
+      if (sb) {
+        try {
+          await sb.from('profiles').update({
+            banned_until: target.bannedUntil,
+            ban_reason: target.banReason
+          }).eq('email', target.email);
+        } catch (e) {}
+      }
+      renderAdminPanel();
+    }
+
+    async function adminDeleteUser(userId, email) {
+      if (!hasAdminPermission()) return;
+      const idx = registeredUsers.findIndex(u => String(u.id) === String(userId) || ((u.email || '').toLowerCase() === String(email || '').toLowerCase()));
+      if (idx < 0) return;
+      const target = registeredUsers[idx];
+      if ((target.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        alert('Nie można usunąć głównego konta administratora.');
+        return;
+      }
+      if (!confirm(`UWAGA! Czy na pewno chcesz USUNĄĆ konto użytkownika ${target.email}? Tej operacji nie można cofnąć.`)) return;
+      registeredUsers.splice(idx, 1);
+      saveUsersDb();
+      if (sb && target.email) {
+        try { await sb.from('profiles').delete().eq('email', target.email); } catch (e) {}
+      }
+      renderAdminPanel();
+    }
+
     function parsePriceNumber(val) {
       if (typeof val === 'number') return Number.isFinite(val) ? val : 0;
       if (!val) return 0;
@@ -1591,7 +1742,7 @@
         type: numericPrice === 0 ? 'free' : 'sale',
         category: catId,
         condition: 'na',
-        title: row.tytul || 'Ogłoszenie',
+        title: row.tytul || 'Advertentie',
         city: row.miejscowosc || '',
         price: numericPrice,
         icon: matchedCat ? matchedCat.icon : '📦',
@@ -1602,7 +1753,7 @@
         pirateFlag: false,
         hidden: false,
         views: 1,
-        sellerName: row.seller_name || (isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : getFirstNameOrNick('', rowOwnerEmail || 'Sprzedawca')),
+        sellerName: row.seller_name || (isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : getFirstNameOrNick('', rowOwnerEmail || 'User')),
         sellerVerified: true,
         phone: '',
         sharePhone: false,
@@ -1697,6 +1848,12 @@
     function applySupabaseAuthUser(sbUser) {
       if (!sbUser) return;
       const email = (sbUser.email || '').toLowerCase();
+      const ban = isUserBanned(email);
+      if (ban) {
+        alert(`Konto jest zbanowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
+        if (sb) sb.auth.signOut().catch(() => {});
+        return;
+      }
       const rawName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '';
       const shortName = getFirstNameOrNick(rawName, email);
       const existing = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
@@ -1773,61 +1930,58 @@
         tabContentHtml = `
           <div class="mega-cols">
             <div class="mega-col">
-              <h4>Zakupy</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">Moje zakupy</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('favorites')">Ulubione (${favoriteIds.length})</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('auction')">Moje licytacje</button>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomości do sprzedających</button>
+              <h4>${t('megaBuy')}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('buy')">${t('megaBuy')}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('favorites')">${t('tabFav')} (${favoriteIds.length})</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('auction')">${t('tabAuction')}</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">${t('msgsLabel')}</button>
             </div>
             <div class="mega-col">
               <h4>PlacoMarkt</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomości (${inboxCount})</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('free')">Oferty za darmo</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();resetFilters()">Wszystkie kategorie</button>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">${t('msgsLabel')} (${inboxCount})</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();setMode('free')">${t('tabFree')}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();resetFilters()">${t('allCats')}</button>
             </div>
             <div class="mega-col">
-              <h4>Szybkie akcje</h4>
+              <h4>PlacoMarkt</h4>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">${t('add')}</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; Ustawienia</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; ${t('settingsTitle')}</button>
             </div>
           </div>`;
       } else if (megaProfileTab === 'sell') {
         tabContentHtml = `
           <div class="mega-cols">
             <div class="mega-col">
-              <h4>Moja sprzedaż</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Moje ogłoszenia (${myAdsCount})</button>
+              <h4>${t('megaSell')}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">${t('myAds')} (${myAdsCount})</button>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">${t('add')}</button>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Zakończone i aktywne</button>
             </div>
             <div class="mega-col">
-              <h4>Kontakt i oceny</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">Wiadomości od kupujących (${inboxCount})</button>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('sell')">Wiarygodność i opinie</button>
+              <h4>${t('msgsLabel')}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('messages')">${t('msgsLabel')} (${inboxCount})</button>
             </div>
             <div class="mega-col">
-              <h4>Promowanie i abonament</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Abonament i pakiety</button>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Ksywka / inicjały sprzedawcy</button>
+              <h4>${t('subBtn')}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">${t('subBtn')}</button>
             </div>
           </div>`;
       } else {
         tabContentHtml = `
           <div class="mega-cols">
             <div class="mega-col">
-              <h4>Konto i bezpieczeństwo</h4>
-              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Inicjały i zmiana hasła</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; Ustawienia</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();exportUserData()">Eksport danych JSON</button>
+              <h4>${t('megaAccount')}</h4>
+              <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">${t('changePassTitle')}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; ${t('settingsTitle')}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();exportUserData()">${t('setExport')}</button>
             </div>
             <div class="mega-col">
-              <h4>Wsparcie i regulaminy</h4>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openLegalModal('terms')">Regulamin</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openLegalModal('privacy')">Prywatność (RODO)</button>
-              ${isAdmin ? `<button type="button" class="mega-link-btn" style="color:var(--red);font-weight:800" onclick="closeHeaderMenus();openAdminPanel()">Panel Admin (animacje)</button>` : ''}
+              <h4>PlacoMarkt</h4>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openLegalModal('terms')">${t('footerTerms')}</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openLegalModal('privacy')">${t('footerPrivacy')}</button>
+              ${isAdmin ? `<button type="button" class="mega-link-btn" style="color:var(--red);font-weight:800" onclick="closeHeaderMenus();openAdminPanel()">Admin</button>` : ''}
             </div>
             <div class="mega-col">
-              <h4>Sesja</h4>
+              <h4>&nbsp;</h4>
               <button type="button" class="mega-link-btn" style="color:var(--red)" onclick="closeHeaderMenus();logoutUser()">${t('logout')}</button>
             </div>
           </div>`;
@@ -1854,7 +2008,7 @@
             </div>
             <div class="mega-bottom-bar">
               <span>PlacoMarkt.online</span>
-              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">Pełny panel &rarr;</button>
+              <button type="button" class="mini-btn" onclick="openFullAccountModal('sell')">${t('fullPanelBtn')} &rarr;</button>
             </div>
           </div>
         </div>`;
@@ -1938,10 +2092,14 @@
     function renderCountryUI() {
       document.documentElement.lang = t('htmlLang');
       document.getElementById('navAddBtn').textContent = t('add');
+      const gearBtn = document.getElementById('navSettingsGearBtn');
+      if (gearBtn) gearBtn.title = t('settingsTitle');
       document.getElementById('holidayBannerText').textContent = t('banner');
       document.getElementById('searchInput').placeholder = t('searchPlaceholder');
       document.getElementById('cityInput').placeholder = t('cityPlaceholder');
       document.getElementById('btnSearchMain').textContent = t('searchBtn');
+      document.getElementById('filterMinPrice').placeholder = t('minPricePh');
+      document.getElementById('filterMaxPrice').placeholder = t('maxPricePh');
       document.getElementById('optCondAll').textContent = t('condAll');
       document.getElementById('optCondNew').textContent = t('condNew');
       document.getElementById('optCondUsed').textContent = t('condUsed');
@@ -1951,6 +2109,16 @@
       document.getElementById('optSortViews').textContent = t('sortViews');
       document.getElementById('subSectionTitle').textContent = t('subTitle');
       document.getElementById('subSectionDesc').textContent = t('subDesc');
+      document.getElementById('subSectionBtn').textContent = t('subBtn');
+
+      const fAbout = document.getElementById('footerAboutLink');
+      const fTerms = document.getElementById('footerTermsLink');
+      const fPriv = document.getElementById('footerPrivacyLink');
+      const fDsa = document.getElementById('footerDsaLink');
+      if (fAbout) fAbout.textContent = t('footerAbout');
+      if (fTerms) fTerms.textContent = t('footerTerms');
+      if (fPriv) fPriv.textContent = t('footerPrivacy');
+      if (fDsa) fDsa.textContent = t('footerDsa');
 
       document.getElementById('quickTagsBar').innerHTML = currentLang === 'PL'
         ? `<span style="color:#e0f2fe">${t('popular')}</span>
@@ -1979,9 +2147,9 @@
         CATEGORIES_LIST.map(c => `<option value="${c.id}">${getCatLabel(c)}</option>`).join('');
 
       document.getElementById('newShipping').innerHTML = `
-        <option value="pickup">Odbiór osobisty / Ophalen</option>
-        <option value="post">Wysyłka / Verzenden</option>
-        <option value="na">Nie dotyczy / N.v.t.</option>
+        <option value="pickup">${t('shipPickup')}</option>
+        <option value="post">${t('shipPost')}</option>
+        <option value="na">${t('shipNa')}</option>
       `;
 
       const visible = (listingsData[currentCountry] || []).filter(i => !i.hidden);
@@ -2014,6 +2182,7 @@
 
       document.getElementById('favCountBadge').textContent = favoriteIds.length;
       updateAccountButton();
+      updateSettingsLabels();
       renderListings();
     }
 
@@ -2051,9 +2220,9 @@
             <div class="badges">
               <div class="badges-col">
                 ${item.pirateFlag ? `<span class="badge badge-pirate">PIRAT</span>` : ''}
-                ${isSubCard || item.hasSubscription ? `<span class="badge badge-sub">ABONAMENT</span>` : ''}
+                ${isSubCard || item.hasSubscription ? `<span class="badge badge-sub">${t('badgeSub')}</span>` : ''}
                 ${item.top ? `<span class="badge badge-top">TOP</span>` : ''}
-                ${item.urgent ? `<span class="badge badge-urgent">PILNE</span>` : ''}
+                ${item.urgent ? `<span class="badge badge-urgent">${t('badgeUrgent')}</span>` : ''}
               </div>
               <div>
                 ${item.type === 'free' ? `<span class="badge badge-free">${t('freeLabel')}</span>` : ''}
@@ -2153,10 +2322,10 @@
           <div><strong>${displayNick}</strong><div>${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}</div></div>
         </div>
         <div class="detail-actions">
-          ${hasSharedPhone ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='${String(item.phone).replace(/'/g, '')}'">Pokaż numer</button>` : ''}
-          ${!isMine ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">Wiadomość</button>` : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">Edytuj</button>`}
-          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">Udostępnij</button>
-          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">Usuń</button>` : ''}
+          ${hasSharedPhone ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='${String(item.phone).replace(/'/g, '')}'">${t('showPhoneBtn')}</button>` : ''}
+          ${!isMine ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">${t('msgBtn')}</button>` : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">${t('editBtn')}</button>`}
+          <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">${t('shareBtn')}</button>
+          ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">${t('delBtn')}</button>` : ''}
         </div>`;
       document.getElementById('detailModal').classList.add('open');
       renderListings();
@@ -2171,7 +2340,7 @@
         const matchedUser = registeredUsers.find(u => (u.name || '').toLowerCase() === item.sellerName.toLowerCase() && u.email);
         if (matchedUser) recipientEmail = matchedUser.email.toLowerCase();
       }
-      if (recipientEmail && recipientEmail === currentUser.email.toLowerCase()) { alert('To Twoje ogłoszenie.'); return; }
+      if (recipientEmail && recipientEmail === currentUser.email.toLowerCase()) return;
       const txt = prompt(`${item.title}:`);
       if (!txt || !txt.trim()) return;
       const msgRow = {
@@ -2189,7 +2358,7 @@
       userMessagesDb.unshift(savedMsg);
       saveUserMessagesLocal();
       updateAccountButton();
-      alert('Wysłano.');
+      alert('OK');
     }
 
     function shareOfferLink(id, title) {
@@ -2229,8 +2398,39 @@
       });
     }
 
+    function applyAddModalTranslations() {
+      const setTxt = (id, key) => { const el = document.getElementById(id); if (el) el.textContent = t(key); };
+      setTxt('addModalTitle', 'addTitleModal');
+      setTxt('lblAddType', 'addType');
+      setTxt('optTypeSale', 'tabSale');
+      setTxt('optTypeAuction', 'tabAuction');
+      setTxt('optTypeFree', 'tabFree');
+      setTxt('lblAddCond', 'addCond');
+      setTxt('optAddCondNew', 'condNew');
+      setTxt('optAddCondUsed', 'condUsed');
+      setTxt('optAddCondNa', 'addCondNa');
+      setTxt('lblAddTitle', 'addOfferTitle');
+      setTxt('lblAddAlias', 'addAlias');
+      setTxt('lblAddPhotos', 'addPhotos');
+      setTxt('lblAddCat', 'addCat');
+      setTxt('lblAddCity', 'addCity');
+      setTxt('lblAddPrice', 'addPrice');
+      setTxt('lblAddReserve', 'addReserve');
+      setTxt('lblAddBuyNow', 'addBuyNow');
+      setTxt('lblAddShipping', 'addShipping');
+      setTxt('lblAddPhoneHead', 'addPhoneHead');
+      setTxt('lblAddSharePhone', 'addSharePhone');
+      setTxt('lblAddDesc', 'addDesc');
+      setTxt('lblAddSub', 'addSub');
+      setTxt('lblAddVis', 'addVis');
+      setTxt('promoDaysStd', 'addDays');
+      setTxt('promoTagUrgent', 'badgeUrgent');
+      setTxt('submitOfferBtn', 'addSubmit');
+    }
+
     function openAddModal(editCountry = null, editId = null) {
       if (!currentUser || !currentUser.email) { openFullAccountModal('account'); return; }
+      applyAddModalTranslations();
       editingListingCountry = editCountry;
       editingListingId = editId;
       uploadedPhotosTemp = [];
@@ -2285,7 +2485,10 @@
       e.preventDefault();
       if (currentUser && currentUser.email) {
         const ban = isUserBanned(currentUser.email);
-        if (ban) { alert('Konto zablokowane.'); return; }
+        if (ban) {
+          alert(`Konto jest zbanowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
+          return;
+        }
       }
       const isUpdating = Boolean(editingListingCountry && editingListingId !== null);
       const type = document.getElementById('newType').value;
@@ -2298,7 +2501,7 @@
       const hasSubscription = document.getElementById('newHasSubscription').checked;
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
       const sharePhoneVal = Boolean(phoneVal && document.getElementById('newSharePhone')?.checked);
-      const nickName = customAlias || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Użytkownik');
+      const nickName = customAlias || (currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'User');
 
       const photosFinal = [...uploadedPhotosTemp].filter(Boolean).slice(0, MAX_PHOTOS_PER_OFFER);
       if (sb && uploadedPhotoFilesTemp.length > 0) {
@@ -2372,6 +2575,8 @@
     function renderAccountModal() {
       const body = document.getElementById('accountModalBody');
       const box = document.getElementById('accountModalBox');
+      const heading = document.getElementById('accountModalHeading');
+      if (heading) heading.textContent = t('account');
       box.classList.toggle('hub-modal', Boolean(currentUser));
 
       if (!currentUser) {
@@ -2383,26 +2588,26 @@
 
         body.innerHTML = `
           <div class="auth-switch-tabs">
-            <button type="button" class="auth-switch-btn ${authModalTab === 'login' ? 'active' : ''}" onclick="authModalTab='login';renderAccountModal()">Logowanie / Inloggen</button>
-            <button type="button" class="auth-switch-btn ${authModalTab === 'register' ? 'active' : ''}" onclick="authModalTab='register';renderAccountModal()">Rejestracja / Registreren</button>
+            <button type="button" class="auth-switch-btn ${authModalTab === 'login' ? 'active' : ''}" onclick="authModalTab='login';renderAccountModal()">${t('loginTab')}</button>
+            <button type="button" class="auth-switch-btn ${authModalTab === 'register' ? 'active' : ''}" onclick="authModalTab='register';renderAccountModal()">${t('regTab')}</button>
           </div>
           ${authModalTab === 'login' ? `
             <form onsubmit="handleLoginSubmit(event)">
               <div class="form-group"><input type="email" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="E-mail" /></div>
-              <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="Hasło / Wachtwoord" /></div>
+              <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="${t('passPh')}" /></div>
               <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:12px">
                 <input type="checkbox" id="rememberLoginCheck" style="width:auto" ${savedCreds.remember ? 'checked' : ''} />
-                <span>Zapamiętaj hasło / Wachtwoord onthouden</span>
+                <span>${t('rememberPass')}</span>
               </label>
-              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Zaloguj się / Inloggen</button>
+              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t('loginBtn')}</button>
             </form>` : `
             <form onsubmit="handleRegisterSubmit(event)">
-              <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="Ksywka / inicjały (Naam)" /></div>
+              <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="${t('addAlias')}" /></div>
               <div class="form-group"><input type="email" id="regEmail" required placeholder="E-mail" /></div>
-              <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="Hasło / Wachtwoord (min. 6)" /></div>
-              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">Załóż konto / Registreren</button>
+              <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="${t('passPh')} (min. 6)" /></div>
+              <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t('regBtn')}</button>
             </form>`}
-          <div class="alt-login-divider">LUB / OF</div>
+          <div class="alt-login-divider">${t('orLabel')}</div>
           <button type="button" class="alt-login-btn" onclick="handleGoogleLogin()">
             <span class="google-g-badge">G</span><span>Google</span>
           </button>`;
@@ -2428,11 +2633,11 @@
         const favs = (listingsData[currentCountry] || []).filter(i => favoriteIds.includes(i.id));
         rightHtml = `<h3>${t('tabFav')} (${favs.length})</h3><div style="margin-top:8px">${favs.map(i => `<div class="admin-row"><div><strong>${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${i.id}')">${t('details')}</button></div>`).join('') || ''}</div>`;
       } else if (hubTopTab === 'messages') {
-        rightHtml = `<h3>Wiadomości (${myInbox.length})</h3><div class="admin-list" style="margin-top:8px">${myInbox.map(m => `<div class="admin-row"><div><strong>${m.listing_title || ''}</strong><div style="font-size:12px;color:var(--muted)">${m.sender_email}</div><div style="font-size:13px;margin-top:4px">${m.tresc}</div></div></div>`).join('') || ''}</div>`;
+        rightHtml = `<h3>${t('msgsLabel')} (${myInbox.length})</h3><div class="admin-list" style="margin-top:8px">${myInbox.map(m => `<div class="admin-row"><div><strong>${m.listing_title || ''}</strong><div style="font-size:12px;color:var(--muted)">${m.sender_email}</div><div style="font-size:13px;margin-top:4px">${m.tresc}</div></div></div>`).join('') || ''}</div>`;
       } else if (hubTopTab === 'sell') {
         rightHtml = `
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <h3>Moje ogłoszenia (${myAds.length})</h3>
+            <h3>${t('myAds')} (${myAds.length})</h3>
             <button type="button" class="add-btn" onclick="closeModal('accountModal');openAddModal()">${t('add')}</button>
           </div>
           <div class="admin-list">
@@ -2440,25 +2645,25 @@
               <div class="admin-row">
                 <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}</div></div>
                 <div class="admin-row-actions">
-                  <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">Edytuj</button>
-                  <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">Usuń</button>
+                  <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">${t('editBtn')}</button>
+                  <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">${t('delBtn')}</button>
                 </div>
               </div>`).join('') || ''}
           </div>`;
       } else {
         rightHtml = `
           <div class="set-section">
-            <h4>Ksywka / inicjały</h4>
+            <h4>${t('addAlias')}</h4>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <input type="text" id="nickInputField" value="${displayNick}" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
-              <button type="button" class="mini-btn green" onclick="saveNickName()">Zapisz</button>
+              <button type="button" class="mini-btn green" onclick="saveNickName()">${t('saveBtn')}</button>
             </div>
           </div>
           <div class="twofa-box">
-            <h4 style="margin-bottom:8px">Zmień hasło</h4>
+            <h4 style="margin-bottom:8px">${t('changePassTitle')}</h4>
             <form onsubmit="handleChangePasswordDirect(event)" style="display:flex;gap:8px;flex-wrap:wrap">
-              <input type="password" id="directNewPass" minlength="6" required placeholder="Nowe hasło" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
-              <button type="submit" class="mini-btn green">Zmień</button>
+              <input type="password" id="directNewPass" minlength="6" required placeholder="${t('newPassPh')}" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
+              <button type="submit" class="mini-btn green">${t('changeBtn')}</button>
             </form>
           </div>`;
       }
@@ -2470,7 +2675,7 @@
               <div style="font-weight:800;font-size:15px">${t('hello')} ${displayNick}!</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">WIADOMOŚCI (${myInbox.length})</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">${t('msgsLabel').toUpperCase()} (${myInbox.length})</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">Admin</button>` : ''}
@@ -2480,7 +2685,7 @@
           <div>
             <div class="hub-top-tabs">
               <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
-              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">WIADOMOŚCI (${myInbox.length})</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">${t('msgsLabel').toUpperCase()} (${myInbox.length})</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
             </div>
@@ -2511,6 +2716,11 @@
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim().toLowerCase();
       const password = document.getElementById('regPass').value;
+      const ban = isUserBanned(email);
+      if (ban) {
+        alert(`Ten e-mail jest zbanowany (${ban.banReason || 'Naruszenie regulaminu'}).`);
+        return;
+      }
       if (sb) {
         const { data, error } = await sb.auth.signUp({ email, password, options: { data: { name } } });
         if (!error && data?.user) { applySupabaseAuthUser(data.user); renderAccountModal(); return; }
@@ -2529,6 +2739,11 @@
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const pass = document.getElementById('loginPass').value;
       const remember = Boolean(document.getElementById('rememberLoginCheck')?.checked);
+      const ban = isUserBanned(email);
+      if (ban) {
+        alert(`Konto jest zbanowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
+        return;
+      }
       try {
         if (remember) localStorage.setItem('placomarkt_remembered_login', JSON.stringify({ email, pass, remember: true }));
         else localStorage.removeItem('placomarkt_remembered_login');
@@ -2546,7 +2761,7 @@
         updateAccountButton();
         renderAccountModal();
       } else {
-        alert('Błąd logowania.');
+        alert('Login error');
       }
     }
 
@@ -2573,6 +2788,7 @@
       const item = (listingsData[country] || []).find(x => String(x.id) === String(id));
       if (!item) return;
       if (!isListingOwnedByMe(item) && !hasAdminPermission()) return;
+      if (!confirm(`Czy na pewno chcesz usunąć ogłoszenie: "${item.title}"?`)) return;
       const targetStr = String(id);
       const targetNum = Number(id);
       removeLocalListing(country, id);
@@ -2623,13 +2839,35 @@
               <button type="button" class="mini-btn dark" onclick="adminTogglePirate('${item.id}')">${item.pirateFlag ? 'Zdejmij flagę' : 'Flaga Pirata'}</button>
               <button type="button" class="mini-btn red" onclick="adminDelete('${item.id}')">Usuń</button>
             </div>
-          </div>`).join('') || ''}</div>`;
+          </div>`).join('') || '<div class="admin-row">Brak ogłoszeń.</div>'}</div>`;
       } else if (activeAdminTab === 'users') {
-        body.innerHTML = `<div class="admin-list">${registeredUsers.map(u => `<div class="admin-row"><div><strong>${getFirstNameOrNick(u.name, u.email)}</strong> (${u.email})</div></div>`).join('')}</div>`;
+        body.innerHTML = `<div class="admin-list">${registeredUsers.map(u => {
+          const banned = Boolean(u.bannedUntil && new Date(u.bannedUntil).getTime() > Date.now());
+          const isMainAdmin = (u.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
+          return `
+            <div class="admin-row">
+              <div>
+                <strong>${getFirstNameOrNick(u.name, u.email)}</strong> (${u.email})
+                <div style="font-size:12px;color:${banned ? 'var(--red)' : 'var(--muted)'}">
+                  ${banned ? `ZBANOWANY (${u.banReason || 'Naruszenie regulaminu'})` : 'Aktywne konto'}
+                </div>
+              </div>
+              <div class="admin-row-actions">
+                ${!isMainAdmin ? `
+                  <button type="button" class="mini-btn ${banned ? 'green' : 'gold'}" onclick="adminToggleBanUser('${u.id}', '${u.email}')">
+                    ${banned ? 'Odbanuj' : 'Zbanuj'}
+                  </button>
+                  <button type="button" class="mini-btn red" onclick="adminDeleteUser('${u.id}', '${u.email}')">
+                    Usuń konto
+                  </button>
+                ` : '<span style="font-size:12px;color:var(--muted)">Admin</span>'}
+              </div>
+            </div>`;
+        }).join('') || ''}</div>`;
       } else if (activeAdminTab === 'ads') {
-        body.innerHTML = `<div class="admin-list">${adSubmissions.map(s => `<div class="admin-row"><div><strong>${s.tytul}</strong><div style="font-size:12px">${s.opis}</div></div></div>`).join('') || ''}</div>`;
+        body.innerHTML = `<div class="admin-list">${adSubmissions.map(s => `<div class="admin-row"><div><strong>${s.tytul}</strong><div style="font-size:12px">${s.opis}</div></div></div>`).join('') || '<div class="admin-row">Brak reklam.</div>'}</div>`;
       } else {
-        body.innerHTML = `<div class="admin-list">${adminMessages.map(m => `<div class="admin-row"><div><strong>${m.temat}</strong><div style="font-size:12px">${m.tresc}</div></div></div>`).join('') || ''}</div>`;
+        body.innerHTML = `<div class="admin-list">${adminMessages.map(m => `<div class="admin-row"><div><strong>${m.temat}</strong><div style="font-size:12px">${m.tresc}</div></div></div>`).join('') || '<div class="admin-row">Brak zgłoszeń.</div>'}</div>`;
       }
     }
 
@@ -2670,7 +2908,6 @@
       renderCountryUI();
     }
 
-    /* Dokumenty O nas, Regulamin, RODO, DSA i Kontakt — poprawione zgodnie z uwagami */
     function openLegalModal(doc = 'about') {
       const docs = {
         about: {
@@ -2739,10 +2976,10 @@
       document.getElementById('legalContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('legalModal')">&times;</button>
         <div class="legal-doc-tabs">
-          <button type="button" class="mini-btn ${doc === 'about' ? 'gold' : ''}" onclick="openLegalModal('about')">O nas</button>
-          <button type="button" class="mini-btn ${doc === 'terms' ? 'gold' : ''}" onclick="openLegalModal('terms')">Regulamin</button>
-          <button type="button" class="mini-btn ${doc === 'privacy' ? 'gold' : ''}" onclick="openLegalModal('privacy')">Prywatność (RODO)</button>
-          <button type="button" class="mini-btn ${doc === 'dsa' ? 'gold' : ''}" onclick="openLegalModal('dsa')">DSA i Kontakt</button>
+          <button type="button" class="mini-btn ${doc === 'about' ? 'gold' : ''}" onclick="openLegalModal('about')">${t('footerAbout')}</button>
+          <button type="button" class="mini-btn ${doc === 'terms' ? 'gold' : ''}" onclick="openLegalModal('terms')">${t('footerTerms')}</button>
+          <button type="button" class="mini-btn ${doc === 'privacy' ? 'gold' : ''}" onclick="openLegalModal('privacy')">${t('footerPrivacy')}</button>
+          <button type="button" class="mini-btn ${doc === 'dsa' ? 'gold' : ''}" onclick="openLegalModal('dsa')">${t('footerDsa')}</button>
         </div>
         <div class="legal-doc-body">${selected.html}</div>
       `;
@@ -2753,7 +2990,11 @@
       const blob = new Blob([JSON.stringify({ currentCountry, currentLang, activeScene, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'placomarkt-backup.json'; a.click();
     }
-    function resetLocalStorageData() { localStorage.clear(); location.reload(); }
+    function resetLocalStorageData() {
+      if (!confirm('Czy na pewno chcesz zresetować lokalne ustawienia i dane w przeglądarce?')) return;
+      localStorage.clear();
+      location.reload();
+    }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
     window.addEventListener('click', e => {
