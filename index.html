@@ -42,7 +42,7 @@
       --hub-left-bg: #162032;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 85px; transition: background 0.2s, color 0.2s; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 24px; transition: background 0.2s, color 0.2s; }
 
     .country-btn {
       background: #1e293b;
@@ -114,6 +114,11 @@
       position: relative;
     }
     .icon-btn:hover { background: rgba(15,23,42,0.36); }
+    .gear-btn {
+      padding: 7px 10px;
+      font-size: 15px;
+      line-height: 1;
+    }
     .fav-nav-btn.active { background: #0f172a; border-color: #ffffff; }
     .admin-btn {
       background: #991b1b;
@@ -147,7 +152,7 @@
       position: absolute;
       top: calc(100% + 6px);
       right: 16px;
-      width: min(920px, calc(100vw - 32px));
+      width: min(880px, calc(100vw - 32px));
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
@@ -157,30 +162,7 @@
       overflow: hidden;
     }
     .profile-mega-dropdown.open { display: block; }
-    .mega-top-locale-bar {
-      background: var(--soft-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .mega-locale-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .mega-locale-label {
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-right: 4px;
-    }
-    .mega-inner { display: grid; grid-template-columns: 245px 1fr; min-height: 330px; }
+    .mega-inner { display: grid; grid-template-columns: 245px 1fr; min-height: 300px; }
     @media (max-width: 720px) { .mega-inner { grid-template-columns: 1fr; } }
     .mega-left {
       background: var(--hub-left-bg);
@@ -490,32 +472,37 @@
     .hub-top-tab { background: none; border: none; padding: 8px 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
     .hub-top-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
     .twofa-box { background: rgba(22,163,74,0.08); border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
-    .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
-    .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--accent); }
+    .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+    .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 10px; color: var(--accent); }
 
-    .lang-toggle-btn {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--accent);
-      background: var(--accent);
-      color: #ffffff;
+    /* Katalogi w Ustawieniach */
+    .settings-folders {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 480px) { .settings-folders { grid-template-columns: 1fr; } }
+    .folder-tab {
+      background: var(--soft-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 10px;
       font-size: 13px;
       font-weight: 800;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .lang-drawer {
-      display: none;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .lang-drawer.open {
       display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .folder-tab.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(2,132,199,0.25);
     }
 
     .scene-picker-grid {
@@ -542,6 +529,20 @@
       border-color: var(--accent);
     }
 
+    /* Dokumenty prawne i kontakt */
+    .legal-doc-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .legal-doc-body h3 { font-size: 17px; margin-bottom: 8px; color: var(--accent); }
+    .legal-doc-body h4 { font-size: 14px; margin: 12px 0 4px; color: var(--text); }
+    .legal-doc-body p, .legal-doc-body li { font-size: 13px; line-height: 1.6; color: var(--text); margin-bottom: 6px; }
+    .legal-doc-body ul { padding-left: 18px; margin-bottom: 10px; }
+
     footer.site-footer {
       max-width: 1280px; margin: 28px auto 0; padding: 18px 16px; border-top: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
@@ -549,15 +550,7 @@
     }
     .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
     .footer-links a { color: var(--muted); text-decoration: none; font-weight: 600; cursor: pointer; }
-
-    .mobile-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; background: var(--card);
-      border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; z-index: 90;
-    }
-    .mobile-nav button {
-      background: none; border: none; font-size: 11px; font-weight: 700; color: var(--muted);
-      display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer;
-    }
+    .footer-links a:hover { color: var(--accent); text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -575,6 +568,7 @@
         </button>
         <button type="button" class="icon-btn admin-btn" id="navAdminBtn" style="display:none" onclick="openAdminPanel()">&#128737;&#65039; Admin <span class="notif-dot" id="adminReportBadge">0</span></button>
         <button type="button" class="add-btn" id="navAddBtn" onclick="openAddModal()">+ Dodaj</button>
+        <button type="button" class="icon-btn gear-btn" id="navSettingsGearBtn" title="Ustawienia" onclick="openSettings()">&#9881;&#65039;</button>
       </div>
 
       <div class="profile-mega-dropdown" id="profileMegaDropdown"></div>
@@ -675,10 +669,6 @@
       <button type="button" class="close-modal" onclick="closeModal('adminModal')">&times;</button>
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-right:36px">
         <h2>Admin &mdash; PlacoMarkt</h2>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button type="button" class="country-btn" id="admNL" onclick="switchCountry('NL');openAdminPanel()">NL (&euro;)</button>
-          <button type="button" class="country-btn" id="admPL" onclick="switchCountry('PL');openAdminPanel()">PL (zł)</button>
-        </div>
       </div>
 
       <div class="set-section" style="margin-top:12px">
@@ -816,51 +806,19 @@
   </div>
 
   <div class="modal-backdrop" id="settingsModal">
-    <div class="modal" style="max-width:560px">
+    <div class="modal" style="max-width:580px">
       <button type="button" class="close-modal" onclick="closeModal('settingsModal')">&times;</button>
-      <h2 style="margin-bottom:14px">Ustawienia / Instellingen</h2>
+      <h2 style="margin-bottom:14px">&#9881;&#65039; Ustawienia / Instellingen</h2>
 
-      <div class="set-section">
-        <h4>Język i Region / Taal &amp; Regio</h4>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <button type="button" class="lang-toggle-btn" id="btnToggleLangDrawer" onclick="toggleLangDrawer()">
-            Język (<span id="currentLangLabel">NL</span>) &#9662;
-          </button>
-          <button type="button" class="country-btn" id="setNL" onclick="manualSwitchCountry('NL');openSettings()">NL (&euro;)</button>
-          <button type="button" class="country-btn" id="setPL" onclick="manualSwitchCountry('PL');openSettings()">PL (zł)</button>
-        </div>
-        <div class="lang-drawer" id="langDrawerBox"></div>
+      <div class="settings-folders">
+        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Kraj i Język</button>
+        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Wygląd i Miasto</button>
+        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Konto i Dane</button>
       </div>
 
-      <div class="set-section">
-        <h4>Wygląd / Weergave</h4>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:8px">
-          <input type="checkbox" id="setDarkMode" onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
-          <span>Tryb ciemny / Donkere modus</span>
-        </label>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px">
-          <span>Domyślna miejscowość:</span>
-          <input type="text" id="setDefaultCity" oninput="setDefaultCityPref(this.value)" style="width:200px;padding:6px 10px;border-radius:7px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:12px" />
-        </div>
-      </div>
-
-      <div class="set-section" style="margin-bottom:0">
-        <h4>Dane / Gegevens</h4>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button type="button" class="mini-btn" onclick="exportUserData()">Eksport JSON</button>
-          <button type="button" class="mini-btn red" onclick="resetLocalStorageData()">Reset</button>
-        </div>
-      </div>
+      <div id="settingsFolderContent"></div>
     </div>
   </div>
-
-  <nav class="mobile-nav">
-    <button type="button" onclick="setMode('sale')">&#127991;&#65039;<span id="mobBuy">Kup teraz</span></button>
-    <button type="button" onclick="openAddModal()" style="color:var(--accent)">+<span id="mobAdd">Dodaj</span></button>
-    <button type="button" onclick="setMode('favorites')">&#10084;&#65039;<span id="mobFav">Ulubione</span></button>
-    <button type="button" onclick="handleProfileHeaderClick(event)">&#128100;<span id="mobAcc">Konto</span></button>
-    <button type="button" onclick="openSettings()">&#9881;&#65039;<span id="mobOpt">Opcje</span></button>
-  </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -878,12 +836,12 @@
       : null;
 
     const SUPPORTED_LANGS = [
-      { code: 'NL', label: 'NL' },
-      { code: 'PL', label: 'PL' },
-      { code: 'UK', label: 'UK' },
-      { code: 'DE', label: 'DE' },
-      { code: 'BE', label: 'BE' },
-      { code: 'FR', label: 'FR' }
+      { code: 'NL', label: 'Nederlands (NL)' },
+      { code: 'PL', label: 'Polski (PL)' },
+      { code: 'UK', label: 'Українська (UK)' },
+      { code: 'DE', label: 'Deutsch (DE)' },
+      { code: 'BE', label: 'België (BE)' },
+      { code: 'FR', label: 'Français (FR)' }
     ];
 
     const SCENE_OPTIONS = [
@@ -909,8 +867,7 @@
         details: 'Szczegóły', freeLabel: 'ZA DARMO', subTitle: 'Oferty z abonamentem',
         subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.', hello: 'Cześć',
         settingsUpper: 'USTAWIENIA', logout: 'Wyloguj się', megaBuy: 'ZAKUPY',
-        megaSell: 'SPRZEDAŻ', megaAccount: 'KONTO', mobBuy: 'Kup teraz', mobAdd: 'Dodaj',
-        mobFav: 'Ulubione', mobAcc: 'Konto', mobOpt: 'Opcje'
+        megaSell: 'SPRZEDAŻ', megaAccount: 'KONTO'
       },
       NL: {
         htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
@@ -925,8 +882,7 @@
         details: 'Bekijk', freeLabel: 'GRATIS', subTitle: 'Abonnement aanbiedingen',
         subDesc: 'Advertenties van accounts met een actief abonnement.', hello: 'Hallo',
         settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen', megaBuy: 'AANKOPEN',
-        megaSell: 'VERKOOP', megaAccount: 'ACCOUNT', mobBuy: 'Kopen', mobAdd: 'Plaatsen',
-        mobFav: 'Favorieten', mobAcc: 'Account', mobOpt: 'Opties'
+        megaSell: 'VERKOOP', megaAccount: 'ACCOUNT'
       },
       UK: { htmlLang: 'uk', account: 'Акаунт', add: '+ Додати', banner: 'Wesołych Świąt!' },
       DE: { htmlLang: 'de', account: 'Konto', add: '+ Inserieren', banner: 'Wesołych Świąt!' },
@@ -989,21 +945,76 @@
       ).join('');
     }
 
-    let langDrawerOpen = false;
-    function toggleLangDrawer() {
-      langDrawerOpen = !langDrawerOpen;
-      renderLangDrawer();
+    /* Katalogi w Ustawieniach */
+    let activeSettingsFolder = 'locale';
+
+    function setSettingsFolder(folder) {
+      activeSettingsFolder = folder;
+      ['locale', 'look', 'data'].forEach(k => {
+        const map = { locale: 'folderLocaleBtn', look: 'folderLookBtn', data: 'folderDataBtn' };
+        const el = document.getElementById(map[k]);
+        if (el) el.classList.toggle('active', k === folder);
+      });
+      renderSettingsFolderContent();
     }
 
-    function renderLangDrawer() {
-      const box = document.getElementById('langDrawerBox');
-      const curLbl = document.getElementById('currentLangLabel');
-      if (curLbl) curLbl.textContent = currentLang;
-      if (!box) return;
-      box.classList.toggle('open', langDrawerOpen);
-      box.innerHTML = SUPPORTED_LANGS.map(item =>
-        `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" onclick="setLanguage('${item.code}');renderLangDrawer()">${item.label}</button>`
-      ).join('');
+    function renderSettingsFolderContent() {
+      const container = document.getElementById('settingsFolderContent');
+      if (!container) return;
+
+      if (activeSettingsFolder === 'locale') {
+        container.innerHTML = `
+          <div class="set-section">
+            <h4>&#127757; Wybierz kraj i walutę / Regio &amp; Valuta</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Zmienia rynek ogłoszeń oraz walutę (Euro lub Złoty).</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" onclick="manualSwitchCountry('NL');renderSettingsFolderContent()">Holandia — NL (&euro;)</button>
+              <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" onclick="manualSwitchCountry('PL');renderSettingsFolderContent()">Polska — PL (zł)</button>
+            </div>
+          </div>
+          <div class="set-section" style="margin-bottom:0">
+            <h4>&#128483;&#65039; Wybierz język aplikacji / Taal</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Język interfejsu oraz wyszukiwarki.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">
+              ${SUPPORTED_LANGS.map(item =>
+                `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" style="justify-content:center;padding:8px 10px" onclick="setLanguage('${item.code}');renderSettingsFolderContent()">${item.label}</button>`
+              ).join('')}
+            </div>
+          </div>`;
+      } else if (activeSettingsFolder === 'look') {
+        const cityVal = userPrefs['defaultCity' + currentCountry] || '';
+        container.innerHTML = `
+          <div class="set-section">
+            <h4>&#127912; Motyw ekranu / Weergave</h4>
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
+              <input type="checkbox" id="setDarkMode" ${userPrefs.darkMode ? 'checked' : ''} onchange="toggleSettingPref('darkMode', this.checked)" style="width:auto" />
+              <span>Tryb ciemny / Donkere modus</span>
+            </label>
+          </div>
+          <div class="set-section" style="margin-bottom:0">
+            <h4>&#128205; Domyślna miejscowość (${currentCountry})</h4>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:8px">Automatycznie podpowiadana po zmianie kraju.</p>
+            <input type="text" id="setDefaultCity" value="${cityVal}" placeholder="np. Rotterdam lub Katowice..." oninput="setDefaultCityPref(this.value)" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:13px" />
+          </div>`;
+      } else {
+        const displayNick = currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : 'Gość (niezalogowany)';
+        container.innerHTML = `
+          <div class="set-section">
+            <h4>&#128100; Aktywne konto</h4>
+            <p style="font-size:13px;margin-bottom:10px"><strong>${displayNick}</strong> ${currentUser?.email ? `(${currentUser.email})` : ''}</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="mini-btn gold" onclick="closeModal('settingsModal');openFullAccountModal('account')">Otwórz panel konta</button>
+              ${currentUser ? `<button type="button" class="mini-btn red" onclick="closeModal('settingsModal');logoutUser()">Wyloguj się</button>` : ''}
+            </div>
+          </div>
+          <div class="set-section" style="margin-bottom:0">
+            <h4>&#128190; Kopia zapasowa i pamięć</h4>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="mini-btn" onclick="exportUserData()">Eksport JSON</button>
+              <button type="button" class="mini-btn red" onclick="resetLocalStorageData()">Reset ustawień</button>
+            </div>
+          </div>`;
+      }
     }
 
     const canvas = document.getElementById('animCanvas');
@@ -1082,51 +1093,31 @@
       if (!ctx) return;
       ctx.save();
       ctx.translate(x, baseY + Math.sin(phase) * 1.5);
-
-      // Dolna i górna kula śniegu
       ctx.fillStyle = '#ffffff';
       ctx.beginPath(); ctx.arc(0, -10, 11, 0, Math.PI * 2); ctx.fill();
       ctx.beginPath(); ctx.arc(0, -25, 7.5, 0, Math.PI * 2); ctx.fill();
-
-      // Guziki
       ctx.fillStyle = '#1e293b';
       ctx.beginPath();
       ctx.arc(0, -13, 1.6, 0, Math.PI * 2);
       ctx.arc(0, -8, 1.6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Oczy i marchewkowy nos
-      ctx.beginPath();
       ctx.arc(-2.6, -26.5, 1.2, 0, Math.PI * 2);
       ctx.arc(2.6, -26.5, 1.2, 0, Math.PI * 2);
       ctx.fill();
-
       ctx.fillStyle = '#f97316';
       ctx.beginPath();
-      ctx.moveTo(0, -24.5);
-      ctx.lineTo(8, -23);
-      ctx.lineTo(0, -21.5);
-      ctx.closePath();
-      ctx.fill();
-
-      // Szalik
+      ctx.moveTo(0, -24.5); ctx.lineTo(8, -23); ctx.lineTo(0, -21.5);
+      ctx.closePath(); ctx.fill();
       ctx.strokeStyle = '#dc2626';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(-6.5, -18.5);
-      ctx.lineTo(6.5, -18.5);
-      ctx.moveTo(4, -18.5);
-      ctx.lineTo(7, -11);
+      ctx.moveTo(-6.5, -18.5); ctx.lineTo(6.5, -18.5);
+      ctx.moveTo(4, -18.5); ctx.lineTo(7, -11);
       ctx.stroke();
-
-      // Kapelusz
       ctx.fillStyle = '#1e293b';
       ctx.fillRect(-10, -33, 20, 2.5);
       ctx.fillRect(-6.5, -42, 13, 9.5);
       ctx.fillStyle = '#dc2626';
       ctx.fillRect(-6.5, -35.5, 13, 2.5);
-
-      // Gałązki-ręce i miotła
       ctx.strokeStyle = '#78350f';
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -1134,13 +1125,10 @@
       ctx.moveTo(10, -14); ctx.lineTo(18, -19);
       ctx.moveTo(18, -19); ctx.lineTo(18, -2);
       ctx.stroke();
-
       ctx.fillStyle = '#d97706';
       ctx.beginPath();
       ctx.moveTo(14, -4); ctx.lineTo(22, -4); ctx.lineTo(24, 1); ctx.lineTo(12, 1);
-      ctx.closePath();
-      ctx.fill();
-
+      ctx.closePath(); ctx.fill();
       ctx.restore();
     }
 
@@ -1165,16 +1153,12 @@
         ctx.fill();
       });
       ctx.fillStyle = '#facc15';
-      ctx.beginPath();
-      ctx.arc(0, -47, 4, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(0, -47, 4, 0, Math.PI * 2); ctx.fill();
       const bulbColors = ['#ef4444', '#facc15', '#38bdf8', '#f472b6'];
       bulbColors.forEach((c, idx) => {
         ctx.globalAlpha = 0.45 + 0.55 * Math.sin(lightPhase + idx * 1.4);
         ctx.fillStyle = c;
-        ctx.beginPath();
-        ctx.arc(-8 + idx * 5.5, -15 - (idx % 2) * 8, 2.5, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(-8 + idx * 5.5, -15 - (idx % 2) * 8, 2.5, 0, Math.PI * 2); ctx.fill();
       });
       ctx.globalAlpha = 1;
       ctx.restore();
@@ -1778,11 +1762,7 @@
       document.getElementById('accountModal').classList.add('open');
     }
 
-    function setLanguageFromMenu(lang) {
-      setLanguage(lang);
-      renderProfileMegaDropdown();
-    }
-
+    /* Czyste menu profilu — BEZ REGIONU I JĘZYKA */
     function renderProfileMegaDropdown() {
       const box = document.getElementById('profileMegaDropdown');
       if (!box || !currentUser) return;
@@ -1791,21 +1771,6 @@
       const isAdmin = hasAdminPermission();
       const myAdsCount = (listingsData[currentCountry] || []).filter(isListingOwnedByMe).length;
       const inboxCount = getUnreadOrInboxCountForCurrentUser();
-
-      const topLocaleBarHtml = `
-        <div class="mega-top-locale-bar" onclick="event.stopPropagation()">
-          <div class="mega-locale-group">
-            <span class="mega-locale-label">Region:</span>
-            <button type="button" class="country-btn ${currentCountry === 'NL' ? 'active' : ''}" style="padding:4px 9px;font-size:11px" onclick="manualSwitchCountry('NL');renderProfileMegaDropdown()">NL (€)</button>
-            <button type="button" class="country-btn ${currentCountry === 'PL' ? 'active' : ''}" style="padding:4px 9px;font-size:11px" onclick="manualSwitchCountry('PL');renderProfileMegaDropdown()">PL (zł)</button>
-          </div>
-          <div class="mega-locale-group">
-            <span class="mega-locale-label">Język:</span>
-            ${SUPPORTED_LANGS.map(item =>
-              `<button type="button" class="country-btn ${item.code === currentLang ? 'active' : ''}" style="padding:4px 9px;font-size:11px" onclick="setLanguageFromMenu('${item.code}')">${item.label}</button>`
-            ).join('')}
-          </div>
-        </div>`;
 
       let tabContentHtml = '';
       if (megaProfileTab === 'buy') {
@@ -1827,7 +1792,7 @@
             <div class="mega-col">
               <h4>Szybkie akcje</h4>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openAddModal()">${t('add')}</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">Ustawienia (język, motyw)</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; Ustawienia</button>
             </div>
           </div>`;
       } else if (megaProfileTab === 'sell') {
@@ -1856,7 +1821,7 @@
             <div class="mega-col">
               <h4>Konto i bezpieczeństwo</h4>
               <button type="button" class="mega-link-btn" onclick="openFullAccountModal('account')">Inicjały i zmiana hasła</button>
-              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">Ustawienia (język, motyw)</button>
+              <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; Ustawienia</button>
               <button type="button" class="mega-link-btn" onclick="closeHeaderMenus();exportUserData()">Eksport danych JSON</button>
             </div>
             <div class="mega-col">
@@ -1873,7 +1838,6 @@
       }
 
       box.innerHTML = `
-        ${topLocaleBarHtml}
         <div class="mega-inner" onclick="event.stopPropagation()">
           <div class="mega-left">
             <div>
@@ -1881,7 +1845,7 @@
               <div class="mega-greeting">${t('hello')} ${displayNick}!</div>
               <div class="mega-sub">${currentUser.email}</div>
             </div>
-            <button type="button" class="mega-settings-link" onclick="closeHeaderMenus();openSettings()">${t('settingsUpper')}</button>
+            <button type="button" class="mega-settings-link" onclick="closeHeaderMenus();openSettings()">&#9881;&#65039; ${t('settingsUpper')}</button>
           </div>
           <div class="mega-right">
             <div>
@@ -1992,11 +1956,6 @@
       document.getElementById('optSortViews').textContent = t('sortViews');
       document.getElementById('subSectionTitle').textContent = t('subTitle');
       document.getElementById('subSectionDesc').textContent = t('subDesc');
-      document.getElementById('mobBuy').textContent = t('mobBuy');
-      document.getElementById('mobAdd').textContent = t('mobAdd');
-      document.getElementById('mobFav').textContent = t('mobFav');
-      document.getElementById('mobAcc').textContent = t('mobAcc');
-      document.getElementById('mobOpt').textContent = t('mobOpt');
 
       document.getElementById('quickTagsBar').innerHTML = currentLang === 'PL'
         ? `<span style="color:#e0f2fe">${t('popular')}</span>
@@ -2639,10 +2598,6 @@
 
     function openAdminPanel() {
       if (!hasAdminPermission()) { openFullAccountModal('account'); return; }
-      ['NL', 'PL'].forEach(c => {
-        const b = document.getElementById('adm' + c);
-        if (b) b.classList.toggle('active', c === currentCountry);
-      });
       renderAdminScenePicker();
       renderAdminPanel();
       document.getElementById('adminModal').classList.add('open');
@@ -2693,13 +2648,7 @@
     async function adminDelete(id) { await deleteListingByAuthorOrAdmin(currentCountry, id); }
 
     function openSettings() {
-      document.getElementById('setDarkMode').checked = Boolean(userPrefs.darkMode);
-      document.getElementById('setDefaultCity').value = userPrefs['defaultCity' + currentCountry] || '';
-      ['NL', 'PL'].forEach(c => {
-        const btn = document.getElementById('set' + c);
-        if (btn) btn.classList.toggle('active', c === currentCountry);
-      });
-      renderLangDrawer();
+      setSettingsFolder('locale');
       document.getElementById('settingsModal').classList.add('open');
     }
 
@@ -2726,10 +2675,89 @@
       document.getElementById('cityInput').value = '';
       renderCountryUI();
     }
-    function openLegalModal(doc) {
-      document.getElementById('legalContent').innerHTML = `<button type="button" class="close-modal" onclick="closeModal('legalModal')">&times;</button><h2>PlacoMarkt.online</h2><p style="margin-top:10px">${ADMIN_EMAIL}</p>`;
+
+    /* Pełne dokumenty: O nas, Regulamin, RODO, DSA i Kontakt */
+    function openLegalModal(doc = 'about') {
+      const docs = {
+        about: {
+          title: 'O nas — PlacoMarkt.online',
+          html: `
+            <h3>O platformie PlacoMarkt.online</h3>
+            <p><strong>PlacoMarkt.online</strong> to nowoczesny serwis ogłoszeń lokalnych i transgranicznych stworzony z myślą o użytkownikach w <strong>Holandii (NL)</strong> oraz <strong>Polsce (PL)</strong>.</p>
+            <h4>Co wyróżnia PlacoMarkt?</h4>
+            <ul>
+              <li><strong>Proste dodawanie ofert:</strong> sprzedaż („Kup teraz”), licytacje oraz oddawanie przedmiotów za darmo w jednym miejscu.</li>
+              <li><strong>Przejrzysta wiarygodność sprzedawców:</strong> system ocen procentowych oraz ochrona przed nieuczciwymi ofertami.</li>
+              <li><strong>Prywatność numeru telefonu:</strong> Twój numer pozostaje ukryty, dopóki sam nie zdecydujesz o jego udostępnieniu w konkretnym ogłoszeniu.</li>
+              <li><strong>Wielojęzyczność:</strong> obsługa języków NL, PL, UK, DE, BE oraz FR.</li>
+            </ul>
+            <p>Masz pytania lub sugestie rozwoju serwisu? Napisz do nas: <strong>adminplacomarkt@gmail.com</strong>.</p>
+          `
+        },
+        terms: {
+          title: 'Regulamin serwisu PlacoMarkt.online',
+          html: `
+            <h3>Regulamin korzystania z PlacoMarkt.online</h3>
+            <h4>1. Postanowienia ogólne</h4>
+            <p>Serwis PlacoMarkt.online umożliwia publikowanie i przeglądanie ogłoszeń drobnych przez osoby prywatne oraz firmy na terenie Holandii i Polski.</p>
+            <h4>2. Zasady publikacji ogłoszeń</h4>
+            <ul>
+              <li>Ogłoszenie musi dotyczyć realnego przedmiotu, nieruchomości, pojazdu, usługi lub oferty pracy i zawierać prawdziwy opis oraz cenę.</li>
+              <li>Zabrania się publikowania treści niezgodnych z prawem UE, Holandii i Polski, towarów podrobionych, niebezpiecznych oraz wprowadzających w błąd.</li>
+              <li>Jeden przedmiot można wystawić w jednym aktywnym ogłoszeniu w odpowiedniej kategorii.</li>
+            </ul>
+            <h4>3. Odpowiedzialność i bezpieczeństwo</h4>
+            <p>PlacoMarkt.online pełni rolę platformy ogłoszeniowej łączącej kupujących ze sprzedającymi. Zalecamy odbiór osobisty lub sprawdzoną wysyłkę oraz weryfikację oceny wiarygodności konta przed dokonaniem płatności.</p>
+          `
+        },
+        privacy: {
+          title: 'Polityka Prywatności (RODO / AVG)',
+          html: `
+            <h3>Polityka Prywatności i Ochrony Danych (RODO / AVG)</h3>
+            <h4>1. Administrator danych</h4>
+            <p>Administratorem danych osobowych przetwarzanych w ramach serwisu PlacoMarkt.online jest operator platformy (kontakt: <strong>adminplacomarkt@gmail.com</strong>).</p>
+            <h4>2. Zakres i cel przetwarzania danych</h4>
+            <ul>
+              <li><strong>Konto i logowanie:</strong> adres e-mail, identyfikator konta oraz wybrana ksywka/inicjały — w celu obsługi konta i publikacji ogłoszeń.</li>
+              <li><strong>Wiadomości i ogłoszenia:</strong> treść ogłoszeń, miejscowość oraz opcjonalny numer telefonu (udostępniany wyłącznie po zaznaczeniu zgody przez autora).</li>
+              <li><strong>Ustawienia lokalne:</strong> preferencje motywu, języka i ulubionych ofert zapisywane w pamięci przeglądarki (LocalStorage).</li>
+            </ul>
+            <h4>3. Twoje prawa</h4>
+            <p>Masz prawo do wglądu w swoje dane, ich poprawiania, eksportu do pliku JSON w Ustawieniach oraz żądania całkowitego usunięcia konta i danych poprzez kontakt na adres <strong>adminplacomarkt@gmail.com</strong>.</p>
+          `
+        },
+        dsa: {
+          title: 'DSA (Akt o Usługach Cyfrowych) i Kontakt',
+          html: `
+            <h3>Informacje DSA (Digital Services Act) i Kontakt</h3>
+            <h4>1. Punkt kontaktowy (DSA)</h4>
+            <p>Zgodnie z unijnym Aktem o Usługach Cyfrowych (DSA — Rozporządzenie UE 2022/2065), pojedynczym punktem kontaktowym dla organów państw członkowskich, Komisji Europejskiej, Rady Usług Cyfrowych oraz użytkowników serwisu PlacoMarkt.online jest:</p>
+            <p style="padding:10px 12px;background:var(--soft-bg);border-radius:8px;border:1px solid var(--border)">
+              <strong>E-mail kontaktowy i zgłoszeniowy:</strong> adminplacomarkt@gmail.com<br/>
+              <strong>Języki komunikacji:</strong> polski (PL), niderlandzki (NL), angielski (EN)
+            </p>
+            <h4>2. Zgłaszanie nielegalnych treści i naruszeń</h4>
+            <p>Jeśli zauważysz ogłoszenie naruszające prawo lub regulamin serwisu, prześlij link do oferty oraz krótki opis naruszenia na adres <strong>adminplacomarkt@gmail.com</strong>. Każde zgłoszenie jest weryfikowane przez administratora, a oferty naruszające zasady są oznaczane lub usuwane.</p>
+            <h4>3. Kontakt z administracją</h4>
+            <p>W sprawach technicznych, reklamowych, abonamentów oraz odwołań od decyzji moderacyjnych prosimy o kontakt mailowy pod adresem <strong>adminplacomarkt@gmail.com</strong>.</p>
+          `
+        }
+      };
+
+      const selected = docs[doc] || docs.about;
+      document.getElementById('legalContent').innerHTML = `
+        <button type="button" class="close-modal" onclick="closeModal('legalModal')">&times;</button>
+        <div class="legal-doc-tabs">
+          <button type="button" class="mini-btn ${doc === 'about' ? 'gold' : ''}" onclick="openLegalModal('about')">O nas</button>
+          <button type="button" class="mini-btn ${doc === 'terms' ? 'gold' : ''}" onclick="openLegalModal('terms')">Regulamin</button>
+          <button type="button" class="mini-btn ${doc === 'privacy' ? 'gold' : ''}" onclick="openLegalModal('privacy')">Prywatność (RODO)</button>
+          <button type="button" class="mini-btn ${doc === 'dsa' ? 'gold' : ''}" onclick="openLegalModal('dsa')">DSA i Kontakt</button>
+        </div>
+        <div class="legal-doc-body">${selected.html}</div>
+      `;
       document.getElementById('legalModal').classList.add('open');
     }
+
     function exportUserData() {
       const blob = new Blob([JSON.stringify({ currentCountry, currentLang, activeScene, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'placomarkt-backup.json'; a.click();
