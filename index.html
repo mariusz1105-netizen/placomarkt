@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f97316" />
+  <meta name="theme-color" content="#0284c7" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="description" content="PlacoMarkt.online — ogłoszenia, licytacje, zakupy, wczasy, nieruchomości i ogródki działkowe." />
   <link rel="canonical" href="https://placomarkt.online/" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%23f97316'/></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%230284c7'/></svg>" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://placomarkt.online/" />
   <meta property="og:title" content="PlacoMarkt — Ogłoszenia, Licytacje i Zakupy" />
@@ -17,9 +17,9 @@
   <link id="pwaManifestLink" rel="manifest" href="" />
   <style>
     :root {
-      --primary: #f97316;
-      --accent: #f97316;
-      --accent-hover: #ea580c;
+      --primary: #0284c7;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
       --blue: #2563eb;
       --green: #16a34a;
       --purple: #7c3aed;
@@ -69,16 +69,17 @@
       background: var(--accent);
       color: #fff;
       border-color: var(--accent);
-      box-shadow: 0 2px 8px rgba(249,115,22,0.4);
+      box-shadow: 0 2px 8px rgba(2,132,199,0.4);
     }
 
     header {
-      background: #f97316;
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 55%, #0ea5e9 100%);
       color: #fff;
       position: sticky;
       top: 0;
       z-index: 120;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.16);
+      box-shadow: 0 2px 12px rgba(2,132,199,0.28);
+      overflow: hidden;
     }
     .nav-container {
       max-width: 1280px;
@@ -90,6 +91,7 @@
       gap: 10px;
       flex-wrap: wrap;
       position: relative;
+      z-index: 3;
     }
     .logo {
       font-size: 22px;
@@ -101,7 +103,7 @@
       cursor: pointer;
       color: #ffffff;
     }
-    .logo span.brand-accent { color: #0f172a; }
+    .logo span.brand-accent { color: #e0f2fe; }
     .nav-controls {
       display: flex;
       align-items: center;
@@ -109,8 +111,8 @@
       flex-wrap: wrap;
     }
     .icon-btn {
-      background: rgba(15,23,42,0.18);
-      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(15,23,42,0.22);
+      border: 1px solid rgba(255,255,255,0.38);
       color: #fff;
       padding: 7px 11px;
       border-radius: 8px;
@@ -122,7 +124,7 @@
       gap: 5px;
       position: relative;
     }
-    .icon-btn:hover { background: rgba(15,23,42,0.3); }
+    .icon-btn:hover { background: rgba(15,23,42,0.36); }
     .fav-nav-btn.active { background: #0f172a; border-color: #ffffff; }
     .admin-btn {
       background: #991b1b;
@@ -141,7 +143,7 @@
     .add-btn {
       background: #0f172a;
       color: #fff;
-      border: 1px solid #0f172a;
+      border: 1px solid rgba(255,255,255,0.22);
       padding: 9px 15px;
       border-radius: 8px;
       font-weight: 700;
@@ -150,7 +152,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 2px 6px rgba(15,23,42,0.25);
+      box-shadow: 0 2px 6px rgba(15,23,42,0.28);
     }
     .add-btn:hover { background: #1e293b; }
 
@@ -323,14 +325,106 @@
       color: var(--muted);
     }
 
+    /* Niebieska sekcja świąteczna z animowanym śniegiem, Mikołajem na saniach i choinkami */
     .hero {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 68%, #075985 100%);
       color: #fff;
-      padding: 22px 16px 26px;
+      padding: 22px 16px 36px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+    .xmas-scene {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .xmas-content {
+      position: relative;
+      z-index: 2;
+    }
+    .xmas-greeting-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+    }
+    .santa-sleigh-runner {
+      position: absolute;
+      top: 10px;
+      left: -240px;
+      font-size: 26px;
+      font-weight: 800;
+      white-space: nowrap;
+      filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.35));
+      animation: sleighRide 18s linear infinite;
+    }
+    @keyframes sleighRide {
+      0% { transform: translateX(-180px) translateY(0px); }
+      25% { transform: translateX(30vw) translateY(-5px); }
+      50% { transform: translateX(60vw) translateY(3px); }
+      75% { transform: translateX(90vw) translateY(-4px); }
+      100% { transform: translateX(calc(100vw + 240px)) translateY(0px); }
+    }
+    .snow-flake {
+      position: absolute;
+      top: -24px;
+      color: rgba(255, 255, 255, 0.9);
+      user-select: none;
+      animation-name: snowFall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      text-shadow: 0 0 6px rgba(255,255,255,0.65);
+    }
+    @keyframes snowFall {
+      0% {
+        transform: translate3d(0, -24px, 0) rotate(0deg);
+        opacity: 0.95;
+      }
+      50% {
+        transform: translate3d(18px, 130px, 0) rotate(180deg);
+        opacity: 0.85;
+      }
+      100% {
+        transform: translate3d(-12px, 280px, 0) rotate(360deg);
+        opacity: 0.25;
+      }
+    }
+    .xmas-trees-row {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 18px;
+      font-size: 22px;
+      line-height: 1;
+      opacity: 0.92;
+      filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.3));
+    }
+    .xmas-trees-group {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .tree-sm { font-size: 16px; }
+    .tree-md { font-size: 22px; }
+    .tree-lg { font-size: 27px; }
+
     .hero h1 { font-size: 24px; margin-bottom: 6px; font-weight: 800; color: #ffffff; }
-    .hero p { color: #fff7ed; font-size: 14px; margin-bottom: 14px; }
+    .hero p { color: #e0f2fe; font-size: 14px; margin-bottom: 14px; }
     .search-box {
       max-width: 1080px;
       margin: 0 auto;
@@ -340,7 +434,7 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.16);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
     }
     .search-box input, .search-box select {
       flex: 1;
@@ -376,9 +470,9 @@
       font-size: 12px;
     }
     .quick-tag {
-      background: rgba(15,23,42,0.22);
+      background: rgba(15,23,42,0.24);
       color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.34);
       padding: 4px 10px;
       border-radius: 14px;
       cursor: pointer;
@@ -408,7 +502,7 @@
       border-radius: 12px;
       background: var(--card);
       border: 2px solid var(--accent);
-      box-shadow: 0 6px 18px rgba(249,115,22,0.16);
+      box-shadow: 0 6px 18px rgba(2,132,199,0.16);
     }
     .offer-progress-top {
       display: flex;
@@ -429,7 +523,7 @@
     .offer-progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #f97316, #16a34a);
+      background: linear-gradient(90deg, #0284c7, #16a34a);
       transition: width 0.25s ease;
     }
 
@@ -659,7 +753,7 @@
 
     .promo-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 6px; }
     .promo-card { border: 2px solid var(--border); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; background: var(--soft-bg); }
-    .promo-card.selected { border-color: var(--accent); background: rgba(249,115,22,0.12); }
+    .promo-card.selected { border-color: var(--accent); background: rgba(2,132,199,0.12); }
 
     .acc-btn { background: rgba(15,23,42,0.22); border-color: rgba(255,255,255,0.4); color: #ffffff; }
     .alt-login-divider { text-align: center; font-size: 12px; color: var(--muted); margin: 12px 0; font-weight: 700; }
@@ -728,7 +822,7 @@
   <header id="topHeader">
     <div class="nav-container">
       <div class="logo" onclick="resetFilters()">
-        <span>Placo<span class="brand-accent">Markt</span></span>
+        <span>🎅 Placo<span class="brand-accent">Markt</span> 🎄</span>
       </div>
 
       <div class="nav-controls">
@@ -762,21 +856,57 @@
   </header>
 
   <section class="hero">
-    <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
-    <p id="heroSub">Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca</p>
-    <div class="search-box">
-      <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz (np. głośniki, skuter, ogródek)..." oninput="renderListings()" />
-      <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
-      <input
-        type="text"
-        id="cityInput"
-        autocomplete="off"
-        placeholder="Miejscowość..."
-        oninput="renderListings()"
-      />
-      <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Szukaj</button>
+    <div class="xmas-scene" aria-hidden="true">
+      <div class="santa-sleigh-runner">🦌🦌🛷🎅🎁</div>
+      <div class="snow-flake" style="left:4%;font-size:14px;animation-duration:7.5s;animation-delay:0s;">❄</div>
+      <div class="snow-flake" style="left:11%;font-size:18px;animation-duration:9.2s;animation-delay:-2s;">❅</div>
+      <div class="snow-flake" style="left:19%;font-size:12px;animation-duration:6.8s;animation-delay:-4s;">•</div>
+      <div class="snow-flake" style="left:27%;font-size:16px;animation-duration:8.5s;animation-delay:-1s;">❄</div>
+      <div class="snow-flake" style="left:35%;font-size:19px;animation-duration:10s;animation-delay:-5s;">❅</div>
+      <div class="snow-flake" style="left:44%;font-size:13px;animation-duration:7.2s;animation-delay:-3s;">❄</div>
+      <div class="snow-flake" style="left:53%;font-size:17px;animation-duration:8.8s;animation-delay:-6s;">❅</div>
+      <div class="snow-flake" style="left:62%;font-size:14px;animation-duration:7.9s;animation-delay:-2.5s;">❄</div>
+      <div class="snow-flake" style="left:71%;font-size:18px;animation-duration:9.5s;animation-delay:-4.5s;">❅</div>
+      <div class="snow-flake" style="left:80%;font-size:13px;animation-duration:6.9s;animation-delay:-1.5s;">•</div>
+      <div class="snow-flake" style="left:88%;font-size:16px;animation-duration:8.4s;animation-delay:-3.5s;">❄</div>
+      <div class="snow-flake" style="left:95%;font-size:15px;animation-duration:7.6s;animation-delay:-5.5s;">❅</div>
+
+      <div class="xmas-trees-row">
+        <div class="xmas-trees-group">
+          <span class="tree-md">🎄</span>
+          <span class="tree-sm">🌲</span>
+          <span class="tree-lg">🎄</span>
+        </div>
+        <div class="xmas-trees-group">
+          <span class="tree-sm">🌲</span>
+          <span class="tree-md">🎄</span>
+        </div>
+        <div class="xmas-trees-group">
+          <span class="tree-lg">🎄</span>
+          <span class="tree-sm">🌲</span>
+          <span class="tree-md">🎄</span>
+        </div>
+      </div>
     </div>
-    <div class="quick-tags" id="quickTagsBar"></div>
+
+    <div class="xmas-content">
+      <div class="xmas-greeting-pill" id="xmasBannerText">🎄 Wesołych Świąt! 🎅</div>
+      <h1 id="heroTitle">Ogłoszenia, Licytacje, Zakupy i Wczasy</h1>
+      <p id="heroSub">Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca</p>
+      <div class="search-box">
+        <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz (np. głośniki, skuter, ogródek)..." oninput="renderListings()" />
+        <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
+        <input
+          type="text"
+          id="cityInput"
+          autocomplete="off"
+          placeholder="Miejscowość..."
+          oninput="renderListings()"
+        />
+        <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Szukaj</button>
+      </div>
+      <div class="quick-tags" id="quickTagsBar"></div>
+    </div>
   </section>
 
   <main class="container">
@@ -836,7 +966,7 @@
     </div>
 
     <footer class="site-footer">
-      <div><strong>PlacoMarkt.online</strong> © 2026 • Kontakt: adminplacomarkt@gmail.com</div>
+      <div><strong>PlacoMarkt.online</strong> © 2026 • Wesołych Świąt 🎄 • Kontakt: adminplacomarkt@gmail.com</div>
       <div class="footer-links">
         <a onclick="openLegalModal('about')" id="footAbout">O nas</a>
         <a onclick="openLegalModal('terms')" id="footTerms">Regulamin</a>
@@ -1069,7 +1199,8 @@
     const I18N = {
       PL: {
         htmlLang: 'pl', langBtn: 'Język', chooseLang: 'Wybierz język', chooseMarket: 'Region / Waluta',
-        account: 'Konto', add: '+ Dodaj', heroTitle: 'Ogłoszenia, Licytacje, Zakupy i Wczasy',
+        account: 'Konto', add: '+ Dodaj', xmasBanner: '🎄 Wesołych Świąt! 🎅',
+        heroTitle: 'Ogłoszenia, Licytacje, Zakupy i Wczasy',
         heroSub: 'Auta, Motory, Skutery, Wędkarstwo, Kosmetyki, Nieruchomości, Ogródki, Wczasy i Praca',
         searchPlaceholder: 'Czego szukasz (np. głośniki, skuter, ogródek)...', cityPlaceholder: 'Miejscowość...',
         searchBtn: 'Szukaj', allCats: '📂 Wszystkie kategorie', popular: 'Popularne:',
@@ -1085,7 +1216,8 @@
       },
       NL: {
         htmlLang: 'nl', langBtn: 'Taal', chooseLang: 'Kies taal', chooseMarket: 'Regio / Valuta',
-        account: 'Account', add: '+ Plaatsen', heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
+        account: 'Account', add: '+ Plaatsen', xmasBanner: '🎄 Wesołych Świąt — Vrolijk Kerstfeest! 🎅',
+        heroTitle: 'Advertenties, Veilingen, Kopen & Vakantie',
         heroSub: 'Auto’s, Motoren, Scooters, Vissen, Cosmetica, Woningen, Volkstuinen, Vakantie & Werk',
         searchPlaceholder: 'Waar ben je naar op zoek (bijv. speakers, scooter, volkstuin)...', cityPlaceholder: 'Plaats of postcode...',
         searchBtn: 'Zoeken', allCats: '📂 Alle categorieën', popular: 'Populair:',
@@ -1101,7 +1233,8 @@
       },
       UK: {
         htmlLang: 'uk', langBtn: 'Мова', chooseLang: 'Оберіть мову', chooseMarket: 'Регіон / Валюта',
-        account: 'Акаунт', add: '+ Додати', heroTitle: 'Оголошення, Аукціони, Покупки та Відпочинок',
+        account: 'Акаунт', add: '+ Додати', xmasBanner: '🎄 Wesołych Świąt! 🎅',
+        heroTitle: 'Оголошення, Аукціони, Покупки та Відпочинок',
         heroSub: 'Авто, Мото, Скутери, Риболовля, Косметика, Нерухомість, Сади та Робота',
         searchPlaceholder: 'Що шукаєте (напр. колонки, скутер)...', cityPlaceholder: 'Місто...',
         searchBtn: 'Пошук', allCats: '📂 Усі категорії', popular: 'Популярне:',
@@ -1117,7 +1250,8 @@
       },
       DE: {
         htmlLang: 'de', langBtn: 'Sprache', chooseLang: 'Sprache wählen', chooseMarket: 'Region / Währung',
-        account: 'Konto', add: '+ Inserieren', heroTitle: 'Kleinanzeigen, Auktionen, Einkaufen & Urlaub',
+        account: 'Konto', add: '+ Inserieren', xmasBanner: '🎄 Wesołych Świąt! 🎅',
+        heroTitle: 'Kleinanzeigen, Auktionen, Einkaufen & Urlaub',
         heroSub: 'Autos, Roller, Angeln, Kosmetik, Immobilien, Schrebergärten & Jobs',
         searchPlaceholder: 'Wonach suchst du (z.B. Lautsprecher, Roller)...', cityPlaceholder: 'Ort...',
         searchBtn: 'Suchen', allCats: '📂 Alle Kategorien', popular: 'Beliebt:',
@@ -1133,7 +1267,8 @@
       },
       BE: {
         htmlLang: 'nl-BE', langBtn: 'Taal', chooseLang: 'Kies taal', chooseMarket: 'Regio / Valuta',
-        account: 'Account', add: '+ Plaatsen', heroTitle: 'Zoekertjes, Veilingen, Kopen & Vakantie',
+        account: 'Account', add: '+ Plaatsen', xmasBanner: '🎄 Wesołych Świąt! 🎅',
+        heroTitle: 'Zoekertjes, Veilingen, Kopen & Vakantie',
         heroSub: 'Auto’s, Bromfietsen, Vissen, Cosmetica, Vastgoed, Volkstuintjes & Werk',
         searchPlaceholder: 'Waar ben je naar op zoek...', cityPlaceholder: 'Gemeente...',
         searchBtn: 'Zoeken', allCats: '📂 Alle categorieën', popular: 'Populair:',
@@ -1149,7 +1284,8 @@
       },
       FR: {
         htmlLang: 'fr', langBtn: 'Langue', chooseLang: 'Choisir la langue', chooseMarket: 'Région / Devise',
-        account: 'Compte', add: '+ Publier', heroTitle: 'Annonces, Enchères, Achats & Vacances',
+        account: 'Compte', add: '+ Publier', xmasBanner: '🎄 Wesołych Świąt! 🎅',
+        heroTitle: 'Annonces, Enchères, Achats & Vacances',
         heroSub: 'Autos, Scooters, Pêche, Cosmétiques, Immobilier, Jardins & Emploi',
         searchPlaceholder: 'Que recherchez-vous (ex. enceintes, scooter)...', cityPlaceholder: 'Ville...',
         searchBtn: 'Rechercher', allCats: '📂 Toutes les catégories', popular: 'Populaire :',
@@ -1178,7 +1314,6 @@
         savedCountry = localStorage.getItem('placomarkt_country');
       } catch (e) {}
 
-      // Zawsze szanuj zapisany przez użytkownika język/kraj i nie nadpisuj go przy starcie
       if (savedLang && I18N[savedLang]) {
         return {
           lang: savedLang,
@@ -1502,8 +1637,8 @@
           short_name: 'PlacoMarkt',
           start_url: 'https://placomarkt.online/',
           display: 'standalone',
-          background_color: '#f97316',
-          theme_color: '#f97316'
+          background_color: '#0284c7',
+          theme_color: '#0284c7'
         };
         const blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
         const link = document.getElementById('pwaManifestLink');
@@ -2072,6 +2207,7 @@
       document.getElementById('lblChooseLang').textContent = t('chooseLang');
       document.getElementById('lblChooseMarket').textContent = t('chooseMarket');
       document.getElementById('navAddBtn').textContent = t('add');
+      document.getElementById('xmasBannerText').textContent = t('xmasBanner');
 
       document.getElementById('heroTitle').textContent = t('heroTitle');
       document.getElementById('heroSub').textContent = t('heroSub');
@@ -2096,13 +2232,13 @@
       document.getElementById('mobOpt').textContent = t('mobOpt');
 
       document.getElementById('quickTagsBar').innerHTML = currentLang === 'PL'
-        ? `<span style="color:#fff7ed">${t('popular')}</span>
+        ? `<span style="color:#e0f2fe">${t('popular')}</span>
            <span class="quick-tag" onclick="quickSearch('głośniki')">🔊 Głośniki</span>
            <span class="quick-tag" onclick="quickSearch('łódka')">🎣 Wędkarstwo</span>
            <span class="quick-tag" onclick="quickSearch('skuter')">🛵 Skutery i Auta</span>
            <span class="quick-tag" onclick="quickSearch('ogródek')">🏡 Ogródek działkowy</span>
            <span class="quick-tag" onclick="quickSearch('wczasy')">✈️ Wczasy</span>`
-        : `<span style="color:#fff7ed">${t('popular')}</span>
+        : `<span style="color:#e0f2fe">${t('popular')}</span>
            <span class="quick-tag" onclick="quickSearch('speakers')">🔊 Speakers</span>
            <span class="quick-tag" onclick="quickSearch('voerboot')">🎣 Hengelsport</span>
            <span class="quick-tag" onclick="quickSearch('scooter')">🛵 Scooters & Auto’s</span>
