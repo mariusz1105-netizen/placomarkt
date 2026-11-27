@@ -430,6 +430,7 @@
     .admin-list { display: flex; flex-direction: column; gap: 10px; }
     .admin-row { border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--card); }
     .admin-row-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .admin-row-actions select { padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 12px; font-weight: 600; }
     .mini-btn { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; font-weight: 700; cursor: pointer; background: var(--soft-bg); color: var(--text); }
     .mini-btn.gold { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
     .mini-btn.green { background: #dcfce7; border-color: #86efac; color: #166534; }
@@ -444,6 +445,9 @@
       width: 100%; padding: 10px 12px; border: 1px solid var(--border);
       background: var(--input-bg); color: var(--text); border-radius: 8px; font-size: 14px;
     }
+    .auth-checks-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .auth-checks-row label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; margin: 0; font-weight: 600; }
+    .auth-checks-row input[type="checkbox"] { width: auto; }
     .photo-preview-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
     .photo-preview-strip img { width: 78px; height: 60px; object-fit: cover; border-radius: 7px; border: 1px solid var(--border); }
     .promo-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 6px; }
@@ -887,7 +891,7 @@
         addPhoneHead: 'Numer telefonu (domyślnie ukryty)', addSharePhone: 'Udostępniam mój numer telefonu w tym ogłoszeniu',
         addDesc: 'Opis', addSub: 'Abonament', addVis: 'Widoczność', addDays: '30 dni',
         addSubmit: 'Dodaj ogłoszenie',
-        loginTab: 'Logowanie', regTab: 'Rejestracja', passPh: 'Hasło', rememberPass: 'Zapamiętaj hasło',
+        loginTab: 'Logowanie', regTab: 'Rejestracja', passPh: 'Hasło', showPass: 'Pokaż hasło', rememberPass: 'Zapamiętaj hasło',
         loginBtn: 'Zaloguj się', regBtn: 'Załóż konto', orLabel: 'LUB',
         myAds: 'Moje ogłoszenia', msgsLabel: 'Wiadomości', editBtn: 'Edytuj', delBtn: 'Usuń',
         saveBtn: 'Zapisz', changePassTitle: 'Zmień hasło', newPassPh: 'Nowe hasło', changeBtn: 'Zmień',
@@ -929,7 +933,7 @@
         addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
         addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
         addSubmit: 'Advertentie plaatsen',
-        loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', rememberPass: 'Wachtwoord onthouden',
+        loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', showPass: 'Wachtwoord tonen', rememberPass: 'Wachtwoord onthouden',
         loginBtn: 'Inloggen', regBtn: 'Account aanmaken', orLabel: 'OF',
         myAds: 'Mijn advertenties', msgsLabel: 'Berichten', editBtn: 'Bewerken', delBtn: 'Verwijderen',
         saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
@@ -1437,6 +1441,11 @@
       return t('account');
     }
 
+    function toggleLoginPassword(show, inputId = 'loginPass') {
+      const input = document.getElementById(inputId);
+      if (input) input.type = show ? 'text' : 'password';
+    }
+
     function toggleSharePhoneCheckbox() {
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
       const cb = document.getElementById('newSharePhone');
@@ -1639,9 +1648,44 @@
       try { localStorage.setItem('placomarkt_users_db', JSON.stringify(registeredUsers)); } catch (e) {}
     }
 
+    let permanentlyDeletedEmails = [];
+    try {
+      const savedDeleted = JSON.parse(localStorage.getItem('placomarkt_deleted_emails') || '[]');
+      if (Array.isArray(savedDeleted)) permanentlyDeletedEmails = savedDeleted.map(x => String(x).toLowerCase());
+    } catch (e) {}
+
+    function markEmailPermanentlyDeleted(email) {
+      const low = String(email || '').trim().toLowerCase();
+      if (!low) return;
+      if (!permanentlyDeletedEmails.includes(low)) {
+        permanentlyDeletedEmails.push(low);
+        try { localStorage.setItem('placomarkt_deleted_emails', JSON.stringify(permanentlyDeletedEmails)); } catch (e) {}
+      }
+    }
+
+    function isEmailPermanentlyDeleted(email) {
+      const low = String(email || '').trim().toLowerCase();
+      return Boolean(low && permanentlyDeletedEmails.includes(low));
+    }
+
+    function durationToMs(duration) {
+      const map = {
+        '1h': 1 * 60 * 60 * 1000,
+        '2h': 2 * 60 * 60 * 1000,
+        '168h': 7 * 24 * 60 * 60 * 1000,
+        '336h': 14 * 24 * 60 * 60 * 1000,
+        '720h': 30 * 24 * 60 * 60 * 1000
+      };
+      return map[duration] || 0;
+    }
+
     function isUserBanned(email) {
       if (!email) return null;
-      const u = registeredUsers.find(x => (x.email || '').toLowerCase() === email.toLowerCase());
+      const low = email.toLowerCase();
+      if (isEmailPermanentlyDeleted(low)) {
+        return { banReason: 'Konto zostało trwale usunięte przez administratora' };
+      }
+      const u = registeredUsers.find(x => (x.email || '').toLowerCase() === low);
       if (!u || !u.bannedUntil) return null;
       const untilMs = new Date(u.bannedUntil).getTime();
       if (Number.isNaN(untilMs) || untilMs <= Date.now()) {
@@ -1650,55 +1694,95 @@
       return u;
     }
 
-    async function adminToggleBanUser(userId, email) {
-      if (!hasAdminPermission()) return;
-      const idx = registeredUsers.findIndex(u => String(u.id) === String(userId) || ((u.email || '').toLowerCase() === String(email || '').toLowerCase()));
-      if (idx < 0) return;
-      const target = registeredUsers[idx];
-      if ((target.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-        alert('Nie można zbanować głównego konta administratora.');
-        return;
+    async function invokeDeleteUserEdgeFn(payload) {
+      if (!sb || !sb.functions) return { error: null };
+      try {
+        const res = await sb.functions.invoke('delete-user', { body: payload });
+        return res || { error: null };
+      } catch (e) {
+        return { error: e };
       }
-      const currentlyBanned = Boolean(target.bannedUntil && new Date(target.bannedUntil).getTime() > Date.now());
-      if (currentlyBanned) {
-        if (!confirm(`Czy na pewno chcesz zdjąć bana z użytkownika ${target.email}?`)) return;
-        target.bannedUntil = null;
-        target.banReason = '';
-      } else {
-        const reason = prompt(`Podaj powód bana dla użytkownika ${target.email}:`, 'Naruszenie regulaminu');
-        if (reason === null) return;
-        if (!confirm(`Czy na pewno chcesz ZBANOWAĆ użytkownika ${target.email}?`)) return;
-        target.bannedUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
-        target.banReason = reason.trim() || 'Naruszenie regulaminu';
-      }
-      registeredUsers[idx] = target;
-      saveUsersDb();
-      if (sb) {
-        try {
-          await sb.from('profiles').update({
-            banned_until: target.bannedUntil,
-            ban_reason: target.banReason
-          }).eq('email', target.email);
-        } catch (e) {}
-      }
-      renderAdminPanel();
     }
 
-    async function adminDeleteUser(userId, email) {
+    async function applyUserModerationChoice(userId, email) {
       if (!hasAdminPermission()) return;
       const idx = registeredUsers.findIndex(u => String(u.id) === String(userId) || ((u.email || '').toLowerCase() === String(email || '').toLowerCase()));
-      if (idx < 0) return;
-      const target = registeredUsers[idx];
-      if ((target.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-        alert('Nie można usunąć głównego konta administratora.');
+      const target = idx >= 0 ? registeredUsers[idx] : { id: userId, email };
+      const targetEmail = (target.email || email || '').toLowerCase();
+      if (!targetEmail || targetEmail === ADMIN_EMAIL.toLowerCase()) {
+        alert('Nie można zmodyfikować głównego konta administratora.');
         return;
       }
-      if (!confirm(`UWAGA! Czy na pewno chcesz USUNĄĆ konto użytkownika ${target.email}? Tej operacji nie można cofnąć.`)) return;
-      registeredUsers.splice(idx, 1);
-      saveUsersDb();
-      if (sb && target.email) {
-        try { await sb.from('profiles').delete().eq('email', target.email); } catch (e) {}
+
+      const selectEl = document.getElementById(`banDuration-${userId}`);
+      const choice = selectEl ? selectEl.value : '1h';
+      const choiceLabel = selectEl ? selectEl.options[selectEl.selectedIndex].text : choice;
+
+      if (choice === 'permanent') {
+        const ok = confirm(`UWAGA! Czy na pewno chcesz TRWALE usunąć konto ${targetEmail}? Tej operacji nie można cofnąć.`);
+        if (!ok) return;
+
+        const { error } = await invokeDeleteUserEdgeFn({ userId: target.id, email: targetEmail, action: 'delete' });
+        if (error) {
+          alert('Błąd podczas trwałego usuwania w Supabase: ' + (error.message || error));
+          return;
+        }
+        markEmailPermanentlyDeleted(targetEmail);
+        if (idx >= 0) registeredUsers.splice(idx, 1);
+        saveUsersDb();
+        if (sb) {
+          try { await sb.from('profiles').delete().eq('email', targetEmail); } catch (e) {}
+        }
+        alert(`Konto ${targetEmail} zostało trwale usunięte.`);
+        renderAdminPanel();
+        return;
       }
+
+      if (choice === 'none') {
+        if (!confirm(`Czy na pewno chcesz odblokować konto ${targetEmail}?`)) return;
+        const { error } = await invokeDeleteUserEdgeFn({ userId: target.id, email: targetEmail, action: 'ban', duration: 'none' });
+        if (error) {
+          alert('Błąd podczas odblokowywania: ' + (error.message || error));
+          return;
+        }
+        if (idx >= 0) {
+          registeredUsers[idx].bannedUntil = null;
+          registeredUsers[idx].banReason = '';
+          saveUsersDb();
+        }
+        if (sb) {
+          try { await sb.from('profiles').update({ banned_until: null, ban_reason: '' }).eq('email', targetEmail); } catch (e) {}
+        }
+        alert(`Konto ${targetEmail} zostało odblokowane.`);
+        renderAdminPanel();
+        return;
+      }
+
+      const reason = prompt(`Podaj powód blokady (${choiceLabel}) dla ${targetEmail}:`, 'Naruszenie regulaminu');
+      if (reason === null) return;
+      if (!confirm(`Czy na pewno chcesz zablokować konto ${targetEmail} na czas: ${choiceLabel}?`)) return;
+
+      const { error } = await invokeDeleteUserEdgeFn({ userId: target.id, email: targetEmail, action: 'ban', duration: choice });
+      if (error) {
+        alert('Błąd podczas nakładania blokady: ' + (error.message || error));
+        return;
+      }
+
+      const ms = durationToMs(choice) || 3600000;
+      const bannedUntilIso = new Date(Date.now() + ms).toISOString();
+      const banReasonClean = reason.trim() || `Blokada (${choiceLabel})`;
+
+      if (idx >= 0) {
+        registeredUsers[idx].bannedUntil = bannedUntilIso;
+        registeredUsers[idx].banReason = banReasonClean;
+        saveUsersDb();
+      }
+      if (sb) {
+        try {
+          await sb.from('profiles').update({ banned_until: bannedUntilIso, ban_reason: banReasonClean }).eq('email', targetEmail);
+        } catch (e) {}
+      }
+      alert(`Konto ${targetEmail} zablokowane (${choiceLabel}).`);
       renderAdminPanel();
     }
 
@@ -1828,10 +1912,12 @@
         if (profRes && Array.isArray(profRes.data) && profRes.data.length) {
           profRes.data.forEach(p => {
             if (!p.email) return;
-            const idx = registeredUsers.findIndex(u => (u.email || '').toLowerCase() === p.email.toLowerCase());
+            const pLow = p.email.toLowerCase();
+            if (isEmailPermanentlyDeleted(pLow)) return;
+            const idx = registeredUsers.findIndex(u => (u.email || '').toLowerCase() === pLow);
             const mapped = {
               id: p.id, name: getFirstNameOrNick(p.name, p.email), email: p.email,
-              country: p.country || 'NL', isAdmin: Boolean(p.is_admin || ADMIN_EMAILS.includes(p.email.toLowerCase())),
+              country: p.country || 'NL', isAdmin: Boolean(p.is_admin || ADMIN_EMAILS.includes(pLow)),
               bannedUntil: p.banned_until || null, banReason: p.ban_reason || ''
             };
             if (idx >= 0) registeredUsers[idx] = { ...registeredUsers[idx], ...mapped };
@@ -1850,8 +1936,11 @@
       const email = (sbUser.email || '').toLowerCase();
       const ban = isUserBanned(email);
       if (ban) {
-        alert(`Konto jest zbanowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
+        alert(`Konto jest zablokowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
         if (sb) sb.auth.signOut().catch(() => {});
+        currentUser = null;
+        try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
+        updateAccountButton();
         return;
       }
       const rawName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '';
@@ -1866,6 +1955,10 @@
         isPremium: Boolean(existing?.isPremium || ADMIN_EMAILS.includes(email)),
         isAdmin: Boolean(existing?.isAdmin || ADMIN_EMAILS.includes(email))
       };
+      if (!existing) {
+        registeredUsers.push({ ...currentUser, password: '', bannedUntil: null, banReason: '' });
+        saveUsersDb();
+      }
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       if (sb) {
         sb.from('profiles').upsert([{
@@ -2039,7 +2132,7 @@
         const savedUser = JSON.parse(localStorage.getItem('placomarkt_user') || 'null');
         if (savedUser) {
           savedUser.name = getFirstNameOrNick(savedUser.name, savedUser.email);
-          currentUser = savedUser;
+          if (!isUserBanned(savedUser.email)) currentUser = savedUser;
         }
       } catch (e) {}
 
@@ -2486,7 +2579,7 @@
       if (currentUser && currentUser.email) {
         const ban = isUserBanned(currentUser.email);
         if (ban) {
-          alert(`Konto jest zbanowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
+          alert(`Konto jest zablokowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
           return;
         }
       }
@@ -2595,16 +2688,28 @@
             <form onsubmit="handleLoginSubmit(event)">
               <div class="form-group"><input type="email" id="loginEmail" required value="${savedCreds.email || ''}" placeholder="E-mail" /></div>
               <div class="form-group"><input type="password" id="loginPass" required value="${savedCreds.pass || ''}" placeholder="${t('passPh')}" /></div>
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:12px">
-                <input type="checkbox" id="rememberLoginCheck" style="width:auto" ${savedCreds.remember ? 'checked' : ''} />
-                <span>${t('rememberPass')}</span>
-              </label>
+              <div class="auth-checks-row">
+                <label>
+                  <input type="checkbox" id="showLoginPassBox" onchange="toggleLoginPassword(this.checked, 'loginPass')" />
+                  <span>${t('showPass')}</span>
+                </label>
+                <label>
+                  <input type="checkbox" id="rememberLoginCheck" ${savedCreds.remember ? 'checked' : ''} />
+                  <span>${t('rememberPass')}</span>
+                </label>
+              </div>
               <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t('loginBtn')}</button>
             </form>` : `
             <form onsubmit="handleRegisterSubmit(event)">
               <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="${t('addAlias')}" /></div>
               <div class="form-group"><input type="email" id="regEmail" required placeholder="E-mail" /></div>
               <div class="form-group"><input type="password" id="regPass" required minlength="6" placeholder="${t('passPh')} (min. 6)" /></div>
+              <div class="auth-checks-row">
+                <label>
+                  <input type="checkbox" id="showRegPassBox" onchange="toggleLoginPassword(this.checked, 'regPass')" />
+                  <span>${t('showPass')}</span>
+                </label>
+              </div>
               <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t('regBtn')}</button>
             </form>`}
           <div class="alt-login-divider">${t('orLabel')}</div>
@@ -2718,7 +2823,7 @@
       const password = document.getElementById('regPass').value;
       const ban = isUserBanned(email);
       if (ban) {
-        alert(`Ten e-mail jest zbanowany (${ban.banReason || 'Naruszenie regulaminu'}).`);
+        alert(`Konto jest zablokowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
         return;
       }
       if (sb) {
@@ -2741,7 +2846,7 @@
       const remember = Boolean(document.getElementById('rememberLoginCheck')?.checked);
       const ban = isUserBanned(email);
       if (ban) {
-        alert(`Konto jest zbanowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
+        alert(`Konto jest zablokowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
         return;
       }
       try {
@@ -2826,7 +2931,7 @@
     function renderAdminPanel() {
       const items = (listingsData[currentCountry] || []).filter(x => !x.isPlaceholder);
       document.getElementById('adminStats').innerHTML = `
-        <div class="stat-card"><span>Konta</span><strong>${registeredUsers.length}</strong></div>
+        <div class="stat-card" style="cursor:pointer" onclick="setAdminTab('users')"><span>Konta</span><strong>${registeredUsers.length}</strong></div>
         <div class="stat-card"><span>Ogłoszenia (${currentCountry})</span><strong>${items.length}</strong></div>
         <div class="stat-card"><span>Zgłoszenia</span><strong>${adminMessages.length}</strong></div>
         <div class="stat-card"><span>Reklamy</span><strong>${adSubmissions.length}</strong></div>`;
@@ -2849,17 +2954,21 @@
               <div>
                 <strong>${getFirstNameOrNick(u.name, u.email)}</strong> (${u.email})
                 <div style="font-size:12px;color:${banned ? 'var(--red)' : 'var(--muted)'}">
-                  ${banned ? `ZBANOWANY (${u.banReason || 'Naruszenie regulaminu'})` : 'Aktywne konto'}
+                  ${banned ? `ZABLOKOWANY do ${new Date(u.bannedUntil).toLocaleString('pl-PL')} (${u.banReason || 'Naruszenie regulaminu'})` : 'Aktywne konto'}
                 </div>
               </div>
               <div class="admin-row-actions">
                 ${!isMainAdmin ? `
-                  <button type="button" class="mini-btn ${banned ? 'green' : 'gold'}" onclick="adminToggleBanUser('${u.id}', '${u.email}')">
-                    ${banned ? 'Odbanuj' : 'Zbanuj'}
-                  </button>
-                  <button type="button" class="mini-btn red" onclick="adminDeleteUser('${u.id}', '${u.email}')">
-                    Usuń konto
-                  </button>
+                  <select id="banDuration-${u.id}">
+                    <option value="1h">Na 1 godzinę</option>
+                    <option value="2h">Na 2 godziny</option>
+                    <option value="168h">Na 1 tydzień</option>
+                    <option value="336h">Na 2 tygodnie</option>
+                    <option value="720h">Na 1 miesiąc</option>
+                    <option value="none">Odblokuj konto</option>
+                    <option value="permanent">Usuń trwale (na zawsze)</option>
+                  </select>
+                  <button type="button" class="mini-btn red" onclick="applyUserModerationChoice('${u.id}', '${u.email}')">Zastosuj</button>
                 ` : '<span style="font-size:12px;color:var(--muted)">Admin</span>'}
               </div>
             </div>`;
@@ -2987,7 +3096,7 @@
     }
 
     function exportUserData() {
-      const blob = new Blob([JSON.stringify({ currentCountry, currentLang, activeScene, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings }, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify({ currentCountry, currentLang, activeScene, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings, permanentlyDeletedEmails }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'placomarkt-backup.json'; a.click();
     }
     function resetLocalStorageData() {
