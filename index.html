@@ -453,8 +453,113 @@ border: 1px solid var(--border); width: 32px; height: 32px; border-radius: 50%;
 font-size: 18px; cursor: pointer; font-weight: 700;
 }
 
-.detail-hero { height: 240px; background: #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 10px; overflow: hidden; }
-.detail-hero img { width: 100%; height: 100%; object-fit: cover; }
+.detail-hero {
+min-height: 250px;
+max-height: 360px;
+background: #0f172a;
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 64px;
+margin-bottom: 10px;
+overflow: hidden;
+position: relative;
+cursor: zoom-in;
+}
+.detail-hero img {
+width: 100%;
+max-height: 360px;
+height: auto;
+object-fit: contain;
+display: block;
+}
+.detail-zoom-hint {
+position: absolute;
+bottom: 8px;
+right: 8px;
+background: rgba(15, 23, 42, 0.78);
+color: #ffffff;
+border: 1px solid rgba(255, 255, 255, 0.25);
+padding: 5px 10px;
+border-radius: 8px;
+font-size: 12px;
+font-weight: 700;
+pointer-events: none;
+}
+
+.lightbox-backdrop {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(2, 6, 23, 0.94);
+z-index: 400;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+.lightbox-backdrop.open { display: flex; }
+.lightbox-stage {
+position: relative;
+max-width: 96vw;
+max-height: 92vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 10px;
+}
+.lightbox-img {
+max-width: 92vw;
+max-height: 82vh;
+width: auto;
+height: auto;
+object-fit: contain;
+border-radius: 10px;
+box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+background: #0f172a;
+}
+.lightbox-close-btn {
+position: fixed;
+top: 16px;
+right: 20px;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+border: 1px solid rgba(255, 255, 255, 0.3);
+background: rgba(15, 23, 42, 0.85);
+color: #ffffff;
+font-size: 22px;
+font-weight: 700;
+cursor: pointer;
+z-index: 410;
+}
+.lightbox-nav-btn {
+position: fixed;
+top: 50%;
+transform: translateY(-50%);
+width: 44px;
+height: 44px;
+border-radius: 50%;
+border: 1px solid rgba(255, 255, 255, 0.3);
+background: rgba(15, 23, 42, 0.85);
+color: #ffffff;
+font-size: 22px;
+font-weight: 700;
+cursor: pointer;
+z-index: 410;
+}
+.lightbox-prev-btn { left: 16px; }
+.lightbox-next-btn { right: 16px; }
+.lightbox-counter {
+color: #e2e8f0;
+font-size: 13px;
+font-weight: 700;
+background: rgba(15, 23, 42, 0.75);
+padding: 5px 12px;
+border-radius: 999px;
+}
+
 .detail-thumbs {
 display: flex;
 gap: 8px;
@@ -506,7 +611,7 @@ flex-wrap: wrap;
 margin-top: 8px;
 }
 .share-plat-btn {
-padding: 8px 13px;
+padding: 8px 12px;
 border-radius: 8px;
 border: 1px solid var(--border);
 font-size: 12px;
@@ -519,7 +624,27 @@ text-decoration: none;
 }
 .share-plat-btn.fb { background: #1877f2; color: #fff; border-color: #1877f2; }
 .share-plat-btn.wa { background: #16a34a; color: #fff; border-color: #16a34a; }
+.share-plat-btn.msg { background: #0084ff; color: #fff; border-color: #0084ff; }
+.share-plat-btn.tg { background: #0088cc; color: #fff; border-color: #0088cc; }
+.share-plat-btn.x { background: #0f172a; color: #fff; border-color: #334155; }
+.share-plat-btn.li { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+.share-plat-btn.mail { background: #475569; color: #fff; border-color: #475569; }
 .share-plat-btn.copy { background: var(--card); color: var(--text); }
+
+.my-ad-title-link {
+background: none;
+border: none;
+padding: 0;
+font-size: 15px;
+font-weight: 700;
+color: var(--text);
+text-align: left;
+cursor: pointer;
+}
+.my-ad-title-link:hover {
+color: var(--accent);
+text-decoration: underline;
+}
 
 .offer-proposal-card {
 border: 2px solid #0284c7; background: rgba(2,132,199,0.06);
@@ -546,6 +671,7 @@ display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; 
 .admin-row-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .admin-row-actions select { padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 12px; font-weight: 600; }
 .mini-btn { padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; font-weight: 700; cursor: pointer; background: var(--soft-bg); color: var(--text); }
+.mini-btn.blue { background: #e0f2fe; border-color: #7dd3fc; color: #0369a1; }
 .mini-btn.gold { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
 .mini-btn.green { background: #dcfce7; border-color: #86efac; color: #166534; }
 .mini-btn.red { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
@@ -792,6 +918,16 @@ font-size: 12px; color: var(--muted);
 
 <div class="modal-backdrop" id="detailModal">
 <div class="modal" id="detailContent"></div>
+</div>
+
+<div class="lightbox-backdrop" id="photoLightbox" onclick="closePhotoLightboxOnBackdrop(event)">
+<button type="button" class="lightbox-close-btn" onclick="closePhotoLightbox()" title="Zamknij">&times;</button>
+<button type="button" class="lightbox-nav-btn lightbox-prev-btn" id="lightboxPrevBtn" onclick="stepPhotoLightbox(-1, event)" title="Poprzednie">&#8249;</button>
+<div class="lightbox-stage">
+<img id="lightboxImg" class="lightbox-img" src="" alt="" />
+<div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+</div>
+<button type="button" class="lightbox-nav-btn lightbox-next-btn" id="lightboxNextBtn" onclick="stepPhotoLightbox(1, event)" title="Następne">&#8250;</button>
 </div>
 
 <div class="modal-backdrop" id="legalModal">
@@ -1214,7 +1350,7 @@ tabAll: 'Wszystkie', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za
 tabFav: 'Ulubione', foundOffers: 'Znalezione oferty', condAll: 'Stan: Wszystkie',
 condNew: 'Nowe', condUsed: 'Używane', sortFeat: 'Sortuj: Polecane i nowe',
 sortAsc: 'Cena: rosnąco', sortDesc: 'Cena: malejąco', sortViews: 'Najpopularniejsze',
-details: 'Szczegóły', freeLabel: 'ZA DARMO', subTitle: 'Oferty z abonamentem',
+details: 'Szczegóły', previewBtn: 'Podgląd', zoomHint: 'Kliknij, aby powiększyć całe zdjęcie', freeLabel: 'ZA DARMO', subTitle: 'Oferty z abonamentem',
 subDesc: 'Ogłoszenia kont z aktywnym abonamentem na dole strony.', subBtn: 'Abonament',
 hello: 'Cześć',
 settingsTitle: 'Ustawienia', settingsUpper: 'USTAWIENIA', logout: 'Wyloguj się',
@@ -1276,7 +1412,7 @@ tabAll: 'Alles', tabSale: 'Direct kopen', tabAuction: 'Veiling', tabFree: 'Grati
 tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
 condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
 sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
-details: 'Bekijk', freeLabel: 'GRATIS', subTitle: 'Abonnement aanbiedingen',
+details: 'Bekijk', previewBtn: 'Bekijk', zoomHint: 'Klik om hele foto te vergroten', freeLabel: 'GRATIS', subTitle: 'Abonnement aanbiedingen',
 subDesc: 'Advertenties van accounts met een actief abonnement.', subBtn: 'Abonnement',
 hello: 'Hallo',
 settingsTitle: 'Instellingen', settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen',
@@ -2039,6 +2175,64 @@ let megaProfileTab = 'buy';
 let hubTopTab = 'sell';
 let authModalTab = 'login';
 
+let lightboxPhotos = [];
+let lightboxIndex = 0;
+let lightboxTitleText = '';
+
+function openPhotoLightbox(photos, startIndex = 0, title = '') {
+const valid = (Array.isArray(photos) ? photos : []).filter(Boolean);
+if (!valid.length) return;
+lightboxPhotos = valid;
+lightboxIndex = Math.max(0, Math.min(valid.length - 1, Number(startIndex) || 0));
+lightboxTitleText = title || 'PlacoMarkt';
+updatePhotoLightboxView();
+const el = document.getElementById('photoLightbox');
+if (el) el.classList.add('open');
+}
+
+function updatePhotoLightboxView() {
+const img = document.getElementById('lightboxImg');
+const counter = document.getElementById('lightboxCounter');
+const prevBtn = document.getElementById('lightboxPrevBtn');
+const nextBtn = document.getElementById('lightboxNextBtn');
+if (img) {
+img.src = lightboxPhotos[lightboxIndex] || '';
+img.alt = lightboxTitleText;
+}
+if (counter) {
+counter.textContent = `${lightboxIndex + 1} / ${lightboxPhotos.length}`;
+}
+const multi = lightboxPhotos.length > 1;
+if (prevBtn) prevBtn.style.display = multi ? 'inline-flex' : 'none';
+if (nextBtn) nextBtn.style.display = multi ? 'inline-flex' : 'none';
+}
+
+function stepPhotoLightbox(delta, ev) {
+if (ev) ev.stopPropagation();
+if (!lightboxPhotos.length) return;
+lightboxIndex = (lightboxIndex + delta + lightboxPhotos.length) % lightboxPhotos.length;
+updatePhotoLightboxView();
+}
+
+function closePhotoLightbox() {
+const el = document.getElementById('photoLightbox');
+if (el) el.classList.remove('open');
+}
+
+function closePhotoLightboxOnBackdrop(ev) {
+if (ev && ev.target && ev.target.id === 'photoLightbox') {
+closePhotoLightbox();
+}
+}
+
+document.addEventListener('keydown', (e) => {
+const lb = document.getElementById('photoLightbox');
+if (!lb || !lb.classList.contains('open')) return;
+if (e.key === 'Escape') closePhotoLightbox();
+else if (e.key === 'ArrowLeft') stepPhotoLightbox(-1);
+else if (e.key === 'ArrowRight') stepPhotoLightbox(1);
+});
+
 let registeredUsers = [
 { id: 'admin-1', name: 'Mariusz', email: ADMIN_EMAIL, password: 'admin', phone: '', country: 'NL', isPremium: true, isAdmin: true, status: 'active', suspendedUntil: null, bannedUntil: null, banReason: '' }
 ];
@@ -2543,6 +2737,16 @@ renderAccountModal();
 document.getElementById('accountModal').classList.add('open');
 }
 
+function openOwnListingFromAccount(country, id) {
+if (country && COUNTRY_CONFIG[country] && country !== currentCountry) {
+currentCountry = country;
+try { localStorage.setItem('placomarkt_country', country); } catch (e) {}
+renderCountryUI();
+}
+closeModal('accountModal');
+openDetail(id);
+}
+
 function renderProfileMegaDropdown() {
 const box = document.getElementById('profileMegaDropdown');
 if (!box || !currentUser) return;
@@ -3038,9 +3242,12 @@ subSection.style.display = subItems.length ? 'block' : 'none';
 document.getElementById('subscribersGrid').innerHTML = subItems.map(i => buildListingCardHtml(i, true)).join('');
 }
 
+let activeDetailPhotoIndex = 0;
+
 function selectDetailPhoto(listingId, idx) {
 const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(listingId));
 if (!item || !Array.isArray(item.photos) || !item.photos[idx]) return;
+activeDetailPhotoIndex = idx;
 const mainImg = document.getElementById('detailMainPhoto');
 if (mainImg) mainImg.src = item.photos[idx];
 const wrap = document.getElementById(`detailThumbs_${listingId}`);
@@ -3049,6 +3256,14 @@ wrap.querySelectorAll('.detail-thumb-btn').forEach((btn, i) => {
 btn.classList.toggle('active', i === idx);
 });
 }
+}
+
+function openDetailPhotoLightbox(listingId) {
+const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(listingId));
+if (!item) return;
+const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
+if (!photos.length) return;
+openPhotoLightbox(photos, activeDetailPhotoIndex, item.title || 'PlacoMarkt');
 }
 
 function getOfferShareUrl(id) {
@@ -3069,14 +3284,34 @@ setMeta('ogUrl', shareUrl);
 setMeta('ogImage', firstPhoto);
 }
 
+function buildShareLinksForOffer(item) {
+const shareUrl = getOfferShareUrl(item.id);
+const encodedUrl = encodeURIComponent(shareUrl);
+const shareText = `${item.title} — ${formatPrice(item.price, item.type === 'free')}`;
+const encodedText = encodeURIComponent(`${shareText} — ${shareUrl}`);
+const encodedSubject = encodeURIComponent(item.title || 'PlacoMarkt');
+const safeTitle = String(item.title || '').replace(/'/g, '');
+
+return `
+<a class="share-plat-btn fb" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" rel="noopener noreferrer">Facebook</a>
+<a class="share-plat-btn wa" href="https://api.whatsapp.com/send?text=${encodedText}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+<a class="share-plat-btn msg" href="https://www.messenger.com/t/?link=${encodedUrl}" target="_blank" rel="noopener noreferrer">Messenger</a>
+<a class="share-plat-btn tg" href="https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener noreferrer">Telegram</a>
+<a class="share-plat-btn x" href="https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodeURIComponent(shareText)}" target="_blank" rel="noopener noreferrer">X</a>
+<a class="share-plat-btn li" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+<a class="share-plat-btn mail" href="mailto:?subject=${encodedSubject}&body=${encodedText}">E-mail</a>
+<button type="button" class="share-plat-btn copy" id="copyShareBtn_${item.id}" onclick="copyOfferShareLink('${item.id}')">${t('copyLinkBtn')}</button>
+${navigator.share ? `<button type="button" class="share-plat-btn copy" onclick="shareOfferLink('${item.id}', '${safeTitle}')">${t('shareBtn')}...</button>` : ''}
+`;
+}
+
 function openDetail(id) {
 const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
 if (!item) return;
+activeDetailPhotoIndex = 0;
 item.views = (item.views || 0) + 1;
 updateOgMetaForOffer(item);
-const shareUrl = getOfferShareUrl(item.id);
-const fbShareHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-const waShareHref = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${item.title} — ${shareUrl}`)}`;
+const safeTitle = String(item.title || '').replace(/'/g, '');
 
 const ratingStats = getSellerRatingStats(item);
 const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
@@ -3094,7 +3329,9 @@ const curSymbol = COUNTRY_CONFIG[currentCountry].currency;
 
 document.getElementById('detailContent').innerHTML = `
 <button type="button" class="close-modal" onclick="closeModal('detailModal')">&times;</button>
-<div class="detail-hero">${hasPhoto ? `<img id="detailMainPhoto" src="${photos[0]}" alt="${item.title}" />` : item.icon}</div>
+<div class="detail-hero" onclick="${hasPhoto ? `openDetailPhotoLightbox('${item.id}')` : ''}">
+${hasPhoto ? `<img id="detailMainPhoto" src="${photos[0]}" alt="${item.title}" /><span class="detail-zoom-hint">&#128269; ${t('zoomHint')}</span>` : item.icon}
+</div>
 ${photos.length > 1 ? `
 <div class="detail-thumbs" id="detailThumbs_${item.id}">
 ${photos.map((src, idx) => `
@@ -3120,16 +3357,13 @@ ${latestOffer && latestOffer.status === 'rejected' ? `<div style="margin:6px 0">
 ${hasSharedPhone ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='${String(item.phone).replace(/'/g, '')}'">${t('showPhoneBtn')}</button>` : ''}
 ${!isMine ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">${t('msgBtn')}</button>` : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">${t('editBtn')}</button>`}
 ${canProposePrice ? `<button type="button" class="btn-action btn-negotiate" onclick="toggleNegotiateBox('${item.id}')">${t('proposePriceBtn')}</button>` : ''}
-<button type="button" class="btn-action btn-share" onclick="toggleShareBox('${item.id}', '${String(item.title).replace(/'/g, '')}')">${t('shareBtn')}</button>
+<button type="button" class="btn-action btn-share" onclick="toggleShareBox('${item.id}', '${safeTitle}')">${t('shareBtn')}</button>
 ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">${t('delBtn')}</button>` : ''}
 </div>
 <div class="negotiate-inline-box" id="shareBox_${item.id}">
 <label style="font-size:13px;font-weight:700;display:block">${t('shareBtn')}</label>
 <div class="share-platforms-row">
-<a class="share-plat-btn fb" href="${fbShareHref}" target="_blank" rel="noopener noreferrer">Facebook</a>
-<a class="share-plat-btn wa" href="${waShareHref}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-<button type="button" class="share-plat-btn copy" id="copyShareBtn_${item.id}" onclick="copyOfferShareLink('${item.id}')">${t('copyLinkBtn')}</button>
-${navigator.share ? `<button type="button" class="share-plat-btn copy" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">${t('shareBtn')}...</button>` : ''}
+${buildShareLinksForOffer(item)}
 </div>
 </div>
 ${canProposePrice ? `
@@ -3705,8 +3939,12 @@ rightHtml = `
 <div class="admin-list">
 ${myAds.map(item => `
 <div class="admin-row">
-<div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}${item.suspendedByOwner ? ' &bull; Zawieszone' : ''}</div></div>
+<div>
+<button type="button" class="my-ad-title-link" onclick="openOwnListingFromAccount('${item.c}', '${item.id}')">${item.title}</button>
+<div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}${item.suspendedByOwner ? ' &bull; Zawieszone' : ''}</div>
+</div>
 <div class="admin-row-actions">
+<button type="button" class="mini-btn blue" onclick="openOwnListingFromAccount('${item.c}', '${item.id}')">${t('previewBtn')}</button>
 <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">${t('editBtn')}</button>
 <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">${t('delBtn')}</button>
 </div>
