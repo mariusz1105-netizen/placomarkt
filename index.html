@@ -3333,21 +3333,44 @@
       const email = document.getElementById('loginEmail').value.trim().toLowerCase();
       const pass = document.getElementById('loginPass').value;
       const remember = Boolean(document.getElementById('rememberLoginCheck')?.checked);
+
       const ban = isUserBanned(email);
       if (ban) {
         alert(`Konto jest zablokowane (${ban.banReason || 'Naruszenie regulaminu'}).`);
         return;
       }
+
+      if (!email || !pass) {
+        alert('Podaj adres e-mail i hasło.');
+        return;
+      }
+
       try {
         if (remember) localStorage.setItem('placomarkt_remembered_login', JSON.stringify({ email, pass, remember: true }));
         else localStorage.removeItem('placomarkt_remembered_login');
       } catch (err) {}
+
       if (sb) {
-        const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-        if (!error && data?.user) { applySupabaseAuthUser(data.user); renderCountryUI(); renderAccountModal(); return; }
+        try {
+          const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+          if (!error && data?.user) {
+            applySupabaseAuthUser(data.user);
+            renderCountryUI();
+            renderAccountModal();
+            return;
+          }
+          if (error && data?.session === null) {
+            const localMatch = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
+            if (!localMatch || !localMatch.password || localMatch.password !== pass) {
+              alert('Błędny e-mail lub hasło.');
+              return;
+            }
+          }
+        } catch (err) {}
       }
+
       const found = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
-      if (found) {
+      if (found && found.password && found.password === pass) {
         if (found.status === 'suspended') {
           setUserSuspendedState(email, false);
           if (sb) {
@@ -3363,7 +3386,7 @@
         renderCountryUI();
         renderAccountModal();
       } else {
-        alert('Login error');
+        alert('Błędny e-mail lub hasło.');
       }
     }
 
