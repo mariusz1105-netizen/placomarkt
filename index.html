@@ -449,6 +449,31 @@
 
     .detail-hero { height: 240px; background: #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 10px; overflow: hidden; }
     .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-thumbs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .detail-thumb-btn {
+      width: 68px;
+      height: 52px;
+      padding: 0;
+      border-radius: 7px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: var(--soft-bg);
+      cursor: pointer;
+    }
+    .detail-thumb-btn.active {
+      border-color: var(--accent);
+    }
+    .detail-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
     .seller-card-box { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
     .detail-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin: 14px 0; }
     .btn-action { padding: 10px 12px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; text-align: center; }
@@ -2920,6 +2945,19 @@
       document.getElementById('subscribersGrid').innerHTML = subItems.map(i => buildListingCardHtml(i, true)).join('');
     }
 
+    function selectDetailPhoto(listingId, idx) {
+      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(listingId));
+      if (!item || !Array.isArray(item.photos) || !item.photos[idx]) return;
+      const mainImg = document.getElementById('detailMainPhoto');
+      if (mainImg) mainImg.src = item.photos[idx];
+      const wrap = document.getElementById(`detailThumbs_${listingId}`);
+      if (wrap) {
+        wrap.querySelectorAll('.detail-thumb-btn').forEach((btn, i) => {
+          btn.classList.toggle('active', i === idx);
+        });
+      }
+    }
+
     function openDetail(id) {
       const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(id));
       if (!item) return;
@@ -2941,6 +2979,15 @@
       document.getElementById('detailContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('detailModal')">&times;</button>
         <div class="detail-hero">${hasPhoto ? `<img id="detailMainPhoto" src="${photos[0]}" alt="${item.title}" />` : item.icon}</div>
+        ${photos.length > 1 ? `
+          <div class="detail-thumbs" id="detailThumbs_${item.id}">
+            ${photos.map((src, idx) => `
+              <button type="button" class="detail-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="selectDetailPhoto('${item.id}', ${idx})">
+                <img src="${src}" alt="${item.title} ${idx + 1}" />
+              </button>
+            `).join('')}
+          </div>
+        ` : ''}
         <h2>${item.title}</h2>
         ${auctionInfo ? `<div class="auction-timer-pill" style="margin-top:6px">${auctionInfo}</div>` : ''}
         <div class="price ${item.type === 'free' ? 'free-price' : ''}" style="font-size:22px;margin:8px 0">
