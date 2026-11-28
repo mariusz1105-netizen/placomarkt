@@ -333,6 +333,17 @@
     .count-pill { background: rgba(148,163,184,0.22); padding: 1px 7px; border-radius: 10px; font-size: 11px; }
     .mode-tab.active .count-pill { background: rgba(255,255,255,0.22); color: #fff; }
 
+    .subcat-strip {
+      display: none; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;
+      padding: 8px 10px; border-radius: 10px; background: var(--card); border: 1px solid var(--border);
+    }
+    .subcat-strip.open { display: flex; }
+    .subcat-pill {
+      background: var(--soft-bg); border: 1px solid var(--border); color: var(--text);
+      padding: 5px 11px; border-radius: 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+    .subcat-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
     .breadcrumb-bar { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-bottom: 10px; flex-wrap: wrap; }
     .breadcrumb-bar span.crumb-link { color: var(--blue); font-weight: 700; cursor: pointer; }
     .toolbar-bar {
@@ -673,6 +684,7 @@
       </div>
 
       <div class="mode-tabs" id="modeTabs"></div>
+      <div class="subcat-strip" id="subcatStrip"></div>
       <div class="breadcrumb-bar" id="breadcrumbBar"></div>
 
       <div class="toolbar-bar">
@@ -798,12 +810,16 @@
         <div class="form-row-2">
           <div class="form-group">
             <label id="lblAddCat">Kategoria</label>
-            <select id="newCategory"></select>
+            <select id="newCategory" onchange="populateSubcategorySelect(this.value)"></select>
           </div>
           <div class="form-group">
-            <label id="lblAddCity">Miejscowość</label>
-            <input type="text" id="newCity" required />
+            <label id="lblAddSubcat">Podkategoria</label>
+            <select id="newSubcategory"></select>
           </div>
+        </div>
+        <div class="form-group">
+          <label id="lblAddCity">Miejscowość</label>
+          <input type="text" id="newCity" required />
         </div>
 
         <div id="salePriceBox">
@@ -944,12 +960,154 @@
       { id: 'easter2', label: 'Wielkanoc 2: Motyle, kwiaty i koszyczek' }
     ];
 
+    const CATEGORIES_LIST = [
+      {
+        id: 'electronics', icon: '📱',
+        labelPL: 'Elektronika i Audio', labelNL: 'Elektronica & Audio',
+        subs: [
+          { id: 'audio-dj', pl: 'Sprzęt audio, głośniki i DJ', nl: 'Audio, speakers & DJ' },
+          { id: 'phones-rtv', pl: 'Telefony, RTV i AGD', nl: 'Telefoons, TV & Huishoudelijk' },
+          { id: 'computers-photo', pl: 'Komputery, konsole i foto', nl: 'Computers, consoles & foto' }
+        ]
+      },
+      {
+        id: 'auto', icon: '🚗',
+        labelPL: 'Motoryzacja, Auta i Skutery', labelNL: 'Auto’s, Motoren & Scooters',
+        subs: [
+          { id: 'cars', pl: 'Samochody osobowe i dostawcze', nl: 'Personenauto’s & bedrijfswagens' },
+          { id: 'scooters-moto', pl: 'Motocykle, skutery i quady', nl: 'Motoren, scooters & quads' },
+          { id: 'parts-tires', pl: 'Części, opony i akcesoria', nl: 'Onderdelen, banden & accessoires' }
+        ]
+      },
+      {
+        id: 'housing', icon: '🏠',
+        labelPL: 'Nieruchomości, Działki i Ogródki', labelNL: 'Woningen, Kavels & Volkstuinen',
+        subs: [
+          { id: 'allotments', pl: 'Ogródki działkowe (ROD / Volkstuin)', nl: 'Volkstuinen & tuinhuisjes' },
+          { id: 'apartments-houses', pl: 'Mieszkania, domy i pokoje', nl: 'Appartementen, huizen & kamers' },
+          { id: 'plots-commercial', pl: 'Działki i lokale', nl: 'Bouwkavels & bedrijfsruimte' }
+        ]
+      },
+      {
+        id: 'home', icon: '🛋️',
+        labelPL: 'Dom i Ogród', labelNL: 'Huis & Tuin',
+        subs: [
+          { id: 'garden-tools', pl: 'Ogród, narzędzia i budowa', nl: 'Tuin, gereedschap & bouw' },
+          { id: 'furniture-decor', pl: 'Meble, oświetlenie i wnętrza', nl: 'Meubels, verlichting & wonen' },
+          { id: 'smoker-bbq', pl: 'Grill, wędzarnia i sprzęt zewnętrzny', nl: 'BBQ, roken & buitenleven' }
+        ]
+      },
+      {
+        id: 'fashion', icon: '👕',
+        labelPL: 'Moda, Odzież i Obuwie', labelNL: 'Mode, Kleding & Schoenen',
+        subs: [
+          { id: 'clothing', pl: 'Odzież damska i męska', nl: 'Dames- & herenkleding' },
+          { id: 'footwear', pl: 'Obuwie', nl: 'Schoenen' },
+          { id: 'accessories-watches', pl: 'Dodatki, biżuteria i zegarki', nl: 'Accessoires, sieraden & horloges' }
+        ]
+      },
+      {
+        id: 'kids', icon: '🧸',
+        labelPL: 'Dziecko i Zabawki', labelNL: 'Kinderen & Speelgoed',
+        subs: [
+          { id: 'toys', pl: 'Zabawki i gry', nl: 'Speelgoed & spellen' },
+          { id: 'strollers-kids-room', pl: 'Wózki, foteliki i pokój dziecka', nl: 'Kinderwagens, stoeltjes & kinderkamer' },
+          { id: 'kids-clothes', pl: 'Ubranka dziecięce', nl: 'Kinderkleding' }
+        ]
+      },
+      {
+        id: 'cosmetics', icon: '💄',
+        labelPL: 'Uroda, Kosmetyki i Perfumy', labelNL: 'Cosmetica, Uiterlijk & Parfum',
+        subs: [
+          { id: 'perfumes-care', pl: 'Perfumy i pielęgnacja', nl: 'Parfum & verzorging' },
+          { id: 'makeup-nails', pl: 'Makijaż i paznokcie', nl: 'Make-up & nagels' }
+        ]
+      },
+      {
+        id: 'sport', icon: '⚽',
+        labelPL: 'Sport, Rowery i Hobby', labelNL: 'Sport, Fietsen & Hobby',
+        subs: [
+          { id: 'bikes-ebikes', pl: 'Rowery, e-bike i hulajnogi', nl: 'Fietsen, e-bikes & steps' },
+          { id: 'fitness-outdoor', pl: 'Siłownia, turystyka i militaria', nl: 'Fitness, outdoor & hobby' }
+        ]
+      },
+      {
+        id: 'fishing', icon: '🎣',
+        labelPL: 'Wędkarstwo', labelNL: 'Hengelsport / Vissen',
+        subs: [
+          { id: 'rods-reels', pl: 'Wędki, kołowrotki i przynęty', nl: 'Hengels, molens & aas' },
+          { id: 'boats-bait', pl: 'Łódki zanętowe, pontony i akcesoria', nl: 'Voerboten, rubberboten & accessoires' }
+        ]
+      },
+      {
+        id: 'culture', icon: '📚',
+        labelPL: 'Kultura, Muzyka i Rozrywka', labelNL: 'Cultuur, Muziek & Entertainment',
+        subs: [
+          { id: 'music-instruments', pl: 'Muzyka, płyty i instrumenty', nl: 'Muziek, vinyl & instrumenten' },
+          { id: 'books-games-movies', pl: 'Książki, gry i filmy', nl: 'Boeken, games & films' }
+        ]
+      },
+      {
+        id: 'jobs', icon: '💼',
+        labelPL: 'Praca', labelNL: 'Vacatures & Werk',
+        subs: [
+          { id: 'job-offers', pl: 'Oferty pracy (NL / PL)', nl: 'Vacatures (NL / PL)' },
+          { id: 'seek-job', pl: 'Szukam pracy / zlecenia', nl: 'Werk zoeken / opdrachten' }
+        ]
+      },
+      {
+        id: 'services', icon: '🔧',
+        labelPL: 'Usługi i Firma', labelNL: 'Diensten & Zakelijk',
+        subs: [
+          { id: 'repair-transport', pl: 'Naprawy, transport i montaż', nl: 'Reparatie, transport & montage' },
+          { id: 'courses-events', pl: 'Kursy, szkolenia i imprezy', nl: 'Cursussen, training & events' }
+        ]
+      },
+      {
+        id: 'travel', icon: '✈️',
+        labelPL: 'Wakacje i Podróże', labelNL: 'Vakantie & Reizen',
+        subs: [
+          { id: 'trips-stays', pl: 'Wyjazdy, noclegi i pakiety', nl: 'Reizen, verblijf & vakanties' }
+        ]
+      },
+      {
+        id: 'other', icon: '📦',
+        labelPL: 'Inne', labelNL: 'Overig',
+        subs: [
+          { id: 'misc', pl: 'Pozostałe ogłoszenia', nl: 'Overige advertenties' }
+        ]
+      }
+    ];
+
+    function getCatById(catId) {
+      return CATEGORIES_LIST.find(c => c.id === catId) || CATEGORIES_LIST.find(c => c.id === 'other');
+    }
+
+    function getCatLabel(cat) {
+      if (!cat) return '';
+      return currentLang === 'PL' ? cat.labelPL : cat.labelNL;
+    }
+
+    function getSubcatLabel(sub) {
+      if (!sub) return '';
+      return currentLang === 'PL' ? sub.pl : sub.nl;
+    }
+
+    function populateSubcategorySelect(catId, selectedSubId = '') {
+      const sel = document.getElementById('newSubcategory');
+      if (!sel) return;
+      const cat = getCatById(catId);
+      const subs = (cat && Array.isArray(cat.subs)) ? cat.subs : [];
+      sel.innerHTML = `<option value="">${t('allSubcats')}</option>` +
+        subs.map(s => `<option value="${s.id}" ${selectedSubId === s.id ? 'selected' : ''}>${getSubcatLabel(s)}</option>`).join('');
+    }
+
     const BASE_PL = {
       htmlLang: 'pl', account: 'Konto', add: '+ Dodaj',
       banner: 'Wesołych Świąt!',
       searchPlaceholder: 'Czego szukasz...',
       cityPlaceholder: 'Miejscowość...', searchBtn: 'Szukaj',
-      allCats: 'Wszystkie kategorie', popular: 'Popularne:',
+      allCats: 'Wszystkie kategorie', allSubcats: 'Wszystkie podkategorie', popular: 'Popularne:',
       tabAll: 'Wszystkie', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
       tabFav: 'Ulubione', foundOffers: 'Znalezione oferty', condAll: 'Stan: Wszystkie',
       condNew: 'Nowe', condUsed: 'Używane', sortFeat: 'Sortuj: Polecane i nowe',
@@ -973,7 +1131,7 @@
       footerAbout: 'O nas', footerTerms: 'Regulamin', footerPrivacy: 'Prywatność (RODO)', footerDsa: 'DSA i Kontakt',
       addTitleModal: '+ Dodaj ogłoszenie', addType: 'Forma sprzedaży', addCond: 'Stan',
       addCondNa: 'Nie dotyczy', addOfferTitle: 'Tytuł', addAlias: 'Ksywka / inicjały',
-      addPhotos: 'Zdjęcia (maks. 6)', addCat: 'Kategoria', addCity: 'Miejscowość',
+      addPhotos: 'Zdjęcia (maks. 6)', addCat: 'Kategoria', addSubcat: 'Podkategoria', addCity: 'Miejscowość',
       addPrice: 'Cena', addStartPrice: 'Cena wywoławcza', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
       addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
       addShipping: 'Dostawa', shipPickup: 'Odbiór osobisty', shipPost: 'Wysyłka', shipNa: 'Nie dotyczy',
@@ -1012,7 +1170,7 @@
         banner: 'Vrolijk Kerstfeest!',
         searchPlaceholder: 'Czego szukasz...',
         cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
-        allCats: 'Alle categorieën', popular: 'Populair:',
+        allCats: 'Alle categorieën', allSubcats: 'Alle subcategorieën', popular: 'Populair:',
         tabAll: 'Alles', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
         tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
         condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
@@ -1036,7 +1194,7 @@
         footerAbout: 'Over ons', footerTerms: 'Voorwaarden', footerPrivacy: 'Privacy (AVG)', footerDsa: 'DSA & Contact',
         addTitleModal: '+ Advertentie plaatsen', addType: 'Verkoopvorm', addCond: 'Staat',
         addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
-        addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addCity: 'Plaats',
+        addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addSubcat: 'Subcategorie', addCity: 'Plaats',
         addPrice: 'Cena', addStartPrice: 'Startbod', addReserve: 'Minimumprijs', addBuyNow: 'Kup teraz',
         addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
         addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
@@ -1733,16 +1891,16 @@
 
     const PLACEHOLDER_OFFERS = {
       NL: [
-        { id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used', title: 'Volkstuin met houten huisje — Rotterdam Zuid', desc: 'Verzorgde volkstuin met tuinhuisje in Rotterdam Zuid.', city: 'Rotterdam', price: 3200, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142, sellerName: 'StrefaOgrodow', ownerEmail: 'kontakt@strefaogrodow.nl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
-        { id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used', title: 'Stadsscooter 45 km/u — zuinig & betrouwbaar', desc: 'Nette scooter voor dagelijks woon-werkverkeer.', city: 'Rotterdam', price: 890, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118, sellerName: 'MotoRotterdam', ownerEmail: 'biuro@motorotterdam.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
-        { id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new', title: 'Draagbare speakers & audio set', desc: 'Krachtige speakers voor thuis, garage en feestjes.', city: 'Den Haag', price: 165, photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'], icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 96, sellerName: 'AudioBoxNL', ownerEmail: 'info@audioboxnl.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
-        { id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used', title: 'Voerboot & visuitrusting voor snoekbaars', desc: 'Complete visset voor rivieren en kanalen.', city: 'Dordrecht', price: 640, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84, sellerName: 'VisShopNL', ownerEmail: 'sklep@visshopnl.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
+        { id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', subcategory: 'allotments', condition: 'used', title: 'Volkstuin met houten huisje — Rotterdam Zuid', desc: 'Verzorgde volkstuin met tuinhuisje in Rotterdam Zuid.', city: 'Rotterdam', price: 3200, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142, sellerName: 'StrefaOgrodow', ownerEmail: 'kontakt@strefaogrodow.nl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
+        { id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', subcategory: 'scooters-moto', condition: 'used', title: 'Stadsscooter 45 km/u — zuinig & betrouwbaar', desc: 'Nette scooter voor dagelijks woon-werkverkeer.', city: 'Rotterdam', price: 890, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118, sellerName: 'MotoRotterdam', ownerEmail: 'biuro@motorotterdam.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
+        { id: 9003, isPlaceholder: true, type: 'sale', category: 'electronics', subcategory: 'audio-dj', condition: 'new', title: 'Draagbare speakers & audio set', desc: 'Krachtige speakers voor thuis, garage en feestjes.', city: 'Den Haag', price: 165, photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'], icon: '🔊', top: false, hasSubscription: false, urgent: true, hidden: false, views: 96, sellerName: 'AudioBoxNL', ownerEmail: 'info@audioboxnl.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
+        { id: 9004, isPlaceholder: true, type: 'sale', category: 'fishing', subcategory: 'boats-bait', condition: 'used', title: 'Voerboot & visuitrusting voor snoekbaars', desc: 'Complete visset voor rivieren en kanalen.', city: 'Dordrecht', price: 640, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 84, sellerName: 'VisShopNL', ownerEmail: 'sklep@visshopnl.nl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
       ],
       PL: [
-        { id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', condition: 'used', title: 'Ogródek działkowy ROD z altaną — Katowice', desc: 'Zadbany ogródek działkowy ROD z altaną i nasadzeniami.', city: 'Katowice', price: 24500, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135, sellerName: 'OgrodSlask', ownerEmail: 'kontakt@ogrodslask.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
-        { id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', condition: 'new', title: 'Głośniki aktywne i sprzęt audio — Czeladź', desc: 'Głośniki, wzmacniacze i akcesoria audio.', city: 'Czeladź', price: 420, photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'], icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109, sellerName: 'AudioSlask', ownerEmail: 'sklep@audioslask.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
-        { id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', condition: 'used', title: 'Łódka zanętowa i akcesoria wędkarskie', desc: 'Sprzęt wędkarski nad jeziora oraz rzeki.', city: 'Będzin', price: 1150, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88, sellerName: 'WedkarzPL', ownerEmail: 'biuro@wedkarzpl.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
-        { id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', condition: 'used', title: 'Skuter / motocykl miejski — stan bardzo dobry', desc: 'Zwrotny jednoślad do jazdy po mieście i okolicach.', city: 'Sosnowiec', price: 3400, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92, sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
+        { id: 9101, isPlaceholder: true, type: 'sale', category: 'housing', subcategory: 'allotments', condition: 'used', title: 'Ogródek działkowy ROD z altaną — Katowice', desc: 'Zadbany ogródek działkowy ROD z altaną i nasadzeniami.', city: 'Katowice', price: 24500, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 135, sellerName: 'OgrodSlask', ownerEmail: 'kontakt@ogrodslask.pl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
+        { id: 9102, isPlaceholder: true, type: 'sale', category: 'electronics', subcategory: 'audio-dj', condition: 'new', title: 'Głośniki aktywne i sprzęt audio — Czeladź', desc: 'Głośniki, wzmacniacze i akcesoria audio.', city: 'Czeladź', price: 420, photos: ['https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=75'], icon: '🔊', top: true, hasSubscription: false, urgent: false, hidden: false, views: 109, sellerName: 'AudioSlask', ownerEmail: 'sklep@audioslask.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
+        { id: 9103, isPlaceholder: true, type: 'sale', category: 'fishing', subcategory: 'boats-bait', condition: 'used', title: 'Łódka zanętowa i akcesoria wędkarskie', desc: 'Sprzęt wędkarski nad jeziora oraz rzeki.', city: 'Będzin', price: 1150, photos: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=75'], icon: '🎣', top: false, hasSubscription: true, urgent: false, hidden: false, views: 88, sellerName: 'WedkarzPL', ownerEmail: 'biuro@wedkarzpl.pl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
+        { id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', subcategory: 'scooters-moto', condition: 'used', title: 'Skuter / motocykl miejski — stan bardzo dobry', desc: 'Zwrotny jednoślad do jazdy po mieście i okolicach.', city: 'Sosnowiec', price: 3400, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92, sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
       ]
     };
 
@@ -1775,28 +1933,6 @@
       } catch (e) {}
     })();
 
-    const CATEGORIES_LIST = [
-      { id: 'kids', icon: '🧸', labelPL: 'Dla dzieci i Zabawki', labelNL: 'Kinderen & Speelgoed' },
-      { id: 'home', icon: '🛋️', labelPL: 'Dom i Ogród', labelNL: 'Huis & Tuin' },
-      { id: 'electronics', icon: '📱', labelPL: 'Elektronika i Audio', labelNL: 'Elektronica & Audio' },
-      { id: 'cosmetics', icon: '💄', labelPL: 'Kosmetyki i Perfumy', labelNL: 'Cosmetica & Parfum' },
-      { id: 'courses', icon: '🎓', labelPL: 'Kursy i Szkolenia', labelNL: 'Cursussen & Opleiding' },
-      { id: 'housing', icon: '🏠', labelPL: 'Nieruchomości, Działki i Ogródki', labelNL: 'Woningen, Kavels & Volkstuinen' },
-      { id: 'auto', icon: '🚗', labelPL: 'Auta, Motory i Skutery', labelNL: 'Auto’s, Motoren & Scooters' },
-      { id: 'fashion', icon: '👕', labelPL: 'Odzież i Obuwie', labelNL: 'Kleding & Schoenen' },
-      { id: 'sport', icon: '⚽', labelPL: 'Sport i Hobby', labelNL: 'Sport & Hobby' },
-      { id: 'services', icon: '🔧', labelPL: 'Usługi', labelNL: 'Diensten' },
-      { id: 'travel', icon: '✈️', labelPL: 'Wakacje i podróże', labelNL: 'Vakantie & Reizen' },
-      { id: 'fishing', icon: '🎣', labelPL: 'Wędkarstwo', labelNL: 'Hengelsport / Vissen' },
-      { id: 'jobs', icon: '💼', labelPL: 'Praca', labelNL: 'Vacatures & Werk' },
-      { id: 'other', icon: '📦', labelPL: 'Inne', labelNL: 'Overig' }
-    ];
-
-    function getCatLabel(cat) {
-      if (!cat) return '';
-      return currentLang === 'PL' ? cat.labelPL : cat.labelNL;
-    }
-
     const COUNTRY_CONFIG = { NL: { currency: '€' }, PL: { currency: 'zł' } };
     const initialLocale = detectInitialLanguageAndCountry();
     let listingsData = { NL: [], PL: [] };
@@ -1807,6 +1943,7 @@
     let currentLang = initialLocale.lang;
     let currentMode = 'all';
     let currentCategory = 'all';
+    let currentSubcategory = 'all';
     let selectedPromo = 'std';
     let activeAdminTab = 'listings';
     let editingListingCountry = null;
@@ -1819,7 +1956,7 @@
     let authModalTab = 'login';
 
     let registeredUsers = [
-      { id: 'admin-1', name: 'Mario', email: ADMIN_EMAIL, password: 'admin', phone: '', country: 'NL', isPremium: true, isAdmin: true, status: 'active', suspendedUntil: null, bannedUntil: null, banReason: '' }
+      { id: 'admin-1', name: 'Mariusz', email: ADMIN_EMAIL, password: 'admin', phone: '', country: 'NL', isPremium: true, isAdmin: true, status: 'active', suspendedUntil: null, bannedUntil: null, banReason: '' }
     ];
     try {
       const savedUsers = JSON.parse(localStorage.getItem('placomarkt_users_db') || 'null');
@@ -2080,6 +2217,7 @@
         reservePrice: row.reserve_price ? parsePriceNumber(row.reserve_price) : null,
         buyNowPrice: row.buy_now_price ? parsePriceNumber(row.buy_now_price) : null,
         category: catId,
+        subcategory: row.podkategoria || '',
         condition: 'na',
         title: row.tytul || 'Advertentie',
         city: row.miejscowosc || '',
@@ -2122,6 +2260,7 @@
           const ownerSuspended = Boolean((item.ownerEmail || prev.ownerEmail) && isUserSuspended(item.ownerEmail || prev.ownerEmail));
           combinedMap.set(key, {
             ...item,
+            subcategory: prev.subcategory || item.subcategory || '',
             type: prev.type || item.type,
             auctionDays: prev.auctionDays || item.auctionDays,
             auctionEndsAt: prev.auctionEndsAt || item.auctionEndsAt,
@@ -2208,7 +2347,7 @@
         updateAccountButton();
         return;
       }
-      const rawName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '';
+      const rawName = sbUser.user_metadata?.name || sbUser.user_metadata?.display_name || sbUser.user_metadata?.full_name || '';
       const shortName = getFirstNameOrNick(rawName, email);
       const existing = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
       const wasSuspended = existing?.status === 'suspended';
@@ -2217,7 +2356,7 @@
       }
       currentUser = {
         id: sbUser.id,
-        name: existing?.name ? getFirstNameOrNick(existing.name, email) : shortName,
+        name: rawName ? getFirstNameOrNick(rawName, email) : (existing?.name ? getFirstNameOrNick(existing.name, email) : shortName),
         email,
         phone: existing?.phone || '',
         country: existing?.country || currentCountry,
@@ -2441,6 +2580,7 @@
       if (!COUNTRY_CONFIG[country]) return;
       currentCountry = country;
       currentCategory = 'all';
+      currentSubcategory = 'all';
       currentMode = 'all';
       try { localStorage.setItem('placomarkt_country', country); } catch (e) {}
       document.getElementById('cityInput').value = userPrefs['defaultCity' + country] || '';
@@ -2455,6 +2595,51 @@
       currentLang = lang;
       try { localStorage.setItem('placomarkt_lang', lang); } catch (e) {}
       renderCountryUI();
+    }
+
+    function renderSubcategoryStrip() {
+      const strip = document.getElementById('subcatStrip');
+      if (!strip) return;
+      if (!currentCategory || currentCategory === 'all') {
+        currentSubcategory = 'all';
+        strip.classList.remove('open');
+        strip.innerHTML = '';
+        return;
+      }
+      const cat = getCatById(currentCategory);
+      const subs = (cat && Array.isArray(cat.subs)) ? cat.subs : [];
+      if (!subs.length) {
+        strip.classList.remove('open');
+        strip.innerHTML = '';
+        return;
+      }
+      strip.classList.add('open');
+      strip.innerHTML =
+        `<button type="button" class="subcat-pill ${currentSubcategory === 'all' ? 'active' : ''}" onclick="selectSubcategory('all')">${t('allSubcats')}</button>` +
+        subs.map(s =>
+          `<button type="button" class="subcat-pill ${currentSubcategory === s.id ? 'active' : ''}" onclick="selectSubcategory('${s.id}')">${getSubcatLabel(s)}</button>`
+        ).join('');
+    }
+
+    function selectSubcategory(subId) {
+      currentSubcategory = subId;
+      renderSubcategoryStrip();
+      renderBreadcrumb();
+      renderListings();
+    }
+
+    function renderBreadcrumb() {
+      const bar = document.getElementById('breadcrumbBar');
+      if (!bar) return;
+      const cityVal = document.getElementById('cityInput').value.trim();
+      const catObj = currentCategory !== 'all' ? getCatById(currentCategory) : null;
+      const subObj = (catObj && currentSubcategory !== 'all') ? (catObj.subs || []).find(s => s.id === currentSubcategory) : null;
+      bar.innerHTML = `
+        <span class="crumb-link" onclick="resetFilters()">PlacoMarkt</span>
+        ${catObj ? `<span>&rsaquo;</span><span class="crumb-link" onclick="selectSubcategory('all')">${getCatLabel(catObj)}</span>` : ''}
+        ${subObj ? `<span>&rsaquo;</span><span>${getSubcatLabel(subObj)}</span>` : ''}
+        ${cityVal ? `<span>&rsaquo;</span><span>${cityVal}</span>` : ''}
+      `;
     }
 
     function renderCountryUI() {
@@ -2511,8 +2696,12 @@
         `<option value="all">${t('allCats')}</option>` +
         CATEGORIES_LIST.map(c => `<option value="${c.id}" ${currentCategory === c.id ? 'selected' : ''}>${getCatLabel(c)}</option>`).join('');
 
+      const prevNewCat = document.getElementById('newCategory').value || 'electronics';
+      const prevNewSub = document.getElementById('newSubcategory').value || '';
       document.getElementById('newCategory').innerHTML =
         CATEGORIES_LIST.map(c => `<option value="${c.id}">${getCatLabel(c)}</option>`).join('');
+      document.getElementById('newCategory').value = prevNewCat;
+      populateSubcategorySelect(prevNewCat, prevNewSub);
 
       document.getElementById('newShipping').innerHTML = `
         <option value="pickup">${t('shipPickup')}</option>
@@ -2544,11 +2733,8 @@
         </button>`
       ).join('');
 
-      const cityVal = document.getElementById('cityInput').value.trim();
-      document.getElementById('breadcrumbBar').innerHTML = `
-        <span class="crumb-link" onclick="resetFilters()">PlacoMarkt</span>
-        ${cityVal ? `<span>&rsaquo;</span><span>${cityVal}</span>` : ''}
-      `;
+      renderSubcategoryStrip();
+      renderBreadcrumb();
 
       document.getElementById('favCountBadge').textContent = favoriteIds.length;
       updateAccountButton();
@@ -2600,6 +2786,8 @@
       const auctionInfo = formatAuctionInfo(item);
       const isMine = isListingOwnedByMe(item);
       const canOfferOnCard = !isMine && item.type === 'sale' && Number(item.price) > 0;
+      const catObj = getCatById(item.category);
+      const subObj = (catObj && item.subcategory) ? (catObj.subs || []).find(s => s.id === item.subcategory) : null;
 
       return `
         <div class="card ${item.top || isSubCard ? 'top-offer' : ''}" onclick="openDetail('${item.id}')">
@@ -2623,6 +2811,7 @@
             <div>
               <div class="card-title">${item.title}</div>
               <div class="card-meta"><span>${item.city}</span><span>${item.views || 1}</span>${photos.length > 1 ? `<span>${photos.length} foto</span>` : ''}</div>
+              ${subObj ? `<div style="font-size:11px;color:var(--muted);margin-bottom:5px">${getSubcatLabel(subObj)}</div>` : ''}
               ${auctionInfo ? `<div class="auction-timer-pill">${auctionInfo}</div>` : ''}
               <div class="seller-mini-tag">
                 <span>${displayNick}</span>
@@ -2654,7 +2843,10 @@
       const qVal = document.getElementById('searchInput').value.trim();
       if (qVal && currentCategory !== 'all') {
         currentCategory = 'all';
+        currentSubcategory = 'all';
         document.getElementById('searchCatSelect').value = 'all';
+        renderSubcategoryStrip();
+        renderBreadcrumb();
       }
       renderListings();
     }
@@ -2672,12 +2864,13 @@
         if (currentMode === 'favorites' && !favoriteIds.includes(item.id)) return false;
         if (currentMode !== 'all' && currentMode !== 'favorites' && item.type !== currentMode) return false;
         if (!qNorm && currentCategory !== 'all' && item.category !== currentCategory) return false;
+        if (!qNorm && currentCategory !== 'all' && currentSubcategory !== 'all' && item.subcategory && item.subcategory !== currentSubcategory) return false;
         if (cityNorm && !normalizeText(item.city).includes(cityNorm)) return false;
         if (cond !== 'all' && item.condition !== cond) return false;
         if (minP > 0 && item.price < minP) return false;
         if (maxP > 0 && item.price > maxP) return false;
         if (qNorm) {
-          const hay = normalizeText(`${item.title || ''} ${item.desc || ''} ${item.city || ''} ${item.category || ''} ${item.sellerName || ''}`);
+          const hay = normalizeText(`${item.title || ''} ${item.desc || ''} ${item.city || ''} ${item.category || ''} ${item.subcategory || ''} ${item.sellerName || ''}`);
           const words = qNorm.split(/\s+/).filter(Boolean);
           if (!words.every(w => hay.includes(w))) return false;
         }
@@ -2949,6 +3142,7 @@
       setTxt('lblAddAlias', 'addAlias');
       setTxt('lblAddPhotos', 'addPhotos');
       setTxt('lblAddCat', 'addCat');
+      setTxt('lblAddSubcat', 'addSubcat');
       setTxt('lblAddCity', 'addCity');
       setTxt('lblAddPrice', 'addPrice');
       setTxt('lblAddStartPrice', 'addStartPrice');
@@ -2985,7 +3179,9 @@
           document.getElementById('newType').value = existing.type || 'sale';
           document.getElementById('newTitle').value = existing.title || '';
           document.getElementById('newSellerAlias').value = existing.sellerName || defaultAlias;
-          document.getElementById('newCategory').value = existing.category || 'other';
+          const catVal = existing.category || 'other';
+          document.getElementById('newCategory').value = catVal;
+          populateSubcategorySelect(catVal, existing.subcategory || '');
           document.getElementById('newCity').value = existing.city || '';
           document.getElementById('newPrice').value = existing.price || 0;
           document.getElementById('newStartPrice').value = existing.price || 0;
@@ -3011,6 +3207,8 @@
       document.getElementById('newReservePrice').value = '';
       document.getElementById('newBuyNow').value = '';
       document.getElementById('newSellerAlias').value = defaultAlias;
+      const startCat = document.getElementById('newCategory').value || 'electronics';
+      populateSubcategorySelect(startCat, '');
       document.getElementById('newPhone').value = '';
       document.getElementById('newSharePhone').checked = false;
       toggleSharePhoneCheckbox();
@@ -3051,6 +3249,7 @@
       const title = document.getElementById('newTitle').value.trim();
       const customAlias = document.getElementById('newSellerAlias').value.trim();
       const category = document.getElementById('newCategory').value;
+      const subcategory = document.getElementById('newSubcategory')?.value || '';
       const city = document.getElementById('newCity').value.trim();
       const price = type === 'free'
         ? 0
@@ -3084,7 +3283,7 @@
         updatedItem.auctionEndsAt = type === 'auction' ? (updatedItem.auctionEndsAt || auctionEndsAt) : null;
         updatedItem.reservePrice = reservePrice;
         updatedItem.buyNowPrice = buyNowPrice;
-        updatedItem.title = title; updatedItem.category = category; updatedItem.city = city;
+        updatedItem.title = title; updatedItem.category = category; updatedItem.subcategory = subcategory; updatedItem.city = city;
         updatedItem.price = price; updatedItem.desc = desc; updatedItem.hasSubscription = hasSubscription;
         updatedItem.phone = phoneVal; updatedItem.sharePhone = sharePhoneVal;
         if (photosFinal.length) updatedItem.photos = photosFinal;
@@ -3120,13 +3319,13 @@
         if (!error && Array.isArray(data) && data[0]) insertedRow = data[0];
       }
 
-      const catObj = CATEGORIES_LIST.find(c => c.id === category);
+      const catObj = getCatById(category);
       const finalId = insertedRow ? insertedRow.id : Date.now();
       const newItem = {
         id: finalId, country: currentCountry, fromSupabaseOgloszenia: Boolean(insertedRow),
         isPlaceholder: false, ownerId: ownerUuid, ownerEmail: ownerMail, type,
         auctionDays, auctionEndsAt, reservePrice, buyNowPrice,
-        category,
+        category, subcategory,
         title, city, price, icon: catObj ? catObj.icon : '📦', photos: photosFinal,
         top: selectedPromo === 'top' || hasSubscription, hasSubscription,
         urgent: selectedPromo === 'urgent', pirateFlag: false, hidden: false,
@@ -3599,10 +3798,23 @@
     }
 
     function setMode(m) { currentMode = m; renderCountryUI(); }
-    function selectCategoryFromSearch(c) { currentCategory = c; renderCountryUI(); }
-    function quickSearch(tVal) { currentCategory = 'all'; document.getElementById('searchInput').value = tVal; renderCountryUI(); }
+    function selectCategoryFromSearch(c) {
+      currentCategory = c;
+      currentSubcategory = 'all';
+      renderSubcategoryStrip();
+      renderBreadcrumb();
+      renderListings();
+    }
+    function quickSearch(tVal) {
+      currentCategory = 'all';
+      currentSubcategory = 'all';
+      renderSubcategoryStrip();
+      renderBreadcrumb();
+      document.getElementById('searchInput').value = tVal;
+      renderListings();
+    }
     function resetFilters() {
-      currentMode = 'all'; currentCategory = 'all';
+      currentMode = 'all'; currentCategory = 'all'; currentSubcategory = 'all';
       document.getElementById('searchInput').value = '';
       document.getElementById('cityInput').value = '';
       renderCountryUI();
