@@ -361,6 +361,7 @@
     .badge-sub { background: linear-gradient(90deg, #f59e0b, #ea580c); color: #fff; }
     .badge-urgent { background: var(--red); color: #fff; }
     .badge-free { background: var(--green); color: #fff; }
+    .badge-auction { background: #7c3aed; color: #fff; }
     .badge-pirate { background: #111827; color: #facc15; border: 1px solid #ef4444; }
     .fav-heart-btn {
       position: absolute; bottom: 8px; right: 8px; background: rgba(255,255,255,0.94);
@@ -370,6 +371,10 @@
     .card-body { padding: 13px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
     .card-title { font-size: 15px; font-weight: 700; margin-bottom: 5px; line-height: 1.35; }
     .card-meta { font-size: 12px; color: var(--muted); margin-bottom: 6px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .auction-timer-pill {
+      display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700;
+      color: #6d28d9; background: #ede9fe; padding: 3px 8px; border-radius: 6px; margin-bottom: 6px; width: fit-content;
+    }
     .seller-mini-tag {
       display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700;
       color: #0369a1; background: #e0f2fe; padding: 3px 8px; border-radius: 5px;
@@ -414,11 +419,36 @@
     .detail-hero { height: 240px; background: #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 64px; margin-bottom: 10px; overflow: hidden; }
     .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
     .seller-card-box { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-    .detail-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 14px 0; }
+    .detail-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin: 14px 0; }
     .btn-action { padding: 10px 12px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; text-align: center; }
     .btn-phone { background: #0f172a; color: #fff; }
     .btn-chat { background: var(--blue); color: #fff; }
+    .btn-negotiate { background: var(--green); color: #fff; }
     .btn-share { background: #0284c7; color: #fff; }
+
+    .negotiate-inline-box {
+      background: var(--soft-bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px; margin-top: 10px; display: none;
+    }
+    .negotiate-inline-box.open { display: block; }
+    .negotiate-inline-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .negotiate-inline-row input {
+      flex: 1; min-width: 140px; padding: 9px 11px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 14px;
+    }
+
+    .offer-proposal-card {
+      border: 2px solid #0284c7; background: rgba(2,132,199,0.06);
+      border-radius: 10px; padding: 12px; width: 100%;
+    }
+    .offer-proposal-card.accepted { border-color: var(--green); background: rgba(22,163,74,0.08); }
+    .offer-proposal-card.rejected { border-color: var(--red); background: rgba(220,38,38,0.06); opacity: 0.85; }
+    .offer-status-pill {
+      display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 800;
+    }
+    .offer-status-pill.pending { background: #e0f2fe; color: #0369a1; }
+    .offer-status-pill.accepted { background: #dcfce7; color: #166534; }
+    .offer-status-pill.rejected { background: #fee2e2; color: #991b1b; }
 
     .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0 18px; }
     .stat-card { background: var(--soft-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
@@ -476,6 +506,7 @@
     .hub-top-tab { background: none; border: none; padding: 8px 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
     .hub-top-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
     .twofa-box { background: rgba(22,163,74,0.08); border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+    .danger-zone-box { background: rgba(220,38,38,0.06); border: 1px solid #fca5a5; border-radius: 10px; padding: 14px; margin-top: 14px; }
     .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
     .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 10px; color: var(--accent); }
 
@@ -743,14 +774,24 @@
             <label id="lblAddPrice">Prijs</label>
             <input type="number" id="newPrice" min="0" step="0.01" />
           </div>
-          <div class="form-group" id="reservePriceGroup" style="display:none">
+          <div class="form-group" id="auctionDurationGroup" style="display:none">
+            <label id="lblAddAuctionDays">Duur van de veiling</label>
+            <select id="newAuctionDays">
+              <option value="7" id="optAuction7">7 dagen</option>
+              <option value="10" id="optAuction10">10 dagen</option>
+              <option value="14" id="optAuction14">14 dagen</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-2" id="auctionExtraBox" style="display:none">
+          <div class="form-group" id="reservePriceGroup">
             <label id="lblAddReserve">Minimumprijs</label>
             <input type="number" id="newReservePrice" min="0" step="0.01" />
           </div>
-        </div>
-        <div class="form-group" id="buyNowGroup" style="display:none">
-          <label id="lblAddBuyNow">Direct kopen</label>
-          <input type="number" id="newBuyNow" min="0" step="0.01" />
+          <div class="form-group" id="buyNowGroup">
+            <label id="lblAddBuyNow">Direct kopen</label>
+            <input type="number" id="newBuyNow" min="0" step="0.01" />
+          </div>
         </div>
         <div class="form-group" id="shippingGroup">
           <label id="lblAddShipping">Levering</label>
@@ -888,6 +929,8 @@
         addCondNa: 'Nie dotyczy', addOfferTitle: 'Tytuł', addAlias: 'Ksywka / inicjały',
         addPhotos: 'Zdjęcia (maks. 6)', addCat: 'Kategoria', addCity: 'Miejscowość',
         addPrice: 'Cena', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
+        addAuctionDays: 'Czas trwania licytacji', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
+        auctionEndsLabel: 'Koniec licytacji',
         addShipping: 'Dostawa', shipPickup: 'Odbiór osobisty', shipPost: 'Wysyłka', shipNa: 'Nie dotyczy',
         addPhoneHead: 'Numer telefonu (domyślnie ukryty)', addSharePhone: 'Udostępniam mój numer telefonu w tym ogłoszeniu',
         addDesc: 'Opis', addSub: 'Abonament', addVis: 'Widoczność', addDays: '30 dni',
@@ -897,7 +940,18 @@
         myAds: 'Moje ogłoszenia', msgsLabel: 'Wiadomości', editBtn: 'Edytuj', delBtn: 'Usuń',
         saveBtn: 'Zapisz', changePassTitle: 'Zmień hasło', newPassPh: 'Nowe hasło', changeBtn: 'Zmień',
         showPhoneBtn: 'Pokaż numer', msgBtn: 'Wiadomość', shareBtn: 'Udostępnij',
-        fullPanelBtn: 'Pełny panel'
+        fullPanelBtn: 'Pełny panel',
+        proposePriceBtn: 'Zaproponuj cenę',
+        proposePriceLabel: 'Twoja propozycja ceny',
+        sendProposalBtn: 'Wyślij propozycję',
+        acceptOfferBtn: 'Akceptuj',
+        rejectOfferBtn: 'Odrzuć',
+        offerPendingTxt: 'Oczekuje na akceptację sprzedającego',
+        offerAcceptedTxt: 'Oferta przyjęta! Twoja cena:',
+        offerRejectedTxt: 'Propozycja odrzucona',
+        deleteAccountTitle: 'Usuń moje konto',
+        deleteAccountDesc: 'Trwale usuwa Twoje konto oraz dostęp do serwisu. Tej operacji nie można cofnąć.',
+        deleteAccountBtn: 'Usuń konto na stałe'
       },
       NL: {
         htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
@@ -930,6 +984,8 @@
         addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
         addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addCity: 'Plaats',
         addPrice: 'Prijs', addReserve: 'Minimumprijs', addBuyNow: 'Direct kopen',
+        addAuctionDays: 'Duur van de veiling', optDays7: '7 dagen', optDays10: '10 dagen', optDays14: '14 dagen',
+        auctionEndsLabel: 'Veiling eindigt',
         addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
         addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
         addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
@@ -939,7 +995,18 @@
         myAds: 'Mijn advertenties', msgsLabel: 'Berichten', editBtn: 'Bewerken', delBtn: 'Verwijderen',
         saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
         showPhoneBtn: 'Toon nummer', msgBtn: 'Bericht', shareBtn: 'Delen',
-        fullPanelBtn: 'Volledig overzicht'
+        fullPanelBtn: 'Volledig overzicht',
+        proposePriceBtn: 'Doe een bod',
+        proposePriceLabel: 'Jouw prijsvoorstel',
+        sendProposalBtn: 'Bod versturen',
+        acceptOfferBtn: 'Accepteren',
+        rejectOfferBtn: 'Afwijzen',
+        offerPendingTxt: 'Wacht op goedkeuring verkoper',
+        offerAcceptedTxt: 'Bod geaccepteerd! Jouw prijs:',
+        offerRejectedTxt: 'Voorstel afgewezen',
+        deleteAccountTitle: 'Mijn account verwijderen',
+        deleteAccountDesc: 'Verwijdert je account permanent. Dit kan niet ongedaan worden gemaakt.',
+        deleteAccountBtn: 'Account definitief verwijderen'
       },
       UK: {
         htmlLang: 'uk', account: 'Акаунт', add: '+ Додати',
@@ -1516,6 +1583,35 @@
       try { localStorage.setItem('placomarkt_user_messages', JSON.stringify(userMessagesDb)); } catch (e) {}
     }
 
+    let priceOffersDb = [];
+    try {
+      const savedPriceOffers = JSON.parse(localStorage.getItem('placomarkt_price_offers') || '[]');
+      if (Array.isArray(savedPriceOffers)) priceOffersDb = savedPriceOffers;
+    } catch (e) {}
+
+    function savePriceOffersLocal() {
+      try { localStorage.setItem('placomarkt_price_offers', JSON.stringify(priceOffersDb)); } catch (e) {}
+    }
+
+    function getAcceptedOfferForCurrentUser(listingId) {
+      if (!currentUser || !currentUser.email) return null;
+      const me = currentUser.email.toLowerCase();
+      return priceOffersDb.find(o =>
+        String(o.listing_id) === String(listingId) &&
+        (o.buyer_email || '').toLowerCase() === me &&
+        o.status === 'accepted'
+      ) || null;
+    }
+
+    function getLatestOfferForCurrentUser(listingId) {
+      if (!currentUser || !currentUser.email) return null;
+      const me = currentUser.email.toLowerCase();
+      return priceOffersDb.find(o =>
+        String(o.listing_id) === String(listingId) &&
+        (o.buyer_email || '').toLowerCase() === me
+      ) || null;
+    }
+
     let sellerRatingsDb = [];
     try {
       const savedRatings = JSON.parse(localStorage.getItem('placomarkt_seller_ratings') || '[]');
@@ -1843,6 +1939,11 @@
         (currentUser && row.owner_id && row.owner_id === currentUser.id)
       );
 
+      let resolvedType = numericPrice === 0 ? 'free' : 'sale';
+      if (row.forma_sprzedazy === 'auction' || row.forma_sprzedazy === 'free' || row.forma_sprzedazy === 'sale') {
+        resolvedType = row.forma_sprzedazy;
+      }
+
       return {
         id: row.id,
         country: rowCountry,
@@ -1850,7 +1951,9 @@
         isPlaceholder: false,
         ownerEmail: rowOwnerEmail,
         ownerId: row.owner_id || (isOwnedByCurrent && currentUser ? currentUser.id : null),
-        type: numericPrice === 0 ? 'free' : 'sale',
+        type: resolvedType,
+        auctionDays: Number(row.auction_days || 7),
+        auctionEndsAt: row.auction_ends_at || null,
         category: catId,
         condition: 'na',
         title: row.tytul || 'Advertentie',
@@ -1892,6 +1995,9 @@
           const prev = combinedMap.get(key);
           combinedMap.set(key, {
             ...item,
+            type: prev.type || item.type,
+            auctionDays: prev.auctionDays || item.auctionDays,
+            auctionEndsAt: prev.auctionEndsAt || item.auctionEndsAt,
             ownerEmail: item.ownerEmail || prev.ownerEmail,
             ownerId: item.ownerId || prev.ownerId,
             sellerName: item.sellerName || prev.sellerName,
@@ -1999,7 +2105,7 @@
     function getUnreadOrInboxCountForCurrentUser() {
       if (!currentUser || !currentUser.email) return 0;
       const me = currentUser.email.toLowerCase();
-      return userMessagesDb.filter(m => {
+      const msgsCount = userMessagesDb.filter(m => {
         const recip = (m.recipient_email || '').toLowerCase();
         if (recip && recip === me) return true;
         if (!recip && m.listing_id) {
@@ -2008,6 +2114,11 @@
         }
         return false;
       }).length;
+      const offersCount = priceOffersDb.filter(o =>
+        ((o.seller_email || '').toLowerCase() === me && o.status === 'pending') ||
+        ((o.buyer_email || '').toLowerCase() === me && (o.status === 'accepted' || o.status === 'rejected'))
+      ).length;
+      return msgsCount + offersCount;
     }
 
     function handleProfileHeaderClick(ev) {
@@ -2042,7 +2153,7 @@
       const displayNick = getFirstNameOrNick(currentUser.name, currentUser.email);
       const initial = displayNick.charAt(0).toUpperCase();
       const isAdmin = hasAdminPermission();
-      const myAdsCount = (listingsData[currentCountry] || []).filter(isListingOwnedByMe).length;
+      const myAdsCount = Object.keys(listingsData).flatMap(c => (listingsData[c] || []).filter(isListingOwnedByMe)).length;
       const inboxCount = getUnreadOrInboxCountForCurrentUser();
 
       let tabContentHtml = '';
@@ -2316,6 +2427,19 @@
       return cur === 'zł' ? `${num} zł` : `€ ${num}`;
     }
 
+    function formatAuctionInfo(item) {
+      if (item.type !== 'auction') return '';
+      const days = Number(item.auctionDays || 7);
+      const daysLabel = days === 14 ? t('optDays14') : days === 10 ? t('optDays10') : t('optDays7');
+      if (!item.auctionEndsAt) return `⏳ ${daysLabel}`;
+      const endDate = new Date(item.auctionEndsAt);
+      if (Number.isNaN(endDate.getTime())) return `⏳ ${daysLabel}`;
+      const formatted = endDate.toLocaleString(currentLang === 'PL' ? 'pl-PL' : 'nl-NL', {
+        day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+      return `⏳ ${daysLabel} &bull; ${formatted}`;
+    }
+
     function isListingOwnedByMe(item) {
       if (!item || item.isPlaceholder) return false;
       if (myListingIds.includes(String(item.id))) return true;
@@ -2332,6 +2456,9 @@
       const hasPhoto = photos.length > 0;
       const mediaHtml = hasPhoto ? `<img src="${photos[0]}" alt="${item.title}" />` : item.icon;
       const displayNick = getFirstNameOrNick(item.sellerName, item.ownerEmail);
+      const acceptedOffer = getAcceptedOfferForCurrentUser(item.id);
+      const effectivePrice = acceptedOffer ? Number(acceptedOffer.proposed_price) : item.price;
+      const auctionInfo = formatAuctionInfo(item);
 
       return `
         <div class="card ${item.top || isSubCard ? 'top-offer' : ''}" onclick="openDetail('${item.id}')">
@@ -2343,6 +2470,7 @@
                 ${isSubCard || item.hasSubscription ? `<span class="badge badge-sub">${t('badgeSub')}</span>` : ''}
                 ${item.top ? `<span class="badge badge-top">TOP</span>` : ''}
                 ${item.urgent ? `<span class="badge badge-urgent">${t('badgeUrgent')}</span>` : ''}
+                ${item.type === 'auction' ? `<span class="badge badge-auction">${t('tabAuction')}</span>` : ''}
               </div>
               <div>
                 ${item.type === 'free' ? `<span class="badge badge-free">${t('freeLabel')}</span>` : ''}
@@ -2354,13 +2482,17 @@
             <div>
               <div class="card-title">${item.title}</div>
               <div class="card-meta"><span>${item.city}</span><span>${item.views || 1}</span>${photos.length > 1 ? `<span>${photos.length} foto</span>` : ''}</div>
+              ${auctionInfo ? `<div class="auction-timer-pill">${auctionInfo}</div>` : ''}
               <div class="seller-mini-tag">
                 <span>${displayNick}</span>
                 ${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}
               </div>
             </div>
             <div class="card-footer">
-              <div class="price ${item.type === 'free' ? 'free-price' : ''}">${formatPrice(item.price, item.type === 'free')}</div>
+              <div class="price ${item.type === 'free' ? 'free-price' : ''}">
+                ${formatPrice(effectivePrice, item.type === 'free')}
+                ${acceptedOffer ? `<div style="font-size:11px;color:var(--green);font-weight:700">${t('offerAcceptedTxt')}</div>` : ''}
+              </div>
               <span style="font-size:12px;font-weight:700;color:var(--blue)">${t('details')} &rarr;</span>
             </div>
           </div>
@@ -2431,12 +2563,24 @@
       const hasSharedPhone = Boolean(item.sharePhone && item.phone && String(item.phone).trim().length > 0);
       const isMine = isListingOwnedByMe(item);
       const canDeleteHere = !item.isPlaceholder && (isMine || hasAdminPermission());
+      const acceptedOffer = getAcceptedOfferForCurrentUser(item.id);
+      const latestOffer = getLatestOfferForCurrentUser(item.id);
+      const effectivePrice = acceptedOffer ? Number(acceptedOffer.proposed_price) : item.price;
+      const auctionInfo = formatAuctionInfo(item);
+      const canProposePrice = !isMine && item.type === 'sale' && Number(item.price) > 0;
+      const curSymbol = COUNTRY_CONFIG[currentCountry].currency;
 
       document.getElementById('detailContent').innerHTML = `
         <button type="button" class="close-modal" onclick="closeModal('detailModal')">&times;</button>
         <div class="detail-hero">${hasPhoto ? `<img id="detailMainPhoto" src="${photos[0]}" alt="${item.title}" />` : item.icon}</div>
         <h2>${item.title}</h2>
-        <div class="price ${item.type === 'free' ? 'free-price' : ''}" style="font-size:22px;margin:8px 0">${formatPrice(item.price, item.type === 'free')}</div>
+        ${auctionInfo ? `<div class="auction-timer-pill" style="margin-top:6px">${auctionInfo}</div>` : ''}
+        <div class="price ${item.type === 'free' ? 'free-price' : ''}" style="font-size:22px;margin:8px 0">
+          ${formatPrice(effectivePrice, item.type === 'free')}
+          ${acceptedOffer ? `<span style="display:block;font-size:13px;color:var(--green);font-weight:700">${t('offerAcceptedTxt')} ${formatPrice(acceptedOffer.proposed_price, false)}</span>` : ''}
+        </div>
+        ${latestOffer && latestOffer.status === 'pending' ? `<div style="margin:6px 0"><span class="offer-status-pill pending">${t('offerPendingTxt')}: ${formatPrice(latestOffer.proposed_price, false)}</span></div>` : ''}
+        ${latestOffer && latestOffer.status === 'rejected' ? `<div style="margin:6px 0"><span class="offer-status-pill rejected">${t('offerRejectedTxt')}: ${formatPrice(latestOffer.proposed_price, false)}</span></div>` : ''}
         <p style="line-height:1.55;margin:10px 0">${item.desc}</p>
         <div class="seller-card-box">
           <div><strong>${displayNick}</strong><div>${getHonestyBadgeHtml(ratingStats, Boolean(item.pirateFlag))}</div></div>
@@ -2444,11 +2588,131 @@
         <div class="detail-actions">
           ${hasSharedPhone ? `<button type="button" class="btn-action btn-phone" id="phoneBtn_${item.id}" onclick="document.getElementById('phoneBtn_${item.id}').textContent='${String(item.phone).replace(/'/g, '')}'">${t('showPhoneBtn')}</button>` : ''}
           ${!isMine ? `<button type="button" class="btn-action btn-chat" onclick="openDirectMessagePrompt('${item.id}')">${t('msgBtn')}</button>` : `<button type="button" class="btn-action btn-chat" onclick="closeModal('detailModal');openAddModal('${currentCountry}', '${item.id}')">${t('editBtn')}</button>`}
+          ${canProposePrice ? `<button type="button" class="btn-action btn-negotiate" onclick="toggleNegotiateBox('${item.id}')">${t('proposePriceBtn')}</button>` : ''}
           <button type="button" class="btn-action btn-share" onclick="shareOfferLink('${item.id}', '${String(item.title).replace(/'/g, '')}')">${t('shareBtn')}</button>
           ${canDeleteHere ? `<button type="button" class="btn-action" style="background:var(--red);color:#fff" onclick="closeModal('detailModal');deleteListingByAuthorOrAdmin('${currentCountry}', '${item.id}')">${t('delBtn')}</button>` : ''}
-        </div>`;
+        </div>
+        ${canProposePrice ? `
+          <div class="negotiate-inline-box" id="negotiateBox_${item.id}">
+            <label style="font-size:13px;font-weight:700;display:block">${t('proposePriceLabel')} (${curSymbol})</label>
+            <div class="negotiate-inline-row">
+              <input type="number" id="proposedPriceInput_${item.id}" min="1" step="0.01" placeholder="${Math.max(1, Math.round(Number(item.price) * 0.9))}" />
+              <button type="button" class="btn-action btn-negotiate" onclick="submitPriceProposal('${item.id}')">${t('sendProposalBtn')}</button>
+            </div>
+          </div>` : ''}`;
       document.getElementById('detailModal').classList.add('open');
       renderListings();
+    }
+
+    function toggleNegotiateBox(listingId) {
+      if (!currentUser || !currentUser.email) {
+        closeModal('detailModal');
+        openFullAccountModal('account');
+        return;
+      }
+      const box = document.getElementById(`negotiateBox_${listingId}`);
+      if (box) box.classList.toggle('open');
+    }
+
+    async function submitPriceProposal(listingId) {
+      const item = (listingsData[currentCountry] || []).find(x => String(x.id) === String(listingId));
+      if (!item) return;
+      if (!currentUser || !currentUser.email) {
+        closeModal('detailModal');
+        openFullAccountModal('account');
+        return;
+      }
+      const input = document.getElementById(`proposedPriceInput_${listingId}`);
+      const proposedVal = Number(input?.value || 0);
+      if (!proposedVal || proposedVal <= 0) return;
+
+      let sellerEmail = (item.ownerEmail || '').trim().toLowerCase();
+      if (!sellerEmail && item.sellerName) {
+        const matchedUser = registeredUsers.find(u => (u.name || '').toLowerCase() === item.sellerName.toLowerCase() && u.email);
+        if (matchedUser) sellerEmail = matchedUser.email.toLowerCase();
+      }
+      if (sellerEmail && sellerEmail === currentUser.email.toLowerCase()) return;
+
+      const proposal = {
+        id: 'offer-' + Date.now(),
+        listing_id: String(item.id),
+        listing_title: item.title,
+        country: currentCountry,
+        original_price: Number(item.price),
+        proposed_price: proposedVal,
+        buyer_email: currentUser.email.toLowerCase(),
+        buyer_name: getFirstNameOrNick(currentUser.name, currentUser.email),
+        seller_email: sellerEmail || null,
+        status: 'pending',
+        created_at: new Date().toISOString()
+      };
+
+      priceOffersDb = priceOffersDb.filter(o =>
+        !(String(o.listing_id) === String(item.id) && (o.buyer_email || '').toLowerCase() === proposal.buyer_email && o.status === 'pending')
+      );
+      priceOffersDb.unshift(proposal);
+      savePriceOffersLocal();
+
+      const msgRow = {
+        listing_id: String(item.id),
+        listing_title: item.title,
+        sender_email: proposal.buyer_email,
+        sender_name: proposal.buyer_name,
+        recipient_email: sellerEmail || null,
+        tresc: `[PROPOZYCJA CENY: ${formatPrice(proposedVal, false)} zamiast ${formatPrice(item.price, false)}]`,
+        seller_notified: Boolean(sellerEmail),
+        sender_confirmed: true
+      };
+      if (sb) {
+        try { await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([msgRow]); } catch (e) {}
+      }
+
+      updateAccountButton();
+      openDetail(listingId);
+    }
+
+    async function respondToPriceProposal(offerId, decision) {
+      const idx = priceOffersDb.findIndex(o => String(o.id) === String(offerId));
+      if (idx < 0) return;
+      const offer = priceOffersDb[idx];
+      offer.status = decision;
+      offer.responded_at = new Date().toISOString();
+      savePriceOffersLocal();
+
+      const formattedAccepted = formatPrice(offer.proposed_price, false);
+      if (decision === 'accepted') {
+        const confirmMsg = {
+          listing_id: String(offer.listing_id),
+          listing_title: offer.listing_title,
+          sender_email: currentUser?.email || ADMIN_EMAIL,
+          sender_name: getFirstNameOrNick(currentUser?.name, currentUser?.email),
+          recipient_email: offer.buyer_email,
+          tresc: `Oferta przyjęta! Możesz kupić „${offer.listing_title}” za ${formattedAccepted}.`,
+          seller_notified: true,
+          sender_confirmed: true
+        };
+        userMessagesDb.unshift({ id: Date.now(), ...confirmMsg, created_at: new Date().toISOString() });
+        saveUserMessagesLocal();
+
+        if (sb) {
+          try { await sb.from(SUPABASE_TABLE_WIADOMOSCI).insert([confirmMsg]); } catch (e) {}
+          try {
+            await sb.functions.invoke('send-offer-email', {
+              body: {
+                to: offer.buyer_email,
+                buyerName: offer.buyer_name,
+                listingTitle: offer.listing_title,
+                acceptedPrice: formattedAccepted,
+                listingUrl: `${window.location.origin}${window.location.pathname}?oferta=${offer.listing_id}`
+              }
+            });
+          } catch (e) {}
+        }
+      }
+
+      updateAccountButton();
+      renderAccountModal();
+      renderCountryUI();
     }
 
     async function openDirectMessagePrompt(listingId) {
@@ -2535,6 +2799,10 @@
       setTxt('lblAddCat', 'addCat');
       setTxt('lblAddCity', 'addCity');
       setTxt('lblAddPrice', 'addPrice');
+      setTxt('lblAddAuctionDays', 'addAuctionDays');
+      setTxt('optAuction7', 'optDays7');
+      setTxt('optAuction10', 'optDays10');
+      setTxt('optAuction14', 'optDays14');
       setTxt('lblAddReserve', 'addReserve');
       setTxt('lblAddBuyNow', 'addBuyNow');
       setTxt('lblAddShipping', 'addShipping');
@@ -2561,11 +2829,13 @@
       if (editCountry && editId !== null) {
         const existing = (listingsData[editCountry] || []).find(x => String(x.id) === String(editId));
         if (existing) {
+          document.getElementById('newType').value = existing.type || 'sale';
           document.getElementById('newTitle').value = existing.title || '';
           document.getElementById('newSellerAlias').value = existing.sellerName || defaultAlias;
           document.getElementById('newCategory').value = existing.category || 'other';
           document.getElementById('newCity').value = existing.city || '';
           document.getElementById('newPrice').value = existing.price || 0;
+          document.getElementById('newAuctionDays').value = String(existing.auctionDays || 7);
           document.getElementById('newDesc').value = existing.desc || '';
           document.getElementById('newHasSubscription').checked = Boolean(existing.hasSubscription);
           document.getElementById('newPhone').value = existing.phone || '';
@@ -2573,10 +2843,13 @@
           uploadedPhotosTemp = Array.isArray(existing.photos) ? [...existing.photos] : [];
           renderPhotoPreviews();
           toggleSharePhoneCheckbox();
+          toggleAddFields();
           document.getElementById('addModal').classList.add('open');
           return;
         }
       }
+      document.getElementById('newType').value = 'sale';
+      document.getElementById('newAuctionDays').value = '7';
       document.getElementById('newSellerAlias').value = defaultAlias;
       document.getElementById('newPhone').value = '';
       document.getElementById('newSharePhone').checked = false;
@@ -2589,8 +2862,8 @@
     function toggleAddFields() {
       const type = document.getElementById('newType').value;
       document.getElementById('priceGroup').style.display = type === 'free' ? 'none' : 'block';
-      document.getElementById('reservePriceGroup').style.display = type === 'auction' ? 'block' : 'none';
-      document.getElementById('buyNowGroup').style.display = type === 'auction' ? 'block' : 'none';
+      document.getElementById('auctionDurationGroup').style.display = type === 'auction' ? 'block' : 'none';
+      document.getElementById('auctionExtraBox').style.display = type === 'auction' ? 'grid' : 'none';
     }
 
     function selectPromo(tier) {
@@ -2617,6 +2890,8 @@
       const category = document.getElementById('newCategory').value;
       const city = document.getElementById('newCity').value.trim();
       const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
+      const auctionDays = type === 'auction' ? Number(document.getElementById('newAuctionDays')?.value || 7) : null;
+      const auctionEndsAt = type === 'auction' ? new Date(Date.now() + auctionDays * 24 * 60 * 60 * 1000).toISOString() : null;
       const desc = document.getElementById('newDesc').value.trim();
       const hasSubscription = document.getElementById('newHasSubscription').checked;
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
@@ -2635,6 +2910,9 @@
         const arr = listingsData[editingListingCountry] || [];
         const idx = arr.findIndex(x => String(x.id) === String(editingListingId));
         const updatedItem = idx >= 0 ? { ...arr[idx] } : { id: editingListingId, country: editingListingCountry, isPlaceholder: false, views: 1 };
+        updatedItem.type = type;
+        updatedItem.auctionDays = auctionDays;
+        updatedItem.auctionEndsAt = type === 'auction' ? (updatedItem.auctionEndsAt || auctionEndsAt) : null;
         updatedItem.title = title; updatedItem.category = category; updatedItem.city = city;
         updatedItem.price = price; updatedItem.desc = desc; updatedItem.hasSubscription = hasSubscription;
         updatedItem.phone = phoneVal; updatedItem.sharePhone = sharePhoneVal;
@@ -2675,7 +2953,9 @@
       const finalId = insertedRow ? insertedRow.id : Date.now();
       const newItem = {
         id: finalId, country: currentCountry, fromSupabaseOgloszenia: Boolean(insertedRow),
-        isPlaceholder: false, ownerId: ownerUuid, ownerEmail: ownerMail, type, category,
+        isPlaceholder: false, ownerId: ownerUuid, ownerEmail: ownerMail, type,
+        auctionDays, auctionEndsAt,
+        category,
         title, city, price, icon: catObj ? catObj.icon : '📦', photos: photosFinal,
         top: selectedPromo === 'top' || hasSubscription, hasSubscription,
         urgent: selectedPromo === 'urgent', pirateFlag: false, hidden: false,
@@ -2759,13 +3039,47 @@
         }
         return false;
       });
+      const myOffers = priceOffersDb.filter(o =>
+        (o.seller_email || '').toLowerCase() === meLower ||
+        (o.buyer_email || '').toLowerCase() === meLower
+      );
+      const totalInboxItems = myInbox.length + myOffers.length;
 
       let rightHtml = '';
       if (hubTopTab === 'buy') {
         const favs = (listingsData[currentCountry] || []).filter(i => favoriteIds.includes(i.id));
         rightHtml = `<h3>${t('tabFav')} (${favs.length})</h3><div style="margin-top:8px">${favs.map(i => `<div class="admin-row"><div><strong>${i.title}</strong></div><button type="button" class="mini-btn" onclick="closeModal('accountModal');openDetail('${i.id}')">${t('details')}</button></div>`).join('') || ''}</div>`;
       } else if (hubTopTab === 'messages') {
-        rightHtml = `<h3>${t('msgsLabel')} (${myInbox.length})</h3><div class="admin-list" style="margin-top:8px">${myInbox.map(m => `<div class="admin-row"><div><strong>${m.listing_title || ''}</strong><div style="font-size:12px;color:var(--muted)">${m.sender_email}</div><div style="font-size:13px;margin-top:4px">${m.tresc}</div></div></div>`).join('') || ''}</div>`;
+        const offersHtml = myOffers.map(o => {
+          const isSeller = (o.seller_email || '').toLowerCase() === meLower;
+          const statusClass = o.status === 'accepted' ? 'accepted' : o.status === 'rejected' ? 'rejected' : '';
+          const statusLabel = o.status === 'accepted'
+            ? `${t('offerAcceptedTxt')} ${formatPrice(o.proposed_price, false)}`
+            : o.status === 'rejected'
+              ? t('offerRejectedTxt')
+              : t('offerPendingTxt');
+          return `
+            <div class="offer-proposal-card ${statusClass}">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+                <div>
+                  <strong>${o.listing_title}</strong>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px">
+                    ${isSeller ? `${o.buyer_name} (${o.buyer_email})` : `${t('proposePriceLabel')}:`}
+                    &bull; <strong>${formatPrice(o.proposed_price, false)}</strong> (zamiast ${formatPrice(o.original_price, false)})
+                  </div>
+                  <div style="margin-top:6px"><span class="offer-status-pill ${o.status}">${statusLabel}</span></div>
+                </div>
+                ${isSeller && o.status === 'pending' ? `
+                  <div class="admin-row-actions">
+                    <button type="button" class="mini-btn green" onclick="respondToPriceProposal('${o.id}', 'accepted')">${t('acceptOfferBtn')}</button>
+                    <button type="button" class="mini-btn red" onclick="respondToPriceProposal('${o.id}', 'rejected')">${t('rejectOfferBtn')}</button>
+                  </div>` : ''}
+              </div>
+            </div>`;
+        }).join('');
+
+        const msgsHtml = myInbox.map(m => `<div class="admin-row"><div><strong>${m.listing_title || ''}</strong><div style="font-size:12px;color:var(--muted)">${m.sender_email}</div><div style="font-size:13px;margin-top:4px">${m.tresc}</div></div></div>`).join('');
+        rightHtml = `<h3>${t('msgsLabel')} (${totalInboxItems})</h3><div class="admin-list" style="margin-top:8px">${offersHtml}${msgsHtml}</div>`;
       } else if (hubTopTab === 'sell') {
         rightHtml = `
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -2797,7 +3111,13 @@
               <input type="password" id="directNewPass" minlength="6" required placeholder="${t('newPassPh')}" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
               <button type="submit" class="mini-btn green">${t('changeBtn')}</button>
             </form>
-          </div>`;
+          </div>
+          ${!isAdmin ? `
+            <div class="danger-zone-box">
+              <h4 style="color:var(--red);margin-bottom:6px">${t('deleteAccountTitle')}</h4>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px">${t('deleteAccountDesc')}</p>
+              <button type="button" class="mini-btn red" onclick="deleteOwnAccount()">${t('deleteAccountBtn')}</button>
+            </div>` : ''}`;
       }
 
       body.innerHTML = `
@@ -2807,7 +3127,7 @@
               <div style="font-weight:800;font-size:15px">${t('hello')} ${displayNick}!</div>
               <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${currentUser.email}</div>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
-              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">${t('msgsLabel').toUpperCase()} (${myInbox.length})</button>
+              <button type="button" class="hub-nav-link" onclick="hubTopTab='messages';renderAccountModal()">${t('msgsLabel').toUpperCase()} (${totalInboxItems})</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
               <button type="button" class="hub-nav-link" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
               ${isAdmin ? `<button type="button" class="hub-nav-link" style="color:var(--red);font-weight:800" onclick="closeModal('accountModal');openAdminPanel()">Admin</button>` : ''}
@@ -2817,13 +3137,44 @@
           <div>
             <div class="hub-top-tabs">
               <button type="button" class="hub-top-tab ${hubTopTab === 'buy' ? 'active' : ''}" onclick="hubTopTab='buy';renderAccountModal()">${t('megaBuy')}</button>
-              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">${t('msgsLabel').toUpperCase()} (${myInbox.length})</button>
+              <button type="button" class="hub-top-tab ${hubTopTab === 'messages' ? 'active' : ''}" onclick="hubTopTab='messages';renderAccountModal()">${t('msgsLabel').toUpperCase()} (${totalInboxItems})</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'sell' ? 'active' : ''}" onclick="hubTopTab='sell';renderAccountModal()">${t('megaSell')}</button>
               <button type="button" class="hub-top-tab ${hubTopTab === 'account' ? 'active' : ''}" onclick="hubTopTab='account';renderAccountModal()">${t('megaAccount')}</button>
             </div>
             ${rightHtml}
           </div>
         </div>`;
+    }
+
+    async function deleteOwnAccount() {
+      if (!currentUser || !currentUser.email) return;
+      const targetEmail = currentUser.email.toLowerCase();
+      if (targetEmail === ADMIN_EMAIL.toLowerCase()) return;
+
+      const step1 = confirm(`Czy na pewno chcesz trwale usunąć swoje konto (${targetEmail})?`);
+      if (!step1) return;
+      const step2 = confirm('Potwierdź ostatecznie: Twoje konto zostanie usunięte na stałe i zostaniesz wylogowany.');
+      if (!step2) return;
+
+      await invokeDeleteUserEdgeFn({ userId: currentUser.id, email: targetEmail, action: 'delete' });
+
+      if (sb) {
+        try { await sb.from('profiles').delete().eq('email', targetEmail); } catch (e) {}
+        try { await sb.auth.signOut(); } catch (e) {}
+      }
+
+      registeredUsers = registeredUsers.filter(u => (u.email || '').toLowerCase() !== targetEmail);
+      saveUsersDb();
+      currentUser = null;
+      try {
+        localStorage.removeItem('placomarkt_user');
+        localStorage.removeItem('placomarkt_remembered_login');
+      } catch (e) {}
+
+      closeModal('accountModal');
+      updateAccountButton();
+      renderCountryUI();
+      alert('Twoje konto zostało usunięte.');
     }
 
     function saveNickName() {
@@ -3157,3 +3508,55 @@
   </script>
 </body>
 </html>
+Aby powiadomienia e-mail po akceptacji ceny leciały na skrzynkę kupującego (Resend w Supabase):
+Załóż darmowe konto na resend.com, wygeneruj API Key (re_...) i dodaj go w Supabase → Edge Functions → Secrets jako RESEND_API_KEY.
+
+W Supabase → Edge Functions utwórz funkcję o nazwie send-offer-email i wklej ten krótki kod:
+
+TypeScript
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  try {
+    const { to, buyerName, listingTitle, acceptedPrice, listingUrl } = await req.json();
+    const resendKey = Deno.env.get("RESEND_API_KEY");
+    if (!resendKey || !to) {
+      return new Response(JSON.stringify({ ok: false, error: "Brak klucza lub odbiorcy" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "PlacoMarkt <noreply@placomarkt.online>",
+        to: [to],
+        subject: `Oferta przyjęta: ${listingTitle}`,
+        html: `<p>Cześć <strong>${buyerName || ""}</strong>,</p>
+               <p>Sprzedający zaakceptował Twoją propozycję ceny <strong>${acceptedPrice}</strong> za ogłoszenie <strong>${listingTitle}</strong>.</p>
+               <p><a href="${listingUrl}">Przejdź do ogłoszenia na PlacoMarkt.online</a></p>`,
+      }),
+    });
+
+    const data = await res.json();
+    return new Response(JSON.stringify({ ok: res.ok, data }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ ok: false, error: String(err) }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});
