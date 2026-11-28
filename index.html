@@ -882,9 +882,9 @@
           <div class="form-group">
             <label id="lblAddType">Verkoopvorm</label>
             <select id="newType" onchange="toggleAddFields()">
-              <option value="sale" id="optTypeSale">Direct kopen</option>
-              <option value="auction" id="optTypeAuction">Veiling</option>
-              <option value="free" id="optTypeFree">Gratis</option>
+              <option value="sale" id="optTypeSale">Kup teraz</option>
+              <option value="auction" id="optTypeAuction">Licytacja</option>
+              <option value="free" id="optTypeFree">Za darmo</option>
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
@@ -921,30 +921,43 @@
             <input type="text" id="newCity" required />
           </div>
         </div>
-        <div class="form-row-2" id="priceRowBox">
+
+        <!-- Opcja A: czyste pole Cena dla Kup teraz -->
+        <div id="salePriceBox">
           <div class="form-group" id="priceGroup">
-            <label id="lblAddPrice">Prijs</label>
+            <label id="lblAddPrice">Cena</label>
             <input type="number" id="newPrice" min="0" step="0.01" />
           </div>
-          <div class="form-group" id="auctionDurationGroup" style="display:none">
-            <label id="lblAddAuctionDays">Duur van de veiling</label>
-            <select id="newAuctionDays">
-              <option value="7" id="optAuction7">7 dagen</option>
-              <option value="10" id="optAuction10">10 dagen</option>
-              <option value="14" id="optAuction14">14 dagen</option>
-            </select>
+        </div>
+
+        <!-- Pola widoczne wyłącznie po wyborze Licytacja -->
+        <div id="auctionFieldsBox" style="display:none">
+          <div class="form-row-2">
+            <div class="form-group" id="auctionStartPriceGroup">
+              <label id="lblAddStartPrice">Cena wywoławcza</label>
+              <input type="number" id="newStartPrice" min="0" step="0.01" />
+            </div>
+            <div class="form-group" id="auctionDurationGroup">
+              <label id="lblAddAuctionDays">Czas trwania licytacji</label>
+              <select id="newAuctionDays">
+                <option value="7" id="optAuction7">7 dni</option>
+                <option value="10" id="optAuction10">10 dni</option>
+                <option value="14" id="optAuction14">14 dni</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group" id="reservePriceGroup">
+              <label id="lblAddReserve">Cena minimalna (opcjonalnie)</label>
+              <input type="number" id="newReservePrice" min="0" step="0.01" />
+            </div>
+            <div class="form-group" id="buyNowGroup">
+              <label id="lblAddBuyNow">Kup teraz (opcjonalnie)</label>
+              <input type="number" id="newBuyNow" min="0" step="0.01" />
+            </div>
           </div>
         </div>
-        <div class="form-row-2" id="auctionExtraBox" style="display:none">
-          <div class="form-group" id="reservePriceGroup">
-            <label id="lblAddReserve">Minimumprijs</label>
-            <input type="number" id="newReservePrice" min="0" step="0.01" />
-          </div>
-          <div class="form-group" id="buyNowGroup">
-            <label id="lblAddBuyNow">Direct kopen</label>
-            <input type="number" id="newBuyNow" min="0" step="0.01" />
-          </div>
-        </div>
+
         <div class="form-group" id="shippingGroup">
           <label id="lblAddShipping">Levering</label>
           <select id="newShipping"></select>
@@ -1067,10 +1080,7 @@
     const SUPPORTED_LANGS = [
       { code: 'NL', label: 'Nederlands' },
       { code: 'PL', label: 'Polski' },
-      { code: 'UK', label: 'Українська' },
-      { code: 'DE', label: 'Deutsch' },
-      { code: 'BE', label: 'België' },
-      { code: 'FR', label: 'Français' }
+      { code: 'LT', label: 'Lietuvių' }
     ];
 
     const SCENE_OPTIONS = [
@@ -1113,7 +1123,7 @@
         addTitleModal: '+ Dodaj ogłoszenie', addType: 'Forma sprzedaży', addCond: 'Stan',
         addCondNa: 'Nie dotyczy', addOfferTitle: 'Tytuł', addAlias: 'Ksywka / inicjały',
         addPhotos: 'Zdjęcia (maks. 6)', addCat: 'Kategoria', addCity: 'Miejscowość',
-        addPrice: 'Cena', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
+        addPrice: 'Cena', addStartPrice: 'Cena wywoławcza', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
         addAuctionDays: 'Czas trwania licytacji', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
         auctionEndsLabel: 'Koniec licytacji',
         addShipping: 'Dostawa', shipPickup: 'Odbiór osobisty', shipPost: 'Wysyłka', shipNa: 'Nie dotyczy',
@@ -1145,7 +1155,7 @@
         searchPlaceholder: 'Waar ben je naar op zoek...',
         cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
         allCats: 'Alle categorieën', popular: 'Populair:',
-        tabAll: 'Alles', tabSale: 'Direct kopen', tabAuction: 'Veiling', tabFree: 'Gratis',
+        tabAll: 'Alles', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
         tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
         condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
         sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
@@ -1158,19 +1168,19 @@
         badgeSub: 'ABONNEMENT', badgeUrgent: 'SPOED',
         folderLocale: 'Land & Taal', folderLook: 'Weergave & Plaats', folderData: 'Account & Data',
         setRegionTitle: 'Kies land / regio', setRegionDesc: 'Wijzigt de advertentiemarkt naar dit land.',
-        countryNL: 'Nederland (NL)', countryPL: 'Polen (PL)',
+        countryNL: 'Nederland (NL)', countryPL: 'Polska (PL)',
         setLangTitle: 'Kies app-taal', setLangDesc: 'Taal van de interface en zoekfunctie.',
         setThemeTitle: 'Weergave', setDarkMode: 'Donkere modus',
         setCityTitle: 'Standaard plaats', setCityDesc: 'Wordt automatisch ingevuld na landwissel.',
-        setCityPh: 'bijv. Rotterdam of Amsterdam...',
+        setCityPh: 'bijv. Rotterdam of Katowice...',
         setAccTitle: 'Actief account', setGuest: 'Gast (niet ingelogd)', setOpenAcc: 'Open accountoverzicht',
         setBackupTitle: 'Back-up en opslag', setExport: 'JSON exporteren', setReset: 'Instellingen resetten',
         footerAbout: 'Over ons', footerTerms: 'Voorwaarden', footerPrivacy: 'Privacy (AVG)', footerDsa: 'DSA & Contact',
-        addTitleModal: '+ Advertentie plaatsen', addType: 'Verkoopvorm', addCond: 'Staat',
+        addTitleModal: '+ Advertentie plaatsen', addType: 'Forma sprzedaży', addCond: 'Staat',
         addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
         addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addCity: 'Plaats',
-        addPrice: 'Prijs', addReserve: 'Minimumprijs', addBuyNow: 'Direct kopen',
-        addAuctionDays: 'Duur van de veiling', optDays7: '7 dagen', optDays10: '10 dagen', optDays14: '14 dagen',
+        addPrice: 'Prijs', addStartPrice: 'Cena wywoławcza', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
+        addAuctionDays: 'Czas trwania licytacji', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
         auctionEndsLabel: 'Veiling eindigt',
         addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
         addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
@@ -1182,7 +1192,7 @@
         saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
         showPhoneBtn: 'Toon nummer', msgBtn: 'Bericht', shareBtn: 'Delen',
         fullPanelBtn: 'Volledig overzicht',
-        proposePriceBtn: 'Doe een bod',
+        proposePriceBtn: 'Zaproponuj cenę',
         proposePriceLabel: 'Jouw prijsvoorstel',
         sendProposalBtn: 'Bod versturen',
         acceptOfferBtn: 'Accepteren',
@@ -1195,45 +1205,61 @@
         suspendAccountBtn: 'Account tijdelijk opschorten',
         gamesLabel: 'Spellen'
       },
-      UK: {
-        htmlLang: 'uk', account: 'Акаунт', add: '+ Додати',
-        banner: 'Веселих свят!', hello: 'Привіт',
-        settingsTitle: 'Налаштування', settingsUpper: 'НАЛАШТУВАННЯ', logout: 'Вийти',
-        folderLocale: 'Країна і мова', folderLook: 'Вигляд і місто', folderData: 'Акаунт і дані',
-        setRegionTitle: 'Оберіть країну', setRegionDesc: 'Змінює ринок оголошень.',
-        countryNL: 'Нідерланди (NL)', countryPL: 'Польща (PL)',
-        setLangTitle: 'Оберіть мову додатку', setLangDesc: 'Мова інтерфейсу та пошуку.',
-        gamesLabel: 'Ігри'
-      },
-      DE: {
-        htmlLang: 'de', account: 'Konto', add: '+ Inserieren',
-        banner: 'Frohe Weihnachten!', hello: 'Hallo',
-        settingsTitle: 'Einstellungen', settingsUpper: 'EINSTELLUNGEN', logout: 'Abmelden',
-        folderLocale: 'Land & Sprache', folderLook: 'Ansicht & Ort', folderData: 'Konto & Daten',
-        setRegionTitle: 'Land / Region wählen', setRegionDesc: 'Wechselt den Anzeigenmarkt.',
-        countryNL: 'Niederlande (NL)', countryPL: 'Polen (PL)',
-        setLangTitle: 'App-Sprache wählen', setLangDesc: 'Sprache der Benutzeroberfläche.',
-        gamesLabel: 'Spiele'
-      },
-      BE: {
-        htmlLang: 'nl-BE', account: 'Account', add: '+ Plaatsen',
-        banner: 'Vrolijk Kerstfeest!', hello: 'Hallo',
-        settingsTitle: 'Instellingen', settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen',
-        folderLocale: 'Land & Taal', folderLook: 'Weergave & Plaats', folderData: 'Account & Data',
-        setRegionTitle: 'Kies land / regio', setRegionDesc: 'Wijzigt de advertentiemarkt naar dit land.',
-        countryNL: 'Nederland (NL)', countryPL: 'Polen (PL)',
-        setLangTitle: 'Kies app-taal', setLangDesc: 'Taal van de interface en zoekfunctie.',
-        gamesLabel: 'Spellen'
-      },
-      FR: {
-        htmlLang: 'fr', account: 'Compte', add: '+ Publier',
-        banner: 'Joyeux Noël !', hello: 'Bonjour',
-        settingsTitle: 'Paramètres', settingsUpper: 'PARAMÈTRES', logout: 'Déconnexion',
-        folderLocale: 'Pays et Langue', folderLook: 'Affichage et Ville', folderData: 'Compte et Données',
-        setRegionTitle: 'Choisir le pays / la région', setRegionDesc: 'Change le marché des annonces.',
-        countryNL: 'Pays-Bas (NL)', countryPL: 'Pologne (PL)',
-        setLangTitle: "Choisir la langue de l'application", setLangDesc: "Langue de l'interface et de la recherche.",
-        gamesLabel: 'Jeux'
+      LT: {
+        htmlLang: 'lt', account: 'Paskyra', add: '+ Įdėti',
+        banner: 'Linksmų švenčių!',
+        searchPlaceholder: 'Ko ieškote...',
+        cityPlaceholder: 'Miestas...', searchBtn: 'Ieškoti',
+        allCats: 'Visos kategorijos', popular: 'Populiaru:',
+        tabAll: 'Visi', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
+        tabFav: 'Parankiniai', foundOffers: 'Rasti skelbimai', condAll: 'Būklė: Visi',
+        condNew: 'Naujas', condUsed: 'Naudotas', sortFeat: 'Rikiuoti: Rekomenduojami ir nauji',
+        sortAsc: 'Kaina: nuo mažiausios', sortDesc: 'Kaina: nuo didžiausios', sortViews: 'Populiariausi',
+        details: 'Peržiūrėti', freeLabel: 'NEMOKAMAI', subTitle: 'Prenumeratos pasiūlymai',
+        subDesc: 'Skelbimai iš paskyrų su aktyvia prenumerata.', subBtn: 'Prenumerata',
+        hello: 'Sveiki',
+        settingsTitle: 'Nustatymai', settingsUpper: 'NUSTATYMAI', logout: 'Atsijungti',
+        megaBuy: 'PIRKIMAI', megaSell: 'PARDAVIMAS', megaAccount: 'PASKYRA',
+        minPricePh: 'Nuo', maxPricePh: 'Iki',
+        badgeSub: 'PRENUMERATA', badgeUrgent: 'SKUBU',
+        folderLocale: 'Šalis ir kalba', folderLook: 'Išvaizda ir miestas', folderData: 'Paskyra ir duomenys',
+        setRegionTitle: 'Pasirinkite šalį / regioną', setRegionDesc: 'Pakeičia skelbimų rinką.',
+        countryNL: 'Nyderlandai (NL)', countryPL: 'Lenkija (PL)',
+        setLangTitle: 'Pasirinkite programėlės kalbą', setLangDesc: 'Sąsajos ir paieškos kalba.',
+        setThemeTitle: 'Ekrano tema', setDarkMode: 'Tamsusis režimas',
+        setCityTitle: 'Numatytasis miestas', setCityDesc: 'Automatiškai pasiūlomas pakeitus šalį.',
+        setCityPh: 'pvz., Roterdamas arba Katovicai...',
+        setAccTitle: 'Aktyvi paskyra', setGuest: 'Svečias (neprisijungęs)', setOpenAcc: 'Atidaryti paskyros skydelį',
+        setBackupTitle: 'Atsarginė kopija ir atmintis', setExport: 'Eksportuoti JSON', setReset: 'Atstatyti nustatymus',
+        footerAbout: 'Apie mus', footerTerms: 'Taisyklės', footerPrivacy: 'Privatumas (BDAR)', footerDsa: 'DSA ir kontaktai',
+        addTitleModal: '+ Įdėti skelbimą', addType: 'Forma sprzedaży', addCond: 'Būklė',
+        addCondNa: 'Netaikoma', addOfferTitle: 'Pavadinimas', addAlias: 'Slapyvardis / inicialai',
+        addPhotos: 'Nuotraukos (maks. 6)', addCat: 'Kategorija', addCity: 'Miestas',
+        addPrice: 'Kaina', addStartPrice: 'Pradinė kaina', addReserve: 'Minimali kaina', addBuyNow: 'Kup teraz',
+        addAuctionDays: 'Aukciono trukmė', optDays7: '7 dienos', optDays10: '10 dienų', optDays14: '14 dienų',
+        auctionEndsLabel: 'Aukciono pabaiga',
+        addShipping: 'Pristatymas', shipPickup: 'Atsiėmimas', shipPost: 'Siuntimas', shipNa: 'Netaikoma',
+        addPhoneHead: 'Telefono numeris (pagal nutylėjimą paslėptas)', addSharePhone: 'Rodyti mano telefono numerį šiame skelbime',
+        addDesc: 'Aprašymas', addSub: 'Prenumerata', addVis: 'Matomumas', addDays: '30 dienų',
+        addSubmit: 'Įdėti skelbimą',
+        loginTab: 'Prisijungti', regTab: 'Registruotis', passPh: 'Slaptažodis', showPass: 'Rodyti slaptažodį', rememberPass: 'Įsiminti slaptažodį',
+        loginBtn: 'Prisijungti', regBtn: 'Sukurti paskyrą', orLabel: 'ARBA',
+        myAds: 'Mano skelbimai', msgsLabel: 'Žinutės', editBtn: 'Redaguoti', delBtn: 'Ištrinti',
+        saveBtn: 'Išsaugoti', changePassTitle: 'Keisti slaptažodį', newPassPh: 'Naujas slaptažodis', changeBtn: 'Keisti',
+        showPhoneBtn: 'Rodyti numerį', msgBtn: 'Žinutė', shareBtn: 'Dalintis',
+        fullPanelBtn: 'Pilnas skydelis',
+        proposePriceBtn: 'Siūlyti kainą',
+        proposePriceLabel: 'Jūsų kainos pasiūlymas',
+        sendProposalBtn: 'Siųsti pasiūlymą',
+        acceptOfferBtn: 'Priimti',
+        rejectOfferBtn: 'Atmesti',
+        offerPendingTxt: 'Laukiama pardavėjo patvirtinimo',
+        offerAcceptedTxt: 'Pasiūlymas priimtas! Jūsų kaina:',
+        offerRejectedTxt: 'Pasiūlymas atmestas',
+        suspendAccountTitle: 'Laikinai sustabdyti paskyrą',
+        suspendAccountDesc: 'Laikinai sustabdo paskyrą ir paslepia skelbimus, bet išsaugo istoriją bei įvertinimus. Prisijungus iš naujo paskyra vėl aktyvuojama.',
+        suspendAccountBtn: 'Laikinai sustabdyti paskyrą',
+        gamesLabel: 'Žaidimai'
       }
     };
 
@@ -1261,11 +1287,8 @@
       }
       const navLang = (navigator.language || navigator.userLanguage || 'nl').toLowerCase();
       if (navLang.startsWith('pl')) return { lang: 'PL', country: 'PL' };
-      if (navLang.startsWith('nl-be')) return { lang: 'BE', country: 'NL' };
+      if (navLang.startsWith('lt')) return { lang: 'LT', country: 'NL' };
       if (navLang.startsWith('nl')) return { lang: 'NL', country: 'NL' };
-      if (navLang.startsWith('uk') || navLang.startsWith('ru')) return { lang: 'UK', country: 'NL' };
-      if (navLang.startsWith('de')) return { lang: 'DE', country: 'NL' };
-      if (navLang.startsWith('fr')) return { lang: 'FR', country: 'NL' };
       return { lang: 'NL', country: 'NL' };
     }
 
@@ -2183,6 +2206,8 @@
         type: resolvedType,
         auctionDays: Number(row.auction_days || 7),
         auctionEndsAt: row.auction_ends_at || null,
+        reservePrice: row.reserve_price ? parsePriceNumber(row.reserve_price) : null,
+        buyNowPrice: row.buy_now_price ? parsePriceNumber(row.buy_now_price) : null,
         category: catId,
         condition: 'na',
         title: row.tytul || 'Advertentie',
@@ -2229,6 +2254,8 @@
             type: prev.type || item.type,
             auctionDays: prev.auctionDays || item.auctionDays,
             auctionEndsAt: prev.auctionEndsAt || item.auctionEndsAt,
+            reservePrice: prev.reservePrice ?? item.reservePrice ?? null,
+            buyNowPrice: prev.buyNowPrice ?? item.buyNowPrice ?? null,
             ownerEmail: item.ownerEmail || prev.ownerEmail,
             ownerId: item.ownerId || prev.ownerId,
             sellerName: item.sellerName || prev.sellerName,
@@ -2872,7 +2899,8 @@
         const matchedUser = registeredUsers.find(u => (u.name || '').toLowerCase() === item.sellerName.toLowerCase() && u.email);
         if (matchedUser) sellerEmail = matchedUser.email.toLowerCase();
       }
-      if (sellerEmail && sellerEmail === currentUser.email.toLowerCase()) return;
+      if (!sellerEmail) sellerEmail = ADMIN_EMAIL.toLowerCase();
+      if (sellerEmail === currentUser.email.toLowerCase()) return;
 
       const proposal = {
         id: 'offer-' + Date.now(),
@@ -2883,7 +2911,7 @@
         proposed_price: proposedVal,
         buyer_email: currentUser.email.toLowerCase(),
         buyer_name: getFirstNameOrNick(currentUser.name, currentUser.email),
-        seller_email: sellerEmail || null,
+        seller_email: sellerEmail,
         status: 'pending',
         created_at: new Date().toISOString()
       };
@@ -2899,9 +2927,9 @@
         listing_title: item.title,
         sender_email: proposal.buyer_email,
         sender_name: proposal.buyer_name,
-        recipient_email: sellerEmail || null,
+        recipient_email: sellerEmail,
         tresc: `[PROPOZYCJA CENY: ${formatPrice(proposedVal, false)} zamiast ${formatPrice(item.price, false)}]`,
-        seller_notified: Boolean(sellerEmail),
+        seller_notified: true,
         sender_confirmed: true
       };
       if (sb) {
@@ -3040,6 +3068,7 @@
       setTxt('lblAddCat', 'addCat');
       setTxt('lblAddCity', 'addCity');
       setTxt('lblAddPrice', 'addPrice');
+      setTxt('lblAddStartPrice', 'addStartPrice');
       setTxt('lblAddAuctionDays', 'addAuctionDays');
       setTxt('optAuction7', 'optDays7');
       setTxt('optAuction10', 'optDays10');
@@ -3076,7 +3105,10 @@
           document.getElementById('newCategory').value = existing.category || 'other';
           document.getElementById('newCity').value = existing.city || '';
           document.getElementById('newPrice').value = existing.price || 0;
+          document.getElementById('newStartPrice').value = existing.price || 0;
           document.getElementById('newAuctionDays').value = String(existing.auctionDays || 7);
+          document.getElementById('newReservePrice').value = existing.reservePrice || '';
+          document.getElementById('newBuyNow').value = existing.buyNowPrice || '';
           document.getElementById('newDesc').value = existing.desc || '';
           document.getElementById('newHasSubscription').checked = Boolean(existing.hasSubscription);
           document.getElementById('newPhone').value = existing.phone || '';
@@ -3090,7 +3122,10 @@
         }
       }
       document.getElementById('newType').value = 'sale';
+      document.getElementById('newStartPrice').value = '';
       document.getElementById('newAuctionDays').value = '7';
+      document.getElementById('newReservePrice').value = '';
+      document.getElementById('newBuyNow').value = '';
       document.getElementById('newSellerAlias').value = defaultAlias;
       document.getElementById('newPhone').value = '';
       document.getElementById('newSharePhone').checked = false;
@@ -3102,9 +3137,8 @@
 
     function toggleAddFields() {
       const type = document.getElementById('newType').value;
-      document.getElementById('priceGroup').style.display = type === 'free' ? 'none' : 'block';
-      document.getElementById('auctionDurationGroup').style.display = type === 'auction' ? 'block' : 'none';
-      document.getElementById('auctionExtraBox').style.display = type === 'auction' ? 'grid' : 'none';
+      document.getElementById('salePriceBox').style.display = type === 'sale' ? 'block' : 'none';
+      document.getElementById('auctionFieldsBox').style.display = type === 'auction' ? 'block' : 'none';
     }
 
     function selectPromo(tier) {
@@ -3130,9 +3164,15 @@
       const customAlias = document.getElementById('newSellerAlias').value.trim();
       const category = document.getElementById('newCategory').value;
       const city = document.getElementById('newCity').value.trim();
-      const price = type === 'free' ? 0 : Number(document.getElementById('newPrice').value || 0);
+      const price = type === 'free'
+        ? 0
+        : type === 'auction'
+          ? Number(document.getElementById('newStartPrice')?.value || 0)
+          : Number(document.getElementById('newPrice')?.value || 0);
       const auctionDays = type === 'auction' ? Number(document.getElementById('newAuctionDays')?.value || 7) : null;
       const auctionEndsAt = type === 'auction' ? new Date(Date.now() + auctionDays * 24 * 60 * 60 * 1000).toISOString() : null;
+      const reservePrice = type === 'auction' && document.getElementById('newReservePrice')?.value ? Number(document.getElementById('newReservePrice').value) : null;
+      const buyNowPrice = type === 'auction' && document.getElementById('newBuyNow')?.value ? Number(document.getElementById('newBuyNow').value) : null;
       const desc = document.getElementById('newDesc').value.trim();
       const hasSubscription = document.getElementById('newHasSubscription').checked;
       const phoneVal = (document.getElementById('newPhone')?.value || '').trim();
@@ -3154,6 +3194,8 @@
         updatedItem.type = type;
         updatedItem.auctionDays = auctionDays;
         updatedItem.auctionEndsAt = type === 'auction' ? (updatedItem.auctionEndsAt || auctionEndsAt) : null;
+        updatedItem.reservePrice = reservePrice;
+        updatedItem.buyNowPrice = buyNowPrice;
         updatedItem.title = title; updatedItem.category = category; updatedItem.city = city;
         updatedItem.price = price; updatedItem.desc = desc; updatedItem.hasSubscription = hasSubscription;
         updatedItem.phone = phoneVal; updatedItem.sharePhone = sharePhoneVal;
@@ -3195,7 +3237,7 @@
       const newItem = {
         id: finalId, country: currentCountry, fromSupabaseOgloszenia: Boolean(insertedRow),
         isPlaceholder: false, ownerId: ownerUuid, ownerEmail: ownerMail, type,
-        auctionDays, auctionEndsAt,
+        auctionDays, auctionEndsAt, reservePrice, buyNowPrice,
         category,
         title, city, price, icon: catObj ? catObj.icon : '📦', photos: photosFinal,
         top: selectedPromo === 'top' || hasSubscription, hasSubscription,
@@ -3725,7 +3767,7 @@
     }
 
     function exportUserData() {
-      const blob = new Blob([JSON.stringify({ currentCountry, currentLang, activeScene, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings, permanentlyDeletedEmails }, null, 2)], { type: 'application/json' });
+      const blob = new Blob([JSON.stringify({ currentCountry, currentLang, activeScene, currentUser, favoriteIds, userPrefs, myListingIds, localSavedListings, permanentlyDeletedEmails, priceOffersDb }, null, 2)], { type: 'application/json' });
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'placomarkt-backup.json'; a.click();
     }
     function resetLocalStorageData() {
@@ -4189,34 +4231,14 @@
     document.addEventListener('keydown', (e) => {
       const gModal = document.getElementById('gamesModal');
       if (!gModal || !gModal.classList.contains('open') || activeGameTab !== 'snake') return;
-      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
-        e.preventDefault(); setSnakeDir(0, -1);
-      } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
-        e.preventDefault(); setSnakeDir(0, 1);
-      } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-        e.preventDefault(); setSnakeDir(-1, 0);
-      } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-        e.preventDefault(); setSnakeDir(1, 0);
-      }
+      if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') { e.preventDefault(); setSnakeDir(0, -1); }
+      else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') { e.preventDefault(); setSnakeDir(0, 1); }
+      else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') { e.preventDefault(); setSnakeDir(-1, 0); }
+      else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') { e.preventDefault(); setSnakeDir(1, 0); }
     });
 
-    window.addEventListener('click', e => {
-      const megaBox = document.getElementById('profileMegaDropdown');
-      const profBtn = document.getElementById('navProfileBtn');
-      if (megaBox && profBtn && !megaBox.contains(e.target) && !profBtn.contains(e.target)) {
-        megaBox.classList.remove('open');
-        const arrow = document.getElementById('navProfileArrow');
-        if (arrow) arrow.textContent = '▾';
-      }
-      ['detailModal', 'addModal', 'settingsModal', 'adminModal', 'accountModal', 'legalModal'].forEach(id => {
-        const el = document.getElementById(id);
-        if (e.target === el) closeModal(id);
-      });
-      const gModal = document.getElementById('gamesModal');
-      if (e.target === gModal) closeGamesModal();
-    });
-
-    initApp();
+    document.addEventListener('click', () => { closeHeaderMenus(); });
+    window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
