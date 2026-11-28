@@ -465,6 +465,7 @@
     .mini-btn.gold { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
     .mini-btn.green { background: #dcfce7; border-color: #86efac; color: #166534; }
     .mini-btn.red { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+    .mini-btn.amber { background: #ffedd5; border-color: #fdba74; color: #9a3412; }
     .mini-btn.dark { background: #111827; border-color: #374151; color: #facc15; }
 
     .form-group { margin-bottom: 12px; }
@@ -506,7 +507,7 @@
     .hub-top-tab { background: none; border: none; padding: 8px 4px; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
     .hub-top-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
     .twofa-box { background: rgba(22,163,74,0.08); border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
-    .danger-zone-box { background: rgba(220,38,38,0.06); border: 1px solid #fca5a5; border-radius: 10px; padding: 14px; margin-top: 14px; }
+    .suspend-zone-box { background: rgba(245,158,11,0.1); border: 1px solid #fbbf24; border-radius: 10px; padding: 14px; margin-top: 14px; }
     .set-section { border: 1px solid var(--border); background: var(--soft-bg); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
     .set-section h4 { font-size: 13px; font-weight: 800; margin-bottom: 10px; color: var(--accent); }
 
@@ -949,9 +950,9 @@
         offerPendingTxt: 'Oczekuje na akceptację sprzedającego',
         offerAcceptedTxt: 'Oferta przyjęta! Twoja cena:',
         offerRejectedTxt: 'Propozycja odrzucona',
-        deleteAccountTitle: 'Usuń moje konto',
-        deleteAccountDesc: 'Trwale usuwa Twoje konto oraz dostęp do serwisu. Tej operacji nie można cofnąć.',
-        deleteAccountBtn: 'Usuń konto na stałe'
+        suspendAccountTitle: 'Zawieś konto tymczasowo',
+        suspendAccountDesc: 'Zawiesza Twoje konto i ukrywa Twoje ogłoszenia, ale zachowuje historię i oceny. Ponowne zalogowanie automatycznie przywróci konto.',
+        suspendAccountBtn: 'Zawieś konto tymczasowo'
       },
       NL: {
         htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
@@ -1004,9 +1005,9 @@
         offerPendingTxt: 'Wacht op goedkeuring verkoper',
         offerAcceptedTxt: 'Bod geaccepteerd! Jouw prijs:',
         offerRejectedTxt: 'Voorstel afgewezen',
-        deleteAccountTitle: 'Mijn account verwijderen',
-        deleteAccountDesc: 'Verwijdert je account permanent. Dit kan niet ongedaan worden gemaakt.',
-        deleteAccountBtn: 'Account definitief verwijderen'
+        suspendAccountTitle: 'Account tijdelijk opschorten',
+        suspendAccountDesc: 'Schort je account tijdelijk op en verbergt je advertenties, maar bewaart je historie en beoordelingen. Opnieuw inloggen activeert je account weer.',
+        suspendAccountBtn: 'Account tijdelijk opschorten'
       },
       UK: {
         htmlLang: 'uk', account: 'Акаунт', add: '+ Додати',
@@ -1734,7 +1735,7 @@
     let authModalTab = 'login';
 
     let registeredUsers = [
-      { id: 'admin-1', name: 'Mario', email: ADMIN_EMAIL, password: 'admin', phone: '', country: 'NL', isPremium: true, isAdmin: true, bannedUntil: null, banReason: '' }
+      { id: 'admin-1', name: 'Mario', email: ADMIN_EMAIL, password: 'admin', phone: '', country: 'NL', isPremium: true, isAdmin: true, status: 'active', suspendedUntil: null, bannedUntil: null, banReason: '' }
     ];
     try {
       const savedUsers = JSON.parse(localStorage.getItem('placomarkt_users_db') || 'null');
@@ -1791,6 +1792,41 @@
       return u;
     }
 
+    function isUserSuspended(email) {
+      if (!email) return false;
+      const low = email.toLowerCase();
+      const u = registeredUsers.find(x => (x.email || '').toLowerCase() === low);
+      return Boolean(u && u.status === 'suspended');
+    }
+
+    function setUserSuspendedState(email, suspended) {
+      if (!email) return;
+      const low = email.toLowerCase();
+      const idx = registeredUsers.findIndex(u => (u.email || '').toLowerCase() === low);
+      if (idx >= 0) {
+        registeredUsers[idx].status = suspended ? 'suspended' : 'active';
+        registeredUsers[idx].suspendedUntil = suspended ? new Date().toISOString() : null;
+        saveUsersDb();
+      }
+      ['NL', 'PL'].forEach(c => {
+        (listingsData[c] || []).forEach(item => {
+          if ((item.ownerEmail || '').toLowerCase() === low) {
+            item.suspendedByOwner = suspended;
+            item.hidden = suspended;
+          }
+        });
+        if (localSavedListings[c]) {
+          localSavedListings[c].forEach(item => {
+            if ((item.ownerEmail || '').toLowerCase() === low) {
+              item.suspendedByOwner = suspended;
+              item.hidden = suspended;
+            }
+          });
+        }
+      });
+      persistLocalListings();
+    }
+
     async function invokeDeleteUserEdgeFn(payload) {
       if (!sb || !sb.functions) return { data: null, error: null };
       try {
@@ -1816,6 +1852,7 @@
             email: su.email,
             country: 'NL',
             isAdmin: ADMIN_EMAILS.includes(low),
+            status: idx >= 0 ? (registeredUsers[idx].status || 'active') : 'active',
             bannedUntil: su.bannedUntil || null,
             banReason: idx >= 0 ? (registeredUsers[idx].banReason || '') : ''
           };
@@ -1871,10 +1908,11 @@
         if (idx >= 0) {
           registeredUsers[idx].bannedUntil = null;
           registeredUsers[idx].banReason = '';
+          registeredUsers[idx].status = 'active';
           saveUsersDb();
         }
         if (sb) {
-          try { await sb.from('profiles').update({ banned_until: null, ban_reason: '' }).eq('email', targetEmail); } catch (e) {}
+          try { await sb.from('profiles').update({ banned_until: null, ban_reason: '', status: 'active' }).eq('email', targetEmail); } catch (e) {}
         }
         alert(`Konto ${targetEmail} zostało odblokowane.`);
         renderAdminPanel();
@@ -1938,6 +1976,7 @@
         (currentUser && rowOwnerEmail && rowOwnerEmail.toLowerCase() === (currentUser.email || '').toLowerCase()) ||
         (currentUser && row.owner_id && row.owner_id === currentUser.id)
       );
+      const ownerSuspended = Boolean(rowOwnerEmail && isUserSuspended(rowOwnerEmail));
 
       let resolvedType = numericPrice === 0 ? 'free' : 'sale';
       if (row.forma_sprzedazy === 'auction' || row.forma_sprzedazy === 'free' || row.forma_sprzedazy === 'sale') {
@@ -1965,7 +2004,8 @@
         hasSubscription: false,
         urgent: false,
         pirateFlag: false,
-        hidden: false,
+        suspendedByOwner: ownerSuspended,
+        hidden: ownerSuspended,
         views: 1,
         sellerName: row.seller_name || (isOwnedByCurrent && currentUser ? getFirstNameOrNick(currentUser.name, currentUser.email) : getFirstNameOrNick('', rowOwnerEmail || 'User')),
         sellerVerified: true,
@@ -1993,6 +2033,7 @@
         const key = String(item.id);
         if (combinedMap.has(key)) {
           const prev = combinedMap.get(key);
+          const ownerSuspended = Boolean((item.ownerEmail || prev.ownerEmail) && isUserSuspended(item.ownerEmail || prev.ownerEmail));
           combinedMap.set(key, {
             ...item,
             type: prev.type || item.type,
@@ -2001,6 +2042,8 @@
             ownerEmail: item.ownerEmail || prev.ownerEmail,
             ownerId: item.ownerId || prev.ownerId,
             sellerName: item.sellerName || prev.sellerName,
+            suspendedByOwner: ownerSuspended,
+            hidden: ownerSuspended || Boolean(prev.hidden && prev.suspendedByOwner),
             photos: (item.photos && item.photos.length) ? item.photos : (prev.photos || [])
           });
         } else {
@@ -2030,17 +2073,6 @@
       ['NL', 'PL'].forEach(c => mergeListingsForCountry(c, listingsData[c]?.filter(x => x.fromSupabaseOgloszenia) || []));
       if (!sb) { renderCountryUI(); return; }
       try {
-        const oglRes = await safeSelectTable(SUPABASE_TABLE_OGLOSZENIA, 'created_at');
-        if (oglRes && oglRes.error) setDbStatus(`Supabase: ${oglRes.error.message}`);
-        else {
-          setDbStatus('');
-          if (oglRes && Array.isArray(oglRes.data)) {
-            ['NL', 'PL'].forEach(c => {
-              const countryRows = oglRes.data.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
-              mergeListingsForCountry(c, countryRows.map(mapOgloszenieRowToUi));
-            });
-          }
-        }
         const profRes = await safeSelectTable('profiles', null);
         if (profRes && Array.isArray(profRes.data) && profRes.data.length) {
           profRes.data.forEach(p => {
@@ -2051,12 +2083,24 @@
             const mapped = {
               id: p.id, name: getFirstNameOrNick(p.name, p.email), email: p.email,
               country: p.country || 'NL', isAdmin: Boolean(p.is_admin || ADMIN_EMAILS.includes(pLow)),
+              status: p.status || (idx >= 0 ? (registeredUsers[idx].status || 'active') : 'active'),
               bannedUntil: p.banned_until || null, banReason: p.ban_reason || ''
             };
             if (idx >= 0) registeredUsers[idx] = { ...registeredUsers[idx], ...mapped };
             else registeredUsers.push(mapped);
           });
           saveUsersDb();
+        }
+        const oglRes = await safeSelectTable(SUPABASE_TABLE_OGLOSZENIA, 'created_at');
+        if (oglRes && oglRes.error) setDbStatus(`Supabase: ${oglRes.error.message}`);
+        else {
+          setDbStatus('');
+          if (oglRes && Array.isArray(oglRes.data)) {
+            ['NL', 'PL'].forEach(c => {
+              const countryRows = oglRes.data.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
+              mergeListingsForCountry(c, countryRows.map(mapOgloszenieRowToUi));
+            });
+          }
         }
         const msgRes = await safeSelectTable(SUPABASE_TABLE_WIADOMOSCI, 'created_at');
         if (msgRes && Array.isArray(msgRes.data)) { userMessagesDb = msgRes.data; saveUserMessagesLocal(); }
@@ -2079,24 +2123,29 @@
       const rawName = sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '';
       const shortName = getFirstNameOrNick(rawName, email);
       const existing = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
+      const wasSuspended = existing?.status === 'suspended';
+      if (wasSuspended) {
+        setUserSuspendedState(email, false);
+      }
       currentUser = {
         id: sbUser.id,
         name: existing?.name ? getFirstNameOrNick(existing.name, email) : shortName,
         email,
         phone: existing?.phone || '',
         country: existing?.country || currentCountry,
+        status: 'active',
         isPremium: Boolean(existing?.isPremium || ADMIN_EMAILS.includes(email)),
         isAdmin: Boolean(existing?.isAdmin || ADMIN_EMAILS.includes(email))
       };
       if (!existing) {
-        registeredUsers.push({ ...currentUser, password: '', bannedUntil: null, banReason: '' });
+        registeredUsers.push({ ...currentUser, password: '', status: 'active', bannedUntil: null, banReason: '' });
         saveUsersDb();
       }
       try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (e) {}
       if (sb) {
         sb.from('profiles').upsert([{
           id: currentUser.id, email: currentUser.email, name: currentUser.name,
-          country: currentUser.country, is_admin: currentUser.isAdmin
+          country: currentUser.country, status: 'active', is_admin: currentUser.isAdmin
         }], { onConflict: 'email' }).then(() => {}).catch(() => {});
       }
       updateAccountButton();
@@ -3089,7 +3138,7 @@
           <div class="admin-list">
             ${myAds.map(item => `
               <div class="admin-row">
-                <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}</div></div>
+                <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}${item.suspendedByOwner ? ' &bull; Zawieszone' : ''}</div></div>
                 <div class="admin-row-actions">
                   <button type="button" class="mini-btn gold" onclick="closeModal('accountModal');openAddModal('${item.c}', '${item.id}')">${t('editBtn')}</button>
                   <button type="button" class="mini-btn red" onclick="deleteListingByAuthorOrAdmin('${item.c}', '${item.id}')">${t('delBtn')}</button>
@@ -3113,10 +3162,10 @@
             </form>
           </div>
           ${!isAdmin ? `
-            <div class="danger-zone-box">
-              <h4 style="color:var(--red);margin-bottom:6px">${t('deleteAccountTitle')}</h4>
-              <p style="font-size:12px;color:var(--muted);margin-bottom:10px">${t('deleteAccountDesc')}</p>
-              <button type="button" class="mini-btn red" onclick="deleteOwnAccount()">${t('deleteAccountBtn')}</button>
+            <div class="suspend-zone-box">
+              <h4 style="color:#9a3412;margin-bottom:6px">${t('suspendAccountTitle')}</h4>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px">${t('suspendAccountDesc')}</p>
+              <button type="button" class="mini-btn amber" onclick="suspendOwnAccount()">${t('suspendAccountBtn')}</button>
             </div>` : ''}`;
       }
 
@@ -3146,35 +3195,28 @@
         </div>`;
     }
 
-    async function deleteOwnAccount() {
+    async function suspendOwnAccount() {
       if (!currentUser || !currentUser.email) return;
       const targetEmail = currentUser.email.toLowerCase();
       if (targetEmail === ADMIN_EMAIL.toLowerCase()) return;
 
-      const step1 = confirm(`Czy na pewno chcesz trwale usunąć swoje konto (${targetEmail})?`);
-      if (!step1) return;
-      const step2 = confirm('Potwierdź ostatecznie: Twoje konto zostanie usunięte na stałe i zostaniesz wylogowany.');
-      if (!step2) return;
+      const ok = confirm(`Czy na pewno chcesz tymczasowo zawiesić swoje konto (${targetEmail})? Twoje ogłoszenia zostaną ukryte, ale konto, oceny i historia pozostaną zachowane. Ponowne zalogowanie odwiesi konto.`);
+      if (!ok) return;
 
-      await invokeDeleteUserEdgeFn({ userId: currentUser.id, email: targetEmail, action: 'delete' });
+      setUserSuspendedState(targetEmail, true);
 
       if (sb) {
-        try { await sb.from('profiles').delete().eq('email', targetEmail); } catch (e) {}
+        try { await sb.from('profiles').update({ status: 'suspended' }).eq('email', targetEmail); } catch (e) {}
         try { await sb.auth.signOut(); } catch (e) {}
       }
 
-      registeredUsers = registeredUsers.filter(u => (u.email || '').toLowerCase() !== targetEmail);
-      saveUsersDb();
       currentUser = null;
-      try {
-        localStorage.removeItem('placomarkt_user');
-        localStorage.removeItem('placomarkt_remembered_login');
-      } catch (e) {}
+      try { localStorage.removeItem('placomarkt_user'); } catch (e) {}
 
       closeModal('accountModal');
       updateAccountButton();
       renderCountryUI();
-      alert('Twoje konto zostało usunięte.');
+      alert('Twoje konto zostało tymczasowo zawieszone. Możesz wrócić w każdej chwili, logując się ponownie.');
     }
 
     function saveNickName() {
@@ -3208,7 +3250,7 @@
         const { data, error } = await sb.auth.signUp({ email, password, options: { data: { name } } });
         if (!error && data?.user) { applySupabaseAuthUser(data.user); renderAccountModal(); return; }
       }
-      const newUser = { id: 'user-' + Date.now(), name: getFirstNameOrNick(name, email), email, password, country: currentCountry, isAdmin: ADMIN_EMAILS.includes(email), bannedUntil: null };
+      const newUser = { id: 'user-' + Date.now(), name: getFirstNameOrNick(name, email), email, password, country: currentCountry, isAdmin: ADMIN_EMAILS.includes(email), status: 'active', bannedUntil: null };
       registeredUsers.push(newUser);
       saveUsersDb();
       currentUser = newUser;
@@ -3233,15 +3275,23 @@
       } catch (err) {}
       if (sb) {
         const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-        if (!error && data?.user) { applySupabaseAuthUser(data.user); renderAccountModal(); return; }
+        if (!error && data?.user) { applySupabaseAuthUser(data.user); renderCountryUI(); renderAccountModal(); return; }
       }
       const found = registeredUsers.find(u => (u.email || '').toLowerCase() === email);
       if (found) {
+        if (found.status === 'suspended') {
+          setUserSuspendedState(email, false);
+          if (sb) {
+            try { await sb.from('profiles').update({ status: 'active' }).eq('email', email); } catch (e) {}
+          }
+        }
         found.name = getFirstNameOrNick(found.name, found.email);
+        found.status = 'active';
         found.isAdmin = Boolean(found.isAdmin || ADMIN_EMAILS.includes((found.email || '').toLowerCase()));
         currentUser = found;
         try { localStorage.setItem('placomarkt_user', JSON.stringify(currentUser)); } catch (err) {}
         updateAccountButton();
+        renderCountryUI();
         renderAccountModal();
       } else {
         alert('Login error');
@@ -3322,7 +3372,7 @@
       if (activeAdminTab === 'listings') {
         body.innerHTML = `<div class="admin-list">${items.map(item => `
           <div class="admin-row">
-            <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}</div></div>
+            <div><strong>${item.title}</strong><div style="font-size:12px;color:var(--muted)">${item.city} &bull; ${formatPrice(item.price, item.type === 'free')}${item.suspendedByOwner ? ' &bull; Zawieszone' : ''}</div></div>
             <div class="admin-row-actions">
               <button type="button" class="mini-btn dark" onclick="adminTogglePirate('${item.id}')">${item.pirateFlag ? 'Zdejmij flagę' : 'Flaga Pirata'}</button>
               <button type="button" class="mini-btn red" onclick="adminDelete('${item.id}')">Usuń</button>
@@ -3332,13 +3382,14 @@
         const targetList = activeAdminTab === 'banned' ? bannedUsers : registeredUsers;
         body.innerHTML = `<div class="admin-list">${targetList.map(u => {
           const banned = Boolean(u.bannedUntil && new Date(u.bannedUntil).getTime() > Date.now());
+          const suspended = u.status === 'suspended';
           const isMainAdmin = (u.email || '').toLowerCase() === ADMIN_EMAIL.toLowerCase();
           return `
             <div class="admin-row">
               <div>
                 <strong>${getFirstNameOrNick(u.name, u.email)}</strong> (${u.email})
-                <div style="font-size:12px;color:${banned ? 'var(--red)' : 'var(--muted)'}">
-                  ${banned ? `ZBANOWANY do ${new Date(u.bannedUntil).toLocaleString('pl-PL')} (${u.banReason || 'Naruszenie regulaminu'})` : 'Aktywne konto'}
+                <div style="font-size:12px;color:${banned ? 'var(--red)' : suspended ? '#b45309' : 'var(--muted)'}">
+                  ${banned ? `ZBANOWANY do ${new Date(u.bannedUntil).toLocaleString('pl-PL')} (${u.banReason || 'Naruszenie regulaminu'})` : suspended ? 'Konto tymczasowo zawieszone' : 'Aktywne konto'}
                 </div>
               </div>
               <div class="admin-row-actions">
@@ -3508,55 +3559,3 @@
   </script>
 </body>
 </html>
-Aby powiadomienia e-mail po akceptacji ceny leciały na skrzynkę kupującego (Resend w Supabase):
-Załóż darmowe konto na resend.com, wygeneruj API Key (re_...) i dodaj go w Supabase → Edge Functions → Secrets jako RESEND_API_KEY.
-
-W Supabase → Edge Functions utwórz funkcję o nazwie send-offer-email i wklej ten krótki kod:
-
-TypeScript
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
-
-serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  try {
-    const { to, buyerName, listingTitle, acceptedPrice, listingUrl } = await req.json();
-    const resendKey = Deno.env.get("RESEND_API_KEY");
-    if (!resendKey || !to) {
-      return new Response(JSON.stringify({ ok: false, error: "Brak klucza lub odbiorcy" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${resendKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "PlacoMarkt <noreply@placomarkt.online>",
-        to: [to],
-        subject: `Oferta przyjęta: ${listingTitle}`,
-        html: `<p>Cześć <strong>${buyerName || ""}</strong>,</p>
-               <p>Sprzedający zaakceptował Twoją propozycję ceny <strong>${acceptedPrice}</strong> za ogłoszenie <strong>${listingTitle}</strong>.</p>
-               <p><a href="${listingUrl}">Przejdź do ogłoszenia na PlacoMarkt.online</a></p>`,
-      }),
-    });
-
-    const data = await res.json();
-    return new Response(JSON.stringify({ ok: res.ok, data }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  } catch (err) {
-    return new Response(JSON.stringify({ ok: false, error: String(err) }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
-});
