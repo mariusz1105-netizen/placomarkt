@@ -507,6 +507,13 @@
     .auth-checks-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
     .auth-checks-row label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; margin: 0; font-weight: 600; }
     .auth-checks-row input[type="checkbox"] { width: auto; }
+    .forgot-pass-row { display: flex; justify-content: flex-end; margin-top: -4px; margin-bottom: 12px; }
+    .forgot-pass-link {
+      background: none; border: none; color: var(--accent); font-size: 12px;
+      font-weight: 700; cursor: pointer; text-decoration: underline; padding: 2px 0;
+    }
+    .forgot-pass-link:hover { color: var(--accent-hover); }
+    .auth-feedback-msg { font-size: 12px; font-weight: 700; margin-top: 8px; min-height: 16px; }
     .photo-preview-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
     .photo-preview-strip img { width: 78px; height: 60px; object-fit: cover; border-radius: 7px; border: 1px solid var(--border); }
     .promo-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 6px; }
@@ -974,6 +981,11 @@
       addDesc: 'Opis', addSub: 'Abonament', addVis: 'Widoczność', addDays: '30 dni',
       addSubmit: 'Dodaj ogłoszenie',
       loginTab: 'Logowanie', regTab: 'Rejestracja', passPh: 'Hasło', showPass: 'Pokaż hasło', rememberPass: 'Zapamiętaj hasło',
+      forgotPassBtn: 'Zapomniałeś hasła?',
+      forgotPassMissingEmail: 'Najpierw wpisz adres e-mail powyżej.',
+      forgotPassSending: 'Wysyłanie linku resetującego...',
+      forgotPassSent: 'Jeśli konto istnieje, wysłaliśmy e-mail z linkiem do resetu hasła.',
+      forgotPassError: 'Nie udało się wysłać e-maila resetującego. Sprawdź konfigurację.',
       loginBtn: 'Zaloguj się', regBtn: 'Załóż konto', orLabel: 'LUB',
       myAds: 'Moje ogłoszenia', msgsLabel: 'Wiadomości', editBtn: 'Edytuj', delBtn: 'Usuń',
       saveBtn: 'Zapisz', changePassTitle: 'Zmień hasło', newPassPh: 'Nowe hasło', changeBtn: 'Zmień',
@@ -1032,6 +1044,11 @@
         addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
         addSubmit: 'Advertentie plaatsen',
         loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', showPass: 'Wachtwoord tonen', rememberPass: 'Wachtwoord onthouden',
+        forgotPassBtn: 'Wachtwoord vergeten?',
+        forgotPassMissingEmail: 'Vul eerst hierboven je e-mailadres in.',
+        forgotPassSending: 'Resetlink versturen...',
+        forgotPassSent: 'Als het account bestaat, hebben we een e-mail met een resetlink gestuurd.',
+        forgotPassError: 'Kon geen reset-e-mail versturen. Controleer de configuratie.',
         loginBtn: 'Inloggen', regBtn: 'Account aanmaken', orLabel: 'OF',
         myAds: 'Mijn advertenties', msgsLabel: 'Wiadomości', editBtn: 'Bewerken', delBtn: 'Verwijderen',
         saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
@@ -1544,6 +1561,42 @@
     function toggleLoginPassword(show, inputId = 'loginPass') {
       const input = document.getElementById(inputId);
       if (input) input.type = show ? 'text' : 'password';
+    }
+
+    function setAuthFeedback(msg, isError = false) {
+      const el = document.getElementById('authFeedbackMsg');
+      if (!el) return;
+      el.textContent = msg || '';
+      el.style.color = isError ? 'var(--red)' : 'var(--green)';
+    }
+
+    async function handleForgotPasswordClick() {
+      const emailInput = document.getElementById('loginEmail');
+      const forgotBtn = document.getElementById('forgotPassBtn');
+      const email = (emailInput?.value || '').trim().toLowerCase();
+
+      if (!email) {
+        setAuthFeedback(t('forgotPassMissingEmail'), true);
+        if (emailInput) emailInput.focus();
+        return;
+      }
+
+      if (forgotBtn) forgotBtn.disabled = true;
+      setAuthFeedback(t('forgotPassSending'), false);
+
+      try {
+        if (sb && sb.auth && typeof sb.auth.resetPasswordForEmail === 'function') {
+          const { error } = await sb.auth.resetPasswordForEmail(email, {
+            redirectTo: `${window.location.origin}${window.location.pathname}`
+          });
+          if (error) throw error;
+        }
+        setAuthFeedback(t('forgotPassSent'), false);
+      } catch (err) {
+        setAuthFeedback(t('forgotPassError'), true);
+      } finally {
+        if (forgotBtn) forgotBtn.disabled = false;
+      }
     }
 
     function toggleSharePhoneCheckbox() {
@@ -3123,7 +3176,11 @@
                   <span>${t('rememberPass')}</span>
                 </label>
               </div>
+              <div class="forgot-pass-row">
+                <button type="button" class="forgot-pass-link" id="forgotPassBtn" onclick="handleForgotPasswordClick()">${t('forgotPassBtn')}</button>
+              </div>
               <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t('loginBtn')}</button>
+              <div class="auth-feedback-msg" id="authFeedbackMsg" role="status"></div>
             </form>` : `
             <form onsubmit="handleRegisterSubmit(event)">
               <div class="form-group"><input type="text" id="regName" required maxlength="24" placeholder="${t('addAlias')}" /></div>
@@ -3136,6 +3193,7 @@
                 </label>
               </div>
               <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:11px">${t('regBtn')}</button>
+              <div class="auth-feedback-msg" id="authFeedbackMsg" role="status"></div>
             </form>`}
           <div class="alt-login-divider">${t('orLabel')}</div>
           <button type="button" class="alt-login-btn" onclick="handleGoogleLogin()">
@@ -3225,9 +3283,15 @@
           </div>
           <div class="twofa-box">
             <h4 style="margin-bottom:8px">${t('changePassTitle')}</h4>
-            <form onsubmit="handleChangePasswordDirect(event)" style="display:flex;gap:8px;flex-wrap:wrap">
-              <input type="password" id="directNewPass" minlength="6" required placeholder="${t('newPassPh')}" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
-              <button type="submit" class="mini-btn green">${t('changeBtn')}</button>
+            <form onsubmit="handleChangePasswordDirect(event)">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <input type="password" id="directNewPass" minlength="6" required placeholder="${t('newPassPh')}" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--border)" />
+                <button type="submit" class="mini-btn green">${t('changeBtn')}</button>
+              </div>
+              <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;margin-top:8px;font-weight:600">
+                <input type="checkbox" id="showDirectNewPassBox" onchange="toggleLoginPassword(this.checked, 'directNewPass')" style="width:auto" />
+                <span>${t('showPass')}</span>
+              </label>
             </form>
           </div>
           ${!isAdmin ? `
