@@ -685,10 +685,10 @@
     <div class="hero-inner">
       <div class="hero-top-banner" id="holidayBannerText">Vrolijk Kerstfeest!</div>
       <div class="search-box">
-        <input type="text" id="searchInput" class="main-q" placeholder="Czego szukasz..." oninput="renderListings()" />
+        <input type="text" id="searchInput" class="main-q" placeholder="Waar ben je naar op zoek?" oninput="renderListings()" />
         <select id="searchCatSelect" onchange="selectCategoryFromSearch(this.value)"></select>
-        <input type="text" id="cityInput" autocomplete="off" placeholder="Miejscowość..." oninput="renderListings()" />
-        <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Szukaj</button>
+        <input type="text" id="cityInput" autocomplete="off" placeholder="Plaats of postcode..." oninput="renderListings()" />
+        <button type="button" class="search-btn" id="btnSearchMain" onclick="searchAndShowAll()">Zoeken</button>
       </div>
       <div class="quick-tags" id="quickTagsBar"></div>
     </div>
@@ -756,7 +756,7 @@
       <div class="footer-links">
         <a id="footerAboutLink" onclick="openLegalModal('about')">Over ons</a>
         <a id="footerTermsLink" onclick="openLegalModal('terms')">Voorwaarden</a>
-        <a id="footerPrivacyLink" onclick="openLegalModal('privacy')">Privacy (AVG/RODO)</a>
+        <a id="footerPrivacyLink" onclick="openLegalModal('privacy')">Privacy (AVG)</a>
         <a id="footerDsaLink" onclick="openLegalModal('dsa')">DSA &amp; Contact</a>
       </div>
     </footer>
@@ -797,59 +797,59 @@
   <div class="modal-backdrop" id="addModal">
     <div class="modal">
       <button type="button" class="close-modal" onclick="closeModal('addModal')">&times;</button>
-      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj ogłoszenie</h2>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Advertentie plaatsen</h2>
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblAddType">Forma sprzedaży</label>
+            <label id="lblAddType">Verkoopvorm</label>
             <select id="newType" onchange="toggleAddFields()">
-              <option value="sale" id="optTypeSale">Kup teraz</option>
-              <option value="auction" id="optTypeAuction">Licytacja</option>
-              <option value="free" id="optTypeFree">Za darmo</option>
+              <option value="sale" id="optTypeSale">Direct kopen</option>
+              <option value="auction" id="optTypeAuction">Veiling</option>
+              <option value="free" id="optTypeFree">Gratis</option>
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
-            <label id="lblAddCond">Stan</label>
+            <label id="lblAddCond">Staat</label>
             <select id="newCondition">
-              <option value="new" id="optAddCondNew">Nowe</option>
-              <option value="used" id="optAddCondUsed">Używane</option>
-              <option value="na" id="optAddCondNa">Nie dotyczy</option>
+              <option value="new" id="optAddCondNew">Nieuw</option>
+              <option value="used" id="optAddCondUsed">Gebruikt</option>
+              <option value="na" id="optAddCondNa">N.v.t.</option>
             </select>
           </div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblAddTitle">Tytuł</label>
+            <label id="lblAddTitle">Titel</label>
             <input type="text" id="newTitle" required />
           </div>
           <div class="form-group">
-            <label id="lblAddAlias">Ksywka / inicjały</label>
+            <label id="lblAddAlias">Naam / initialen</label>
             <input type="text" id="newSellerAlias" maxlength="24" />
           </div>
         </div>
         <div class="form-group">
-          <label id="lblAddPhotos">Zdjęcia (maks. 6)</label>
+          <label id="lblAddPhotos">Foto's (max. 6)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblAddCat">Kategoria</label>
+            <label id="lblAddCat">Categorie</label>
             <select id="newCategory" onchange="populateSubcategorySelect(this.value)"></select>
           </div>
           <div class="form-group">
-            <label id="lblAddSubcat">Podkategoria</label>
+            <label id="lblAddSubcat">Subcategorie (subfolder)</label>
             <select id="newSubcategory"></select>
           </div>
         </div>
         <div class="form-group">
-          <label id="lblAddCity">Miejscowość</label>
+          <label id="lblAddCity">Plaats</label>
           <input type="text" id="newCity" required />
         </div>
 
         <div id="salePriceBox">
           <div class="form-group" id="priceGroup">
-            <label id="lblAddPrice">Cena</label>
+            <label id="lblAddPrice">Prijs</label>
             <input type="number" id="newPrice" min="0" step="0.01" required />
           </div>
         </div>
@@ -857,64 +857,64 @@
         <div id="auctionFieldsBox" style="display:none">
           <div class="form-row-2">
             <div class="form-group" id="auctionStartPriceGroup">
-              <label id="lblAddStartPrice">Cena wywoławcza</label>
+              <label id="lblAddStartPrice">Startbod</label>
               <input type="number" id="newStartPrice" min="0" step="0.01" />
             </div>
             <div class="form-group" id="auctionDurationGroup">
-              <label id="lblAddAuctionDays">Czas trwania licytacji / Duur van de veiling</label>
+              <label id="lblAddAuctionDays">Duur van de veiling</label>
               <select id="newAuctionDays">
-                <option value="7" id="optAuction7">7 dni</option>
-                <option value="10" id="optAuction10">10 dni</option>
-                <option value="14" id="optAuction14">14 dni</option>
+                <option value="7" id="optAuction7">7 dagen</option>
+                <option value="10" id="optAuction10">10 dagen</option>
+                <option value="14" id="optAuction14">14 dagen</option>
               </select>
             </div>
           </div>
           <div class="form-row-2">
             <div class="form-group" id="reservePriceGroup">
-              <label id="lblAddReserve">Cena minimalna</label>
+              <label id="lblAddReserve">Minimumprijs</label>
               <input type="number" id="newReservePrice" min="0" step="0.01" />
             </div>
             <div class="form-group" id="buyNowGroup">
-              <label id="lblAddBuyNow">Kup teraz</label>
+              <label id="lblAddBuyNow">Direct kopen</label>
               <input type="number" id="newBuyNow" min="0" step="0.01" />
             </div>
           </div>
         </div>
 
         <div class="form-group" id="shippingGroup">
-          <label id="lblAddShipping">Dostawa</label>
+          <label id="lblAddShipping">Levering</label>
           <select id="newShipping"></select>
         </div>
         <div class="set-section">
-          <h4 id="lblAddPhoneHead">Numer telefonu (domyślnie ukryty)</h4>
+          <h4 id="lblAddPhoneHead">Telefoonnummer (standaard verborgen)</h4>
           <div class="form-group" style="margin-bottom:8px">
             <input type="tel" id="newPhone" oninput="toggleSharePhoneCheckbox()" />
           </div>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newSharePhone" style="width:auto" disabled />
-            <span id="lblAddSharePhone">Udostępniam mój numer telefonu w tym ogłoszeniu</span>
+            <span id="lblAddSharePhone">Deel mijn telefoonnummer in deze advertentie</span>
           </label>
         </div>
         <div class="form-group">
-          <label id="lblAddDesc">Opis</label>
+          <label id="lblAddDesc">Beschrijving</label>
           <textarea id="newDesc" rows="3" required></textarea>
         </div>
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newHasSubscription" style="width:auto" />
-            <span id="lblAddSub">Abonament</span>
+            <span id="lblAddSub">Abonnement</span>
           </label>
         </div>
         <div class="form-group">
-          <label id="lblAddVis">Widoczność</label>
+          <label id="lblAddVis">Zichtbaarheid</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoPriceStd">0,00</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoDaysStd">30 dni</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoDaysStd">30 dagen</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
               <strong style="color:var(--red)" id="promoPriceUrgent">0,00</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoTagUrgent">PILNE</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoTagUrgent">SPOED</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
               <strong style="color:var(--accent)" id="promoPriceTop">0,00</strong>
@@ -923,7 +923,7 @@
           </div>
         </div>
         <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:12px;font-size:15px" id="submitOfferBtn">
-          Dodaj ogłoszenie
+          Advertentie plaatsen
         </button>
       </form>
     </div>
@@ -932,7 +932,7 @@
   <div class="modal-backdrop" id="accountModal">
     <div class="modal" id="accountModalBox" style="max-width:640px">
       <button type="button" class="close-modal" onclick="closeModal('accountModal')">&times;</button>
-      <h2 style="margin-bottom:12px" id="accountModalHeading">Konto</h2>
+      <h2 style="margin-bottom:12px" id="accountModalHeading">Account</h2>
       <div id="accountModalBody"></div>
     </div>
   </div>
@@ -940,12 +940,12 @@
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:580px">
       <button type="button" class="close-modal" onclick="closeModal('settingsModal')">&times;</button>
-      <h2 style="margin-bottom:14px" id="settingsModalHeading">&#9881;&#65039; Ustawienia</h2>
+      <h2 style="margin-bottom:14px" id="settingsModalHeading">&#9881;&#65039; Instellingen</h2>
 
       <div class="settings-folders">
-        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Kraj i Język</button>
-        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Wygląd i Miasto</button>
-        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Konto i Dane</button>
+        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Land &amp; Taal</button>
+        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Weergave &amp; Plaats</button>
+        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Account &amp; Data</button>
       </div>
 
       <div id="settingsFolderContent"></div>
@@ -1210,101 +1210,79 @@
       suspendAccountBtn: 'Zawieś konto tymczasowo'
     };
 
+    const BASE_NL = {
+      ...BASE_PL,
+      htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
+      banner: 'Vrolijk Kerstfeest!',
+      searchPlaceholder: 'Waar ben je naar op zoek?',
+      cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
+      allCats: 'Alle categorieën', allSubcats: 'Alle subcategorieën (subfolders)', popular: 'Populair:',
+      tabAll: 'Alles', tabSale: 'Direct kopen', tabAuction: 'Veiling', tabFree: 'Gratis',
+      tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
+      condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
+      sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
+      details: 'Bekijk', freeLabel: 'GRATIS', subTitle: 'Abonnement aanbiedingen',
+      subDesc: 'Advertenties van accounts met een actief abonnement.', subBtn: 'Abonnement',
+      hello: 'Hallo',
+      settingsTitle: 'Instellingen', settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen',
+      megaBuy: 'AANKOPEN', megaSell: 'VERKOOP', megaAccount: 'ACCOUNT',
+      minPricePh: 'Van', maxPricePh: 'Tot',
+      badgeSub: 'ABONNEMENT', badgeUrgent: 'SPOED',
+      folderLocale: 'Land & Taal', folderLook: 'Weergave & Plaats', folderData: 'Account & Data',
+      setRegionTitle: 'Kies land / regio', setRegionDesc: 'Wijzigt de advertentiemarkt naar dit land.',
+      countryNL: 'Nederland (NL)', countryPL: 'Polska (PL)',
+      setLangTitle: 'Kies app-taal', setLangDesc: 'Taal van de interface en zoekfunctie.',
+      setThemeTitle: 'Weergave', setDarkMode: 'Donkere modus',
+      setCityTitle: 'Standaard plaats', setCityDesc: 'Wordt automatisch ingevuld na landwissel.',
+      setCityPh: 'bijv. Rotterdam of Katowice...',
+      setAccTitle: 'Actief account', setGuest: 'Gast (niet ingelogd)', setOpenAcc: 'Open accountoverzicht',
+      setBackupTitle: 'Back-up en opslag', setExport: 'JSON exporteren', setReset: 'Instellingen resetten',
+      footerAbout: 'Over ons', footerTerms: 'Voorwaarden', footerPrivacy: 'Privacy (AVG)', footerDsa: 'DSA & Contact',
+      addTitleModal: '+ Advertentie plaatsen', addType: 'Verkoopvorm', addCond: 'Staat',
+      addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
+      addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addSubcat: 'Subcategorie (subfolder)', addCity: 'Plaats',
+      addPrice: 'Prijs', addStartPrice: 'Startbod', addReserve: 'Minimumprijs', addBuyNow: 'Direct kopen',
+      addAuctionDays: 'Duur van de veiling', optDays7: '7 dagen', optDays10: '10 dagen', optDays14: '14 dagen',
+      addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
+      addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
+      addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
+      addSubmit: 'Advertentie plaatsen',
+      loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', showPass: 'Wachtwoord tonen', rememberPass: 'Wachtwoord onthouden',
+      forgotPassBtn: 'Wachtwoord vergeten?',
+      forgotPassMissingEmail: 'Vul eerst hierboven je e-mailadres in.',
+      forgotPassSending: 'Resetlink versturen...',
+      forgotPassSent: 'Als het account bestaat, hebben we een e-mail met een resetlink gestuurd.',
+      forgotPassError: 'Kon geen reset-e-mail versturen. Controleer de configuratie.',
+      loginBtn: 'Inloggen', regBtn: 'Account aanmaken', orLabel: 'OF',
+      myAds: 'Mijn advertenties', msgsLabel: 'Berichten', editBtn: 'Bewerken', delBtn: 'Verwijderen',
+      saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
+      showPhoneBtn: 'Toon nummer', msgBtn: 'Bericht', shareBtn: 'Delen',
+      fullPanelBtn: 'Volledig overzicht',
+      proposePriceBtn: 'Doe een bod',
+      proposePriceLabel: 'Jouw prijsvoorstel',
+      sendProposalBtn: 'Bod versturen',
+      acceptOfferBtn: 'Accepteren',
+      rejectOfferBtn: 'Afwijzen',
+      offerPendingTxt: 'Wacht op goedkeuring verkoper',
+      offerAcceptedTxt: 'Bod geaccepteerd! Jouw prijs:',
+      offerRejectedTxt: 'Voorstel afgewezen',
+      suspendAccountTitle: 'Account tijdelijk opschorten',
+      suspendAccountDesc: 'Schort je account tijdelijk op en verbergt je advertenties, maar bewaart je historie en beoordelingen. Opnieuw inloggen activeert je account weer.',
+      suspendAccountBtn: 'Account tijdelijk opschorten'
+    };
+
     const I18N = {
       PL: { ...BASE_PL },
-      NL: {
-        ...BASE_PL,
-        htmlLang: 'nl', account: 'Account', add: '+ Plaatsen',
-        banner: 'Vrolijk Kerstfeest!',
-        searchPlaceholder: 'Czego szukasz...',
-        cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
-        allCats: 'Alle categorieën', allSubcats: 'Alle subcategorieën (subfolders)', popular: 'Populair:',
-        tabAll: 'Alles', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
-        tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
-        condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
-        sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
-        details: 'Bekijk', freeLabel: 'GRATIS', subTitle: 'Abonnement aanbiedingen',
-        subDesc: 'Advertenties van accounts met een actief abonnement.', subBtn: 'Abonnement',
-        hello: 'Hallo',
-        settingsTitle: 'Instellingen', settingsUpper: 'INSTELLINGEN', logout: 'Uitloggen',
-        megaBuy: 'AANKOPEN', megaSell: 'VERKOOP', megaAccount: 'ACCOUNT',
-        minPricePh: 'Van', maxPricePh: 'Tot',
-        badgeSub: 'ABONNEMENT', badgeUrgent: 'SPOED',
-        folderLocale: 'Land & Taal', folderLook: 'Weergave & Plaats', folderData: 'Account & Data',
-        setRegionTitle: 'Kies land / regio', setRegionDesc: 'Wijzigt de advertentiemarkt naar dit land.',
-        countryNL: 'Nederland (NL)', countryPL: 'Polska (PL)',
-        setLangTitle: 'Kies app-taal', setLangDesc: 'Taal van de interface en zoekfunctie.',
-        setThemeTitle: 'Weergave', setDarkMode: 'Donkere modus',
-        setCityTitle: 'Standaard plaats', setCityDesc: 'Wordt automatisch ingevuld na landwissel.',
-        setCityPh: 'bijv. Rotterdam of Katowice...',
-        setAccTitle: 'Actief account', setGuest: 'Gast (niet ingelogd)', setOpenAcc: 'Open accountoverzicht',
-        setBackupTitle: 'Back-up en opslag', setExport: 'JSON exporteren', setReset: 'Instellingen resetten',
-        footerAbout: 'Over ons', footerTerms: 'Voorwaarden', footerPrivacy: 'Privacy (AVG)', footerDsa: 'DSA & Contact',
-        addTitleModal: '+ Advertentie plaatsen', addType: 'Verkoopvorm', addCond: 'Staat',
-        addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
-        addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addSubcat: 'Subcategorie (subfolder)', addCity: 'Plaats',
-        addPrice: 'Cena', addStartPrice: 'Startbod', addReserve: 'Minimumprijs', addBuyNow: 'Kup teraz',
-        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
-        addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
-        addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
-        addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
-        addSubmit: 'Advertentie plaatsen',
-        loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', showPass: 'Wachtwoord tonen', rememberPass: 'Wachtwoord onthouden',
-        forgotPassBtn: 'Wachtwoord vergeten?',
-        forgotPassMissingEmail: 'Vul eerst hierboven je e-mailadres in.',
-        forgotPassSending: 'Resetlink versturen...',
-        forgotPassSent: 'Als het account bestaat, hebben we een e-mail met een resetlink gestuurd.',
-        forgotPassError: 'Kon geen reset-e-mail versturen. Controleer de configuratie.',
-        loginBtn: 'Inloggen', regBtn: 'Account aanmaken', orLabel: 'OF',
-        myAds: 'Mijn advertenties', msgsLabel: 'Wiadomości', editBtn: 'Bewerken', delBtn: 'Verwijderen',
-        saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
-        showPhoneBtn: 'Toon nummer', msgBtn: 'Bericht', shareBtn: 'Delen',
-        fullPanelBtn: 'Volledig overzicht',
-        proposePriceBtn: 'Zaproponuj cenę / Doe een bod',
-        proposePriceLabel: 'Jouw prijsvoorstel',
-        sendProposalBtn: 'Bod versturen',
-        acceptOfferBtn: 'Akceptuj',
-        rejectOfferBtn: 'Odrzuć',
-        offerPendingTxt: 'Wacht op goedkeuring verkoper',
-        offerAcceptedTxt: 'Oferta przyjęta! Twoja cena:',
-        offerRejectedTxt: 'Voorstel afgewezen',
-        suspendAccountTitle: 'Account tijdelijk opschorten',
-        suspendAccountDesc: 'Schort je account tijdelijk op en verbergt je advertenties, maar bewaart je historie en beoordelingen. Opnieuw inloggen activeert je account weer.',
-        suspendAccountBtn: 'Account tijdelijk opschorten'
-      },
-      DE: {
-        ...BASE_PL,
-        htmlLang: 'de',
-        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
-        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
-        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
-      },
-      UK: {
-        ...BASE_PL,
-        htmlLang: 'en',
-        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
-        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
-        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
-      },
-      BE: {
-        ...BASE_PL,
-        htmlLang: 'nl',
-        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
-        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
-        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
-      },
-      LT: {
-        ...BASE_PL,
-        htmlLang: 'lt',
-        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
-        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
-        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
-      }
+      NL: { ...BASE_NL },
+      DE: { ...BASE_NL, htmlLang: 'de' },
+      UK: { ...BASE_NL, htmlLang: 'en' },
+      BE: { ...BASE_NL, htmlLang: 'nl' },
+      LT: { ...BASE_NL, htmlLang: 'lt' }
     };
 
     function t(key) {
       const pack = I18N[currentLang] || I18N.NL;
-      return pack[key] || I18N.PL[key] || I18N.NL[key] || key;
+      return pack[key] || I18N.NL[key] || I18N.PL[key] || key;
     }
 
     function detectInitialLanguageAndCountry() {
@@ -1937,7 +1915,7 @@
       return `<span class="trust-pct-pill trust-low">${pct}% (${stats.count})</span>`;
     }
 
-    const PLACEHOLDER_OFFERS = {
+    const INITIAL_ONLINE_OFFERS = {
       NL: [
         { id: 9001, isPlaceholder: true, type: 'sale', category: 'housing', subcategory: 'allotments', condition: 'used', title: 'Volkstuin met houten huisje — Rotterdam Zuid', desc: 'Verzorgde volkstuin met tuinhuisje in Rotterdam Zuid.', city: 'Rotterdam', price: 3200, photos: ['https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=75'], icon: '🏡', top: true, hasSubscription: true, urgent: false, hidden: false, views: 142, sellerName: 'StrefaOgrodow', ownerEmail: 'kontakt@strefaogrodow.nl', sellerVerified: true, sellerRating: 5.0, phone: '', sharePhone: false },
         { id: 9002, isPlaceholder: true, type: 'sale', category: 'auto', subcategory: 'scooters', condition: 'used', title: 'Stadsscooter 45 km/u — zuinig & betrouwbaar', desc: 'Nette scooter voor dagelijks woon-werkverkeer.', city: 'Rotterdam', price: 890, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: true, hasSubscription: false, urgent: false, hidden: false, views: 118, sellerName: 'MotoRotterdam', ownerEmail: 'biuro@motorotterdam.nl', sellerVerified: true, sellerRating: 4.9, phone: '', sharePhone: false },
@@ -1951,6 +1929,8 @@
         { id: 9104, isPlaceholder: true, type: 'sale', category: 'auto', subcategory: 'scooters', condition: 'used', title: 'Skuter / motocykl miejski — stan bardzo dobry', desc: 'Zwrotny jednoślad do jazdy po mieście i okolicach.', city: 'Sosnowiec', price: 3400, photos: ['https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=75'], icon: '🛵', top: false, hasSubscription: false, urgent: true, hidden: false, views: 92, sellerName: 'MotoCentrum', ownerEmail: 'kontakt@motocentrum.pl', sellerVerified: true, sellerRating: 4.8, phone: '', sharePhone: false }
       ]
     };
+
+    const PLACEHOLDER_OFFERS = INITIAL_ONLINE_OFFERS;
 
     let showPlaceholderOffers = true;
     let adSubmissions = [];
@@ -2327,7 +2307,7 @@
         }
       });
       const realItems = Array.from(combinedMap.values());
-      const placeholders = showPlaceholderOffers ? (PLACEHOLDER_OFFERS[c] || []) : [];
+      const placeholders = showPlaceholderOffers ? (INITIAL_ONLINE_OFFERS[c] || []) : [];
       listingsData[c] = [...realItems, ...placeholders];
     }
 
@@ -2338,16 +2318,43 @@
         if (orderCol) query = query.order(orderCol, { ascending: false });
         const { data, error } = await query;
         if (error) {
-          if (error.status === 401 || String(error.message || '').toLowerCase().includes('401')) return null;
-          return { error };
+          return { error, data: null };
         }
-        return { data: Array.isArray(data) ? data : [] };
-      } catch (e) { return null; }
+        return { data: Array.isArray(data) ? data : [], error: null };
+      } catch (e) {
+        return { error: e, data: null };
+      }
+    }
+
+    async function seedInitialOffersToSupabaseIfEmpty(country) {
+      if (!sb) return [];
+      const seeds = INITIAL_ONLINE_OFFERS[country] || [];
+      const rows = seeds.map(s => ({
+        tytul: s.title,
+        cena: s.price,
+        kategoria: s.category,
+        kraj: country,
+        miejscowosc: s.city,
+        opis: s.desc,
+        zdjecie_url: s.photos?.[0] || null,
+        zdjecia: s.photos || [],
+        seller_name: s.sellerName,
+        owner_email: s.ownerEmail
+      }));
+      try {
+        const { data, error } = await sb.from(SUPABASE_TABLE_OGLOSZENIA).insert(rows).select();
+        if (!error && Array.isArray(data)) return data.map(mapOgloszenieRowToUi);
+      } catch (e) {}
+      return [];
     }
 
     async function syncFromSupabase() {
       ['NL', 'PL'].forEach(c => mergeListingsForCountry(c, listingsData[c]?.filter(x => x.fromSupabaseOgloszenia) || []));
-      if (!sb) { renderCountryUI(); return; }
+      if (!sb) {
+        setDbStatus('Brak połączenia z klientem Supabase — wyświetlane są oferty startowe i lokalne.');
+        renderCountryUI();
+        return;
+      }
       try {
         const profRes = await safeSelectTable('profiles', null);
         if (profRes && Array.isArray(profRes.data) && profRes.data.length) {
@@ -2368,19 +2375,27 @@
           saveUsersDb();
         }
         const oglRes = await safeSelectTable(SUPABASE_TABLE_OGLOSZENIA, 'created_at');
-        if (oglRes && oglRes.error) setDbStatus(`Supabase: ${oglRes.error.message}`);
-        else {
+        if (oglRes && oglRes.error) {
+          setDbStatus(`Błąd odczytu tabeli "${SUPABASE_TABLE_OGLOSZENIA}" w Supabase (${oglRes.error.message || oglRes.error.code || 'sprawdź RLS/uprawnienia'}).`);
+        } else {
           setDbStatus('');
           if (oglRes && Array.isArray(oglRes.data)) {
-            ['NL', 'PL'].forEach(c => {
-              const countryRows = oglRes.data.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
-              mergeListingsForCountry(c, countryRows.map(mapOgloszenieRowToUi));
-            });
+            if (oglRes.data.length === 0) {
+              const seeded = await seedInitialOffersToSupabaseIfEmpty(currentCountry);
+              if (seeded.length) mergeListingsForCountry(currentCountry, seeded);
+            } else {
+              ['NL', 'PL'].forEach(c => {
+                const countryRows = oglRes.data.filter(r => (!r.kraj && c === currentCountry) || r.kraj === c);
+                mergeListingsForCountry(c, countryRows.map(mapOgloszenieRowToUi));
+              });
+            }
           }
         }
         const msgRes = await safeSelectTable(SUPABASE_TABLE_WIADOMOSCI, 'created_at');
         if (msgRes && Array.isArray(msgRes.data)) { userMessagesDb = msgRes.data; saveUserMessagesLocal(); }
-      } catch (e) {}
+      } catch (e) {
+        setDbStatus(`Błąd synchronizacji z Supabase: ${e?.message || e}`);
+      }
       renderCountryUI();
     }
 
@@ -3161,10 +3176,32 @@
       alert('OK');
     }
 
-    function shareOfferLink(id, title) {
+    async function shareOfferLink(id, title) {
       const url = `${window.location.origin}${window.location.pathname}?oferta=${id}`;
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).catch(() => {});
-      alert(url);
+      const shareData = {
+        title: title || 'PlacoMarkt',
+        text: title ? `${title} — PlacoMarkt` : 'PlacoMarkt',
+        url
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).catch(() => {});
+      }
+
+      const fbShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+      const popup = window.open(fbShareUrl, '_blank', 'noopener,noreferrer');
+      if (!popup) {
+        alert(`Link skopiowany do schowka:\n${url}`);
+      }
     }
 
     function toggleFavorite(id, ev) {
