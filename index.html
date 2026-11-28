@@ -295,7 +295,6 @@
     .container { max-width: 1280px; margin: 0 auto; padding: 18px 16px; }
     .main-column { min-width: 0; }
 
-    /* Plansze reklamowe: MIEJSCE NA TWOJA REKLAME */
     .ad-boards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -787,11 +786,11 @@
   <div class="modal-backdrop" id="addModal">
     <div class="modal">
       <button type="button" class="close-modal" onclick="closeModal('addModal')">&times;</button>
-      <h2 style="margin-bottom:12px" id="addModalTitle">+ Plaats advertentie</h2>
+      <h2 style="margin-bottom:12px" id="addModalTitle">+ Dodaj ogłoszenie</h2>
       <form onsubmit="submitListing(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblAddType">Verkoopvorm</label>
+            <label id="lblAddType">Forma sprzedaży</label>
             <select id="newType" onchange="toggleAddFields()">
               <option value="sale" id="optTypeSale">Kup teraz</option>
               <option value="auction" id="optTypeAuction">Licytacja</option>
@@ -799,36 +798,36 @@
             </select>
           </div>
           <div class="form-group" id="conditionGroup">
-            <label id="lblAddCond">Staat</label>
+            <label id="lblAddCond">Stan</label>
             <select id="newCondition">
-              <option value="new" id="optAddCondNew">Nieuw</option>
-              <option value="used" id="optAddCondUsed">Gebruikt</option>
-              <option value="na" id="optAddCondNa">N.v.t.</option>
+              <option value="new" id="optAddCondNew">Nowe</option>
+              <option value="used" id="optAddCondUsed">Używane</option>
+              <option value="na" id="optAddCondNa">Nie dotyczy</option>
             </select>
           </div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblAddTitle">Titel</label>
+            <label id="lblAddTitle">Tytuł</label>
             <input type="text" id="newTitle" required />
           </div>
           <div class="form-group">
-            <label id="lblAddAlias">Naam / initialen</label>
+            <label id="lblAddAlias">Ksywka / inicjały</label>
             <input type="text" id="newSellerAlias" maxlength="24" />
           </div>
         </div>
         <div class="form-group">
-          <label id="lblAddPhotos">Foto's (max. 6)</label>
+          <label id="lblAddPhotos">Zdjęcia (maks. 6)</label>
           <input type="file" id="newPhotos" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="photo-preview-strip" id="photoPreviewStrip"></div>
         </div>
         <div class="form-row-2">
           <div class="form-group">
-            <label id="lblAddCat">Categorie</label>
+            <label id="lblAddCat">Kategoria</label>
             <select id="newCategory"></select>
           </div>
           <div class="form-group">
-            <label id="lblAddCity">Plaats</label>
+            <label id="lblAddCity">Miejscowość</label>
             <input type="text" id="newCity" required />
           </div>
         </div>
@@ -857,50 +856,50 @@
           </div>
           <div class="form-row-2">
             <div class="form-group" id="reservePriceGroup">
-              <label id="lblAddReserve">Cena minimalna (opcjonalnie)</label>
+              <label id="lblAddReserve">Cena minimalna</label>
               <input type="number" id="newReservePrice" min="0" step="0.01" />
             </div>
             <div class="form-group" id="buyNowGroup">
-              <label id="lblAddBuyNow">Kup teraz (opcjonalnie)</label>
+              <label id="lblAddBuyNow">Kup teraz</label>
               <input type="number" id="newBuyNow" min="0" step="0.01" />
             </div>
           </div>
         </div>
 
         <div class="form-group" id="shippingGroup">
-          <label id="lblAddShipping">Levering</label>
+          <label id="lblAddShipping">Dostawa</label>
           <select id="newShipping"></select>
         </div>
         <div class="set-section">
-          <h4 id="lblAddPhoneHead">Telefoonnummer (standaard verborgen)</h4>
+          <h4 id="lblAddPhoneHead">Numer telefonu (domyślnie ukryty)</h4>
           <div class="form-group" style="margin-bottom:8px">
             <input type="tel" id="newPhone" oninput="toggleSharePhoneCheckbox()" />
           </div>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newSharePhone" style="width:auto" disabled />
-            <span id="lblAddSharePhone">Deel mijn telefoonnummer in deze advertentie</span>
+            <span id="lblAddSharePhone">Udostępniam mój numer telefonu w tym ogłoszeniu</span>
           </label>
         </div>
         <div class="form-group">
-          <label id="lblAddDesc">Beschrijving</label>
+          <label id="lblAddDesc">Opis</label>
           <textarea id="newDesc" rows="3" required></textarea>
         </div>
         <div class="form-group">
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px">
             <input type="checkbox" id="newHasSubscription" style="width:auto" />
-            <span id="lblAddSub">Abonnement</span>
+            <span id="lblAddSub">Abonament</span>
           </label>
         </div>
         <div class="form-group">
-          <label id="lblAddVis">Zichtbaarheid</label>
+          <label id="lblAddVis">Widoczność</label>
           <div class="promo-options">
             <div class="promo-card selected" id="promoStd" onclick="selectPromo('std')">
               <strong style="color:var(--green)" id="promoPriceStd">0,00</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoDaysStd">30 dagen</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoDaysStd">30 dni</div>
             </div>
             <div class="promo-card" id="promoUrgent" onclick="selectPromo('urgent')">
               <strong style="color:var(--red)" id="promoPriceUrgent">0,00</strong>
-              <div style="font-size:11px;color:var(--muted)" id="promoTagUrgent">SPOED</div>
+              <div style="font-size:11px;color:var(--muted)" id="promoTagUrgent">PILNE</div>
             </div>
             <div class="promo-card" id="promoTop" onclick="selectPromo('top')">
               <strong style="color:var(--accent)" id="promoPriceTop">0,00</strong>
@@ -909,7 +908,7 @@
           </div>
         </div>
         <button type="submit" class="add-btn" style="width:100%;justify-content:center;padding:12px;font-size:15px" id="submitOfferBtn">
-          Advertentie plaatsen
+          Dodaj ogłoszenie
         </button>
       </form>
     </div>
@@ -918,7 +917,7 @@
   <div class="modal-backdrop" id="accountModal">
     <div class="modal" id="accountModalBox" style="max-width:640px">
       <button type="button" class="close-modal" onclick="closeModal('accountModal')">&times;</button>
-      <h2 style="margin-bottom:12px" id="accountModalHeading">Account</h2>
+      <h2 style="margin-bottom:12px" id="accountModalHeading">Konto</h2>
       <div id="accountModalBody"></div>
     </div>
   </div>
@@ -926,12 +925,12 @@
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal" style="max-width:580px">
       <button type="button" class="close-modal" onclick="closeModal('settingsModal')">&times;</button>
-      <h2 style="margin-bottom:14px" id="settingsModalHeading">&#9881;&#65039; Instellingen</h2>
+      <h2 style="margin-bottom:14px" id="settingsModalHeading">&#9881;&#65039; Ustawienia</h2>
 
       <div class="settings-folders">
-        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Land &amp; Taal</button>
-        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Weergave &amp; Plaats</button>
-        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Account &amp; Data</button>
+        <button type="button" class="folder-tab active" id="folderLocaleBtn" onclick="setSettingsFolder('locale')">&#128193; Kraj i Język</button>
+        <button type="button" class="folder-tab" id="folderLookBtn" onclick="setSettingsFolder('look')">&#128193; Wygląd i Miasto</button>
+        <button type="button" class="folder-tab" id="folderDataBtn" onclick="setSettingsFolder('data')">&#128193; Konto i Dane</button>
       </div>
 
       <div id="settingsFolderContent"></div>
@@ -1002,7 +1001,7 @@
       addCondNa: 'Nie dotyczy', addOfferTitle: 'Tytuł', addAlias: 'Ksywka / inicjały',
       addPhotos: 'Zdjęcia (maks. 6)', addCat: 'Kategoria', addCity: 'Miejscowość',
       addPrice: 'Cena', addStartPrice: 'Cena wywoławcza', addReserve: 'Cena minimalna', addBuyNow: 'Kup teraz',
-      addAuctionDays: 'Czas trwania licytacji', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
+      addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
       addShipping: 'Dostawa', shipPickup: 'Odbiór osobisty', shipPost: 'Wysyłka', shipNa: 'Nie dotyczy',
       addPhoneHead: 'Numer telefonu (domyślnie ukryty)', addSharePhone: 'Udostępniam mój numer telefonu w tym ogłoszeniu',
       addDesc: 'Opis', addSub: 'Abonament', addVis: 'Widoczność', addDays: '30 dni',
@@ -1013,7 +1012,7 @@
       saveBtn: 'Zapisz', changePassTitle: 'Zmień hasło', newPassPh: 'Nowe hasło', changeBtn: 'Zmień',
       showPhoneBtn: 'Pokaż numer', msgBtn: 'Wiadomość', shareBtn: 'Udostępnij',
       fullPanelBtn: 'Pełny panel',
-      proposePriceBtn: 'Zaproponuj cenę',
+      proposePriceBtn: 'Zaproponuj cenę / Doe een bod',
       proposePriceLabel: 'Twoja propozycja ceny',
       sendProposalBtn: 'Wyślij propozycję',
       acceptOfferBtn: 'Akceptuj',
@@ -1036,7 +1035,7 @@
         searchPlaceholder: 'Waar ben je naar op zoek...',
         cityPlaceholder: 'Plaats of postcode...', searchBtn: 'Zoeken',
         allCats: 'Alle categorieën', popular: 'Populair:',
-        tabAll: 'Alles', tabSale: 'Nu kopen', tabAuction: 'Veiling', tabFree: 'Gratis',
+        tabAll: 'Alles', tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
         tabFav: 'Favorieten', foundOffers: 'Gevonden advertenties', condAll: 'Staat: Alle',
         condNew: 'Nieuw', condUsed: 'Gebruikt', sortFeat: 'Sorteren: Aanbevolen & nieuw',
         sortAsc: 'Prijs: laag naar hoog', sortDesc: 'Prijs: hoog naar laag', sortViews: 'Meest bekeken',
@@ -1060,25 +1059,25 @@
         addTitleModal: '+ Advertentie plaatsen', addType: 'Verkoopvorm', addCond: 'Staat',
         addCondNa: 'N.v.t.', addOfferTitle: 'Titel', addAlias: 'Naam / initialen',
         addPhotos: "Foto's (max. 6)", addCat: 'Categorie', addCity: 'Plaats',
-        addPrice: 'Prijs', addStartPrice: 'Startbod', addReserve: 'Minimumprijs', addBuyNow: 'Nu kopen',
-        addAuctionDays: 'Duur van de veiling', optDays7: '7 dagen', optDays10: '10 dagen', optDays14: '14 dagen',
+        addPrice: 'Cena', addStartPrice: 'Startbod', addReserve: 'Minimumprijs', addBuyNow: 'Kup teraz',
+        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
         addShipping: 'Levering', shipPickup: 'Ophalen', shipPost: 'Verzenden', shipNa: 'N.v.t.',
         addPhoneHead: 'Telefoonnummer (standaard verborgen)', addSharePhone: 'Deel mijn telefoonnummer in deze advertentie',
         addDesc: 'Beschrijving', addSub: 'Abonnement', addVis: 'Zichtbaarheid', addDays: '30 dagen',
         addSubmit: 'Advertentie plaatsen',
         loginTab: 'Inloggen', regTab: 'Registreren', passPh: 'Wachtwoord', showPass: 'Wachtwoord tonen', rememberPass: 'Wachtwoord onthouden',
         loginBtn: 'Inloggen', regBtn: 'Account aanmaken', orLabel: 'OF',
-        myAds: 'Mijn advertenties', msgsLabel: 'Berichten', editBtn: 'Bewerken', delBtn: 'Verwijderen',
+        myAds: 'Mijn advertenties', msgsLabel: 'Wiadomości', editBtn: 'Bewerken', delBtn: 'Verwijderen',
         saveBtn: 'Opslaan', changePassTitle: 'Wachtwoord wijzigen', newPassPh: 'Nieuw wachtwoord', changeBtn: 'Wijzigen',
         showPhoneBtn: 'Toon nummer', msgBtn: 'Bericht', shareBtn: 'Delen',
         fullPanelBtn: 'Volledig overzicht',
-        proposePriceBtn: 'Doe een bod',
+        proposePriceBtn: 'Zaproponuj cenę / Doe een bod',
         proposePriceLabel: 'Jouw prijsvoorstel',
         sendProposalBtn: 'Bod versturen',
-        acceptOfferBtn: 'Accepteren',
-        rejectOfferBtn: 'Afwijzen',
+        acceptOfferBtn: 'Akceptuj',
+        rejectOfferBtn: 'Odrzuć',
         offerPendingTxt: 'Wacht op goedkeuring verkoper',
-        offerAcceptedTxt: 'Bod geaccepteerd! Jouw prijs:',
+        offerAcceptedTxt: 'Oferta przyjęta! Twoja cena:',
         offerRejectedTxt: 'Voorstel afgewezen',
         suspendAccountTitle: 'Account tijdelijk opschorten',
         suspendAccountDesc: 'Schort je account tijdelijk op en verbergt je advertenties, maar bewaart je historie en beoordelingen. Opnieuw inloggen activeert je account weer.',
@@ -1088,30 +1087,30 @@
       DE: {
         ...BASE_PL,
         htmlLang: 'de',
-        tabSale: 'Sofort kaufen', tabAuction: 'Auktion', tabFree: 'Kostenlos',
-        addAuctionDays: 'Dauer der Auktion', optDays7: '7 Tage', optDays10: '10 Tage', optDays14: '14 Tage',
-        proposePriceBtn: 'Preis vorschlagen'
+        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
+        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
+        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
       },
       UK: {
         ...BASE_PL,
         htmlLang: 'en',
-        tabSale: 'Buy now', tabAuction: 'Auction', tabFree: 'Free',
-        addAuctionDays: 'Auction duration', optDays7: '7 days', optDays10: '10 days', optDays14: '14 days',
-        proposePriceBtn: 'Make an offer'
+        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
+        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
+        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
       },
       BE: {
         ...BASE_PL,
         htmlLang: 'nl',
-        tabSale: 'Nu kopen / Achat immédiat', tabAuction: 'Veiling / Enchère', tabFree: 'Gratis / Gratuit',
-        addAuctionDays: 'Duur van de veiling', optDays7: '7 dagen', optDays10: '10 dagen', optDays14: '14 dagen',
-        proposePriceBtn: 'Doe een bod'
+        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
+        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
+        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
       },
       LT: {
         ...BASE_PL,
         htmlLang: 'lt',
-        tabSale: 'Pirkti dabar', tabAuction: 'Aukcionas', tabFree: 'Nemokamai',
-        addAuctionDays: 'Aukciono trukmė', optDays7: '7 dienos', optDays10: '10 dienų', optDays14: '14 dienų',
-        proposePriceBtn: 'Siūlyti kainą'
+        tabSale: 'Kup teraz', tabAuction: 'Licytacja', tabFree: 'Za darmo',
+        addAuctionDays: 'Czas trwania licytacji / Duur van de veiling', optDays7: '7 dni', optDays10: '10 dni', optDays14: '14 dni',
+        proposePriceBtn: 'Zaproponuj cenę / Doe een bod'
       }
     };
 
